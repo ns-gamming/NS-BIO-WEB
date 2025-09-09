@@ -62,26 +62,26 @@ export default function Home() {
         
         {/* Mini Highlights */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mb-12">
-          <div className="glass rounded-lg p-6 text-center hover:scale-105 transition-transform" data-testid="highlight-coding">
-            <Code className="w-8 h-8 text-primary mb-3 mx-auto" />
-            <h3 className="font-semibold text-foreground">Coding</h3>
+          <Link href="/coding" className="glass rounded-lg p-6 text-center hover:scale-110 transition-all duration-300 hover:shadow-lg hover:shadow-primary/30 animate-pulse-neon cursor-pointer group" data-testid="highlight-coding">
+            <Code className="w-8 h-8 text-primary mb-3 mx-auto group-hover:animate-spin transition-all duration-300" />
+            <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">Coding</h3>
             <p className="text-sm text-muted-foreground">Building the future, one line at a time</p>
-          </div>
-          <div className="glass rounded-lg p-6 text-center hover:scale-105 transition-transform" data-testid="highlight-content">
-            <Video className="w-8 h-8 text-primary mb-3 mx-auto" />
-            <h3 className="font-semibold text-foreground">Content</h3>
+          </Link>
+          <Link href="/content" className="glass rounded-lg p-6 text-center hover:scale-110 transition-all duration-300 hover:shadow-lg hover:shadow-primary/30 animate-pulse-neon cursor-pointer group" data-testid="highlight-content">
+            <Video className="w-8 h-8 text-primary mb-3 mx-auto group-hover:animate-pulse transition-all duration-300" />
+            <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">Content</h3>
             <p className="text-sm text-muted-foreground">Sharing knowledge with love</p>
-          </div>
-          <div className="glass rounded-lg p-6 text-center hover:scale-105 transition-transform" data-testid="highlight-community">
-            <Users className="w-8 h-8 text-primary mb-3 mx-auto" />
-            <h3 className="font-semibold text-foreground">Community</h3>
+          </Link>
+          <Link href="/community" className="glass rounded-lg p-6 text-center hover:scale-110 transition-all duration-300 hover:shadow-lg hover:shadow-primary/30 animate-pulse-neon cursor-pointer group" data-testid="highlight-community">
+            <Users className="w-8 h-8 text-primary mb-3 mx-auto group-hover:animate-bounce transition-all duration-300" />
+            <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">Community</h3>
             <p className="text-sm text-muted-foreground">Growing a family of creators</p>
-          </div>
-          <div className="glass rounded-lg p-6 text-center hover:scale-105 transition-transform" data-testid="highlight-football">
-            <Zap className="w-8 h-8 text-primary mb-3 mx-auto" />
-            <h3 className="font-semibold text-foreground">Football</h3>
+          </Link>
+          <Link href="/gaming" className="glass rounded-lg p-6 text-center hover:scale-110 transition-all duration-300 hover:shadow-lg hover:shadow-primary/30 animate-pulse-neon cursor-pointer group" data-testid="highlight-gaming">
+            <Zap className="w-8 h-8 text-primary mb-3 mx-auto group-hover:animate-pulse transition-all duration-300" />
+            <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">Gaming</h3>
             <p className="text-sm text-muted-foreground">Life balance with passion</p>
-          </div>
+          </Link>
         </div>
         
         {/* Featured YouTube */}

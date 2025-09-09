@@ -15,6 +15,10 @@ import Games from "./pages/Games";
 import Social from "./pages/Social";
 import Contact from "./pages/Contact";
 import Goals from "./pages/Goals";
+import Coding from "./pages/Coding";
+import Content from "./pages/Content";
+import Community from "./pages/Community";
+import Gaming from "./pages/Gaming";
 import TicTacToe from "./pages/games/TicTacToe";
 import Snake from "./pages/games/Snake";
 import Memory from "./pages/games/Memory";
@@ -33,6 +37,10 @@ function Router() {
       <Route path="/social" component={Social} />
       <Route path="/contact" component={Contact} />
       <Route path="/goals" component={Goals} />
+      <Route path="/coding" component={Coding} />
+      <Route path="/content" component={Content} />
+      <Route path="/community" component={Community} />
+      <Route path="/gaming" component={Gaming} />
       <Route path="/games/tictactoe" component={TicTacToe} />
       <Route path="/games/snake" component={Snake} />
       <Route path="/games/memory" component={Memory} />
