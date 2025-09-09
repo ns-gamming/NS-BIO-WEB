@@ -14,9 +14,9 @@ export default function Gaming() {
       color: "text-orange-500"
     },
     {
-      name: "PUBG Mobile",
+      name: "FARLIGHT84",
       genre: "Battle Royale", 
-      description: "Classic BR gameplay with intense strategy and teamwork.",
+      description: "Mordern BR gameplay with intense strategy and teamwork.",
       icon: "🎯",
       color: "text-blue-500"
     },

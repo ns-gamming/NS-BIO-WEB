@@ -8,7 +8,7 @@ export default function Games() {
     <div className="pt-16">
       <HeroSection 
         title="Play & Chill"
-        subtitle="Games by NS GAMING — Made with love ❤️"
+        subtitle="Games by NS GAMMING — Made with love ❤️"
       />
       
       <div className="container mx-auto px-6 pb-20">
