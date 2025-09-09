@@ -52,17 +52,19 @@ export default function Goals() {
         title="🎯 My Goals"
         subtitle="Building my empire, one goal at a time!"
       />
-      
+
       <div className="container mx-auto px-6 pb-20">
         <div className="max-w-4xl mx-auto">
           <div className="space-y-8" data-testid="goals-list">
-            {goals.map((goal) => (
+            {goals.map((goal, index) => (
               <div 
-                key={goal.id}
-                className="glass rounded-2xl p-8 hover:scale-105 transition-transform cursor-pointer"
-                onMouseEnter={() => setHoveredGoal(goal.id)}
-                onMouseLeave={() => setHoveredGoal(null)}
-                data-testid={goal.testId}
+                key={goal.title}
+                className={`rounded-2xl p-8 text-white hover:scale-105 transition-all duration-500 cursor-pointer group animate-bounceIn hover:shadow-2xl ${goal.bgColor}`}
+                style={{ animationDelay: `${index * 0.2}s` }}
+                data-testid={`goal-${goal.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}`}
+                onClick={() => {
+                  alert(`🎯 ${goal.title}\n\n${goal.description}\n\n"${goal.hinglish}"\n\nThanks for checking out my goals! Let's achieve them together! 🚀`);
+                }}
               >
                 <div className="flex items-start gap-6">
                   <div className={`w-16 h-16 ${goal.bgColor} rounded-full flex items-center justify-center text-2xl font-bold ${goal.id === 4 ? 'text-black' : goal.id === 3 ? 'text-white' : 'text-black'}`}>
@@ -86,7 +88,7 @@ export default function Goals() {
               </div>
             ))}
           </div>
-          
+
           {/* Motivation Section */}
           <div className="glass rounded-2xl p-8 mt-12 text-center" data-testid="motivation-section">
             <h2 className="text-3xl font-bold text-primary mb-6">The Journey Continues 🛤️</h2>
@@ -104,7 +106,7 @@ export default function Goals() {
           </div>
         </div>
       </div>
-      
+
       <AdSenseAd />
     </div>
   );
