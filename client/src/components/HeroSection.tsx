@@ -17,6 +17,11 @@ export default function HeroSection({ title, subtitle, children, className = "" 
               src="/attached_assets/IMG_20250712_204022_796_1757405803893.jpg" 
               alt="NS GAMING Logo" 
               className="w-20 h-20 md:w-28 md:h-28 rounded-xl border-3 border-primary animate-float"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+                console.error('Hero logo image failed to load');
+              }}
             />
           </div>
           <h1 

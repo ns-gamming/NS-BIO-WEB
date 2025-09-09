@@ -22,6 +22,11 @@ export default function Home() {
                 src="/attached_assets/IMG_20250712_204022_796_1757405803893.jpg" 
                 alt="NS GAMING - Nishant Sarkar" 
                 className="w-full h-full object-cover"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  console.error('Profile avatar image failed to load');
+                }}
               />
             </div>
             

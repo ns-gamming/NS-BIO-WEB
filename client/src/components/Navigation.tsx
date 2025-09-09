@@ -33,6 +33,11 @@ export default function Navigation() {
               src="/attached_assets/IMG_20250712_204022_796_1757405803893.jpg" 
               alt="NS GAMING Logo" 
               className="w-12 h-12 rounded-lg border-2 border-primary animate-pulse-neon"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+                console.error('Logo image failed to load');
+              }}
             />
             <span className="font-orbitron font-bold text-xl text-primary animate-glow">NS GAMING</span>
           </Link>
