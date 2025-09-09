@@ -28,8 +28,13 @@ export default function Navigation() {
     <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-border" data-testid="navigation">
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <Link href="/" className="font-orbitron font-bold text-xl text-primary animate-glow" data-testid="logo">
-            NS GAMING
+          <Link href="/" className="flex items-center gap-3" data-testid="logo">
+            <img 
+              src="/attached_assets/IMG_20250712_204022_796_1757405803893.jpg" 
+              alt="NS GAMING Logo" 
+              className="w-12 h-12 rounded-lg border-2 border-primary animate-pulse-neon"
+            />
+            <span className="font-orbitron font-bold text-xl text-primary animate-glow">NS GAMING</span>
           </Link>
           
           {/* Desktop Navigation */}

@@ -7,7 +7,8 @@ import {
   SiDiscord, 
   SiReddit, 
   SiLinkedin, 
-  SiX 
+  SiX,
+  SiFacebook 
 } from "react-icons/si";
 
 export default function Social() {
@@ -75,6 +76,14 @@ export default function Social() {
       url: "https://x.com/NSGAMMING699",
       description: "Quick updates, thoughts, and gaming tweets! Follow for daily dose of NS GAMING 🐦",
       testId: "social-twitter"
+    },
+    {
+      name: "Facebook",
+      icon: SiFacebook,
+      color: "text-blue-600",
+      url: "https://www.facebook.com/share/1BCmPha8aM/",
+      description: "Connect with me on Facebook! Updates, posts, and community interactions 📘",
+      testId: "social-facebook"
     }
   ];
 
@@ -124,8 +133,23 @@ export default function Social() {
             })}
           </div>
           
+          {/* Brand Showcase */}
+          <div className="glass rounded-2xl p-8 mt-12 text-center" data-testid="brand-showcase">
+            <div className="flex items-center justify-center mb-6">
+              <img 
+                src="/attached_assets/IMG_20250712_204022_796_1757405803893.jpg" 
+                alt="NS GAMING Brand" 
+                className="w-24 h-24 rounded-xl border-3 border-primary animate-pulse-neon"
+              />
+            </div>
+            <h2 className="text-2xl font-bold text-primary mb-4">The NS GAMING Brand</h2>
+            <p className="text-muted-foreground mb-6">
+              This logo represents my journey, passion, and the gaming empire I'm building. Every pixel tells a story of dedication, creativity, and the love for gaming and coding! 🎮✨
+            </p>
+          </div>
+
           {/* Old Site Mention */}
-          <div className="glass rounded-2xl p-8 mt-12 text-center" data-testid="old-site-mention">
+          <div className="glass rounded-2xl p-8 mt-8 text-center" data-testid="old-site-mention">
             <h2 className="text-2xl font-bold text-primary mb-4">Previous Site</h2>
             <p className="text-muted-foreground mb-4">
               My previous website{" "}

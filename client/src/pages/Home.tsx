@@ -15,10 +15,14 @@ export default function Home() {
           <div className="flex flex-col md:flex-row items-center gap-8">
             {/* Avatar */}
             <div 
-              className="w-32 h-32 rounded-full bg-gradient-to-r from-primary to-accent flex items-center justify-center text-4xl font-bold animate-pulse-neon cursor-pointer"
+              className="w-32 h-32 rounded-full border-4 border-primary overflow-hidden animate-pulse-neon cursor-pointer"
               data-testid="profile-avatar"
             >
-              NS
+              <img 
+                src="/attached_assets/IMG_20250712_204022_796_1757405803893.jpg" 
+                alt="NS GAMING - Nishant Sarkar" 
+                className="w-full h-full object-cover"
+              />
             </div>
             
             {/* Intro Text */}
@@ -80,8 +84,8 @@ export default function Home() {
           <h3 className="text-2xl font-bold mb-4 text-center text-primary">🎥 Latest from NS GAMING</h3>
           <div className="bg-muted rounded-lg p-8 text-center">
             <img 
-              src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400" 
-              alt="YouTube video thumbnail" 
+              src="/attached_assets/IMG_20250712_204022_796_1757405803893.jpg" 
+              alt="NS GAMING - Latest Content" 
               className="w-full h-48 object-cover rounded-lg mb-4" 
             />
             <p className="text-foreground mb-4">New videos every week — join the ride!</p>

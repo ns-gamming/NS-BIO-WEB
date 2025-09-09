@@ -12,6 +12,13 @@ export default function HeroSection({ title, subtitle, children, className = "" 
     <div className={`min-h-screen flex items-center justify-center relative ${className}`}>
       <div className="container mx-auto px-6 py-20 text-center">
         <div className="animate-fadeUp">
+          <div className="flex items-center justify-center gap-6 mb-6">
+            <img 
+              src="/attached_assets/IMG_20250712_204022_796_1757405803893.jpg" 
+              alt="NS GAMING Logo" 
+              className="w-20 h-20 md:w-28 md:h-28 rounded-xl border-3 border-primary animate-float"
+            />
+          </div>
           <h1 
             className="hero-title font-orbitron font-black text-4xl md:text-6xl text-primary animate-glow mb-4"
             data-testid="hero-title"

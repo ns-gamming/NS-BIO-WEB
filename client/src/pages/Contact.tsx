@@ -1,7 +1,7 @@
 import HeroSection from "../components/HeroSection";
 import AdSenseAd from "../components/AdSenseAd";
 import { Mail, MessageCircle, Send, Eye, Code, Smartphone, Search, Target } from "lucide-react";
-import { SiWhatsapp, SiTelegram } from "react-icons/si";
+import { SiWhatsapp, SiTelegram, SiFacebook } from "react-icons/si";
 import { Link } from "wouter";
 
 export default function Contact() {
