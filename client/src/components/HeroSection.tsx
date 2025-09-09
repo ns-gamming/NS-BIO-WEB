@@ -13,16 +13,9 @@ export default function HeroSection({ title, subtitle, children, className = "" 
       <div className="container mx-auto px-6 py-20 text-center">
         <div className="animate-fadeUp">
           <div className="flex items-center justify-center gap-6 mb-6">
-            <img 
-              src="/attached_assets/IMG_20250712_204022_796_1757405803893.jpg" 
-              alt="NS GAMMING Logo" 
-              className="w-20 h-20 md:w-28 md:h-28 rounded-xl border-3 border-primary animate-float"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
-                console.error('Hero logo image failed to load');
-              }}
-            />
+            <div className="w-20 h-20 md:w-28 md:h-28 rounded-xl border-3 border-primary animate-float bg-gradient-to-br from-primary/30 to-accent/20 flex items-center justify-center backdrop-blur-sm hover:scale-110 hover:rotate-3 transition-all duration-500 cursor-pointer group">
+              <span className="text-primary font-orbitron font-black text-2xl md:text-4xl group-hover:animate-pulse">NS</span>
+            </div>
           </div>
           <h1 
             className="hero-title font-orbitron font-black text-4xl md:text-6xl text-primary animate-glow mb-4"

@@ -29,17 +29,10 @@ export default function Navigation() {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3" data-testid="logo">
-            <img 
-              src="/attached_assets/IMG_20250712_204022_796_1757405803893.jpg" 
-              alt="NS GAMMING Logo" 
-              className="w-12 h-12 rounded-lg border-2 border-primary animate-pulse-neon"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
-                console.error('Logo image failed to load');
-              }}
-            />
-            <span className="font-orbitron font-bold text-xl text-primary animate-glow">NS GAMMING</span>
+            <div className="w-12 h-12 rounded-lg border-2 border-primary animate-pulse-neon bg-primary/20 flex items-center justify-center backdrop-blur-sm">
+              <span className="text-primary font-bold text-lg">NS</span>
+            </div>
+            <span className="font-orbitron font-bold text-xl text-primary animate-glow hover:scale-105 transition-transform duration-300">NS GAMMING</span>
           </Link>
           
           {/* Desktop Navigation */}

@@ -15,7 +15,7 @@ export default function Games() {
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8" data-testid="games-grid">
             {/* Tic Tac Toe */}
-            <div className="glass rounded-2xl p-6 hover:scale-105 transition-transform" data-testid="game-tictactoe">
+            <div className="glass rounded-2xl p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-xl hover:shadow-primary/50 cursor-pointer" data-testid="game-tictactoe">
               <div className="text-center mb-4">
                 <Grid3X3 className="w-12 h-12 text-primary mb-3 mx-auto" />
                 <h3 className="text-xl font-bold text-foreground">Tic Tac Toe</h3>
@@ -30,9 +30,9 @@ export default function Games() {
             </div>
             
             {/* Snake Game */}
-            <div className="glass rounded-2xl p-6 hover:scale-105 transition-transform" data-testid="game-snake">
+            <div className="glass rounded-2xl p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-xl hover:shadow-green-500/50 cursor-pointer" data-testid="game-snake">
               <div className="text-center mb-4">
-                <Cpu className="w-12 h-12 text-primary mb-3 mx-auto" />
+                <Cpu className="w-12 h-12 text-primary mb-3 mx-auto group-hover:animate-spin transition-all duration-300" />
                 <h3 className="text-xl font-bold text-foreground">Snake Game</h3>
               </div>
               <p className="text-muted-foreground mb-6 text-center">
@@ -45,9 +45,9 @@ export default function Games() {
             </div>
             
             {/* Memory Match */}
-            <div className="glass rounded-2xl p-6 hover:scale-105 transition-transform" data-testid="game-memory">
+            <div className="glass rounded-2xl p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-xl hover:shadow-purple-500/50 cursor-pointer" data-testid="game-memory">
               <div className="text-center mb-4">
-                <Brain className="w-12 h-12 text-primary mb-3 mx-auto" />
+                <Brain className="w-12 h-12 text-primary mb-3 mx-auto group-hover:animate-pulse transition-all duration-300" />
                 <h3 className="text-xl font-bold text-foreground">Memory Match</h3>
               </div>
               <p className="text-muted-foreground mb-6 text-center">
@@ -60,9 +60,9 @@ export default function Games() {
             </div>
             
             {/* Flappy Clone */}
-            <div className="glass rounded-2xl p-6 hover:scale-105 transition-transform" data-testid="game-flappy">
+            <div className="glass rounded-2xl p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-xl hover:shadow-yellow-500/50 cursor-pointer" data-testid="game-flappy">
               <div className="text-center mb-4">
-                <Bird className="w-12 h-12 text-primary mb-3 mx-auto" />
+                <Bird className="w-12 h-12 text-primary mb-3 mx-auto group-hover:animate-bounce transition-all duration-300" />
                 <h3 className="text-xl font-bold text-foreground">Flappy Clone</h3>
               </div>
               <p className="text-muted-foreground mb-6 text-center">
@@ -75,9 +75,9 @@ export default function Games() {
             </div>
             
             {/* Rock Paper Scissors */}
-            <div className="glass rounded-2xl p-6 hover:scale-105 transition-transform" data-testid="game-rps">
+            <div className="glass rounded-2xl p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-xl hover:shadow-red-500/50 cursor-pointer" data-testid="game-rps">
               <div className="text-center mb-4">
-                <Hand className="w-12 h-12 text-primary mb-3 mx-auto" />
+                <Hand className="w-12 h-12 text-primary mb-3 mx-auto group-hover:animate-bounce transition-all duration-300" />
                 <h3 className="text-xl font-bold text-foreground">Rock Paper Scissors</h3>
               </div>
               <p className="text-muted-foreground mb-6 text-center">
