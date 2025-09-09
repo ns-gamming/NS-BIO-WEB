@@ -7,7 +7,7 @@ export default function About() {
     <div className="pt-16">
       <HeroSection 
         title="About Nishant"
-        subtitle="The story behind NS GAMING"
+        subtitle="The story behind NS GAMMING"
       />
       
       {/* Biography */}
@@ -51,7 +51,7 @@ export default function About() {
                   <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-black font-bold">2</div>
                   <div>
                     <h3 className="font-bold text-lg text-foreground">YouTube Journey Begins</h3>
-                    <p className="text-muted-foreground">NS GAMING channel — sharing knowledge with gaming vibes</p>
+                    <p className="text-muted-foreground">NS GAMMING channel — sharing knowledge with gaming vibes</p>
                   </div>
                 </div>
               </div>

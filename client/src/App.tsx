@@ -47,7 +47,7 @@ function App() {
   useEffect(() => {
     // Console message for developers (Easter Egg)
     console.log(`
-🎮 NS GAMING Website 🎮
+🎮 NS GAMMING Website 🎮
 
 Built with ❤️ by Nishant Sarkar
 

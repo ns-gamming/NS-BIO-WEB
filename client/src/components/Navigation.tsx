@@ -31,7 +31,7 @@ export default function Navigation() {
           <Link href="/" className="flex items-center gap-3" data-testid="logo">
             <img 
               src="/attached_assets/IMG_20250712_204022_796_1757405803893.jpg" 
-              alt="NS GAMING Logo" 
+              alt="NS GAMMING Logo" 
               className="w-12 h-12 rounded-lg border-2 border-primary animate-pulse-neon"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
@@ -39,7 +39,7 @@ export default function Navigation() {
                 console.error('Logo image failed to load');
               }}
             />
-            <span className="font-orbitron font-bold text-xl text-primary animate-glow">NS GAMING</span>
+            <span className="font-orbitron font-bold text-xl text-primary animate-glow">NS GAMMING</span>
           </Link>
           
           {/* Desktop Navigation */}

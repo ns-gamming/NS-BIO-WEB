@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className="pt-16">
       <HeroSection 
-        title="NS GAMING"
+        title="NS GAMMING"
         subtitle="Hi, I'm Nishant (Naboraj Sarkar) — Creator • Developer • Gamer"
       >
         {/* Profile Card */}
@@ -20,7 +20,7 @@ export default function Home() {
             >
               <img 
                 src="/attached_assets/IMG_20250712_204022_796_1757405803893.jpg" 
-                alt="NS GAMING - Nishant Sarkar" 
+                alt="NS GAMMING - Nishant Sarkar" 
                 className="w-full h-full object-cover"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
@@ -86,11 +86,11 @@ export default function Home() {
         
         {/* Featured YouTube */}
         <div className="glass rounded-2xl p-8 max-w-2xl mx-auto mb-12" data-testid="featured-youtube">
-          <h3 className="text-2xl font-bold mb-4 text-center text-primary">🎥 Latest from NS GAMING</h3>
+          <h3 className="text-2xl font-bold mb-4 text-center text-primary">🎥 Latest from NS GAMMING</h3>
           <div className="bg-muted rounded-lg p-8 text-center">
             <img 
               src="/attached_assets/IMG_20250712_204022_796_1757405803893.jpg" 
-              alt="NS GAMING - Latest Content" 
+              alt="NS GAMMING - Latest Content" 
               className="w-full h-48 object-cover rounded-lg mb-4" 
             />
             <p className="text-foreground mb-4">New videos every week — join the ride!</p>
