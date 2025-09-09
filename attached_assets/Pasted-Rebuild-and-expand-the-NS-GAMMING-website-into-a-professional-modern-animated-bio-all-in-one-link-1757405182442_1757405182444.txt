@@ -1,0 +1,277 @@
+Rebuild and expand the NS GAMMING website into a professional, modern, animated, bio/all-in-one link website.
+Primary identity shown everywhere:
+
+Gaming name: NS GAMMING
+
+Nickname / common name: Nishant
+
+Official name: Naboraj Sarkar
+
+Show name on site as: NS GAMING (or Nishant Sarkar). Most visitors know me as Nishant — use that tone.
+
+DOB: 19 August (do not show year)
+
+Location: Siliguri, West Bengal, India
+
+Nationality: Indian
+
+Religion: Hindu Bengali
+
+Main motive / mission (must replace “buy a PC”):
+
+> My mission is to build my OWN EMPIRE, change the future, keep learning, and build things I love. Nishant loves coding, building, learning, and growing a community. This is the emotional heart of the site.
+
+
+
+Old site (mention only): https://nsgamming.xzy — do not merge domains.
+
+
+Hard non-negotiables
+
+No backend, no hidden pages, no secrets in server code. Everything is static HTML/CSS/JS with all content and links visible in code.
+
+Contact page must only include: business email nishant.ns.business@gmail.com, WhatsApp chat https://wa.me/918900653250, and Telegram chat https://t.me/Nishantsarkar10k. No personal email.
+
+Social links go on the Social page only (not on Contact).
+
+One AdSense ad per page only — centered and responsive; no two ads on the same page.
+
+All text (bios, intros, captions, motivational lines) must be written in a warm, emotional voice AS IF WRITTEN BY NISHANT. Add small Hinglish lines occasionally (“Chalo shuru karte hain!”, “Thank you yaar 🙏”, etc.) — tasteful & short.
+
+
+
+---
+
+✨ Visual + UX Requirements (Global)
+
+Theme: Neon / blue gaming glow; modern glassmorphism and sleek typography.
+
+Landing-style hero at the top of every page (not just Home) — a strong, animated hero that reads like a landing page: logo + small profile card + CTAs.
+
+Front page should be big, bold, slightly loud but NOT messy. Clean layout, clear sections, good spacing — each section with its own micro-animations and slow, tasteful neon glows.
+
+Particles / interactive background that reacts to cursor movement; subtle parallax layers (stars, neon lines).
+
+Heavy but tasteful animation: logo intro, typewriter/glitch accents, fading slide-up sections, neon button pulses, animated SVG icons, micro interactions (hover, focus, pressed).
+
+Every page must have a smooth landing/entrance effect (animate in when the page loads) and scroll reveal animations for sections.
+
+Accessible & responsive: readable fonts, proper contrast, keyboard navigation, and mobile-first design.
+
+Surprises & delights: include small, unexpected micro-interactions (examples below).
+
+All copy must be emotive, human, and written by Nishant — not robotic.
+
+
+
+---
+
+🏠 Home (Front) Page — the new priority
+
+Goal: Big first impression — present identity + mission clearly, invite navigation, but don’t cram everything. Keep games off hero; link to Games page.
+Hero / Above the Fold (landing effect, animated):
+
+Large animated logo: NS GAMING (glow + subtle glitch + typewriter subtagline).
+
+Tagline (emotional voice):
+
+> “Hi, I’m Nishant (Naboraj Sarkar) — Creator • Developer • Gamer. I build, learn, and create to build my empire and change the future. Join the journey.”
+
+
+
+Profile card on the right or below hero (avatar circle or dynamic particle silhouette), with: name variants NS GAMING / Nishant Sarkar, short emotional summary written by Nishant (3–4 lines). Add a tiny Hinglish line like: “Aao saath banayein kuch naya — let’s build!”
+
+3 primary CTAs (neat, glassy neon buttons): About • Portfolio • Games (each with micro-interaction). Do not show all games here — just “Games” link.
+
+One Ad: place AFTER the hero but above long content (only one ad on the front page). Centered, responsive, and visually separated.
+
+Mini highlights row (3–4 icons + short animated blurbs): Coding / Content / Community / Football — each blurb 1 sentence, lovingly written by Nishant.
+
+Featured short reel: a small embedded YouTube preview card linking to latest video (thumbnail with neon play button). Text: “🎥 New videos every week — join the ride!”
+
+Surprise module: small secret Easter egg — e.g., press N on keyboard to show a quick confetti burst and a short loving message from Nishant (“Thank you for stopping by — you rock!”). Document this in code with a comment.
+
+Footer CTA strip: subtle banner: “Want a site like this? Chat with me →” (links to Commission/Chat page and WhatsApp).
+
+
+Copywriting: All copy here must be longer and filled with emotion. Example:
+
+> “I’m building more than streams and code — I’m building a family. From late-night coding sessions to gameplay highlights, har line mera dil se likha gaya hai. Let’s grow together.”
+
+
+
+
+---
+
+👤 About Page
+
+Landing hero (small) + long, heartfelt biography written by Nishant: childhood context (Siliguri), inspirations, learning, mission to build an empire and make an impact, how coding & gaming shaped values. Use Hinglish touches and loving tone.
+
+Timeline or milestones (animated): learning HTML → first project → YouTube start → community moments. Each milestone has a short emotional caption.
+
+Stats & values cards (Passion, Learning, Community).
+
+One Ad block after main bio content.
+
+CTA: link to Portfolio / Games / Contact.
+
+
+
+---
+
+💼 Portfolio Page
+
+Landing hero + gallery of projects and content cards (GitHub, YouTube, sample projects).
+
+For each project card: Title, 2–3 line description (written by Nishant), tech used, short animated preview or GIF (if possible).
+
+Links: GitHub https://github.com/ns-gamming and YouTube https://youtube.com/@Nishant_sarkar with glowing CTAs.
+
+One Ad block at bottom of main portfolio content.
+
+Motivational microcopy sprinkled: “Code is my medium, community is my mission.”
+
+
+
+---
+
+🎮 Games (Dedicated Page)
+
+Landing hero: “Play & Chill — Games by NS GAMING” — clean, not crowded.
+
+DO NOT put the five games on the front page. Only link to this Games page.
+
+Game listing: cards for 5 games (Tic Tac Toe, Snake, Memory Match, Flappy Clone, Rock-Paper-Scissors). Each card: title, 1-sentence emotional intro, “Play” CTA that opens the game page. Micro animation on hover.
+
+Each game gets its own page (full-screen or centered canvas), polished UI, instructions, motivational caption, keyboard/touch controls, and one Ad on that game page only.
+
+Game pages are interactive, themed with neon skins and animated feedback. Small victory animation (particles/confetti) on winning, with loving messages: e.g., “Woh! You won — proud of your grind ❤️” or Hinglish hugs.
+
+Games are lightweight JS (no external servers), clean code, mobile-friendly.
+
+Analytics / tracking: none (no hidden backends). If analytics is desired later, mention separately.
+
+
+
+---
+
+🌍 Social Page
+
+Landing hero + grid of neon social CTAs (YouTube, Instagram, Telegram Channel, VIP Telegram Group, Discord, Reddit, LinkedIn, X).
+
+Each card: icon, short emotional message from Nishant about why follow there, CTA.
+
+One Ad block at the bottom.
+
+Prominently mention old website https://nsgamming.xzy as “previous site — archived” (do not merge or redirect).
+
+
+
+---
+
+📩 Contact / Commission Page (VERY IMPORTANT)
+
+This page only contains:
+
+Business Email: nishant.ns.business@gmail.com (mailto link)
+
+WhatsApp Chat (primary): https://wa.me/918900653250 (button: Chat with Nishant on WhatsApp)
+
+Telegram Chat: https://t.me/Nishantsarkar10k (button)
+
+
+Add a commissioning prompt: “Want a website like this? Chat to me on WhatsApp — I build sites, portfolios and gaming projects!” — include quick price-range estimate text optional (or “DM me to discuss”).
+
+One Ad block below contact content only.
+
+No other personal contact info.
+
+
+
+---
+
+🎯 Goals Page
+
+Landing hero + animated list of goals (with check animations on hover). Goals updated to reflect mission:
+
+Master coding & build impactful products
+
+Grow NS GAMING community & content (YouTube)
+
+Keep playing football & enjoy life
+
+Build my empire & change the future — one project at a time
+
+
+One Ad block below.
+
+
+
+---
+
+🔎 Microcopy & Emotive Text Rules
+
+Every piece of visible copy must be written as if Nishant wrote it — warm, humble, excited. Use short Hinglish touches occasionally: e.g., “Shukriya yaar — you mean a lot”, “Chalo next level!”
+
+Include short motivational notes across pages: “Keep going, keep building,” “You’re not alone — join the family,” “Coding se duniya badlegi.”
+
+Add micro testimonials or community blurbs (fake placeholder lines written lovingly) to make the site feel warm.
+
+
+
+---
+
+🎁 Surprise / Delight Ideas (choose 2–4)
+
+Easter key: pressing N shows a small confetti burst + personal message from Nishant.
+
+Secret mini-game hidden in the footer (small, simple, like a 5-second reaction tester) — optional but delightful.
+
+Time-aware greeting in top-left: “Good morning / Good afternoon / Good night, gamer!” with a small Hinglish line.
+
+Interactive avatar: hover to make particles swirl; click for a short charming message.
+
+Achievement badges appear when user visits pages (small UI flair).
+(Implement 2 by default: confetti N easter + time-aware greeting.)
+
+
+
+---
+
+🔧 Technical & Delivery Notes
+
+All static: pure HTML, CSS, JS (no backend). Provide a single ZIP with all pages plus assets/ folder.
+
+Provide clear comments in the code where you put surprise features and keyboard shortcuts.
+
+SEO basics: meta title/description, OG tags for main pages, mobile-friendly viewport.
+
+Accessibility: alt text for images, semantic markup, focus states for keyboard users.
+
+Provide a short README.md inside the ZIP with instructions: how to open locally, where to change links (business email, WhatsApp), how to deploy to GitHub Pages / Netlify.
+
+One ad per page. Use the provided AdSense snippet exactly; ensure it’s centered and inside .ad-wrap so it doesn’t break layout.
+
+
+
+---
+
+✅ Final Checklist for the Agent (deliverables)
+
+[ ] Rebuilt multi-page site (index, about, portfolio, games/list, game-1..game-5, social, contact, goals)
+
+[ ] Landing hero at top of every page (animated)
+
+[ ] All copy written in Nishant’s voice; emotive + small Hinglish phrases
+
+[ ] One AdSense ad per page only (after hero or above footer as requested)
+
+[ ] Games each have separate pages with one ad each and animations + victory messages
+
+[ ] Surprise features: confetti N key + time-aware greeting (documented)
+
+[ ] Contact page only: business email + WhatsApp + Telegram
+
+[ ] README.md and commented code; zip delivered
+
+

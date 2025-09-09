@@ -1,0 +1,143 @@
+Create me a multi-page, modern, professional, gaming-themed portfolio website with lots of animations, neon/blue theme, smooth UI, and integrated AdSense ads. Use only HTML, CSS, and JavaScript (no backend). Don’t hide anything — put all my links, ads, and contact details directly into the code.
+
+🔹 Website Style
+
+Theme color: Blue + Neon Gaming Glow 💙
+
+Background: 3D gaming-style background with particles/stars/moving effects
+
+Animations:
+
+Logo intro animation (glowing “NSGaming” at the top).
+
+Fade-in, slide-up sections.
+
+Buttons with neon glow + hover animation.
+
+Responsive: Works on mobile & desktop.
+
+🔹 Pages to Include
+1️⃣ Home Page
+
+Opening animation: Logo + “NSGaming” glowing text.
+
+Intro text:
+
+Hi, I’m Nishant Sarkar 🎮  
+Creator | Developer | Gamer  
+💙 A student, creator, and gamer from Siliguri, West Bengal, India.  
+Passionate about coding, Free Fire, football, and creating amazing things with love ❤️.  
+
+2️⃣ About Me Page
+
+Full details written with love + emotion.
+
+DOB: 19 August 2010
+
+Location: Siliguri, West Bengal, India
+
+Nationality: Indian
+
+Religion: Hindu Bengali
+
+Favorite color: Blue
+
+Hobbies: Coding, Free Fire, Football, YouTube content creation
+
+💙 “My dream is to buy my gaming PC and grow my community.”
+
+3️⃣ Portfolio Page
+
+Showcase section:
+
+GitHub: https://github.com/ns-gamming
+
+YouTube: https://youtube.com/@Nishant_sarkar
+ → Tell users: “🎥 Check out my latest gaming and coding videos here!”
+
+4️⃣ Social Media & Contact Page
+
+Title: 🌍 “Follow & Connect With Me”
+
+Buttons with neon glow + icons:
+
+YouTube: https://youtube.com/@Nishant_sarkar
+
+Instagram: https://instagram.com/nishant_sarkar__10k
+
+Telegram Channel: https://t.me/nsgamming69
+
+VIP Telegram Group: https://t.me/NSfreefirelikesvip
+
+Discord: https://discord.gg/eRnfcBuv5v
+
+Reddit: https://reddit.com/u/NSGAMMING69
+
+LinkedIn: https://linkedin.com/in/naboraj-sarkar
+
+Twitter (X): https://x.com/NSGAMMING699
+
+5️⃣ Contact Me Page
+
+Business Email: nishant.ns.business@gmail.com
+
+Personal Email: naborajs@gmail.com
+
+WhatsApp Channel: https://whatsapp.com/channel/0029Vb4QTP7GE56sVeiOJJ1i
+
+WhatsApp Chat: https://wa.me/918900653250
+
+Telegram: https://t.me/Nishantsarkar10k
+
+Telegram (alt): https://t.me/Nishantsarkar100k
+
+Text:
+
+📩 Want to talk with me?  
+Send me an email or ping me on WhatsApp/Telegram 💙  
+I reply with love and respect ✨  
+
+6️⃣ Goals Page
+
+Animated list of goals:
+
+💻 Master coding & build cool projects
+
+🎥 Grow my YouTube channel “NSGaming”
+
+⚽ Keep playing football and enjoying life
+
+🚀 Buy my dream gaming PC
+
+🔹 AdSense Integration
+
+Add ads after About Me section and before footer. Use this exact code:
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4779140243670658"
+     crossorigin="anonymous"></script>
+<!-- NSGaming Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-4779140243670658"
+     data-ad-slot="9325686363"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+🔹 Footer
+© 2025 Nishant Sarkar | NSGaming 💙  
+Made with love, passion, and gaming vibes 🎮✨
+
+🔹 Notes for AI
+
+No backend, no hidden secrets → put all info directly in code.
+
+Use clean, modern UI with blue neon animations.
+
+Buttons should be professional (not fat, use glass/neon style).
+
+Ads should not break layout → center them with margin.
+
+Navigation bar fixed at top, animated hover.

@@ -1,0 +1,255 @@
+I want you to redesign and expand my NS GAMMING portfolio website into a complete professional, modern, animated gaming site.
+
+🔹 Identity Info to Show Everywhere
+
+Gaming Name: NS GAMMING
+
+Nickname: Nishant
+
+Official Name: Naboraj Sarkar
+
+Most people know me as: Nishant (so show “NS GAMMING” or “Nishant Sarkar” clearly on top).
+
+DOB: 19 August (don’t show year).
+
+Location: Siliguri, West Bengal, India
+
+Nationality: Indian 🇮🇳
+
+Religion: Hindu Bengali
+
+Favorite Color: Blue 💙
+
+Passions: Coding 💻, Free Fire 🎮, Football ⚽, YouTube 🎥, Gaming Community ❤️
+
+Dream: Buy my dream gaming PC & grow my NS GAMMING community 🚀.
+
+Old Website Link: https://nsgamming.xzy (mention it, but don’t merge).
+
+
+🔹 General Website Features
+
+Landing page style for ALL pages (hero section + glowing intro at top).
+
+One AdSense ad per page only (centered, not breaking layout).
+
+Animated glowing buttons & sections.
+
+Smooth neon transitions, hover effects, glowing particles in background.
+
+Motivational & lovely messages sprinkled in every page (like: “💙 Made with love & passion”, “🚀 Keep chasing your dreams”, “🎮 Gaming is not just a hobby, it’s a lifestyle”).
+
+Navigation bar: fixed, glowing hover effects, with options:
+
+Home
+
+About
+
+Portfolio
+
+Games
+
+Social
+
+Contact
+
+Goals
+
+
+
+
+---
+
+🔹 Pages & Content
+
+🏠 Home Page
+
+Glowing Logo Animation: “NS GAMMING ✨”.
+
+Intro Text:
+
+> Hi, I’m Nishant (Naboraj Sarkar) 🎮
+Creator | Developer | Gamer 💙
+A student, creator, and gamer from Siliguri, India. Passionate about coding, Free Fire, football, and creating amazing things with love ❤️.
+
+
+
+Hero Profile Card: Avatar circle + name + short tagline.
+
+Quick Links: About Me, Portfolio, Games, Social, Contact.
+
+Scroll-down glowing arrow animation.
+
+One Ad block only (after hero).
+
+Motivational line at bottom: “💙 Dreams don’t work unless you do. Keep grinding.”
+
+
+
+---
+
+👤 About Me Page
+
+All personal details listed (DOB: 19 August, Location, Nationality, Religion, Fav Color, Hobbies, Dream).
+
+Sections with icons + glowing highlights.
+
+Motivational line: “🚀 Every great gamer was once a beginner. I’m on my journey.”
+
+One Ad below details.
+
+
+
+---
+
+💼 Portfolio Page
+
+Showcase my links:
+
+GitHub → https://github.com/ns-gamming
+
+YouTube → https://youtube.com/@Nishant_sarkar
+
+
+Add cards with glowing borders for each project/platform.
+
+Short text under YouTube:
+
+> 🎥 Check out my latest gaming and coding videos here!
+
+
+
+One Ad after showcase.
+
+
+
+---
+
+🎮 Games Page
+
+Landing section: “🎮 Play & Enjoy Games with NS GAMMING 💙”.
+
+5 Games (each with own page):
+
+1. Tic Tac Toe
+
+
+2. Snake Game
+
+
+3. Memory Match
+
+
+4. Flappy Bird Clone
+
+
+5. Rock-Paper-Scissors
+
+
+
+Each game’s own page should have:
+
+Game canvas/interface.
+
+Motivational caption (example: “🔥 Keep going, don’t quit!”).
+
+One Ad only.
+
+
+All games should be styled with neon + glowing animations.
+
+
+
+---
+
+🌍 Social Media Page
+
+Title: “Follow & Connect With Me 🌟”
+
+Neon glowing buttons + icons for:
+
+YouTube: https://youtube.com/@Nishant_sarkar
+
+Instagram: https://instagram.com/nishant_sarkar__10k
+
+Telegram Channel: https://t.me/nsgamming69
+
+VIP Telegram Group: https://t.me/NSfreefirelikesvip
+
+Discord: https://discord.gg/eRnfcBuv5v
+
+Reddit: https://reddit.com/u/NSGAMMING69
+
+LinkedIn: https://linkedin.com/in/naboraj-sarkar
+
+Twitter (X): https://x.com/NSGAMMING699
+
+
+One Ad at bottom.
+
+
+
+---
+
+📩 Contact Page
+
+Business Email: nishant.ns.business@gmail.com
+
+Personal Email: naborajs@gmail.com
+
+WhatsApp Channel: https://whatsapp.com/channel/0029Vb4QTP7GE56sVeiOJJ1i
+
+WhatsApp Chat: https://wa.me/918900653250
+
+Telegram: https://t.me/Nishantsarkar10k
+
+Telegram (alt): https://t.me/Nishantsarkar100k
+
+Text:
+
+> 📩 Want to talk with me?
+Send me an email or ping me on WhatsApp/Telegram 💙
+I reply with love and respect ✨
+
+
+
+One Ad below.
+
+
+
+---
+
+🎯 Goals Page
+
+Animated list of my goals:
+
+💻 Master coding & build cool projects
+
+🎥 Grow my YouTube channel “NS GAMMING”
+
+⚽ Keep playing football and enjoying life
+
+🚀 Buy my dream gaming PC
+
+
+Add glowing checkmark animations when hovered.
+
+Motivational line: “🌟 Step by step, I’ll achieve them all.”
+
+One Ad below.
+
+
+
+---
+
+🔹 Footer
+
+Same across all pages:
+
+> © 2025 Nishant Sarkar | NS GAMMING 💙
+Made with love, passion, and gaming vibes 🎮✨
+
+
+
+Add scroll-to-top glowing button.
+
