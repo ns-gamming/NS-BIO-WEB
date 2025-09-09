@@ -3,25 +3,13 @@ import AdSenseAd from "../components/AdSenseAd";
 import { Heart, GraduationCap, Users } from "lucide-react";
 
 export default function About() {
-  const skills = [
-    { name: "React", description: "JavaScript library for building user interfaces." },
-    { name: "Next.js", description: "React framework for production." },
-    { name: "Tailwind CSS", description: "Utility-first CSS framework." },
-    { name: "JavaScript", description: "The language of the web." },
-    { name: "HTML", description: "Structure of web content." },
-    { name: "CSS", description: "Styling of web content." },
-    { name: "Figma", description: "Interface design tool." },
-    { name: "Git", description: "Version control system." },
-    { name: "Node.js", description: "JavaScript runtime environment." },
-  ];
-
   return (
     <div className="pt-16">
       <HeroSection 
         title="About Nishant"
         subtitle="The story behind NS GAMMING"
       />
-
+      
       {/* Biography */}
       <div className="container mx-auto px-6 pb-20">
         <div className="max-w-4xl mx-auto">
@@ -36,7 +24,7 @@ export default function About() {
                 "My mission is to build my OWN EMPIRE, change the future, keep learning, and build things I love."
               </p>
               <p>
-                From playing Free Fire with games to creating content, from learning my first programming language to building communities — 
+                From playing Free Fire with friends to creating content, from learning my first programming language to building communities — 
                 har step mein I've tried to spread love and learning. Football keeps me grounded, coding keeps me excited, and my community keeps me motivated.
               </p>
               <p>
@@ -44,7 +32,7 @@ export default function About() {
               </p>
             </div>
           </div>
-
+          
           {/* Timeline */}
           <div className="mb-12" data-testid="timeline-section">
             <h2 className="text-3xl font-bold text-primary mb-8 text-center">Milestones 🎯</h2>
@@ -78,7 +66,7 @@ export default function About() {
               </div>
             </div>
           </div>
-
+          
           {/* Values Cards */}
           <div className="grid md:grid-cols-3 gap-6" data-testid="values-section">
             <div className="glass rounded-lg p-6 text-center">
@@ -97,30 +85,9 @@ export default function About() {
               <p className="text-muted-foreground">Building connections that matter</p>
             </div>
           </div>
-
-          {/* Skills Section */}
-          <div className="mt-16" data-testid="skills-section">
-            <h2 className="text-3xl font-bold text-primary mb-8 text-center">Skills & Expertise 💻</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {skills.map((skill, index) => (
-                <div 
-                  key={skill.name}
-                  className="glass rounded-2xl p-6 hover:scale-105 transition-all duration-300 cursor-pointer group animate-fadeUp hover:shadow-lg hover:shadow-primary/30"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                  data-testid={`skill-${skill.name.toLowerCase().replace(' ', '-')}`}
-                  onClick={() => {
-                    alert(`🚀 ${skill.name}: ${skill.description}\n\nThanks for exploring my skills! Let's build something amazing together! 💪`);
-                  }}
-                >
-                  <h3 className="font-bold text-lg text-foreground mb-2">{skill.name}</h3>
-                  <p className="text-muted-foreground text-sm">{skill.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
-
+      
       <AdSenseAd />
     </div>
   );

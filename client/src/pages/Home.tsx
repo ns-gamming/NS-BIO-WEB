@@ -15,16 +15,19 @@ export default function Home() {
           <div className="flex flex-col md:flex-row items-center gap-8">
             {/* Avatar */}
             <div 
-              className="w-32 h-32 rounded-full border-4 border-primary overflow-hidden animate-pulse-neon cursor-pointer bg-gradient-to-br from-primary/40 to-accent/30 flex items-center justify-center backdrop-blur-sm hover:scale-110 hover:rotate-6 transition-all duration-500 group"
+              className="w-32 h-32 rounded-full border-4 border-primary overflow-hidden animate-pulse-neon cursor-pointer"
               data-testid="profile-avatar"
-              onClick={() => {
-                alert("🎮 NS GAMMING - Nishant here! Thanks for clicking on my avatar! Keep exploring and let's build something amazing together! ❤️");
-              }}
             >
-              <div className="text-center">
-                <span className="block text-primary font-orbitron font-black text-2xl group-hover:animate-bounce">NS</span>
-                <span className="block text-primary font-bold text-xs group-hover:animate-pulse">GAMMING</span>
-              </div>
+              <img 
+                src="/attached_assets/IMG_20250712_204022_796_1757405803893.jpg" 
+                alt="NS GAMMING - Nishant Sarkar" 
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  console.error('Profile avatar image failed to load');
+                }}
+              />
             </div>
             
             {/* Intro Text */}
@@ -82,21 +85,20 @@ export default function Home() {
         </div>
         
         {/* Featured YouTube */}
-        <div className="glass rounded-2xl p-8 max-w-2xl mx-auto mb-12 hover:scale-105 transition-all duration-300" data-testid="featured-youtube">
-          <h3 className="text-2xl font-bold mb-4 text-center text-primary animate-glow">🎥 Latest from NS GAMMING</h3>
-          <div className="bg-muted rounded-lg p-8 text-center hover:bg-muted/80 transition-all duration-300 group">
-            <div className="w-full h-48 bg-gradient-to-br from-red-500/20 to-primary/20 rounded-lg mb-4 flex items-center justify-center backdrop-blur-sm border-2 border-red-500/30 group-hover:border-red-500/60 transition-all duration-300">
-              <div className="text-center">
-                <i className="fab fa-youtube text-6xl text-red-500 mb-2 group-hover:animate-bounce"></i>
-                <p className="text-red-500 font-bold">NS GAMMING</p>
-              </div>
-            </div>
-            <p className="text-foreground mb-4 group-hover:text-primary transition-colors">New videos every week — join the ride!</p>
+        <div className="glass rounded-2xl p-8 max-w-2xl mx-auto mb-12" data-testid="featured-youtube">
+          <h3 className="text-2xl font-bold mb-4 text-center text-primary">🎥 Latest from NS GAMMING</h3>
+          <div className="bg-muted rounded-lg p-8 text-center">
+            <img 
+              src="/attached_assets/IMG_20250712_204022_796_1757405803893.jpg" 
+              alt="NS GAMMING - Latest Content" 
+              className="w-full h-48 object-cover rounded-lg mb-4" 
+            />
+            <p className="text-foreground mb-4">New videos every week — join the ride!</p>
             <a 
               href="https://youtube.com/@Nishant_sarkar" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="neon-btn hover:scale-110 transition-all duration-300"
+              className="neon-btn"
               data-testid="youtube-watch-now"
             >
               <i className="fab fa-youtube mr-2"></i>Watch Now

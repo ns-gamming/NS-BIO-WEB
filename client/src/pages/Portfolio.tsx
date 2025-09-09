@@ -11,7 +11,7 @@ export default function Portfolio() {
         title="Portfolio"
         subtitle="Code is my medium, community is my mission"
       />
-
+      
       <div className="container mx-auto px-6 pb-20">
         <div className="max-w-6xl mx-auto">
           {/* Featured Projects */}
@@ -37,7 +37,7 @@ export default function Portfolio() {
                 View Projects
               </a>
             </div>
-
+            
             {/* YouTube */}
             <div className="glass rounded-2xl p-8 hover:scale-105 transition-transform" data-testid="youtube-project">
               <div className="flex items-center gap-4 mb-4">
@@ -60,7 +60,7 @@ export default function Portfolio() {
               </a>
             </div>
           </div>
-
+          
           {/* Skills Showcase */}
           <div className="glass rounded-2xl p-8 mb-12" data-testid="skills-section">
             <h2 className="text-3xl font-bold text-primary mb-8 text-center">Technical Skills 💻</h2>
@@ -83,7 +83,7 @@ export default function Portfolio() {
               </div>
             </div>
           </div>
-
+          
           {/* Motivational Section */}
           <div className="text-center glass rounded-2xl p-8" data-testid="motivational-section">
             <h2 className="text-2xl font-bold text-primary mb-4">Building the Future 🚀</h2>
@@ -100,7 +100,7 @@ export default function Portfolio() {
           </div>
         </div>
       </div>
-
+      
       <AdSenseAd />
     </div>
   );
