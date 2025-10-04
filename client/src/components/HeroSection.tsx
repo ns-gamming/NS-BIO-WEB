@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
 
+import _1000016408 from "@assets/1000016408.jpg";
+
 interface HeroSectionProps {
   title: string;
   subtitle?: string;
@@ -15,7 +17,7 @@ export default function HeroSection({ title, subtitle, children, className = "" 
           <div className="flex items-center justify-center gap-6 mb-6">
             <div className="w-20 h-20 md:w-28 md:h-28 rounded-xl border-3 border-primary animate-float overflow-hidden backdrop-blur-sm hover:scale-110 hover:rotate-3 transition-all duration-500 cursor-pointer group">
               <img 
-                src="/attached_assets/IMG_20250712_204022_796_1759582396527.jpg" 
+                src={_1000016408} 
                 alt="NS GAMMING Logo" 
                 className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
               />
