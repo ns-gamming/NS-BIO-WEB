@@ -11,6 +11,8 @@ import {
   SiFacebook 
 } from "react-icons/si";
 
+import _1000016408 from "@assets/1000016408.jpg";
+
 export default function Social() {
   const socialLinks = [
     {
@@ -137,7 +139,7 @@ export default function Social() {
           <div className="glass rounded-2xl p-8 mt-12 text-center" data-testid="brand-showcase">
             <div className="flex items-center justify-center mb-6">
               <img 
-                src="@assets/1000016408.jpg"
+                src={_1000016408}
                 alt="NS GAMMING Brand" 
                 className="w-24 h-24 rounded-xl border-3 border-primary animate-pulse-neon"
               />
