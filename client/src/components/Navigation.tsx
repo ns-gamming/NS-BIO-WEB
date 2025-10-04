@@ -29,8 +29,12 @@ export default function Navigation() {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3" data-testid="logo">
-            <div className="w-12 h-12 rounded-lg border-2 border-primary animate-pulse-neon bg-primary/20 flex items-center justify-center backdrop-blur-sm">
-              <span className="text-primary font-bold text-lg">NS</span>
+            <div className="w-12 h-12 rounded-lg border-2 border-primary animate-pulse-neon overflow-hidden backdrop-blur-sm hover:scale-110 transition-all duration-300">
+              <img 
+                src="/attached_assets/IMG_20250712_204022_796_1759582396527.jpg" 
+                alt="NS GAMMING Logo" 
+                className="w-full h-full object-cover"
+              />
             </div>
             <span className="font-orbitron font-bold text-xl text-primary animate-glow hover:scale-105 transition-transform duration-300">NS GAMMING</span>
           </Link>

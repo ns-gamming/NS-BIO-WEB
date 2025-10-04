@@ -15,16 +15,17 @@ export default function Home() {
           <div className="flex flex-col md:flex-row items-center gap-8">
             {/* Avatar */}
             <div 
-              className="w-32 h-32 rounded-full border-4 border-primary overflow-hidden animate-pulse-neon cursor-pointer bg-gradient-to-br from-primary/40 to-accent/30 flex items-center justify-center backdrop-blur-sm hover:scale-110 hover:rotate-6 transition-all duration-500 group"
+              className="w-32 h-32 rounded-full border-4 border-primary overflow-hidden animate-pulse-neon cursor-pointer backdrop-blur-sm hover:scale-110 hover:rotate-6 transition-all duration-500 group"
               data-testid="profile-avatar"
               onClick={() => {
                 alert("🎮 NS GAMMING - Nishant here! Thanks for clicking on my avatar! Keep exploring and let's build something amazing together! ❤️");
               }}
             >
-              <div className="text-center">
-                <span className="block text-primary font-orbitron font-black text-2xl group-hover:animate-bounce">NS</span>
-                <span className="block text-primary font-bold text-xs group-hover:animate-pulse">GAMMING</span>
-              </div>
+              <img 
+                src="/attached_assets/IMG_20250712_204022_796_1759582396527.jpg" 
+                alt="NS GAMMING - Nishant Sarkar" 
+                className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
+              />
             </div>
             
             {/* Intro Text */}
