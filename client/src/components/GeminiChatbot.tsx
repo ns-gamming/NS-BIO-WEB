@@ -8,7 +8,7 @@ interface Message {
 }
 
 const GEMINI_API_KEY = "AIzaSyBJ7BdftaQp7N5IJxWNUHIc6EhjOXQ865o";
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_API_URL = `curl "https://gene`;
 
 const FUNNY_ERRORS = [
   "Oops! My brain just did a 360 no-scope and missed! 🎯 Try again?",
