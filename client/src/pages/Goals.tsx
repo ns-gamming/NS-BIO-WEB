@@ -12,7 +12,7 @@ export default function Goals() {
       id: 1,
       emoji: "💻",
       title: "Master Coding & Build Impactful Products",
-      description: "From learning my first HTML tag to building complex applications — the journey continues! I want to create products that solve real problems and help people achieve their dreams.",
+      description: "From learning my first Python code to building complex applications — the journey continues! I want to create products that solve real problems and help people achieve their dreams.",
       hinglish: "Code meri zindagi hai, aur main iske saath badal raha hoon!",
       bgColor: "bg-primary",
       testId: "goal-coding"
