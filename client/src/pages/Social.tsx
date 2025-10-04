@@ -18,7 +18,7 @@ export default function Social() {
       icon: SiYoutube,
       color: "text-red-500",
       url: "https://youtube.com/@Nishant_sarkar",
-      description: "Gaming videos, tutorials, and vlogs! Subscribe kar do yaar — let's grow together! 🎥❤️",
+      description: "Gaming videos, tutorials, and lots of fun! Subscribe kar do yaar — let's grow together! 🎥❤️",
       testId: "social-youtube"
     },
     {
@@ -42,7 +42,7 @@ export default function Social() {
       icon: SiTelegram,
       color: "text-yellow-500",
       url: "https://t.me/NSfreefirelikesvip",
-      description: "Exclusive community for true supporters! Chat directly with me and fellow gamers 💎",
+      description: "Exclusive community for true supporters! Get free fire likes and more cool things 💎",
       testId: "social-telegram-vip"
     },
     {
@@ -50,14 +50,14 @@ export default function Social() {
       icon: SiDiscord,
       color: "text-indigo-500",
       url: "https://discord.gg/eRnfcBuv5v",
-      description: "Gaming sessions, voice chats, and community events! The heart of NS GAMING family 🎮",
+      description: "Gaming sessions, voice chats, and community events! The heart of NS GAMMING family 🎮",
       testId: "social-discord"
     },
     {
       name: "Reddit",
       icon: SiReddit,
       color: "text-orange-600",
-      url: "https://reddit.com/u/NSGAMMING69",
+      url: "https://reddit.com/u/NSGAMMING699",
       description: "Deep discussions, memes, and community posts! Upvote kar do friends 📈",
       testId: "social-reddit"
     },
@@ -74,7 +74,7 @@ export default function Social() {
       icon: SiX,
       color: "text-foreground",
       url: "https://x.com/NSGAMMING699",
-      description: "Quick updates, thoughts, and gaming tweets! Follow for daily dose of NS GAMING 🐦",
+      description: "Quick updates, thoughts, and gaming tweets! Follow for daily dose of NS GAMMING 🐦",
       testId: "social-twitter"
     },
     {
@@ -91,7 +91,7 @@ export default function Social() {
     <div className="pt-16">
       <HeroSection 
         title="🌍 Follow Me Everywhere"
-        subtitle="Join the NS GAMING family across all platforms!"
+        subtitle="Join the NS GAMMING family across all platforms!"
       />
       
       <div className="container mx-auto px-6 pb-20">
@@ -137,12 +137,12 @@ export default function Social() {
           <div className="glass rounded-2xl p-8 mt-12 text-center" data-testid="brand-showcase">
             <div className="flex items-center justify-center mb-6">
               <img 
-                src="/attached_assets/IMG_20250712_204022_796_1757405803893.jpg" 
-                alt="NS GAMING Brand" 
+                src="@assets/1000016408.jpg"
+                alt="NS GAMMING Brand" 
                 className="w-24 h-24 rounded-xl border-3 border-primary animate-pulse-neon"
               />
             </div>
-            <h2 className="text-2xl font-bold text-primary mb-4">The NS GAMING Brand</h2>
+            <h2 className="text-2xl font-bold text-primary mb-4">The NS GAMMING Brand</h2>
             <p className="text-muted-foreground mb-6">
               This logo represents my journey, passion, and the gaming empire I'm building. Every pixel tells a story of dedication, creativity, and the love for gaming and coding! 🎮✨
             </p>
