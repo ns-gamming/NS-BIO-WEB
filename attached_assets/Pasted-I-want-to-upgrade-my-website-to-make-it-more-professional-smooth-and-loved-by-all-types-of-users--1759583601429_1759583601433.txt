@@ -1,0 +1,59 @@
+I want to upgrade my website to make it more professional, smooth, and loved by all types of users.
+Keep the current dark theme as it is, but also add a light (white) theme option so visitors can switch between them easily.
+
+Make both themes look modern, clean, and premium, with smooth transitions, hover effects, and gentle animations that make the site feel lively and interactive.
+
+Add 1 ad per page (only one) — place it neatly, like below the main content or in a sidebar, so it doesn’t ruin the layout or user experience.
+
+Also, integrate a Gemini AI chatbot that chats like a real human, remembers basic context (short memory), and can answer questions about me (Nishant / Naboraj Sarkar) and the website (NS GAMMING).
+
+🧠 Chatbot details:
+
+Use the Gemini API key directly (no backend):
+
+AIzaSyC3O2uXTOmbDd1UJNplZR4Hp5rZduJH66k
+
+
+The chatbot should be fully frontend only (no backend/server code).
+
+It must work on every page of the site — like a floating chat bubble or side panel.
+
+The chat box should have a semi-transparent background so it blends well with both dark and light themes.
+
+Make sure the design matches the site — futuristic, smooth, and glowing style that fits the NS GAMMING brand.
+
+Add smooth animations when opening/closing or sending messages.
+
+🧍‍♂️ Information the chatbot should know:
+
+My name: Naboraj Sarkar (Nishant Sarkar)
+
+Creator of NS GAMMING
+
+I’m a gamer, developer, and YouTuber from Siliguri, West Bengal, India
+
+I love coding, gaming (Free Fire), football, and video editing
+
+My goal: to build my empire and inspire others to learn, play, and grow
+
+Website name: NS GAMMING
+
+My YouTube: youtube.com/@Nishant_sarkar
+
+My Instagram: @nishant_sarkar__10k
+
+My email: nishant.ns.business@gmail.com
+
+💎 Final goals:
+
+Keep everything frontend only (no backend code to avoid errors).
+
+Maintain the current dark theme and add a new white theme.
+
+Add 1 cleanly placed ad per page.
+
+Add Gemini chatbot with memory, semi-transparent background, smooth UI, and active on all pages.
+
+Make the website fully responsive (mobile, tablet, desktop).
+
+Improve smoothness, animations, and overall design quality for a top-notch user experience.
