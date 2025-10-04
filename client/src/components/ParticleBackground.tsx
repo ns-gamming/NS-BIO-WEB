@@ -8,20 +8,29 @@ export default function ParticleBackground() {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // Create initial particles
-    for (let i = 0; i < 50; i++) {
+    // Create initial particles (fewer on mobile for better performance)
+    const isMobile = window.innerWidth < 768;
+    const particleCount = isMobile ? 20 : 50;
+    
+    for (let i = 0; i < particleCount; i++) {
       createParticle(containerRef.current);
     }
 
-    // Add mouse interaction
+    // Add mouse interaction (disabled on mobile)
     const mouseHandler = (e: MouseEvent) => {
-      handleMouseMove(e.clientX, e.clientY);
+      if (!isMobile) {
+        handleMouseMove(e.clientX, e.clientY);
+      }
     };
 
-    document.addEventListener('mousemove', mouseHandler);
+    if (!isMobile) {
+      document.addEventListener('mousemove', mouseHandler);
+    }
 
     return () => {
-      document.removeEventListener('mousemove', mouseHandler);
+      if (!isMobile) {
+        document.removeEventListener('mousemove', mouseHandler);
+      }
     };
   }, [createParticle, handleMouseMove]);
 
