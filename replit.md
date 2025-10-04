@@ -1,8 +1,18 @@
 # Overview
 
-This is NS GAMING, a personal portfolio and gaming website for Nishant Sarkar (Naboraj Sarkar). The project is a modern, multi-page gaming-themed portfolio with neon blue aesthetics, animations, and interactive elements. It serves as both a professional showcase and entertainment platform, featuring personal information, social links, games, and AdSense integration for monetization.
+This is NS GAMING, a personal portfolio and gaming website for Nishant Sarkar (Naboraj Sarkar). The project is a modern, multi-page gaming-themed portfolio with neon blue aesthetics, animations, and interactive elements. It serves as both a professional showcase and entertainment platform, featuring personal information, social links, games, AdSense integration for monetization, and an AI chatbot assistant.
 
-The website presents Nishant's identity as a creator, developer, and gamer from Siliguri, West Bengal, India, with a mission to "build his own empire and change the future" through coding, gaming content creation, and community building.
+The website presents Nishant's identity as a creator, developer, and gamer from Siliguri, West Bengal, India. His first programming language was Python, and his mission is to "build his own empire and change the future" through coding, gaming content creation, and community building.
+
+## Recent Updates (January 2025)
+
+**Theme Switching**: Fully functional light/dark theme toggle with smooth transitions throughout the site. Users can switch between professional light mode and gaming dark mode.
+
+**AI Chatbot Integration**: Gemini AI-powered chatbot that provides contextual information about Nishant and the website, with conversation memory and human-like responses.
+
+**Mobile Optimization**: Complete mobile responsiveness with touch controls for all games (directional buttons for Snake, tap controls for Flappy), optimized particle effects for mobile performance, and responsive ad placement.
+
+**Enhanced Animations**: Added shimmer, bounce, bounceIn, and scaleIn animations for a more modern and smooth user experience across all devices.
 
 # User Preferences
 
@@ -17,15 +27,17 @@ Preferred communication style: Simple, everyday language.
 **Styling**: Tailwind CSS with a custom gaming theme featuring neon blue colors, glassmorphism effects, and extensive animations. The design system is built around shadcn/ui components with heavy customization for the gaming aesthetic.
 
 **Component Structure**: Modular component architecture with reusable UI components, page components, and utility hooks. Key components include:
-- Navigation system with mobile responsiveness
-- Particle background system for visual effects
+- Navigation system with mobile responsiveness and theme toggle
+- Particle background system for visual effects (optimized for mobile with reduced particle count)
 - Hero sections with consistent branding
-- Gaming-specific components (games, social links)
-- AdSense integration component
+- Gaming-specific components (games with mobile touch controls, social links)
+- AdSense integration component (fully responsive)
+- Gemini AI chatbot with floating UI (frontend-only implementation)
+- Theme provider for light/dark mode switching
 
 **State Management**: Uses @tanstack/react-query for server state and local React state for UI interactions. No complex global state management due to the static nature of the content.
 
-**Animation System**: Custom CSS animations combined with interactive JavaScript effects including particle systems, hover effects, and easter eggs triggered by user interactions.
+**Animation System**: Extensive custom CSS animations including pulse-neon, float, glow, particle, typewriter, fadeUp, slideLeft, confetti, shimmer, bounce, bounceIn, and scaleIn. Combined with interactive JavaScript effects including particle systems, hover effects, and easter eggs triggered by user interactions. All animations are optimized for smooth performance across devices.
 
 ## Backend Architecture
 
@@ -53,7 +65,9 @@ Preferred communication style: Simple, everyday language.
 
 ## Third-Party Services
 
-**AdSense Integration**: Google AdSense with client ID `ca-pub-4779140243670658` for monetization, implemented with proper responsive design.
+**AdSense Integration**: Google AdSense with client ID `ca-pub-4779140243670658` for monetization, implemented with full responsive design and mobile optimization (1 ad per page, neatly placed).
+
+**Gemini AI API**: Google Gemini Pro API integration for chatbot functionality (frontend-only implementation with API key: AIzaSyC3O2uXTOmbDd1UJNplZR4Hp5rZduJH66k). The chatbot provides contextual information about Nishant and the website with short-term conversation memory.
 
 **Font Services**: Google Fonts integration for Orbitron (gaming aesthetic) and Inter (readability).
 
@@ -89,6 +103,10 @@ Preferred communication style: Simple, everyday language.
 
 **Gaming Aesthetic Priority**: All technical decisions prioritize the gaming theme, including particle effects, neon styling, and interactive elements that may impact performance but enhance user experience.
 
-**Mobile-First Responsive Design**: Tailwind breakpoint system ensures functionality across all device types, critical for gaming audience reach.
+**Mobile-First Responsive Design**: Fully responsive across all devices with mobile-optimized touch controls for games (directional buttons for Snake, tap button for Flappy), responsive chatbot UI, adaptive particle effects (20 particles on mobile vs 50 on desktop), and flexible ad placement. Tailwind breakpoint system ensures seamless functionality across mobile, tablet, and desktop.
 
 **Future Scalability**: Architecture allows for easy expansion into user-generated content, gaming features, or community interactions without major refactoring.
+
+**Theme System**: Comprehensive light/dark theme implementation with localStorage persistence, smooth transitions, and full support across all components. Theme toggle available in navigation on both mobile and desktop.
+
+**AI-First Approach**: Frontend-only Gemini AI chatbot integration demonstrates modern AI capabilities while maintaining simple architecture. Chatbot is contextually aware of site content and provides helpful, human-like responses.
