@@ -7,7 +7,7 @@ declare global {
 }
 
 export default function AdSenseAd() {
-  const adRef = useRef<HTMLDivElement>(null);
+  const adRef = useRef<HTMLModElement>(null);
 
   useEffect(() => {
     try {
@@ -20,7 +20,7 @@ export default function AdSenseAd() {
   }, []);
 
   return (
-    <div className="ad-wrap" data-testid="adsense-ad">
+    <div className="ad-wrap mx-auto px-4" data-testid="adsense-ad">
       <ins
         className="adsbygoogle"
         style={{ display: "block" }}

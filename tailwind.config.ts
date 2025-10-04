@@ -123,6 +123,23 @@ export default {
           "0%": { transform: "translateY(0) rotate(0deg)", opacity: "1" },
           "100%": { transform: "translateY(-200px) rotate(720deg)", opacity: "0" },
         },
+        shimmer: {
+          "0%": { backgroundPosition: "-1000px 0" },
+          "100%": { backgroundPosition: "1000px 0" },
+        },
+        bounce: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+        bounceIn: {
+          "0%": { opacity: "0", transform: "scale(0.3) translateY(30px)" },
+          "50%": { opacity: "1", transform: "scale(1.05)" },
+          "100%": { transform: "scale(1) translateY(0)" },
+        },
+        scaleIn: {
+          "0%": { opacity: "0", transform: "scale(0.8)" },
+          "100%": { opacity: "1", transform: "scale(1)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -135,6 +152,10 @@ export default {
         fadeUp: "fadeUp 0.8s ease-out forwards",
         slideLeft: "slideLeft 0.8s ease-out forwards",
         confetti: "confetti 0.6s ease-out forwards",
+        shimmer: "shimmer 3s infinite",
+        bounce: "bounce 2s ease-in-out infinite",
+        bounceIn: "bounceIn 0.6s ease-out forwards",
+        scaleIn: "scaleIn 0.5s ease-out forwards",
       },
     },
   },

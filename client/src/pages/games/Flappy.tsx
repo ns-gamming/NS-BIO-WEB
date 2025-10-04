@@ -266,13 +266,27 @@ export default function Flappy() {
                 width={CANVAS_WIDTH}
                 height={CANVAS_HEIGHT}
                 onClick={jump}
-                className="game-canvas cursor-pointer"
+                className="game-canvas cursor-pointer max-w-full h-auto"
                 data-testid="flappy-canvas"
               />
             </div>
 
+            {/* Mobile Tap Button */}
+            {gameRunning && (
+              <div className="mb-6 md:hidden">
+                <button
+                  onClick={jump}
+                  className="w-full py-8 bg-primary/20 hover:bg-primary/30 border-2 border-primary rounded-xl flex items-center justify-center transition-all active:scale-95"
+                  data-testid="tap-to-flap"
+                  aria-label="Tap to flap"
+                >
+                  <span className="text-2xl font-bold text-primary">TAP TO FLAP! 🦅</span>
+                </button>
+              </div>
+            )}
+
             {/* Controls */}
-            <div className="space-x-4 mb-4">
+            <div className="flex flex-wrap gap-2 justify-center mb-4">
               {!gameRunning && !gameOver && (
                 <button onClick={startGame} className="neon-btn" data-testid="start-flappy">
                   <Play className="w-4 h-4 mr-2" />
@@ -297,7 +311,9 @@ export default function Flappy() {
 
             {/* Instructions */}
             <div className="text-sm text-muted-foreground mb-4" data-testid="flappy-instructions">
-              Click or press SPACEBAR to flap! Avoid the pipes and see how far you can fly!
+              <span className="hidden md:inline">Click or press SPACEBAR to flap!</span>
+              <span className="md:hidden">Tap the button or canvas to flap!</span>
+              {" "}Avoid the pipes and see how far you can fly!
             </div>
 
             {gameOver && (

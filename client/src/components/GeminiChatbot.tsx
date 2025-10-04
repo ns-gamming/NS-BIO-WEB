@@ -145,7 +145,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
       )}
 
       {isOpen && (
-        <div className="fixed bottom-6 right-6 z-50 w-96 h-[500px] flex flex-col rounded-2xl shadow-2xl overflow-hidden animate-slideUpFade border border-border/50 backdrop-blur-xl bg-background/95 dark:bg-background/95">
+        <div className="fixed bottom-4 left-4 right-4 sm:bottom-6 sm:right-6 sm:left-auto z-50 w-auto sm:w-96 h-[500px] max-h-[80vh] flex flex-col rounded-2xl shadow-2xl overflow-hidden animate-slideUpFade border border-border/50 backdrop-blur-xl bg-background/95 dark:bg-background/95">
           <div className="bg-primary/10 backdrop-blur-sm border-b border-border/50 p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center animate-pulse-neon">

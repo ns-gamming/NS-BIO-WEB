@@ -215,13 +215,56 @@ export default function Snake() {
                 ref={canvasRef}
                 width={CANVAS_SIZE}
                 height={CANVAS_SIZE}
-                className="game-canvas"
+                className="game-canvas max-w-full h-auto"
                 data-testid="snake-canvas"
               />
             </div>
 
+            {/* Mobile Direction Controls */}
+            {gameRunning && (
+              <div className="mb-6">
+                <p className="text-sm text-muted-foreground mb-3">Touch Controls:</p>
+                <div className="flex flex-col items-center gap-2">
+                  <button
+                    onClick={() => direction.y !== 1 && setDirection({ x: 0, y: -1 })}
+                    className="w-16 h-16 bg-primary/20 hover:bg-primary/30 border-2 border-primary rounded-lg flex items-center justify-center transition-all active:scale-95"
+                    data-testid="move-up"
+                    aria-label="Move up"
+                  >
+                    <span className="text-2xl text-primary">↑</span>
+                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => direction.x !== 1 && setDirection({ x: -1, y: 0 })}
+                      className="w-16 h-16 bg-primary/20 hover:bg-primary/30 border-2 border-primary rounded-lg flex items-center justify-center transition-all active:scale-95"
+                      data-testid="move-left"
+                      aria-label="Move left"
+                    >
+                      <span className="text-2xl text-primary">←</span>
+                    </button>
+                    <button
+                      onClick={() => direction.y !== -1 && setDirection({ x: 0, y: 1 })}
+                      className="w-16 h-16 bg-primary/20 hover:bg-primary/30 border-2 border-primary rounded-lg flex items-center justify-center transition-all active:scale-95"
+                      data-testid="move-down"
+                      aria-label="Move down"
+                    >
+                      <span className="text-2xl text-primary">↓</span>
+                    </button>
+                    <button
+                      onClick={() => direction.x !== -1 && setDirection({ x: 1, y: 0 })}
+                      className="w-16 h-16 bg-primary/20 hover:bg-primary/30 border-2 border-primary rounded-lg flex items-center justify-center transition-all active:scale-95"
+                      data-testid="move-right"
+                      aria-label="Move right"
+                    >
+                      <span className="text-2xl text-primary">→</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Controls */}
-            <div className="space-x-4 mb-4">
+            <div className="flex flex-wrap gap-2 justify-center mb-4">
               {!gameRunning && !gameOver && (
                 <button onClick={startGame} className="neon-btn" data-testid="start-game">
                   <Play className="w-4 h-4 mr-2" />
@@ -246,7 +289,9 @@ export default function Snake() {
 
             {/* Instructions */}
             <div className="text-sm text-muted-foreground mb-4" data-testid="game-instructions">
-              Use arrow keys to control the snake. Eat the orange food to grow!
+              <span className="hidden md:inline">Use arrow keys to control the snake.</span>
+              <span className="md:hidden">Use touch buttons above to control the snake.</span>
+              {" "}Eat the orange food to grow!
             </div>
 
             {gameOver && (
