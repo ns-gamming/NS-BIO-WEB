@@ -8,7 +8,7 @@ interface Message {
 }
 
 const GEMINI_API_KEY = "AIzaSyBJ7BdftaQp7N5IJxWNUHIc6EhjOXQ865o";
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
 
 const FUNNY_ERRORS = [
   "Oops! My brain just did a 360 no-scope and missed! 🎯 Try again?",
@@ -100,10 +100,8 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
             },
           ],
           generationConfig: {
-            temperature: 0.9,
-            topK: 40,
-            topP: 0.95,
-            maxOutputTokens: 1024,
+            temperature: 0.7,
+            maxOutputTokens: 500,
           },
         }),
       });
