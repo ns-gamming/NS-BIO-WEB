@@ -8,11 +8,20 @@ export default function About() {
     { name: "Next.js", description: "React framework for production." },
     { name: "Tailwind CSS", description: "Utility-first CSS framework." },
     { name: "JavaScript", description: "The language of the web." },
+    { name: "Python", description: "Versatile programming language for AI and automation." },
     { name: "HTML", description: "Structure of web content." },
     { name: "CSS", description: "Styling of web content." },
+    { name: "AI Using", description: "Leveraging AI tools and models for smart solutions." },
+    { name: "Prompt Engineering", description: "Crafting effective prompts for AI systems." },
+    { name: "AWS", description: "Cloud computing and deployment services." },
+    { name: "Vercel", description: "Modern web hosting and deployment platform." },
     { name: "Figma", description: "Interface design tool." },
     { name: "Git", description: "Version control system." },
     { name: "Node.js", description: "JavaScript runtime environment." },
+    { name: "Team Handling", description: "Leading and managing development teams." },
+    { name: "Selling", description: "Marketing and client relationship management." },
+    { name: "Video Creator", description: "Content creation and video production." },
+    { name: "Project Management", description: "Planning and executing projects efficiently." },
   ];
 
   return (
