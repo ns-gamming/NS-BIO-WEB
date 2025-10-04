@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Menu, X } from "lucide-react";
 
+import _1000016408 from "@assets/1000016408.jpg";
+
 export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [location] = useLocation();
@@ -31,7 +33,7 @@ export default function Navigation() {
           <Link href="/" className="flex items-center gap-3" data-testid="logo">
             <div className="w-12 h-12 rounded-lg border-2 border-primary animate-pulse-neon overflow-hidden backdrop-blur-sm hover:scale-110 transition-all duration-300">
               <img 
-                src="/attached_assets/IMG_20250712_204022_796_1759582396527.jpg" 
+                src={_1000016408} 
                 alt="NS GAMMING Logo" 
                 className="w-full h-full object-cover"
               />
