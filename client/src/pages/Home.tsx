@@ -3,6 +3,8 @@ import HeroSection from "../components/HeroSection";
 import AdSenseAd from "../components/AdSenseAd";
 import { Code, Video, Users, Zap } from "lucide-react";
 
+import _1000016408 from "@assets/1000016408.jpg";
+
 export default function Home() {
   return (
     <div className="pt-16">
@@ -22,7 +24,7 @@ export default function Home() {
               }}
             >
               <img 
-                src="/attached_assets/IMG_20250712_204022_796_1759582396527.jpg" 
+                src={_1000016408} 
                 alt="NS GAMMING - Nishant Sarkar" 
                 className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
               />
@@ -105,10 +107,8 @@ export default function Home() {
           </div>
         </div>
       </HeroSection>
-      
       {/* AdSense Ad */}
       <AdSenseAd />
-      
       {/* Footer CTA */}
       <div className="glass border-t border-border py-8 text-center" data-testid="footer-cta">
         <p className="text-muted-foreground mb-4">
