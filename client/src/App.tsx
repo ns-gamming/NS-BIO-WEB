@@ -4,6 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "./components/ThemeProvider";
+import { GeminiChatbot } from "./components/GeminiChatbot";
 import Navigation from "./components/Navigation";
 import ParticleBackground from "./components/ParticleBackground";
 import TimeGreeting from "./components/TimeGreeting";
@@ -85,6 +86,7 @@ Keep coding, keep creating! 🚀
             </main>
             <ScrollToTop />
             <EasterEggs />
+            <GeminiChatbot />
             <Toaster />
           </div>
         </TooltipProvider>
