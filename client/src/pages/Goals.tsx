@@ -71,13 +71,13 @@ export default function Goals() {
                     {goal.emoji}
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-foreground mb-3" data-testid={`${goal.testId}-title`}>
+                    <h3 className="text-2xl font-bold text-white mb-3" data-testid={`${goal.testId}-title`}>
                       {goal.title}
                     </h3>
-                    <p className="text-muted-foreground leading-relaxed mb-3" data-testid={`${goal.testId}-description`}>
+                    <p className="text-white/90 leading-relaxed mb-3" data-testid={`${goal.testId}-description`}>
                       {goal.description}
                     </p>
-                    <p className="text-primary font-medium" data-testid={`${goal.testId}-hinglish`}>
+                    <p className="text-white/80 font-medium italic" data-testid={`${goal.testId}-hinglish`}>
                       {goal.hinglish}
                     </p>
                   </div>
