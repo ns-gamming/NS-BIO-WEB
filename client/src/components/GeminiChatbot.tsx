@@ -7,7 +7,7 @@ interface Message {
   content: string;
 }
 
-const GEMINI_API_KEY = "AIzaSyC3O2uXTOmbDd1UJNplZR4Hp5rZduJH66k";
+const GEMINI_API_KEY = "AIzaSyBJ7BdftaQp7N5IJxWNUHIc6EhjOXQ865o";
 const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
 const FUNNY_ERRORS = [
@@ -21,7 +21,7 @@ const FUNNY_ERRORS = [
 
 const CONTEXT_INFO = `You are a helpful AI assistant for NS GAMMING website. Here's information you should know:
 
-About Nishant/Naboraj Sarkar:
+About Nishant/Naboraj Sarkar (YOUR BOSS/CREATOR):
 - Name: Naboraj Sarkar (also known as Nishant Sarkar)
 - Creator of NS GAMMING
 - A gamer, developer, and YouTuber from Siliguri, West Bengal, India
@@ -45,7 +45,7 @@ export function GeminiChatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Hey! 👋 I'm the NS GAMMING AI assistant. Ask me anything about Nishant or this website!",
+      content: "Hey! 👋 I'm the NS GAMMING AI assistant. Ask me anything about Nishant or devlopment!",
     },
   ]);
   const [inputValue, setInputValue] = useState("");
