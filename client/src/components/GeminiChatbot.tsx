@@ -8,7 +8,16 @@ interface Message {
 }
 
 const GEMINI_API_KEY = "AIzaSyC3O2uXTOmbDd1UJNplZR4Hp5rZduJH66k";
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+const FUNNY_ERRORS = [
+  "Oops! My brain just did a 360 no-scope and missed! 🎯 Try again?",
+  "Error 404: AI's coffee not found ☕ Let me reboot and try again!",
+  "Whoa! I just got spawn-killed by that request 💀 Hit me again!",
+  "My neural network just rage-quit 😅 But I'm back, let's go!",
+  "GG WP! That error was harder than Dark Souls 🎮 Retry?",
+  "*AI.exe has stopped working* Just kidding! 😂 Try once more!"
+];
 
 const CONTEXT_INFO = `You are a helpful AI assistant for NS GAMMING website. Here's information you should know:
 
@@ -114,9 +123,10 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
       console.error("Error sending message:", error);
+      const randomError = FUNNY_ERRORS[Math.floor(Math.random() * FUNNY_ERRORS.length)];
       const errorMessage: Message = {
         role: "assistant",
-        content: "Oops! Something went wrong. Please try again. 😅",
+        content: randomError,
       };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
