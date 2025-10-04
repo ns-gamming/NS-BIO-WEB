@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Menu, X } from "lucide-react";
+import { ThemeToggle } from "./ThemeToggle";
 
 import _1000016408 from "@assets/1000016408.jpg";
 
@@ -42,7 +43,7 @@ export default function Navigation() {
           </Link>
           
           {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-6">
+          <div className="hidden md:flex items-center gap-6">
             {navigationItems.map((item) => (
               <Link
                 key={item.path}
@@ -55,16 +56,20 @@ export default function Navigation() {
                 {item.label}
               </Link>
             ))}
+            <ThemeToggle />
           </div>
           
-          {/* Mobile Menu Button */}
-          <button
-            onClick={toggleMobileMenu}
-            className="md:hidden text-foreground hover:text-primary"
-            data-testid="mobile-menu-button"
-          >
-            {isMobileMenuOpen ? <X className="text-xl" /> : <Menu className="text-xl" />}
-          </button>
+          {/* Mobile Actions */}
+          <div className="md:hidden flex items-center gap-3">
+            <ThemeToggle />
+            <button
+              onClick={toggleMobileMenu}
+              className="text-foreground hover:text-primary"
+              data-testid="mobile-menu-button"
+            >
+              {isMobileMenuOpen ? <X className="text-xl" /> : <Menu className="text-xl" />}
+            </button>
+          </div>
         </div>
         
         {/* Mobile Menu */}
