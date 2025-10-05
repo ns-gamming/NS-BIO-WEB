@@ -175,9 +175,11 @@ export function GeminiChatbot() {
   const [isDragging, setIsDragging] = useState(false);
   const [position, setPosition] = useState<Position>({ x: 0, y: 0 });
   const [dragOffset, setDragOffset] = useState<Position>({ x: 0, y: 0 });
+  const [buttonPosition, setButtonPosition] = useState<Position>({ x: 0, y: 0 });
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatboxRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const { theme } = useTheme();
 
   const scrollToBottom = () => {
@@ -191,16 +193,19 @@ export function GeminiChatbot() {
   // Initialize position based on screen size
   useEffect(() => {
     const updatePosition = () => {
-      const isMobile = window.innerWidth < 640;
       if (!isOpen) {
         setPosition({ x: 0, y: 0 });
+      }
+      // Initialize button position to bottom-right if not set
+      if (buttonPosition.x === 0 && buttonPosition.y === 0) {
+        setButtonPosition({ x: 0, y: 0 });
       }
     };
     
     updatePosition();
     window.addEventListener('resize', updatePosition);
     return () => window.removeEventListener('resize', updatePosition);
-  }, [isOpen]);
+  }, [isOpen, buttonPosition]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!chatboxRef.current) return;
@@ -225,38 +230,96 @@ export function GeminiChatbot() {
     setIsDragging(true);
   };
 
+  const handleButtonMouseDown = (e: React.MouseEvent) => {
+    if (!buttonRef.current) return;
+    e.preventDefault();
+    
+    const rect = buttonRef.current.getBoundingClientRect();
+    setDragOffset({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    });
+    setIsDragging(true);
+  };
+
+  const handleButtonTouchStart = (e: React.TouchEvent) => {
+    if (!buttonRef.current) return;
+    e.preventDefault();
+    
+    const touch = e.touches[0];
+    const rect = buttonRef.current.getBoundingClientRect();
+    setDragOffset({
+      x: touch.clientX - rect.left,
+      y: touch.clientY - rect.top
+    });
+    setIsDragging(true);
+  };
+
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      if (!isDragging || !chatboxRef.current) return;
+      if (!isDragging) return;
       
-      const maxX = window.innerWidth - chatboxRef.current.offsetWidth;
-      const maxY = window.innerHeight - chatboxRef.current.offsetHeight;
-      
-      let newX = e.clientX - dragOffset.x;
-      let newY = e.clientY - dragOffset.y;
-      
-      // Constrain to viewport
-      newX = Math.max(0, Math.min(newX, maxX));
-      newY = Math.max(0, Math.min(newY, maxY));
-      
-      setPosition({ x: newX, y: newY });
+      if (isOpen && chatboxRef.current) {
+        const maxX = window.innerWidth - chatboxRef.current.offsetWidth;
+        const maxY = window.innerHeight - chatboxRef.current.offsetHeight;
+        
+        let newX = e.clientX - dragOffset.x;
+        let newY = e.clientY - dragOffset.y;
+        
+        // Constrain to viewport
+        newX = Math.max(0, Math.min(newX, maxX));
+        newY = Math.max(0, Math.min(newY, maxY));
+        
+        setPosition({ x: newX, y: newY });
+      } else if (!isOpen && buttonRef.current) {
+        const buttonWidth = buttonRef.current.offsetWidth;
+        const buttonHeight = buttonRef.current.offsetHeight;
+        const maxX = window.innerWidth - buttonWidth;
+        const maxY = window.innerHeight - buttonHeight;
+        
+        let newX = e.clientX - dragOffset.x;
+        let newY = e.clientY - dragOffset.y;
+        
+        // Constrain to viewport
+        newX = Math.max(0, Math.min(newX, maxX));
+        newY = Math.max(0, Math.min(newY, maxY));
+        
+        setButtonPosition({ x: newX, y: newY });
+      }
     };
 
     const handleTouchMove = (e: TouchEvent) => {
-      if (!isDragging || !chatboxRef.current) return;
+      if (!isDragging) return;
       
       const touch = e.touches[0];
-      const maxX = window.innerWidth - chatboxRef.current.offsetWidth;
-      const maxY = window.innerHeight - chatboxRef.current.offsetHeight;
       
-      let newX = touch.clientX - dragOffset.x;
-      let newY = touch.clientY - dragOffset.y;
-      
-      // Constrain to viewport
-      newX = Math.max(0, Math.min(newX, maxX));
-      newY = Math.max(0, Math.min(newY, maxY));
-      
-      setPosition({ x: newX, y: newY });
+      if (isOpen && chatboxRef.current) {
+        const maxX = window.innerWidth - chatboxRef.current.offsetWidth;
+        const maxY = window.innerHeight - chatboxRef.current.offsetHeight;
+        
+        let newX = touch.clientX - dragOffset.x;
+        let newY = touch.clientY - dragOffset.y;
+        
+        // Constrain to viewport
+        newX = Math.max(0, Math.min(newX, maxX));
+        newY = Math.max(0, Math.min(newY, maxY));
+        
+        setPosition({ x: newX, y: newY });
+      } else if (!isOpen && buttonRef.current) {
+        const buttonWidth = buttonRef.current.offsetWidth;
+        const buttonHeight = buttonRef.current.offsetHeight;
+        const maxX = window.innerWidth - buttonWidth;
+        const maxY = window.innerHeight - buttonHeight;
+        
+        let newX = touch.clientX - dragOffset.x;
+        let newY = touch.clientY - dragOffset.y;
+        
+        // Constrain to viewport
+        newX = Math.max(0, Math.min(newX, maxX));
+        newY = Math.max(0, Math.min(newY, maxY));
+        
+        setButtonPosition({ x: newX, y: newY });
+      }
     };
 
     const handleMouseUp = () => {
@@ -276,7 +339,7 @@ export function GeminiChatbot() {
       document.removeEventListener('touchmove', handleTouchMove);
       document.removeEventListener('touchend', handleMouseUp);
     };
-  }, [isDragging, dragOffset]);
+  }, [isDragging, dragOffset, isOpen]);
 
   const sendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
@@ -361,12 +424,28 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
     <>
       {!isOpen && (
         <button
-          onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-primary hover:bg-primary/90 text-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 animate-pulse-neon group"
+          ref={buttonRef}
+          onClick={(e) => {
+            if (!isDragging) {
+              setIsOpen(true);
+            }
+          }}
+          onMouseDown={handleButtonMouseDown}
+          onTouchStart={handleButtonTouchStart}
+          className="fixed z-50 w-14 h-14 bg-primary hover:bg-primary/90 text-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-200 hover:scale-110 animate-pulse-neon group will-change-transform"
+          style={{
+            left: buttonPosition.x ? `${buttonPosition.x}px` : 'auto',
+            top: buttonPosition.y ? `${buttonPosition.y}px` : 'auto',
+            bottom: buttonPosition.x || buttonPosition.y ? 'auto' : '1.5rem',
+            right: buttonPosition.x || buttonPosition.y ? 'auto' : '1.5rem',
+            cursor: isDragging ? 'grabbing' : 'grab',
+            touchAction: 'none',
+            userSelect: 'none'
+          }}
           data-testid="chatbot-open-button"
-          aria-label="Open AI Chatbot"
+          aria-label="Drag or click to open AI Chatbot"
         >
-          <MessageCircle className="w-6 h-6 group-hover:rotate-12 transition-transform" />
+          <MessageCircle className="w-6 h-6 group-hover:rotate-12 transition-transform pointer-events-none" />
         </button>
       )}
 
