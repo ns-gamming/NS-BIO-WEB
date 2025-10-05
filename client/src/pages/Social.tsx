@@ -170,6 +170,16 @@ export default function Social() {
               Thank you for being part of my journey! Shukriya yaar — you all mean the world to me ❤️
             </p>
           </div>
+
+          {/* Privacy Policy Link */}
+          <div className="glass rounded-2xl p-6 mt-8 text-center" data-testid="privacy-link">
+            <a 
+              href="/privacy-policy" 
+              className="text-primary hover:underline font-semibold transition-colors"
+            >
+              🔒 Privacy Policy
+            </a>
+          </div>
         </div>
       </div>
       

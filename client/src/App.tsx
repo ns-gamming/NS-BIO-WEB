@@ -26,6 +26,7 @@ import Snake from "./pages/games/Snake";
 import Memory from "./pages/games/Memory";
 import Flappy from "./pages/games/Flappy";
 import RockPaperScissors from "./pages/games/RockPaperScissors";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import NotFound from "@/pages/not-found";
 import { useEffect } from "react";
 
@@ -48,6 +49,7 @@ function Router() {
       <Route path="/games/memory" component={Memory} />
       <Route path="/games/flappy" component={Flappy} />
       <Route path="/games/rps" component={RockPaperScissors} />
+      <Route path="/privacy-policy" component={PrivacyPolicy} />
       <Route component={NotFound} />
     </Switch>
   );
