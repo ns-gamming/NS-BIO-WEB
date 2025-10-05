@@ -2,7 +2,7 @@ import HeroSection from "../components/HeroSection";
 import AdSenseAd from "../components/AdSenseAd";
 import { Link } from "wouter";
 import { Github, Youtube, ExternalLink } from "lucide-react";
-import { SiHtml5, SiCss3, SiJavascript, SiReact, SiPython, SiCplusplus } from "react-icons/si";
+import { SiHtml5, SiCss3, SiJavascript, SiReact, SiPython, SiCplusplus, SiNodedotjs } from "react-icons/si";
 import { FaJava } from "react-icons/fa";
 
 export default function Portfolio() {
@@ -64,35 +64,71 @@ export default function Portfolio() {
 
           {/* Skills Showcase */}
           <div className="glass rounded-2xl p-8 mb-12" data-testid="skills-section">
-            <h2 className="text-3xl font-bold text-primary mb-8 text-center">Technical Skills 💻</h2>
+            <h2 className="text-3xl font-bold text-primary mb-8 text-center animate-fadeUp">Technical Skills 💻</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <div className="text-center p-4 rounded-lg hover:bg-muted transition-colors" data-testid="skill-html">
-                <SiHtml5 className="w-12 h-12 text-orange-500 mb-2 mx-auto" />
+              <div 
+                className="text-center p-4 rounded-lg hover:bg-muted transition-all duration-300 transform hover:scale-110 hover:-rotate-3 hover:shadow-xl hover:shadow-orange-500/50 cursor-pointer animate-bounceIn group" 
+                style={{ animationDelay: '0.1s' }}
+                data-testid="skill-html"
+              >
+                <SiHtml5 className="w-12 h-12 text-orange-500 mb-2 mx-auto group-hover:animate-bounce transition-transform" />
                 <p className="text-foreground font-semibold">HTML5</p>
               </div>
-              <div className="text-center p-4 rounded-lg hover:bg-muted transition-colors" data-testid="skill-css">
-                <SiCss3 className="w-12 h-12 text-blue-500 mb-2 mx-auto" />
+              <div 
+                className="text-center p-4 rounded-lg hover:bg-muted transition-all duration-300 transform hover:scale-110 hover:-rotate-3 hover:shadow-xl hover:shadow-blue-500/50 cursor-pointer animate-bounceIn group" 
+                style={{ animationDelay: '0.2s' }}
+                data-testid="skill-css"
+              >
+                <SiCss3 className="w-12 h-12 text-blue-500 mb-2 mx-auto group-hover:animate-bounce transition-transform" />
                 <p className="text-foreground font-semibold">CSS3</p>
               </div>
-              <div className="text-center p-4 rounded-lg hover:bg-muted transition-colors" data-testid="skill-javascript">
-                <SiJavascript className="w-12 h-12 text-yellow-500 mb-2 mx-auto" />
+              <div 
+                className="text-center p-4 rounded-lg hover:bg-muted transition-all duration-300 transform hover:scale-110 hover:-rotate-3 hover:shadow-xl hover:shadow-yellow-500/50 cursor-pointer animate-bounceIn group" 
+                style={{ animationDelay: '0.3s' }}
+                data-testid="skill-javascript"
+              >
+                <SiJavascript className="w-12 h-12 text-yellow-500 mb-2 mx-auto group-hover:animate-bounce transition-transform" />
                 <p className="text-foreground font-semibold">JavaScript</p>
               </div>
-              <div className="text-center p-4 rounded-lg hover:bg-muted transition-colors" data-testid="skill-react">
-                <SiReact className="w-12 h-12 text-primary mb-2 mx-auto" />
+              <div 
+                className="text-center p-4 rounded-lg hover:bg-muted transition-all duration-300 transform hover:scale-110 hover:-rotate-3 hover:shadow-xl hover:shadow-primary/50 cursor-pointer animate-bounceIn group" 
+                style={{ animationDelay: '0.4s' }}
+                data-testid="skill-react"
+              >
+                <SiReact className="w-12 h-12 text-primary mb-2 mx-auto group-hover:animate-spin transition-transform" />
                 <p className="text-foreground font-semibold">React</p>
               </div>
-              <div className="text-center p-4 rounded-lg hover:bg-muted transition-colors" data-testid="skill-python">
-                <SiPython className="w-12 h-12 text-blue-600 mb-2 mx-auto" />
+              <div 
+                className="text-center p-4 rounded-lg hover:bg-muted transition-all duration-300 transform hover:scale-110 hover:-rotate-3 hover:shadow-xl hover:shadow-blue-600/50 cursor-pointer animate-bounceIn group" 
+                style={{ animationDelay: '0.5s' }}
+                data-testid="skill-python"
+              >
+                <SiPython className="w-12 h-12 text-blue-600 mb-2 mx-auto group-hover:animate-bounce transition-transform" />
                 <p className="text-foreground font-semibold">Python</p>
               </div>
-              <div className="text-center p-4 rounded-lg hover:bg-muted transition-colors" data-testid="skill-java">
-                <FaJava className="w-12 h-12 text-red-500 mb-2 mx-auto" />
+              <div 
+                className="text-center p-4 rounded-lg hover:bg-muted transition-all duration-300 transform hover:scale-110 hover:-rotate-3 hover:shadow-xl hover:shadow-red-500/50 cursor-pointer animate-bounceIn group" 
+                style={{ animationDelay: '0.6s' }}
+                data-testid="skill-java"
+              >
+                <FaJava className="w-12 h-12 text-red-500 mb-2 mx-auto group-hover:animate-bounce transition-transform" />
                 <p className="text-foreground font-semibold">Java</p>
               </div>
-              <div className="text-center p-4 rounded-lg hover:bg-muted transition-colors" data-testid="skill-cpp">
-                <SiCplusplus className="w-12 h-12 text-blue-700 mb-2 mx-auto" />
+              <div 
+                className="text-center p-4 rounded-lg hover:bg-muted transition-all duration-300 transform hover:scale-110 hover:-rotate-3 hover:shadow-xl hover:shadow-blue-700/50 cursor-pointer animate-bounceIn group" 
+                style={{ animationDelay: '0.7s' }}
+                data-testid="skill-cpp"
+              >
+                <SiCplusplus className="w-12 h-12 text-blue-700 mb-2 mx-auto group-hover:animate-bounce transition-transform" />
                 <p className="text-foreground font-semibold">C++</p>
+              </div>
+              <div 
+                className="text-center p-4 rounded-lg hover:bg-muted transition-all duration-300 transform hover:scale-110 hover:-rotate-3 hover:shadow-xl hover:shadow-green-500/50 cursor-pointer animate-bounceIn group" 
+                style={{ animationDelay: '0.8s' }}
+                data-testid="skill-nodejs"
+              >
+                <SiNodedotjs className="w-12 h-12 text-green-500 mb-2 mx-auto group-hover:animate-pulse transition-transform" />
+                <p className="text-foreground font-semibold">Node.js</p>
               </div>
             </div>
           </div>
