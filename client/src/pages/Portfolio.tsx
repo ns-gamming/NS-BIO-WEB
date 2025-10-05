@@ -2,7 +2,8 @@ import HeroSection from "../components/HeroSection";
 import AdSenseAd from "../components/AdSenseAd";
 import { Link } from "wouter";
 import { Github, Youtube, ExternalLink } from "lucide-react";
-import { SiHtml5, SiCss3, SiJavascript, SiReact, SiPython, SiJava, SiCplusplus } from "react-icons/si";
+import { SiHtml5, SiCss3, SiJavascript, SiReact, SiPython, SiCplusplus } from "react-icons/si";
+import { FaJava } from "react-icons/fa";
 
 export default function Portfolio() {
   return (
@@ -86,7 +87,7 @@ export default function Portfolio() {
                 <p className="text-foreground font-semibold">Python</p>
               </div>
               <div className="text-center p-4 rounded-lg hover:bg-muted transition-colors" data-testid="skill-java">
-                <SiJava className="w-12 h-12 text-red-500 mb-2 mx-auto" />
+                <FaJava className="w-12 h-12 text-red-500 mb-2 mx-auto" />
                 <p className="text-foreground font-semibold">Java</p>
               </div>
               <div className="text-center p-4 rounded-lg hover:bg-muted transition-colors" data-testid="skill-cpp">
