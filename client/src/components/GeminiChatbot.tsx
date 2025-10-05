@@ -1,10 +1,16 @@
+
 import { useState, useRef, useEffect } from "react";
-import { MessageCircle, X, Send, Loader2 } from "lucide-react";
+import { MessageCircle, X, Send, Loader2, Move } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
+}
+
+interface Position {
+  x: number;
+  y: number;
 }
 
 const GEMINI_API_KEY = "AIzaSyC3O2uXTOmbDd1UJNplZR4Hp5rZduJH66k";
@@ -166,7 +172,12 @@ export function GeminiChatbot() {
   ]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [position, setPosition] = useState<Position>({ x: 0, y: 0 });
+  const [dragOffset, setDragOffset] = useState<Position>({ x: 0, y: 0 });
+  
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatboxRef = useRef<HTMLDivElement>(null);
   const { theme } = useTheme();
 
   const scrollToBottom = () => {
@@ -176,6 +187,96 @@ export function GeminiChatbot() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Initialize position based on screen size
+  useEffect(() => {
+    const updatePosition = () => {
+      const isMobile = window.innerWidth < 640;
+      if (!isOpen) {
+        setPosition({ x: 0, y: 0 });
+      }
+    };
+    
+    updatePosition();
+    window.addEventListener('resize', updatePosition);
+    return () => window.removeEventListener('resize', updatePosition);
+  }, [isOpen]);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!chatboxRef.current) return;
+    
+    const rect = chatboxRef.current.getBoundingClientRect();
+    setDragOffset({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    });
+    setIsDragging(true);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!chatboxRef.current) return;
+    
+    const touch = e.touches[0];
+    const rect = chatboxRef.current.getBoundingClientRect();
+    setDragOffset({
+      x: touch.clientX - rect.left,
+      y: touch.clientY - rect.top
+    });
+    setIsDragging(true);
+  };
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDragging || !chatboxRef.current) return;
+      
+      const maxX = window.innerWidth - chatboxRef.current.offsetWidth;
+      const maxY = window.innerHeight - chatboxRef.current.offsetHeight;
+      
+      let newX = e.clientX - dragOffset.x;
+      let newY = e.clientY - dragOffset.y;
+      
+      // Constrain to viewport
+      newX = Math.max(0, Math.min(newX, maxX));
+      newY = Math.max(0, Math.min(newY, maxY));
+      
+      setPosition({ x: newX, y: newY });
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isDragging || !chatboxRef.current) return;
+      
+      const touch = e.touches[0];
+      const maxX = window.innerWidth - chatboxRef.current.offsetWidth;
+      const maxY = window.innerHeight - chatboxRef.current.offsetHeight;
+      
+      let newX = touch.clientX - dragOffset.x;
+      let newY = touch.clientY - dragOffset.y;
+      
+      // Constrain to viewport
+      newX = Math.max(0, Math.min(newX, maxX));
+      newY = Math.max(0, Math.min(newY, maxY));
+      
+      setPosition({ x: newX, y: newY });
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      document.addEventListener('touchmove', handleTouchMove);
+      document.addEventListener('touchend', handleMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('touchmove', handleTouchMove);
+      document.removeEventListener('touchend', handleMouseUp);
+    };
+  }, [isDragging, dragOffset]);
 
   const sendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
@@ -270,20 +371,42 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
       )}
 
       {isOpen && (
-        <div className="fixed bottom-4 left-4 right-4 sm:bottom-6 sm:right-6 sm:left-auto z-50 w-auto sm:w-96 h-[500px] max-h-[80vh] flex flex-col rounded-2xl shadow-2xl overflow-hidden animate-slideUpFade border border-border/50 backdrop-blur-xl bg-background/95 dark:bg-background/95">
-          <div className="bg-primary/10 backdrop-blur-sm border-b border-border/50 p-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
+        <div
+          ref={chatboxRef}
+          className="fixed z-50 w-[calc(100%-2rem)] sm:w-96 h-[500px] max-h-[80vh] flex flex-col rounded-2xl shadow-2xl overflow-hidden border border-border/50 backdrop-blur-xl bg-background/95 dark:bg-background/95 transition-all duration-200"
+          style={{
+            left: position.x ? `${position.x}px` : 'auto',
+            top: position.y ? `${position.y}px` : 'auto',
+            bottom: position.x || position.y ? 'auto' : '1rem',
+            right: position.x || position.y ? 'auto' : '1rem',
+            cursor: isDragging ? 'grabbing' : 'default',
+            touchAction: 'none',
+            userSelect: 'none'
+          }}
+        >
+          <div 
+            className="bg-primary/10 backdrop-blur-sm border-b border-border/50 p-4 flex items-center justify-between cursor-grab active:cursor-grabbing"
+            onMouseDown={handleMouseDown}
+            onTouchStart={handleTouchStart}
+          >
+            <div className="flex items-center gap-3 pointer-events-none">
               <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center animate-pulse-neon">
                 <MessageCircle className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h3 className="font-bold text-foreground" data-testid="chatbot-title">NS GAMMING AI</h3>
-                <p className="text-xs text-muted-foreground">Always here to help! 💬</p>
+                <h3 className="font-bold text-foreground flex items-center gap-2" data-testid="chatbot-title">
+                  NS GAMMING AI
+                  <Move className="w-4 h-4 text-muted-foreground" />
+                </h3>
+                <p className="text-xs text-muted-foreground">Drag me anywhere! 💬</p>
               </div>
             </div>
             <button
-              onClick={() => setIsOpen(false)}
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              onClick={() => {
+                setIsOpen(false);
+                setPosition({ x: 0, y: 0 });
+              }}
+              className="text-muted-foreground hover:text-foreground transition-colors pointer-events-auto"
               data-testid="chatbot-close-button"
               aria-label="Close chatbot"
             >
