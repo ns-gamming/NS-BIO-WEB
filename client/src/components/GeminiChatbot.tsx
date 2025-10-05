@@ -35,6 +35,15 @@ Contact Information:
 - Instagram: @nishant_sarkar__10k
 - Email: nishant.ns.business@gmail.com
 - WhatsApp: https://wa.me/918900653250
+- Telegram: @Nishnatsarkar10k
+- Discord: https://discord.gg/eRnfcBuv5v
+- Reddit: u/NSGAMMING699
+- LinkedIn: linkedin.com/in/naboraj-sarkar
+- Twitter (X): @NSGAMMING699
+- Facebook: facebook.com/share/1BCmPha8aM
+- Website: nsgamming.xyz
+- GitHub: github.com/ns-gamming69
+
 
 Website: NS GAMMING - a personal portfolio and gaming website
 
