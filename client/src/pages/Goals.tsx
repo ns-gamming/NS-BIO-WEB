@@ -21,7 +21,7 @@ export default function Goals() {
     {
       id: 2,
       emoji: "🎥",
-      title: "Grow NS GAMING Community & Content",
+      title: "Grow NS GAMMING Community & Content",
       description: "YouTube is where I share my journey, tutorials, and gaming experiences. My goal is to build a supportive community where everyone learns and grows together.",
       hinglish: "Subscribe kar do yaar — let's make it happen! 🎮❤️",
       bgGradient: "bg-gradient-to-br from-orange-500 to-red-500 dark:from-orange-600 dark:to-red-600",
