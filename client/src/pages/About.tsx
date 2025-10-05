@@ -39,7 +39,7 @@ export default function About() {
             <div className="prose prose-lg text-foreground leading-relaxed space-y-6">
               <p>
                 Siliguri ke ek ladke ki kahani hai ye — a small town dreamer with big ambitions! Growing up in West Bengal, I always believed code could change the world. 
-                Every late night spent learning HTML, every failed project that taught me something new, every small victory that pushed me forward — sab kuch iss empire ke liye hai.
+                Every late night spent learning PYTHON, every failed project that taught me something new, every small victory that pushed me forward — sab kuch iss empire ke liye hai.
               </p>
               <p className="text-primary font-semibold">
                 "My mission is to build my OWN EMPIRE, change the future, keep learning, and build things I love."
@@ -63,7 +63,7 @@ export default function About() {
                   <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-black font-bold">1</div>
                   <div>
                     <h3 className="font-bold text-lg text-foreground">First Lines of Code</h3>
-                    <p className="text-muted-foreground">Started with HTML — the magic of creating something from nothing</p>
+                    <p className="text-muted-foreground">Started with PYTHON — the magic of creating something from nothing</p>
                   </div>
                 </div>
               </div>
