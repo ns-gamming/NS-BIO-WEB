@@ -173,9 +173,9 @@ export function GeminiChatbot() {
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const [position, setPosition] = useState<Position>({ x: 0, y: 0 });
-  const [dragOffset, setDragOffset] = useState<Position>({ x: 0, y: 0 });
+  const [chatPosition, setChatPosition] = useState<Position>({ x: 0, y: 0 });
   const [buttonPosition, setButtonPosition] = useState<Position>({ x: 0, y: 0 });
+  const [dragOffset, setDragOffset] = useState<Position>({ x: 0, y: 0 });
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatboxRef = useRef<HTMLDivElement>(null);
@@ -190,26 +190,8 @@ export function GeminiChatbot() {
     scrollToBottom();
   }, [messages]);
 
-  // Initialize position based on screen size
-  useEffect(() => {
-    const updatePosition = () => {
-      if (!isOpen) {
-        setPosition({ x: 0, y: 0 });
-      }
-      // Initialize button position to bottom-right if not set
-      if (buttonPosition.x === 0 && buttonPosition.y === 0) {
-        setButtonPosition({ x: 0, y: 0 });
-      }
-    };
-    
-    updatePosition();
-    window.addEventListener('resize', updatePosition);
-    return () => window.removeEventListener('resize', updatePosition);
-  }, [isOpen, buttonPosition]);
-
-  const handleMouseDown = (e: React.MouseEvent) => {
+  const handleChatMouseDown = (e: React.MouseEvent) => {
     if (!chatboxRef.current) return;
-    
     const rect = chatboxRef.current.getBoundingClientRect();
     setDragOffset({
       x: e.clientX - rect.left,
@@ -218,9 +200,8 @@ export function GeminiChatbot() {
     setIsDragging(true);
   };
 
-  const handleTouchStart = (e: React.TouchEvent) => {
+  const handleChatTouchStart = (e: React.TouchEvent) => {
     if (!chatboxRef.current) return;
-    
     const touch = e.touches[0];
     const rect = chatboxRef.current.getBoundingClientRect();
     setDragOffset({
@@ -232,8 +213,7 @@ export function GeminiChatbot() {
 
   const handleButtonMouseDown = (e: React.MouseEvent) => {
     if (!buttonRef.current) return;
-    e.preventDefault();
-    
+    e.stopPropagation();
     const rect = buttonRef.current.getBoundingClientRect();
     setDragOffset({
       x: e.clientX - rect.left,
@@ -244,8 +224,7 @@ export function GeminiChatbot() {
 
   const handleButtonTouchStart = (e: React.TouchEvent) => {
     if (!buttonRef.current) return;
-    e.preventDefault();
-    
+    e.stopPropagation();
     const touch = e.touches[0];
     const rect = buttonRef.current.getBoundingClientRect();
     setDragOffset({
@@ -258,19 +237,21 @@ export function GeminiChatbot() {
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!isDragging) return;
+      e.preventDefault();
       
       if (isOpen && chatboxRef.current) {
-        const maxX = window.innerWidth - chatboxRef.current.offsetWidth;
-        const maxY = window.innerHeight - chatboxRef.current.offsetHeight;
+        const chatWidth = chatboxRef.current.offsetWidth;
+        const chatHeight = chatboxRef.current.offsetHeight;
+        const maxX = window.innerWidth - chatWidth;
+        const maxY = window.innerHeight - chatHeight;
         
         let newX = e.clientX - dragOffset.x;
         let newY = e.clientY - dragOffset.y;
         
-        // Constrain to viewport
         newX = Math.max(0, Math.min(newX, maxX));
         newY = Math.max(0, Math.min(newY, maxY));
         
-        setPosition({ x: newX, y: newY });
+        setChatPosition({ x: newX, y: newY });
       } else if (!isOpen && buttonRef.current) {
         const buttonWidth = buttonRef.current.offsetWidth;
         const buttonHeight = buttonRef.current.offsetHeight;
@@ -280,7 +261,6 @@ export function GeminiChatbot() {
         let newX = e.clientX - dragOffset.x;
         let newY = e.clientY - dragOffset.y;
         
-        // Constrain to viewport
         newX = Math.max(0, Math.min(newX, maxX));
         newY = Math.max(0, Math.min(newY, maxY));
         
@@ -290,21 +270,23 @@ export function GeminiChatbot() {
 
     const handleTouchMove = (e: TouchEvent) => {
       if (!isDragging) return;
+      e.preventDefault();
       
       const touch = e.touches[0];
       
       if (isOpen && chatboxRef.current) {
-        const maxX = window.innerWidth - chatboxRef.current.offsetWidth;
-        const maxY = window.innerHeight - chatboxRef.current.offsetHeight;
+        const chatWidth = chatboxRef.current.offsetWidth;
+        const chatHeight = chatboxRef.current.offsetHeight;
+        const maxX = window.innerWidth - chatWidth;
+        const maxY = window.innerHeight - chatHeight;
         
         let newX = touch.clientX - dragOffset.x;
         let newY = touch.clientY - dragOffset.y;
         
-        // Constrain to viewport
         newX = Math.max(0, Math.min(newX, maxX));
         newY = Math.max(0, Math.min(newY, maxY));
         
-        setPosition({ x: newX, y: newY });
+        setChatPosition({ x: newX, y: newY });
       } else if (!isOpen && buttonRef.current) {
         const buttonWidth = buttonRef.current.offsetWidth;
         const buttonHeight = buttonRef.current.offsetHeight;
@@ -314,7 +296,6 @@ export function GeminiChatbot() {
         let newX = touch.clientX - dragOffset.x;
         let newY = touch.clientY - dragOffset.y;
         
-        // Constrain to viewport
         newX = Math.max(0, Math.min(newX, maxX));
         newY = Math.max(0, Math.min(newY, maxY));
         
@@ -329,7 +310,7 @@ export function GeminiChatbot() {
     if (isDragging) {
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
-      document.addEventListener('touchmove', handleTouchMove);
+      document.addEventListener('touchmove', handleTouchMove, { passive: false });
       document.addEventListener('touchend', handleMouseUp);
     }
 
@@ -420,24 +401,66 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
     }
   };
 
+  const handleOpenChat = () => {
+    if (!isDragging) {
+      setIsOpen(true);
+      // When opening, position chat where the button was
+      setChatPosition(buttonPosition);
+    }
+  };
+
+  const handleCloseChat = () => {
+    setIsOpen(false);
+    // When closing, keep button at the chat's current position
+    setButtonPosition(chatPosition);
+  };
+
+  // Calculate default positions
+  const getButtonStyle = () => {
+    if (buttonPosition.x === 0 && buttonPosition.y === 0) {
+      return {
+        bottom: '1.5rem',
+        right: '1.5rem',
+        left: 'auto',
+        top: 'auto'
+      };
+    }
+    return {
+      left: `${buttonPosition.x}px`,
+      top: `${buttonPosition.y}px`,
+      bottom: 'auto',
+      right: 'auto'
+    };
+  };
+
+  const getChatStyle = () => {
+    if (chatPosition.x === 0 && chatPosition.y === 0) {
+      return {
+        bottom: '1rem',
+        right: '1rem',
+        left: 'auto',
+        top: 'auto'
+      };
+    }
+    return {
+      left: `${chatPosition.x}px`,
+      top: `${chatPosition.y}px`,
+      bottom: 'auto',
+      right: 'auto'
+    };
+  };
+
   return (
     <>
       {!isOpen && (
         <button
           ref={buttonRef}
-          onClick={(e) => {
-            if (!isDragging) {
-              setIsOpen(true);
-            }
-          }}
+          onClick={handleOpenChat}
           onMouseDown={handleButtonMouseDown}
           onTouchStart={handleButtonTouchStart}
-          className="fixed z-50 w-14 h-14 bg-primary hover:bg-primary/90 text-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-200 hover:scale-110 animate-pulse-neon group will-change-transform"
+          className="fixed z-50 w-14 h-14 bg-primary hover:bg-primary/90 text-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 animate-pulse-neon group will-change-transform"
           style={{
-            left: buttonPosition.x ? `${buttonPosition.x}px` : 'auto',
-            top: buttonPosition.y ? `${buttonPosition.y}px` : 'auto',
-            bottom: buttonPosition.x || buttonPosition.y ? 'auto' : '1.5rem',
-            right: buttonPosition.x || buttonPosition.y ? 'auto' : '1.5rem',
+            ...getButtonStyle(),
             cursor: isDragging ? 'grabbing' : 'grab',
             touchAction: 'none',
             userSelect: 'none'
@@ -452,12 +475,9 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
       {isOpen && (
         <div
           ref={chatboxRef}
-          className="fixed z-50 w-[calc(100%-2rem)] sm:w-96 h-[500px] max-h-[80vh] flex flex-col rounded-2xl shadow-2xl overflow-hidden border border-border/50 backdrop-blur-xl bg-background/95 dark:bg-background/95 transition-all duration-200"
+          className="fixed z-50 w-[calc(100%-2rem)] sm:w-96 h-[500px] max-h-[80vh] flex flex-col rounded-2xl shadow-2xl overflow-hidden border border-border/50 backdrop-blur-xl bg-background/95 dark:bg-background/95 transition-all duration-300"
           style={{
-            left: position.x ? `${position.x}px` : 'auto',
-            top: position.y ? `${position.y}px` : 'auto',
-            bottom: position.x || position.y ? 'auto' : '1rem',
-            right: position.x || position.y ? 'auto' : '1rem',
+            ...getChatStyle(),
             cursor: isDragging ? 'grabbing' : 'default',
             touchAction: 'none',
             userSelect: 'none'
@@ -465,8 +485,8 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
         >
           <div 
             className="bg-primary/10 backdrop-blur-sm border-b border-border/50 p-4 flex items-center justify-between cursor-grab active:cursor-grabbing"
-            onMouseDown={handleMouseDown}
-            onTouchStart={handleTouchStart}
+            onMouseDown={handleChatMouseDown}
+            onTouchStart={handleChatTouchStart}
           >
             <div className="flex items-center gap-3 pointer-events-none">
               <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center animate-pulse-neon">
@@ -481,10 +501,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
               </div>
             </div>
             <button
-              onClick={() => {
-                setIsOpen(false);
-                setPosition({ x: 0, y: 0 });
-              }}
+              onClick={handleCloseChat}
               className="text-muted-foreground hover:text-foreground transition-colors pointer-events-auto"
               data-testid="chatbot-close-button"
               aria-label="Close chatbot"
