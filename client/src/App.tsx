@@ -29,6 +29,12 @@ import RockPaperScissors from "./pages/games/RockPaperScissors";
 import SimonSays from "./pages/games/SimonSays";
 import Game2048 from "./pages/games/Game2048";
 import WhackAMole from "./pages/games/WhackAMole";
+import Pong from "./pages/games/Pong";
+import ColorMatch from "./pages/games/ColorMatch";
+import TypingSpeed from "./pages/games/TypingSpeed";
+import SlidingPuzzle from "./pages/games/SlidingPuzzle";
+import Breakout from "./pages/games/Breakout";
+import ConnectFour from "./pages/games/ConnectFour";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import NotFound from "@/pages/not-found";
 import { useEffect } from "react";
@@ -55,6 +61,12 @@ function Router() {
       <Route path="/games/simon" component={SimonSays} />
       <Route path="/games/2048" component={Game2048} />
       <Route path="/games/whack" component={WhackAMole} />
+      <Route path="/games/pong" component={Pong} />
+      <Route path="/games/colormatch" component={ColorMatch} />
+      <Route path="/games/typing" component={TypingSpeed} />
+      <Route path="/games/sliding" component={SlidingPuzzle} />
+      <Route path="/games/breakout" component={Breakout} />
+      <Route path="/games/connect4" component={ConnectFour} />
       <Route path="/privacy-policy" component={PrivacyPolicy} />
       <Route component={NotFound} />
     </Switch>

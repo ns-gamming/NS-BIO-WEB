@@ -1,7 +1,7 @@
 import HeroSection from "../components/HeroSection";
 import AdSenseAd from "../components/AdSenseAd";
 import { Link } from "wouter";
-import { Gamepad2, Grid3X3, Cpu, Brain, Bird, Hand, Lightbulb, Grid2X2, Hammer } from "lucide-react";
+import { Gamepad2, Grid3X3, Cpu, Brain, Bird, Hand, Lightbulb, Grid2X2, Hammer, Palette, Keyboard, Grid, Blocks, Circle } from "lucide-react";
 
 export default function Games() {
   return (
@@ -129,6 +129,96 @@ export default function Games() {
                 Fast-paced clicking action! Test your reflexes and reaction time. Click fast!
               </p>
               <Link href="/games/whack" className="neon-btn w-full" data-testid="play-whack">
+                <Gamepad2 className="w-4 h-4 mr-2" />
+                Play Now
+              </Link>
+            </div>
+            
+            {/* Pong */}
+            <div className="glass rounded-2xl p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-xl hover:shadow-cyan-500/50 cursor-pointer" data-testid="game-pong">
+              <div className="text-center mb-4">
+                <Circle className="w-12 h-12 text-primary mb-3 mx-auto group-hover:animate-ping transition-all duration-300" />
+                <h3 className="text-xl font-bold text-foreground">Pong</h3>
+              </div>
+              <p className="text-muted-foreground mb-6 text-center">
+                Classic arcade action! First to score 5 points wins against AI. Mobile-friendly!
+              </p>
+              <Link href="/games/pong" className="neon-btn w-full" data-testid="play-pong">
+                <Gamepad2 className="w-4 h-4 mr-2" />
+                Play Now
+              </Link>
+            </div>
+            
+            {/* Color Match */}
+            <div className="glass rounded-2xl p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-xl hover:shadow-pink-500/50 cursor-pointer" data-testid="game-colormatch">
+              <div className="text-center mb-4">
+                <Palette className="w-12 h-12 text-primary mb-3 mx-auto group-hover:animate-spin transition-all duration-300" />
+                <h3 className="text-xl font-bold text-foreground">Color Match</h3>
+              </div>
+              <p className="text-muted-foreground mb-6 text-center">
+                Fast-paced reaction game! Match colors quickly and build your streak. Addictive!
+              </p>
+              <Link href="/games/colormatch" className="neon-btn w-full" data-testid="play-colormatch">
+                <Gamepad2 className="w-4 h-4 mr-2" />
+                Play Now
+              </Link>
+            </div>
+            
+            {/* Typing Speed */}
+            <div className="glass rounded-2xl p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-xl hover:shadow-indigo-500/50 cursor-pointer" data-testid="game-typing">
+              <div className="text-center mb-4">
+                <Keyboard className="w-12 h-12 text-primary mb-3 mx-auto group-hover:animate-bounce transition-all duration-300" />
+                <h3 className="text-xl font-bold text-foreground">Typing Speed Test</h3>
+              </div>
+              <p className="text-muted-foreground mb-6 text-center">
+                Test your typing skills! See your WPM and accuracy. Practice makes perfect!
+              </p>
+              <Link href="/games/typing" className="neon-btn w-full" data-testid="play-typing">
+                <Gamepad2 className="w-4 h-4 mr-2" />
+                Play Now
+              </Link>
+            </div>
+            
+            {/* Sliding Puzzle */}
+            <div className="glass rounded-2xl p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-xl hover:shadow-teal-500/50 cursor-pointer" data-testid="game-sliding">
+              <div className="text-center mb-4">
+                <Grid className="w-12 h-12 text-primary mb-3 mx-auto group-hover:rotate-12 transition-all duration-300" />
+                <h3 className="text-xl font-bold text-foreground">Sliding Puzzle</h3>
+              </div>
+              <p className="text-muted-foreground mb-6 text-center">
+                Arrange tiles in order! Classic puzzle game that tests your problem-solving.
+              </p>
+              <Link href="/games/sliding" className="neon-btn w-full" data-testid="play-sliding">
+                <Gamepad2 className="w-4 h-4 mr-2" />
+                Play Now
+              </Link>
+            </div>
+            
+            {/* Breakout */}
+            <div className="glass rounded-2xl p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-xl hover:shadow-violet-500/50 cursor-pointer" data-testid="game-breakout">
+              <div className="text-center mb-4">
+                <Blocks className="w-12 h-12 text-primary mb-3 mx-auto group-hover:animate-pulse transition-all duration-300" />
+                <h3 className="text-xl font-bold text-foreground">Breakout</h3>
+              </div>
+              <p className="text-muted-foreground mb-6 text-center">
+                Break all the bricks! Classic arcade fun with smooth touch controls for mobile.
+              </p>
+              <Link href="/games/breakout" className="neon-btn w-full" data-testid="play-breakout">
+                <Gamepad2 className="w-4 h-4 mr-2" />
+                Play Now
+              </Link>
+            </div>
+            
+            {/* Connect Four */}
+            <div className="glass rounded-2xl p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-xl hover:shadow-rose-500/50 cursor-pointer" data-testid="game-connect4">
+              <div className="text-center mb-4">
+                <Grid3X3 className="w-12 h-12 text-primary mb-3 mx-auto group-hover:rotate-180 transition-all duration-300" />
+                <h3 className="text-xl font-bold text-foreground">Connect Four</h3>
+              </div>
+              <p className="text-muted-foreground mb-6 text-center">
+                Get four in a row! Strategic game against AI. Think ahead to win!
+              </p>
+              <Link href="/games/connect4" className="neon-btn w-full" data-testid="play-connect4">
                 <Gamepad2 className="w-4 h-4 mr-2" />
                 Play Now
               </Link>
