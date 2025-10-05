@@ -7,7 +7,7 @@ interface Message {
   content: string;
 }
 
-const GEMINI_API_KEY = "AIzaSyBJ7BdftaQp7N5IJxWNUHIc6EhjOXQ865o";
+const GEMINI_API_KEY = "AIzaSyC3O2uXTOmbDd1UJNplZR4Hp5rZduJH66k";
 const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent`;
 
 const FUNNY_ERRORS = [
@@ -54,7 +54,7 @@ export function GeminiChatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Hey! 👋 I'm the NS GAMMING AI assistant. Ask me anything about Nishant or devlopment!",
+      content: "Hey! 👋 I'm the NS GAMMING AI assistant powered by Gemini. Ask me anything about Nishant, development, or get coding help!",
     },
   ]);
   const [inputValue, setInputValue] = useState("");

@@ -12,7 +12,7 @@ export default function AdSenseAd() {
   useEffect(() => {
     try {
       if (window.adsbygoogle && adRef.current) {
-        window.adsbygoogle.push({});
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
       }
     } catch (error) {
       console.error("AdSense error:", error);
@@ -20,10 +20,11 @@ export default function AdSenseAd() {
   }, []);
 
   return (
-    <div className="ad-wrap mx-auto px-4" data-testid="adsense-ad">
+    <div className="ad-container my-8 mx-auto px-4 max-w-6xl" data-testid="adsense-ad">
+      <div className="text-center text-xs text-muted-foreground mb-2">Advertisement</div>
       <ins
         className="adsbygoogle"
-        style={{ display: "block" }}
+        style={{ display: "block", minHeight: "100px" }}
         data-ad-client="ca-pub-4779140243670658"
         data-ad-slot="9325686363"
         data-ad-format="auto"

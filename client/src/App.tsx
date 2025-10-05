@@ -26,6 +26,9 @@ import Snake from "./pages/games/Snake";
 import Memory from "./pages/games/Memory";
 import Flappy from "./pages/games/Flappy";
 import RockPaperScissors from "./pages/games/RockPaperScissors";
+import SimonSays from "./pages/games/SimonSays";
+import Game2048 from "./pages/games/Game2048";
+import WhackAMole from "./pages/games/WhackAMole";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import NotFound from "@/pages/not-found";
 import { useEffect } from "react";
@@ -49,6 +52,9 @@ function Router() {
       <Route path="/games/memory" component={Memory} />
       <Route path="/games/flappy" component={Flappy} />
       <Route path="/games/rps" component={RockPaperScissors} />
+      <Route path="/games/simon" component={SimonSays} />
+      <Route path="/games/2048" component={Game2048} />
+      <Route path="/games/whack" component={WhackAMole} />
       <Route path="/privacy-policy" component={PrivacyPolicy} />
       <Route component={NotFound} />
     </Switch>

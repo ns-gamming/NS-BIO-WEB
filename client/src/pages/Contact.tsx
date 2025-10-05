@@ -1,10 +1,56 @@
+import { useState } from "react";
 import HeroSection from "../components/HeroSection";
 import AdSenseAd from "../components/AdSenseAd";
-import { Mail, MessageCircle, Send, Eye, Code, Smartphone, Search, Target } from "lucide-react";
+import { Mail, MessageCircle, Send, Eye, Code, Smartphone, Search, Target, CheckCircle } from "lucide-react";
 import { SiWhatsapp, SiTelegram, SiFacebook } from "react-icons/si";
 import { Link } from "wouter";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Contact() {
+  const { toast } = useToast();
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.name || !formData.email || !formData.message) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all fields before submitting! 📝",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      toast({
+        title: "Invalid Email",
+        description: "Please enter a valid email address! ✉️",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    const mailtoLink = `mailto:nishant.ns.business@gmail.com?subject=Message from ${encodeURIComponent(formData.name)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`;
+    window.location.href = mailtoLink;
+
+    setTimeout(() => {
+      toast({
+        title: "Message Sent! 🎉",
+        description: "Thanks for reaching out! I'll get back to you soon! ❤️",
+      });
+      setFormData({ name: '', email: '', message: '' });
+      setIsSubmitting(false);
+    }, 500);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
   return (
     <div className="pt-16">
       <HeroSection 
@@ -75,6 +121,88 @@ export default function Contact() {
                 Message Me
               </a>
             </div>
+          </div>
+          
+          {/* Contact Form */}
+          <div className="glass rounded-2xl p-8 mb-12 animate-fadeUp" data-testid="contact-form-section">
+            <h2 className="text-3xl font-bold text-primary mb-6 text-center">📨 Send Me a Message</h2>
+            <p className="text-center text-muted-foreground mb-8">
+              Fill out the form below and I'll get back to you as soon as possible! 💬
+            </p>
+            
+            <form onSubmit={handleSubmit} className="max-w-2xl mx-auto space-y-6">
+              <div className="animate-fadeUp" style={{ animationDelay: '0.1s' }}>
+                <label htmlFor="name" className="block text-sm font-semibold text-foreground mb-2">
+                  Your Name *
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Enter your full name"
+                  className="w-full px-4 py-3 rounded-lg bg-background border-2 border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                  data-testid="input-name"
+                />
+              </div>
+
+              <div className="animate-fadeUp" style={{ animationDelay: '0.2s' }}>
+                <label htmlFor="email" className="block text-sm font-semibold text-foreground mb-2">
+                  Your Email *
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="your.email@example.com"
+                  className="w-full px-4 py-3 rounded-lg bg-background border-2 border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                  data-testid="input-email"
+                />
+              </div>
+
+              <div className="animate-fadeUp" style={{ animationDelay: '0.3s' }}>
+                <label htmlFor="message" className="block text-sm font-semibold text-foreground mb-2">
+                  Your Message *
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  rows={6}
+                  placeholder="Tell me about your project or question..."
+                  className="w-full px-4 py-3 rounded-lg bg-background border-2 border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-none"
+                  data-testid="input-message"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="neon-btn w-full animate-fadeUp disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{ animationDelay: '0.4s' }}
+                data-testid="submit-button"
+              >
+                {isSubmitting ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <span className="animate-spin">⏳</span>
+                    Sending...
+                  </span>
+                ) : (
+                  <span className="flex items-center justify-center gap-2">
+                    <Send className="w-4 h-4" />
+                    Send Message
+                  </span>
+                )}
+              </button>
+
+              <p className="text-center text-sm text-muted-foreground animate-fadeUp" style={{ animationDelay: '0.5s' }}>
+                * All fields are required
+              </p>
+            </form>
           </div>
           
           {/* Commission Section */}

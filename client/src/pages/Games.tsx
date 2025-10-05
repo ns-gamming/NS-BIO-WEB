@@ -1,7 +1,7 @@
 import HeroSection from "../components/HeroSection";
 import AdSenseAd from "../components/AdSenseAd";
 import { Link } from "wouter";
-import { Gamepad2, Grid3X3, Cpu, Brain, Bird, Hand, Plus } from "lucide-react";
+import { Gamepad2, Grid3X3, Cpu, Brain, Bird, Hand, Lightbulb, Grid2X2, Hammer } from "lucide-react";
 
 export default function Games() {
   return (
@@ -89,19 +89,49 @@ export default function Games() {
               </Link>
             </div>
             
-            {/* More Games Coming */}
-            <div className="glass rounded-2xl p-6 opacity-75" data-testid="game-coming-soon">
+            {/* Simon Says */}
+            <div className="glass rounded-2xl p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-xl hover:shadow-blue-500/50 cursor-pointer" data-testid="game-simon">
               <div className="text-center mb-4">
-                <Plus className="w-12 h-12 text-muted-foreground mb-3 mx-auto" />
-                <h3 className="text-xl font-bold text-muted-foreground">More Coming Soon</h3>
+                <Lightbulb className="w-12 h-12 text-primary mb-3 mx-auto group-hover:animate-pulse transition-all duration-300" />
+                <h3 className="text-xl font-bold text-foreground">Simon Says</h3>
               </div>
               <p className="text-muted-foreground mb-6 text-center">
-                I'm always creating new games! Stay tuned for more fun experiences.
+                Memory challenge! Watch, remember, and repeat the pattern. How high can you score?
               </p>
-              <button disabled className="neon-btn w-full opacity-50 cursor-not-allowed">
+              <Link href="/games/simon" className="neon-btn w-full" data-testid="play-simon">
                 <Gamepad2 className="w-4 h-4 mr-2" />
-                Coming Soon
-              </button>
+                Play Now
+              </Link>
+            </div>
+            
+            {/* 2048 */}
+            <div className="glass rounded-2xl p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-xl hover:shadow-orange-500/50 cursor-pointer" data-testid="game-2048">
+              <div className="text-center mb-4">
+                <Grid2X2 className="w-12 h-12 text-primary mb-3 mx-auto group-hover:rotate-45 transition-all duration-300" />
+                <h3 className="text-xl font-bold text-foreground">2048</h3>
+              </div>
+              <p className="text-muted-foreground mb-6 text-center">
+                Slide, merge, reach 2048! Strategic puzzle game that tests your planning skills.
+              </p>
+              <Link href="/games/2048" className="neon-btn w-full" data-testid="play-2048">
+                <Gamepad2 className="w-4 h-4 mr-2" />
+                Play Now
+              </Link>
+            </div>
+            
+            {/* Whack-a-Mole */}
+            <div className="glass rounded-2xl p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-xl hover:shadow-amber-500/50 cursor-pointer" data-testid="game-whack">
+              <div className="text-center mb-4">
+                <Hammer className="w-12 h-12 text-primary mb-3 mx-auto group-hover:animate-bounce transition-all duration-300" />
+                <h3 className="text-xl font-bold text-foreground">Whack-a-Mole</h3>
+              </div>
+              <p className="text-muted-foreground mb-6 text-center">
+                Fast-paced clicking action! Test your reflexes and reaction time. Click fast!
+              </p>
+              <Link href="/games/whack" className="neon-btn w-full" data-testid="play-whack">
+                <Gamepad2 className="w-4 h-4 mr-2" />
+                Play Now
+              </Link>
             </div>
           </div>
           
