@@ -514,7 +514,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
           onClick={handleOpenChat}
           onMouseDown={handleButtonMouseDown}
           onTouchStart={handleButtonTouchStart}
-          className="fixed z-[55] w-14 h-14 bg-primary hover:bg-primary/90 text-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 animate-pulse-neon group will-change-transform relative overflow-hidden"
+          className="fixed z-[100] w-16 h-16 bg-gradient-to-br from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white rounded-full shadow-[0_0_30px_rgba(6,182,212,0.6)] flex items-center justify-center transition-all duration-300 hover:scale-110 group will-change-transform border-4 border-white dark:border-gray-800"
           style={{
             ...getButtonStyle(),
             cursor: isDragging ? 'grabbing' : 'grab',
@@ -524,16 +524,18 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
           data-testid="chatbot-open-button"
           aria-label="Drag or click to open AI Chatbot"
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-          <div className="absolute inset-0 bg-primary/50 blur-xl animate-pulse"></div>
-          <MessageCircle className="w-6 h-6 group-hover:rotate-12 group-hover:scale-110 transition-all duration-500 pointer-events-none relative z-10" />
+          <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full"></div>
+          <div className="absolute inset-0 bg-cyan-400/50 blur-xl animate-pulse"></div>
+          <MessageCircle className="w-8 h-8 group-hover:rotate-12 group-hover:scale-110 transition-all duration-500 pointer-events-none relative z-10 drop-shadow-lg" />
+          <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-ping"></span>
+          <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full"></span>
         </button>
       )}
 
       {isOpen && (
         <div
           ref={chatboxRef}
-          className="fixed z-[60] w-[calc(100%-2rem)] sm:w-96 h-[500px] max-h-[80vh] flex flex-col rounded-2xl shadow-2xl overflow-hidden border-2 border-primary/30 backdrop-blur-xl bg-white dark:bg-gray-900 transition-all duration-300 animate-fadeUp hover:shadow-3xl hover:shadow-primary/20"
+          className="fixed z-[100] w-[calc(100%-2rem)] sm:w-96 h-[500px] max-h-[80vh] flex flex-col rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.4)] overflow-hidden border-4 border-cyan-400 dark:border-cyan-500 backdrop-blur-xl bg-white dark:bg-gray-900 transition-all duration-300 animate-fadeUp"
           style={{
             ...getChatStyle(),
             cursor: isDragging ? 'grabbing' : 'default',
@@ -542,25 +544,25 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
           }}
         >
           <div 
-            className="bg-primary/20 dark:bg-primary/30 backdrop-blur-sm border-b-2 border-primary/30 p-4 flex items-center justify-between cursor-grab active:cursor-grabbing"
+            className="bg-gradient-to-r from-cyan-500 to-blue-500 backdrop-blur-sm border-b-4 border-cyan-600 dark:border-cyan-400 p-4 flex items-center justify-between cursor-grab active:cursor-grabbing"
             onMouseDown={handleChatMouseDown}
             onTouchStart={handleChatTouchStart}
           >
             <div className="flex items-center gap-3 pointer-events-none">
-              <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center animate-pulse-neon">
+              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center animate-pulse">
                 <MessageCircle className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2" data-testid="chatbot-title">
+                <h3 className="font-bold text-white flex items-center gap-2" data-testid="chatbot-title">
                   NS GAMMING AI
-                  <Move className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                  <Move className="w-4 h-4 text-white/80" />
                 </h3>
-                <p className="text-xs text-gray-600 dark:text-gray-400">Drag me anywhere! 💬</p>
+                <p className="text-xs text-white/90">Drag me anywhere! 💬</p>
               </div>
             </div>
             <button
               onClick={handleCloseChat}
-              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors pointer-events-auto"
+              className="text-white/80 hover:text-white transition-colors pointer-events-auto"
               data-testid="chatbot-close-button"
               aria-label="Close chatbot"
             >
