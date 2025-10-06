@@ -6,11 +6,11 @@ import { Video, Camera, Mic, Edit, Youtube, Instagram, TrendingUp, Users, Eye } 
 import { useState, useEffect } from "react";
 
 export default function Content() {
-  const [videoCount, setVideoCount] = useState(50);
-  const [tutorialCount, setTutorialCount] = useState(25);
-  const [reviewCount, setReviewCount] = useState(15);
-  const [youtubeViews, setYoutubeViews] = useState(8000);
-  const [instagramFollowers, setInstagramFollowers] = useState(5000);
+  const [videoCount, setVideoCount] = useState(150);
+  const [tutorialCount, setTutorialCount] = useState(10);
+  const [reviewCount, setReviewCount] = useState(10);
+  const [youtubeViews, setYoutubeViews] = useState(250000);
+  const [instagramFollowers, setInstagramFollowers] = useState(2000);
   const [liveViewers, setLiveViewers] = useState(150);
 
   useEffect(() => {
