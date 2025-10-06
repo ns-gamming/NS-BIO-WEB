@@ -11,6 +11,8 @@ import TimeGreeting from "./components/TimeGreeting";
 import ScrollToTop from "./components/ScrollToTop";
 import EasterEggs from "./components/EasterEggs";
 import BackButton from "./components/BackButton";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Portfolio from "./pages/Portfolio";
@@ -139,6 +141,8 @@ Keep coding, keep creating! 🚀
             <GeminiChatbot />
             <Toaster />
           </div>
+          <Analytics />
+          <SpeedInsights />
         </TooltipProvider>
       </ThemeProvider>
     </QueryClientProvider>
