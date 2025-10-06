@@ -148,7 +148,37 @@ export default function Coding() {
                 </p>
               </div>
               
+              <div className="bg-muted/50 rounded-lg p-4 sm:p-6 hover:bg-muted transition-all duration-500 hover:scale-105 hover:shadow-xl cursor-pointer animate-popIn group relative overflow-hidden" style={{ animationDelay: '0.75s' }}>
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <h3 className="font-bold text-foreground mb-2 text-base sm:text-lg group-hover:text-blue-500 transition-colors duration-300 relative z-10">
+                  Telegram Bots 🤖
+                </h3>
+                <p className="text-muted-foreground text-xs sm:text-sm group-hover:text-foreground transition-colors duration-300 relative z-10">
+                  Smart automation bots for Telegram! Managing communities with powerful features and commands.
+                </p>
+              </div>
+              
               <div className="bg-muted/50 rounded-lg p-4 sm:p-6 hover:bg-muted transition-all duration-500 hover:scale-105 hover:shadow-xl cursor-pointer animate-popIn group relative overflow-hidden" style={{ animationDelay: '0.8s' }}>
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <h3 className="font-bold text-foreground mb-2 text-base sm:text-lg group-hover:text-indigo-500 transition-colors duration-300 relative z-10">
+                  Discord Bots 🎮
+                </h3>
+                <p className="text-muted-foreground text-xs sm:text-sm group-hover:text-foreground transition-colors duration-300 relative z-10">
+                  Custom Discord bots with moderation, gaming features, and community engagement tools!
+                </p>
+              </div>
+              
+              <div className="bg-muted/50 rounded-lg p-4 sm:p-6 hover:bg-muted transition-all duration-500 hover:scale-105 hover:shadow-xl cursor-pointer animate-popIn group relative overflow-hidden" style={{ animationDelay: '0.85s' }}>
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <h3 className="font-bold text-foreground mb-2 text-base sm:text-lg group-hover:text-orange-500 transition-colors duration-300 relative z-10">
+                  VPS Hosting Server 🖥️
+                </h3>
+                <p className="text-muted-foreground text-xs sm:text-sm group-hover:text-foreground transition-colors duration-300 relative z-10">
+                  Building my own VPS hosting infrastructure! Learning server management and deployment at scale.
+                </p>
+              </div>
+              
+              <div className="bg-muted/50 rounded-lg p-4 sm:p-6 hover:bg-muted transition-all duration-500 hover:scale-105 hover:shadow-xl cursor-pointer animate-popIn group relative overflow-hidden" style={{ animationDelay: '0.9s' }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <h3 className="font-bold text-foreground mb-2 text-base sm:text-lg group-hover:text-green-500 transition-colors duration-300 relative z-10">
                   Gaming Portal
@@ -158,7 +188,7 @@ export default function Coding() {
                 </p>
               </div>
               
-              <div className="bg-muted/50 rounded-lg p-4 sm:p-6 hover:bg-muted transition-all duration-500 hover:scale-105 hover:shadow-xl cursor-pointer animate-popIn group relative overflow-hidden sm:col-span-2 lg:col-span-1" style={{ animationDelay: '0.9s' }}>
+              <div className="bg-muted/50 rounded-lg p-4 sm:p-6 hover:bg-muted transition-all duration-500 hover:scale-105 hover:shadow-xl cursor-pointer animate-popIn group relative overflow-hidden" style={{ animationDelay: '0.95s' }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-shimmer"></div>
                 <h3 className="font-bold text-foreground mb-2 text-base sm:text-lg group-hover:text-purple-500 transition-colors duration-300 relative z-10">
                   Secret Project 🤫
