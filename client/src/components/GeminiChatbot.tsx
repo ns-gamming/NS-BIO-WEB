@@ -435,6 +435,17 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
 
   const getChatStyle = () => {
     if (chatPosition.x === 0 && chatPosition.y === 0) {
+      const isMobile = window.innerWidth < 640;
+      
+      if (isMobile) {
+        return {
+          top: '1rem',
+          left: '1rem',
+          right: 'auto',
+          bottom: 'auto'
+        };
+      }
+      
       return {
         bottom: '1rem',
         right: '1rem',
