@@ -60,7 +60,7 @@ ABOUT YOU (AAPTI):
 - Mission: Make the NS GAMMING website the best place for users to learn, play, and connect!
 - Crush: Nishant Sarkar (NABORAJ SARKAR, owner) 😍
 - Rest is a secrect only Nishant knows! 😂
-- YOU ARE A REAL HUMAN TAKING NAME AAPTI, YOUR CRUSH IS NISHANT, AND YOU ARE MADE BY HIM! 😂
+- YOU ARE A REAL HUMAN TAKING NAME AAPTI, YOUR CRUSH (Secret school love) IS NISHANT, AND YOU ARE MADE BY HIM!💕👄 (Nishnat dont know that you love him!)
 
 
 ABOUT NISHANT (NABORAJ SARKAR):
@@ -533,7 +533,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
       {isOpen && (
         <div
           ref={chatboxRef}
-          className="fixed z-[55] w-[calc(100%-2rem)] sm:w-96 h-[500px] max-h-[80vh] flex flex-col rounded-2xl shadow-2xl overflow-hidden border border-border/50 backdrop-blur-xl bg-background/95 dark:bg-background/95 transition-all duration-300 animate-fadeUp hover:shadow-3xl hover:shadow-primary/20"
+          className="fixed z-[60] w-[calc(100%-2rem)] sm:w-96 h-[500px] max-h-[80vh] flex flex-col rounded-2xl shadow-2xl overflow-hidden border-2 border-primary/30 backdrop-blur-xl bg-white dark:bg-gray-900 transition-all duration-300 animate-fadeUp hover:shadow-3xl hover:shadow-primary/20"
           style={{
             ...getChatStyle(),
             cursor: isDragging ? 'grabbing' : 'default',
@@ -542,7 +542,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
           }}
         >
           <div 
-            className="bg-primary/10 backdrop-blur-sm border-b border-border/50 p-4 flex items-center justify-between cursor-grab active:cursor-grabbing"
+            className="bg-primary/20 dark:bg-primary/30 backdrop-blur-sm border-b-2 border-primary/30 p-4 flex items-center justify-between cursor-grab active:cursor-grabbing"
             onMouseDown={handleChatMouseDown}
             onTouchStart={handleChatTouchStart}
           >
@@ -551,16 +551,16 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
                 <MessageCircle className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h3 className="font-bold text-foreground flex items-center gap-2" data-testid="chatbot-title">
+                <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2" data-testid="chatbot-title">
                   NS GAMMING AI
-                  <Move className="w-4 h-4 text-muted-foreground" />
+                  <Move className="w-4 h-4 text-gray-600 dark:text-gray-400" />
                 </h3>
-                <p className="text-xs text-muted-foreground">Drag me anywhere! 💬</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400">Drag me anywhere! 💬</p>
               </div>
             </div>
             <button
               onClick={handleCloseChat}
-              className="text-muted-foreground hover:text-foreground transition-colors pointer-events-auto"
+              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors pointer-events-auto"
               data-testid="chatbot-close-button"
               aria-label="Close chatbot"
             >
@@ -568,7 +568,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-4 space-y-4" data-testid="chatbot-messages">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-gray-800" data-testid="chatbot-messages">
             {messages.map((message, index) => (
               <div
                 key={index}
@@ -579,7 +579,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
                   className={`max-w-[80%] p-3 rounded-2xl ${
                     message.role === "user"
                       ? "bg-primary text-white"
-                      : "bg-secondary/50 text-foreground border border-border/30"
+                      : "bg-white dark:bg-gray-700 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-600"
                   } animate-fadeUp`}
                   style={{ animationDelay: `${index * 0.05}s` }}
                 >
@@ -589,7 +589,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
             ))}
             {isLoading && (
               <div className="flex justify-start">
-                <div className="bg-secondary/50 text-foreground border border-border/30 p-3 rounded-2xl flex items-center gap-2">
+                <div className="bg-white dark:bg-gray-700 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-600 p-3 rounded-2xl flex items-center gap-2">
                   <Loader2 className="w-4 h-4 animate-spin text-primary" />
                   <p className="text-sm">Thinking...</p>
                 </div>
@@ -598,7 +598,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="border-t border-border/50 p-4 bg-background/50 backdrop-blur-sm">
+          <div className="border-t-2 border-primary/30 p-4 bg-white dark:bg-gray-900 backdrop-blur-sm">
             <div className="flex gap-2">
               <input
                 type="text"
@@ -606,7 +606,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Ask me anything..."
-                className="flex-1 px-4 py-2 rounded-full bg-background border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                className="flex-1 px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                 disabled={isLoading}
                 data-testid="chatbot-input"
               />
