@@ -491,6 +491,9 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
 
   return (
     <>
+      {/* Hide scroll to top button when chatbot is open */}
+      <style>{isOpen ? '[data-testid="scroll-to-top"] { display: none !important; }' : ''}</style>
+      
       {!isOpen && (
         <button
           ref={buttonRef}

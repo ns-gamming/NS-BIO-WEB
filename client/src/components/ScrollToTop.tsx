@@ -1,25 +1,26 @@
+
 import { useState, useEffect } from "react";
 import { ArrowUp } from "lucide-react";
+import { useLocation } from "wouter";
 
 export default function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [location] = useLocation();
+
+  // Auto scroll to top when navigating to a new page
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [location]);
 
   const toggleVisibility = () => {
-    if (window.pageYOffset > 300) {
-      if (!isVisible && !isAnimating) {
-        setIsVisible(true);
-        setIsAnimating(true);
-        setTimeout(() => setIsAnimating(false), 300);
-      }
+    // Show button only when scrolled down more than 500px
+    if (window.pageYOffset > 500) {
+      setIsVisible(true);
     } else {
-      if (isVisible && !isAnimating) {
-        setIsAnimating(true);
-        setTimeout(() => {
-          setIsVisible(false);
-          setIsAnimating(false);
-        }, 300);
-      }
+      setIsVisible(false);
     }
   };
 
@@ -37,23 +38,19 @@ export default function ScrollToTop() {
     };
   }, []);
 
-  if (!isVisible && !isAnimating) {
+  // Don't render if not visible
+  if (!isVisible) {
     return null;
   }
 
   return (
     <button
       onClick={scrollToTop}
-      className={`fixed bottom-6 right-6 z-[60] bg-primary text-white p-4 rounded-full shadow-lg hover:scale-110 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/50 animate-bounceSmooth border-2 border-white/20 hover:border-white/60 ${
-        isVisible ? 'opacity-100 animate-popIn' : 'opacity-0 pointer-events-none'
-      }`}
+      className="fixed bottom-8 right-8 z-50 bg-primary/90 hover:bg-primary text-white p-3 rounded-full shadow-xl hover:scale-110 transition-all duration-300 backdrop-blur-sm border border-white/20 hover:shadow-2xl hover:shadow-primary/30 group"
       aria-label="Scroll to top"
       data-testid="scroll-to-top"
     >
-      <div className="relative">
-        <div className="absolute inset-0 bg-white/30 blur-lg animate-pulse"></div>
-        <ArrowUp className="w-6 h-6 relative group-hover:animate-bounce" />
-      </div>
+      <ArrowUp className="w-5 h-5 group-hover:-translate-y-1 transition-transform" />
     </button>
   );
 }
