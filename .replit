@@ -4,6 +4,7 @@ hidden = [".config", ".git", "generated-icon.png", "node_modules", "dist"]
 
 [nix]
 channel = "stable-25_05"
+packages = ["gemini-cli"]
 
 [deployment]
 deploymentTarget = "autoscale"
@@ -21,6 +22,10 @@ externalPort = 3003
 [[ports]]
 localPort = 37059
 externalPort = 3000
+
+[[ports]]
+localPort = 39177
+externalPort = 4200
 
 [[ports]]
 localPort = 40293
