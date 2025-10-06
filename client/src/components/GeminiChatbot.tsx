@@ -437,22 +437,31 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
     if (chatPosition.x === 0 && chatPosition.y === 0) {
       const isMobile = window.innerWidth < 640;
       
-      if (isMobile) {
-        return {
-          top: '1rem',
-          left: '1rem',
-          right: 'auto',
-          bottom: 'auto'
-        };
-      }
-      
       return {
         bottom: '1rem',
-        right: '1rem',
-        left: 'auto',
+        [isMobile ? 'left' : 'right']: '1rem',
+        [isMobile ? 'right' : 'left']: 'auto',
         top: 'auto'
       };
     }
+    
+    if (chatboxRef.current) {
+      const chatWidth = chatboxRef.current.offsetWidth;
+      const chatHeight = chatboxRef.current.offsetHeight;
+      const maxX = Math.max(0, window.innerWidth - chatWidth);
+      const maxY = Math.max(0, window.innerHeight - chatHeight);
+      
+      const correctedX = Math.max(0, Math.min(chatPosition.x, maxX));
+      const correctedY = Math.max(0, Math.min(chatPosition.y, maxY));
+      
+      return {
+        left: `${correctedX}px`,
+        top: `${correctedY}px`,
+        bottom: 'auto',
+        right: 'auto'
+      };
+    }
+    
     return {
       left: `${chatPosition.x}px`,
       top: `${chatPosition.y}px`,
