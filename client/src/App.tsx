@@ -37,7 +37,8 @@ import Breakout from "./pages/games/Breakout";
 import ConnectFour from "./pages/games/ConnectFour";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import NotFound from "@/pages/not-found";
-import { useEffect } from "react";
+import PageLoader from "./components/PageLoader";
+import { useEffect, useState } from "react";
 
 function Router() {
   return (
@@ -74,6 +75,8 @@ function Router() {
 }
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     // Console message for developers (Easter Egg)
     console.log(`
@@ -91,7 +94,32 @@ WhatsApp: https://wa.me/918900653250
 
 Keep coding, keep creating! 🚀
     `);
+
+    // Simulate loading for initial page load (helps with slow networks)
+    const minLoadTime = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+
+    // Also set loading to false when page is fully loaded
+    const handleLoad = () => {
+      setIsLoading(false);
+    };
+
+    if (document.readyState === 'complete') {
+      handleLoad();
+    } else {
+      window.addEventListener('load', handleLoad);
+    }
+
+    return () => {
+      clearTimeout(minLoadTime);
+      window.removeEventListener('load', handleLoad);
+    };
   }, []);
+
+  if (isLoading) {
+    return <PageLoader />;
+  }
 
   return (
     <QueryClientProvider client={queryClient}>

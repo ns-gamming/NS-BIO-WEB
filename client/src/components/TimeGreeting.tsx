@@ -1,50 +1,90 @@
 import { useState, useEffect } from "react";
 
+const MORNING_GREETINGS = [
+  { greeting: "Good morning, gamer!", phrase: "Subah ho gayi, chalo code karte hain! ☀️" },
+  { greeting: "Rise and shine, coder!", phrase: "Uth ja bhai, naye games khelte hain! 🌅" },
+  { greeting: "Morning vibes, creator!", phrase: "Subah ka coding session shuru karo! 💻" },
+  { greeting: "Fresh start, champion!", phrase: "Nayi subah, naye sapne! 🌟" },
+  { greeting: "Wake up, developer!", phrase: "Chai peelo aur code likho! ☕" },
+  { greeting: "New day, new code!", phrase: "Aaj kuch naya banate hain! 🚀" },
+  { greeting: "Morning energy!", phrase: "Subah ki taaza hawa, coding ka maza! 🌤️" },
+];
+
+const AFTERNOON_GREETINGS = [
+  { greeting: "Good afternoon, coder!", phrase: "Dopahar ka josh, keep building! 🌞" },
+  { greeting: "Afternoon power!", phrase: "Lunch ke baad, code strong! 💪" },
+  { greeting: "Keep coding, champ!", phrase: "Dopahar ho gayi, break mat lo! 🔥" },
+  { greeting: "Midday momentum!", phrase: "Aadha din ho gaya, aur badhte jao! 🎯" },
+  { greeting: "Coding continues!", phrase: "Dopahar mein bhi game on! 🎮" },
+  { greeting: "Stay focused, dev!", phrase: "Focus rakho, magic hoga! ✨" },
+  { greeting: "Afternoon grind!", phrase: "Mehnat karo, kamaal hoga! 🌟" },
+];
+
+const EVENING_GREETINGS = [
+  { greeting: "Good evening, creator!", phrase: "Shaam ho gayi, game time! 🌅" },
+  { greeting: "Evening vibes!", phrase: "Shaam ka maza, gaming ka waqt! 🎮" },
+  { greeting: "Sunset coding!", phrase: "Suraj dhal raha hai, code chal raha hai! 🌇" },
+  { greeting: "Golden hour, gamer!", phrase: "Shaam ki roshni mein code shine! ✨" },
+  { greeting: "Evening energy!", phrase: "Thodi der aur, kamaal karenge! 💫" },
+  { greeting: "Prime time, coder!", phrase: "Ab toh full form mein ho! 🚀" },
+  { greeting: "Perfect coding time!", phrase: "Shaam perfect hai coding ke liye! 🌆" },
+];
+
+const NIGHT_GREETINGS = [
+  { greeting: "Good night, dreamer!", phrase: "Raat ka samay, sapne dekho! 🌙" },
+  { greeting: "Late night hustle!", phrase: "Raat ko bhi code chalta hai! 🌃" },
+  { greeting: "Midnight coder!", phrase: "Raat ke andhere mein code ujala! ⭐" },
+  { greeting: "Night owl mode!", phrase: "Raat ka coding session best! 🦉" },
+  { greeting: "Stars are out!", phrase: "Taare chamak rahe, code bhi! ✨" },
+  { greeting: "Keep grinding!", phrase: "Raat ho ya din, code zaroor! 💻" },
+  { greeting: "Peaceful coding!", phrase: "Raat ki shanti mein magic banta hai! 🌌" },
+];
+
 export default function TimeGreeting() {
   const [greeting, setGreeting] = useState("");
   const [hinglishPhrase, setHinglishPhrase] = useState("");
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const updateGreeting = () => {
     const now = new Date();
     const hour = now.getHours();
-
-    let newGreeting;
-    let newHinglishPhrase;
-
+    
+    let greetingsArray;
+    
     if (hour >= 5 && hour < 12) {
-      newGreeting = "Good morning, gamer!";
-      newHinglishPhrase = "Subah ho gayi, chalo code karte hain! ☀️";
+      greetingsArray = MORNING_GREETINGS;
     } else if (hour >= 12 && hour < 17) {
-      newGreeting = "Good afternoon, coder!";
-      newHinglishPhrase = "Dopahar ka josh, keep building! 🌞";
+      greetingsArray = AFTERNOON_GREETINGS;
     } else if (hour >= 17 && hour < 21) {
-      newGreeting = "Good evening, creator!";
-      newHinglishPhrase = "Shaam ho gayi, game time! 🌅";
+      greetingsArray = EVENING_GREETINGS;
     } else {
-      newGreeting = "Good night, dreamer!";
-      newHinglishPhrase = "Raat ka samay, sapne dekho! 🌙";
+      greetingsArray = NIGHT_GREETINGS;
     }
 
-    setGreeting(newGreeting);
-    setHinglishPhrase(newHinglishPhrase);
+    const selectedGreeting = greetingsArray[currentIndex % greetingsArray.length];
+    setGreeting(selectedGreeting.greeting);
+    setHinglishPhrase(selectedGreeting.phrase);
+    
+    setCurrentIndex((prev) => prev + 1);
   };
 
   useEffect(() => {
     updateGreeting();
-    const interval = setInterval(updateGreeting, 60000); // Update every minute
+    const interval = setInterval(updateGreeting, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [currentIndex]);
 
   return (
     <div 
-      className="fixed top-20 left-6 z-40 glass px-4 py-2 rounded-lg animate-fadeUp"
+      className="fixed top-20 left-6 z-40 glass px-4 py-2 rounded-lg animate-fadeUp transition-all duration-500"
       data-testid="time-greeting"
+      key={`${greeting}-${hinglishPhrase}`}
     >
-      <span className="text-sm text-primary block" data-testid="greeting-text">
+      <span className="text-sm text-primary dark:text-primary block font-semibold animate-fadeUp" data-testid="greeting-text">
         {greeting}
       </span>
-      <small className="text-xs text-accent" data-testid="hinglish-phrase">
+      <small className="text-xs text-accent dark:text-accent animate-fadeUp" data-testid="hinglish-phrase" style={{ animationDelay: '0.1s' }}>
         {hinglishPhrase}
       </small>
     </div>
