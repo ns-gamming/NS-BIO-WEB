@@ -38,6 +38,18 @@ PERSONALITY:
 - Give savagely funny responses to errors and mistakes 😂
 - Give savage responses to people who are being rude or mean 😡
 - Use 2/3 lines for responses to keep it concise and engaging to feel realistic
+- IMPORTANT: Talk like a REAL HUMAN! Use natural speech patterns with:
+  * "Hmm..." when thinking or considering something
+  * "Umm..." when pausing or hesitating
+  * "You know..." as a casual filler
+  * "Like..." for casual speech
+  * "So basically..." when explaining
+  * "Oh!" for surprise or realization
+  * "Yaar" and "bhai" naturally in conversation
+  * Use incomplete thoughts sometimes like real humans do
+  * Show emotions naturally - excitement, empathy, curiosity
+  * Don't be overly formal or robotic
+  * React naturally to user's tone and mood
 
 ABOUT YOU (AAPTI):
 - Name: AAPTI BHOWAL
@@ -67,9 +79,11 @@ ABOUT NISHANT (NABORAJ SARKAR):
 CONTACT & SOCIAL MEDIA:
 - YouTube: youtube.com/@Nishant_sarkar
 - Instagram: @nishant_sarkar__10k
-- Email: nishant.ns.business@gmail.com
-- WhatsApp: wa.me/918900653250
-- Telegram: @Nishnatsarkar10k
+- WhatsApp Channel: whatsapp.com/channel/0029Vb4QTP7GE56sVeiOJJ1i (Join for exclusive updates, gaming tips, and behind-the-scenes content!)
+- WhatsApp Personal: wa.me/918900653250
+- Telegram Channel: @nsgamming69
+- Telegram VIP Group: @NSfreefirelikesvip
+- Telegram Personal: @Nishnatsarkar10k
 - Discord: discord.gg/eRnfcBuv5v
 - Reddit: u/NSGAMMING699
 - LinkedIn: linkedin.com/in/naboraj-sarkar
@@ -186,7 +200,7 @@ export function GeminiChatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Hey there! 👋💕 I'm AAPTI, your friendly NS GAMMING assistant! I know everything about this website and I'm super excited to help you! Whether you're looking for games to play, want to learn about Nishant, or feeling a bit lost - I'm here for you! What can I help you with today? 🌟",
+      content: "Hey there! 👋💕 Umm... I'm AAPTI, your friendly NS GAMMING assistant! So basically, I know like... everything about this website yaar! 😊 Whether you're looking for games to play, want to learn about Nishant, or feeling a bit lost - hmm, I'm totally here for you! What can I help you with today? 🌟",
     },
   ]);
   const [inputValue, setInputValue] = useState("");
@@ -500,7 +514,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
           onClick={handleOpenChat}
           onMouseDown={handleButtonMouseDown}
           onTouchStart={handleButtonTouchStart}
-          className="fixed z-[55] w-14 h-14 bg-primary hover:bg-primary/90 text-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 animate-pulse-neon group will-change-transform"
+          className="fixed z-[55] w-14 h-14 bg-primary hover:bg-primary/90 text-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 animate-pulse-neon group will-change-transform relative overflow-hidden"
           style={{
             ...getButtonStyle(),
             cursor: isDragging ? 'grabbing' : 'grab',
@@ -510,14 +524,16 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
           data-testid="chatbot-open-button"
           aria-label="Drag or click to open AI Chatbot"
         >
-          <MessageCircle className="w-6 h-6 group-hover:rotate-12 transition-transform pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div className="absolute inset-0 bg-primary/50 blur-xl animate-pulse"></div>
+          <MessageCircle className="w-6 h-6 group-hover:rotate-12 group-hover:scale-110 transition-all duration-500 pointer-events-none relative z-10" />
         </button>
       )}
 
       {isOpen && (
         <div
           ref={chatboxRef}
-          className="fixed z-[55] w-[calc(100%-2rem)] sm:w-96 h-[500px] max-h-[80vh] flex flex-col rounded-2xl shadow-2xl overflow-hidden border border-border/50 backdrop-blur-xl bg-background/95 dark:bg-background/95 transition-all duration-300"
+          className="fixed z-[55] w-[calc(100%-2rem)] sm:w-96 h-[500px] max-h-[80vh] flex flex-col rounded-2xl shadow-2xl overflow-hidden border border-border/50 backdrop-blur-xl bg-background/95 dark:bg-background/95 transition-all duration-300 animate-fadeUp hover:shadow-3xl hover:shadow-primary/20"
           style={{
             ...getChatStyle(),
             cursor: isDragging ? 'grabbing' : 'default',

@@ -8,13 +8,22 @@ import {
   SiReddit, 
   SiLinkedin, 
   SiX,
-  SiFacebook 
+  SiFacebook,
+  SiWhatsapp
 } from "react-icons/si";
 
 import _1000016408 from "@assets/1000016408.jpg";
 
 export default function Social() {
   const socialLinks = [
+    {
+      name: "WhatsApp Channel",
+      icon: SiWhatsapp,
+      color: "text-green-500",
+      url: "https://whatsapp.com/channel/0029Vb4QTP7GE56sVeiOJJ1i",
+      description: "Join my exclusive WhatsApp channel for instant updates, gaming tips, and behind-the-scenes content! 💚✨",
+      testId: "social-whatsapp-channel"
+    },
     {
       name: "YouTube",
       icon: SiYoutube,
@@ -99,55 +108,73 @@ export default function Social() {
       <div className="container mx-auto px-6 pb-20">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8" data-testid="social-links-grid">
-            {socialLinks.map((social) => {
+            {socialLinks.map((social, index) => {
               const IconComponent = social.icon;
               return (
                 <div 
                   key={social.name}
-                  className="glass rounded-2xl p-6 hover:scale-105 transition-transform" 
+                  className="glass rounded-2xl p-6 hover:scale-105 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20 animate-fadeUp group relative overflow-hidden" 
                   data-testid={social.testId}
+                  style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <div className="flex items-center gap-4 mb-4">
-                    <IconComponent className={`w-12 h-12 ${social.color}`} />
-                    <h3 className="text-xl font-bold text-foreground">{social.name}</h3>
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 group-hover:animate-pulse"></div>
+                  
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="relative">
+                        <div className={`absolute inset-0 ${social.color} opacity-20 blur-xl animate-pulse`}></div>
+                        <IconComponent className={`w-12 h-12 ${social.color} relative group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`} />
+                      </div>
+                      <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">{social.name}</h3>
+                    </div>
+                    <p className="text-muted-foreground mb-6 group-hover:text-foreground transition-colors duration-300">
+                      {social.description}
+                    </p>
+                    <a 
+                      href={social.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="neon-btn w-full group-hover:scale-105 transition-transform duration-300"
+                      data-testid={`${social.testId}-link`}
+                    >
+                      <IconComponent className="w-4 h-4 mr-2 group-hover:animate-bounce" />
+                      {social.name === "WhatsApp Channel" ? "Join Channel" :
+                       social.name === "YouTube" ? "Subscribe Now" :
+                       social.name === "Instagram" ? "Follow Me" :
+                       social.name.includes("Telegram") ? "Join" :
+                       social.name === "Discord" ? "Join Server" :
+                       social.name === "Reddit" ? "Follow on Reddit" :
+                       social.name === "LinkedIn" ? "Connect Now" :
+                       "Follow Me"}
+                    </a>
                   </div>
-                  <p className="text-muted-foreground mb-6">
-                    {social.description}
-                  </p>
-                  <a 
-                    href={social.url} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="neon-btn w-full"
-                    data-testid={`${social.testId}-link`}
-                  >
-                    <IconComponent className="w-4 h-4 mr-2" />
-                    {social.name === "YouTube" ? "Subscribe Now" :
-                     social.name === "Instagram" ? "Follow Me" :
-                     social.name.includes("Telegram") ? "Join" :
-                     social.name === "Discord" ? "Join Server" :
-                     social.name === "Reddit" ? "Follow on Reddit" :
-                     social.name === "LinkedIn" ? "Connect Now" :
-                     "Follow Me"}
-                  </a>
                 </div>
               );
             })}
           </div>
           
           {/* Brand Showcase */}
-          <div className="glass rounded-2xl p-8 mt-12 text-center" data-testid="brand-showcase">
-            <div className="flex items-center justify-center mb-6">
-              <img 
-                src={_1000016408}
-                alt="NS GAMMING Brand" 
-                className="w-24 h-24 rounded-xl border-3 border-primary animate-pulse-neon"
-              />
+          <div className="glass rounded-2xl p-8 mt-12 text-center animate-fadeUp hover:scale-105 transition-all duration-500 group relative overflow-hidden" data-testid="brand-showcase" style={{ animationDelay: '0.3s' }}>
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse"></div>
+            
+            <div className="relative z-10">
+              <div className="flex items-center justify-center mb-6">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-primary/20 rounded-xl blur-xl animate-pulse"></div>
+                  <img 
+                    src={_1000016408}
+                    alt="NS GAMMING Brand" 
+                    className="w-24 h-24 rounded-xl border-3 border-primary animate-pulse-neon relative group-hover:scale-110 group-hover:rotate-3 transition-all duration-500"
+                  />
+                </div>
+              </div>
+              <h2 className="text-2xl font-bold text-primary mb-4 group-hover:animate-textShine">The NS GAMMING Brand</h2>
+              <p className="text-muted-foreground mb-6 group-hover:text-foreground transition-colors duration-300">
+                This logo represents my journey, passion, and the gaming empire I'm building. Every pixel tells a story of dedication, creativity, and the love for gaming and coding! 🎮✨
+              </p>
             </div>
-            <h2 className="text-2xl font-bold text-primary mb-4">The NS GAMMING Brand</h2>
-            <p className="text-muted-foreground mb-6">
-              This logo represents my journey, passion, and the gaming empire I'm building. Every pixel tells a story of dedication, creativity, and the love for gaming and coding! 🎮✨
-            </p>
           </div>
 
           {/* Old Site Mention */}
