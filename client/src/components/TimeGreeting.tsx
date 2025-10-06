@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const MORNING_GREETINGS = [
   { greeting: "Good morning, gamer!", phrase: "Subah ho gayi, chalo code karte hain! ☀️" },
@@ -43,7 +43,7 @@ const NIGHT_GREETINGS = [
 export default function TimeGreeting() {
   const [greeting, setGreeting] = useState("");
   const [hinglishPhrase, setHinglishPhrase] = useState("");
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const indexRef = useRef(0);
 
   const updateGreeting = () => {
     const now = new Date();
@@ -61,25 +61,24 @@ export default function TimeGreeting() {
       greetingsArray = NIGHT_GREETINGS;
     }
 
-    const selectedGreeting = greetingsArray[currentIndex % greetingsArray.length];
+    const selectedGreeting = greetingsArray[indexRef.current % greetingsArray.length];
     setGreeting(selectedGreeting.greeting);
     setHinglishPhrase(selectedGreeting.phrase);
     
-    setCurrentIndex((prev) => prev + 1);
+    indexRef.current += 1;
   };
 
   useEffect(() => {
     updateGreeting();
-    const interval = setInterval(updateGreeting, 5000);
+    const interval = setInterval(updateGreeting, 8000);
 
     return () => clearInterval(interval);
-  }, [currentIndex]);
+  }, []);
 
   return (
     <div 
       className="fixed top-20 left-6 z-40 glass px-4 py-2 rounded-lg animate-fadeUp transition-all duration-500"
       data-testid="time-greeting"
-      key={`${greeting}-${hinglishPhrase}`}
     >
       <span className="text-sm text-primary dark:text-primary block font-semibold animate-fadeUp" data-testid="greeting-text">
         {greeting}
