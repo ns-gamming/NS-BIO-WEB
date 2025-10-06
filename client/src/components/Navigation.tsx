@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowLeft } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 
 import _1000016408 from "@assets/1000016408.jpg";
@@ -17,6 +17,7 @@ export default function Navigation() {
     { path: "/social", label: "Social" },
     { path: "/contact", label: "Contact" },
     { path: "/goals", label: "Goals" },
+    { path: "/privacy-policy", label: "Privacy" },
   ];
 
   const toggleMobileMenu = () => {
@@ -44,6 +45,17 @@ export default function Navigation() {
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6">
+            {location !== "/" && (
+              <button
+                onClick={() => window.history.length > 1 ? window.history.back() : window.location.href = "/"}
+                className="text-foreground hover:text-primary transition-all duration-300 hover:scale-110 flex items-center gap-1 group"
+                data-testid="nav-back-button"
+                aria-label="Go back"
+              >
+                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                <span>Back</span>
+              </button>
+            )}
             {navigationItems.map((item) => (
               <Link
                 key={item.path}
@@ -75,6 +87,19 @@ export default function Navigation() {
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden mt-4 space-y-2" data-testid="mobile-menu">
+            {location !== "/" && (
+              <button
+                onClick={() => {
+                  window.history.length > 1 ? window.history.back() : window.location.href = "/";
+                  closeMobileMenu();
+                }}
+                className="w-full text-left text-foreground hover:text-primary transition-colors py-2 flex items-center gap-2"
+                data-testid="mobile-nav-back-button"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Back</span>
+              </button>
+            )}
             {navigationItems.map((item) => (
               <Link
                 key={item.path}
