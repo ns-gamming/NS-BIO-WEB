@@ -439,7 +439,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
     if (buttonPosition.x === 0 && buttonPosition.y === 0) {
       return {
         bottom: '1.5rem',
-        right: '1.5rem',
+        right: '6.5rem', // Position to the left of scroll button
         left: 'auto',
         top: 'auto'
       };
@@ -497,7 +497,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
           onClick={handleOpenChat}
           onMouseDown={handleButtonMouseDown}
           onTouchStart={handleButtonTouchStart}
-          className="fixed z-50 w-14 h-14 bg-primary hover:bg-primary/90 text-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 animate-pulse-neon group will-change-transform"
+          className="fixed z-[55] w-14 h-14 bg-primary hover:bg-primary/90 text-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 animate-pulse-neon group will-change-transform"
           style={{
             ...getButtonStyle(),
             cursor: isDragging ? 'grabbing' : 'grab',
@@ -514,7 +514,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
       {isOpen && (
         <div
           ref={chatboxRef}
-          className="fixed z-50 w-[calc(100%-2rem)] sm:w-96 h-[500px] max-h-[80vh] flex flex-col rounded-2xl shadow-2xl overflow-hidden border border-border/50 backdrop-blur-xl bg-background/95 dark:bg-background/95 transition-all duration-300"
+          className="fixed z-[55] w-[calc(100%-2rem)] sm:w-96 h-[500px] max-h-[80vh] flex flex-col rounded-2xl shadow-2xl overflow-hidden border border-border/50 backdrop-blur-xl bg-background/95 dark:bg-background/95 transition-all duration-300"
           style={{
             ...getChatStyle(),
             cursor: isDragging ? 'grabbing' : 'default',
