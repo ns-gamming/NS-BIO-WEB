@@ -10,6 +10,7 @@ import ParticleBackground from "./components/ParticleBackground";
 import TimeGreeting from "./components/TimeGreeting";
 import ScrollToTop from "./components/ScrollToTop";
 import EasterEggs from "./components/EasterEggs";
+import BackButton from "./components/BackButton";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Portfolio from "./pages/Portfolio";
@@ -133,6 +134,7 @@ Keep coding, keep creating! 🚀
               <Router />
             </main>
             <ScrollToTop />
+            <BackButton />
             <EasterEggs />
             <GeminiChatbot />
             <Toaster />

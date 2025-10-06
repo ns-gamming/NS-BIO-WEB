@@ -44,12 +44,16 @@ export default function ScrollToTop() {
   return (
     <button
       onClick={scrollToTop}
-      className={`fixed bottom-6 right-6 z-50 w-12 h-12 bg-primary/20 hover:bg-primary/30 border-2 border-primary rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-primary/50 animate-pulse-neon backdrop-blur-sm ${
-        isVisible && !isAnimating ? 'animate-slideUpFade' : 'animate-slideDownFade'
+      className={`fixed bottom-6 right-6 z-50 bg-primary text-white p-4 rounded-full shadow-lg hover:scale-110 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/50 animate-bounceSmooth border-2 border-white/20 hover:border-white/60 ${
+        isVisible ? 'opacity-100 animate-popIn' : 'opacity-0 pointer-events-none'
       }`}
+      aria-label="Scroll to top"
       data-testid="scroll-to-top"
     >
-      <ArrowUp className="w-5 h-5 text-primary transition-transform duration-300 hover:scale-125" />
+      <div className="relative">
+        <div className="absolute inset-0 bg-white/30 blur-lg animate-pulse"></div>
+        <ArrowUp className="w-6 h-6 relative group-hover:animate-bounce" />
+      </div>
     </button>
   );
 }

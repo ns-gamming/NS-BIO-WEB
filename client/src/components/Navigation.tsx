@@ -28,18 +28,18 @@ export default function Navigation() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-border" data-testid="navigation">
+    <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-border backdrop-blur-xl animate-slideInFromBottom" data-testid="navigation" style={{ boxShadow: '0 4px 20px rgba(0, 191, 255, 0.1)' }}>
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3" data-testid="logo">
-            <div className="w-12 h-12 rounded-lg border-2 border-primary animate-pulse-neon overflow-hidden backdrop-blur-sm hover:scale-110 transition-all duration-300">
+          <Link href="/" className="flex items-center gap-3 group" data-testid="logo">
+            <div className="w-12 h-12 rounded-lg border-2 border-primary animate-pulse-neon animate-glowPulse overflow-hidden backdrop-blur-sm group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
               <img 
                 src={_1000016408} 
                 alt="NS GAMMING Logo" 
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
               />
             </div>
-            <span className="font-orbitron font-bold text-xl text-primary animate-glow hover:scale-105 transition-transform duration-300">NS GAMMING</span>
+            <span className="font-orbitron font-bold text-xl text-primary animate-glow group-hover:scale-105 group-hover:animate-textShine transition-all duration-300">NS GAMMING</span>
           </Link>
           
           {/* Desktop Navigation */}

@@ -12,32 +12,17 @@ interface HeroSectionProps {
 export default function HeroSection({ title, subtitle, children, className = "" }: HeroSectionProps) {
   return (
     <div className={`min-h-screen flex items-center justify-center relative ${className}`}>
-      <div className="container mx-auto px-6 py-20 text-center">
-        <div className="animate-fadeUp">
-          <div className="flex items-center justify-center gap-6 mb-6">
-            <div className="w-20 h-20 md:w-28 md:h-28 rounded-xl border-3 border-primary animate-float overflow-hidden backdrop-blur-sm hover:scale-110 hover:rotate-3 transition-all duration-500 cursor-pointer group">
-              <img 
-                src={_1000016408} 
-                alt="NS GAMMING Logo" 
-                className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
-              />
-            </div>
-          </div>
-          <h1 
-            className="hero-title font-orbitron font-black text-4xl md:text-6xl text-primary animate-glow mb-4"
-            data-testid="hero-title"
-          >
+      <div className="relative z-10 py-20 px-6">
+        <div className="container mx-auto text-center">
+          <h1 className="text-5xl md:text-7xl font-orbitron font-bold text-primary mb-6 animate-glow animate-swingIn" data-testid="hero-title" style={{ textShadow: '0 0 30px rgba(0, 191, 255, 0.5)' }}>
             {title}
           </h1>
-          {subtitle && (
-            <p 
-              className="hero-subtitle font-inter text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto mb-8"
-              data-testid="hero-subtitle"
-            >
-              {subtitle}
-            </p>
-          )}
-          {children}
+          <p className="text-xl md:text-2xl text-muted-foreground mb-8 animate-fadeUp animate-slideInFromBottom" data-testid="hero-subtitle" style={{ animationDelay: '0.2s' }}>
+            {subtitle}
+          </p>
+          <div className="animate-popIn" style={{ animationDelay: '0.4s' }}>
+            {children}
+          </div>
         </div>
       </div>
     </div>
