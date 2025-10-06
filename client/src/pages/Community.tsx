@@ -1,4 +1,5 @@
 
+import { useState, useEffect } from "react";
 import HeroSection from "../components/HeroSection";
 import AdSenseAd from "../components/AdSenseAd";
 import { Link } from "wouter";
@@ -6,34 +7,61 @@ import { Users, Heart, MessageCircle, Gift, Star, Crown } from "lucide-react";
 import { SiDiscord, SiTelegram, SiYoutube } from "react-icons/si";
 
 export default function Community() {
+  const [discordCount, setDiscordCount] = useState(1300);
+  const [youtubeCount, setYoutubeCount] = useState(8000);
+  const [telegramCount, setTelegramCount] = useState(15000);
+  const [interactionsCount, setInteractionsCount] = useState(1000000);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Randomly increment counters to simulate live growth
+      setDiscordCount(prev => prev + Math.floor(Math.random() * 3));
+      setYoutubeCount(prev => prev + Math.floor(Math.random() * 5));
+      setTelegramCount(prev => prev + Math.floor(Math.random() * 8));
+      setInteractionsCount(prev => prev + Math.floor(Math.random() * 20));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const formatNumber = (num: number) => {
+    if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M+`;
+    if (num >= 1000) return `${(num / 1000).toFixed(1)}K+`;
+    return `${num}+`;
+  };
+
   const communityStats = [
     {
       name: "Discord Family",
       icon: SiDiscord,
-      count: "500+",
+      count: formatNumber(discordCount),
       description: "Active members chatting daily",
-      color: "text-indigo-500"
+      color: "text-indigo-500",
+      bgGlow: "bg-indigo-500/20"
     },
     {
       name: "YouTube Subscribers",
       icon: SiYoutube,
-      count: "1K+",
+      count: formatNumber(youtubeCount),
       description: "Growing community of supporters",
-      color: "text-red-500"
+      color: "text-red-500",
+      bgGlow: "bg-red-500/20"
     },
     {
       name: "Telegram Group",
       icon: SiTelegram,
-      count: "200+",
+      count: formatNumber(telegramCount),
       description: "VIP members with exclusive content",
-      color: "text-blue-500"
+      color: "text-blue-500",
+      bgGlow: "bg-blue-500/20"
     },
     {
       name: "Content Interactions",
       icon: Heart,
-      count: "10K+",
+      count: formatNumber(interactionsCount),
       description: "Likes, comments, and shares",
-      color: "text-pink-500"
+      color: "text-pink-500",
+      bgGlow: "bg-pink-500/20"
     }
   ];
 
@@ -92,14 +120,25 @@ export default function Community() {
               return (
                 <div 
                   key={stat.name}
-                  className="glass rounded-2xl p-6 text-center hover:scale-105 transition-all duration-300 animate-float"
-                  style={{ animationDelay: `${index * 0.1}s` }}
+                  className={`glass rounded-2xl p-6 text-center hover:scale-110 transition-all duration-500 animate-float hover:shadow-2xl ${stat.bgGlow} border-2 border-transparent hover:border-current`}
+                  style={{ 
+                    animationDelay: `${index * 0.1}s`,
+                    animation: 'float 6s ease-in-out infinite, pulse 2s ease-in-out infinite'
+                  }}
                   data-testid={`stat-${stat.name.toLowerCase().replace(' ', '-')}`}
                 >
-                  <IconComponent className={`w-12 h-12 ${stat.color} mx-auto mb-3`} />
-                  <h3 className="text-2xl font-bold text-primary">{stat.count}</h3>
-                  <h4 className="font-semibold text-foreground">{stat.name}</h4>
-                  <p className="text-sm text-muted-foreground">{stat.description}</p>
+                  <div className="relative">
+                    <div className={`absolute inset-0 ${stat.bgGlow} blur-xl animate-pulse`}></div>
+                    <IconComponent className={`w-14 h-14 ${stat.color} mx-auto mb-3 relative animate-bounce-slow`} />
+                  </div>
+                  <h3 className={`text-3xl font-bold ${stat.color} mb-2 animate-pulse transition-all duration-300`}>
+                    {stat.count}
+                  </h3>
+                  <h4 className="font-semibold text-foreground mb-1 animate-fadeUp">{stat.name}</h4>
+                  <p className="text-sm text-muted-foreground animate-fadeUp" style={{ animationDelay: '0.1s' }}>
+                    {stat.description}
+                  </p>
+                  <div className="mt-3 h-1 bg-gradient-to-r from-transparent via-current to-transparent opacity-50 animate-shimmer"></div>
                 </div>
               );
             })}
@@ -112,38 +151,55 @@ export default function Community() {
               return (
                 <div 
                   key={value.title}
-                  className="glass rounded-2xl p-6 hover:scale-105 transition-all duration-300 animate-float"
-                  style={{ animationDelay: `${index * 0.15}s` }}
+                  className="glass rounded-2xl p-6 hover:scale-105 transition-all duration-500 animate-float hover:shadow-2xl hover:rotate-1 border-2 border-transparent hover:border-primary/30"
+                  style={{ 
+                    animationDelay: `${index * 0.15}s`,
+                    animation: 'float 6s ease-in-out infinite, fadeUp 0.8s ease-out forwards'
+                  }}
                   data-testid={`value-${value.title.toLowerCase().replace(' ', '-')}`}
                 >
                   <div className="flex items-center gap-4 mb-4">
-                    <IconComponent className={`w-12 h-12 ${value.color}`} />
-                    <h3 className="text-xl font-bold text-foreground">{value.title}</h3>
+                    <div className="relative">
+                      <div className={`absolute inset-0 ${value.color} opacity-20 blur-xl animate-pulse`}></div>
+                      <IconComponent className={`w-12 h-12 ${value.color} relative animate-bounce-slow hover:animate-spin`} />
+                    </div>
+                    <h3 className="text-xl font-bold text-foreground animate-slideRight">{value.title}</h3>
                   </div>
-                  <p className="text-muted-foreground">{value.description}</p>
+                  <p className="text-muted-foreground animate-fadeInLeft" style={{ animationDelay: '0.2s' }}>
+                    {value.description}
+                  </p>
                 </div>
               );
             })}
           </div>
 
           {/* Community Highlights */}
-          <div className="glass rounded-2xl p-8 mb-12" data-testid="community-highlights">
-            <h2 className="text-2xl font-bold text-primary mb-6 text-center">🌟 Community Highlights</h2>
+          <div className="glass rounded-2xl p-8 mb-12 animate-scaleIn" data-testid="community-highlights">
+            <h2 className="text-2xl font-bold text-primary mb-6 text-center animate-glow">🌟 Community Highlights</h2>
             <div className="grid md:grid-cols-3 gap-6">
-              <div className="bg-muted rounded-lg p-6 text-center">
-                <Gift className="w-12 h-12 text-yellow-500 mx-auto mb-3" />
-                <h3 className="font-bold text-foreground mb-2">Weekly Giveaways</h3>
-                <p className="text-muted-foreground text-sm">Exclusive prizes for active community members!</p>
+              <div className="bg-muted rounded-lg p-6 text-center hover:scale-110 transition-all duration-500 hover:shadow-2xl hover:shadow-yellow-500/50 animate-bounceIn border-2 border-transparent hover:border-yellow-500/50">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-yellow-500/20 blur-xl animate-pulse"></div>
+                  <Gift className="w-12 h-12 text-yellow-500 mx-auto mb-3 relative animate-wiggle" />
+                </div>
+                <h3 className="font-bold text-foreground mb-2 animate-fadeUp">Weekly Giveaways</h3>
+                <p className="text-muted-foreground text-sm animate-fadeInLeft">Exclusive prizes for active community members!</p>
               </div>
-              <div className="bg-muted rounded-lg p-6 text-center">
-                <MessageCircle className="w-12 h-12 text-green-500 mx-auto mb-3" />
-                <h3 className="font-bold text-foreground mb-2">Daily Interactions</h3>
-                <p className="text-muted-foreground text-sm">Active discussions and support 24/7!</p>
+              <div className="bg-muted rounded-lg p-6 text-center hover:scale-110 transition-all duration-500 hover:shadow-2xl hover:shadow-green-500/50 animate-bounceIn border-2 border-transparent hover:border-green-500/50" style={{ animationDelay: '0.1s' }}>
+                <div className="relative">
+                  <div className="absolute inset-0 bg-green-500/20 blur-xl animate-pulse"></div>
+                  <MessageCircle className="w-12 h-12 text-green-500 mx-auto mb-3 relative animate-bounce-slow" />
+                </div>
+                <h3 className="font-bold text-foreground mb-2 animate-fadeUp">Daily Interactions</h3>
+                <p className="text-muted-foreground text-sm animate-fadeInLeft">Active discussions and support 24/7!</p>
               </div>
-              <div className="bg-muted rounded-lg p-6 text-center">
-                <Crown className="w-12 h-12 text-purple-500 mx-auto mb-3" />
-                <h3 className="font-bold text-foreground mb-2">VIP Access</h3>
-                <p className="text-muted-foreground text-sm">Special perks and early access to content!</p>
+              <div className="bg-muted rounded-lg p-6 text-center hover:scale-110 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/50 animate-bounceIn border-2 border-transparent hover:border-purple-500/50" style={{ animationDelay: '0.2s' }}>
+                <div className="relative">
+                  <div className="absolute inset-0 bg-purple-500/20 blur-xl animate-pulse"></div>
+                  <Crown className="w-12 h-12 text-purple-500 mx-auto mb-3 relative animate-float" />
+                </div>
+                <h3 className="font-bold text-foreground mb-2 animate-fadeUp">VIP Access</h3>
+                <p className="text-muted-foreground text-sm animate-fadeInLeft">Special perks and early access to content!</p>
               </div>
             </div>
           </div>
@@ -174,18 +230,18 @@ export default function Community() {
           </div>
 
           {/* Call to Action */}
-          <div className="glass rounded-2xl p-8 text-center" data-testid="community-cta">
-            <h2 className="text-2xl font-bold text-primary mb-4">Ready to Join the Family? 🤝</h2>
-            <p className="text-foreground mb-6">
+          <div className="glass rounded-2xl p-8 text-center animate-zoomIn hover:scale-105 transition-all duration-500 border-2 border-primary/30 hover:border-primary/60 hover:shadow-2xl hover:shadow-primary/50" data-testid="community-cta">
+            <h2 className="text-2xl font-bold text-primary mb-4 animate-glow">Ready to Join the Family? 🤝</h2>
+            <p className="text-foreground mb-6 animate-fadeUp">
               Don't just be a spectator — be part of something amazing! Join our community and let's grow together, support each other, and create lasting friendships.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link href="/social" className="neon-btn">
-                <Users className="w-4 h-4 mr-2" />
+              <Link href="/social" className="neon-btn animate-pulse-neon">
+                <Users className="w-4 h-4 mr-2 animate-bounce" />
                 Join All Platforms
               </Link>
-              <Link href="/contact" className="neon-btn">
-                <MessageCircle className="w-4 h-4 mr-2" />
+              <Link href="/contact" className="neon-btn animate-pulse-neon" style={{ animationDelay: '0.5s' }}>
+                <MessageCircle className="w-4 h-4 mr-2 animate-bounce" style={{ animationDelay: '0.5s' }} />
                 Get in Touch
               </Link>
             </div>
