@@ -41,6 +41,9 @@ import ConnectFour from "./pages/games/ConnectFour";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import FFBotsHub from "./pages/FFBotsHub";
 import FFLikesBot from "./pages/FFLikesBot";
+import FFInfoBot from "./pages/FFInfoBot";
+import FFSpamBot from "./pages/FFSpamBot";
+import FFVisitBot from "./pages/FFVisitBot";
 import NotFound from "@/pages/not-found";
 import PageLoader from "./components/PageLoader";
 import { useEffect, useState } from "react";
@@ -51,6 +54,9 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/ff-bots" component={FFBotsHub} />
       <Route path="/ff-bots/likes" component={FFLikesBot} />
+      <Route path="/ff-bots/info" component={FFInfoBot} />
+      <Route path="/ff-bots/spam" component={FFSpamBot} />
+      <Route path="/ff-bots/visit" component={FFVisitBot} />
       <Route path="/about" component={About} />
       <Route path="/portfolio" component={Portfolio} />
       <Route path="/games" component={Games} />
