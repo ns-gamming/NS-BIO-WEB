@@ -1,0 +1,73 @@
+Hey Replit Agent 👋
+
+I’ve built a full-frontend website for my Free Fire Likes Tool using HTML, CSS, and JavaScript.
+It works perfectly inside Replit — the Supabase connection is correct, and my API requests work fine.
+However, when I push the code to GitHub and then deploy it on my custom domain using Vercel, the “Get Likes” feature stops working.
+
+Here’s what happens:
+
+The site loads normally.
+
+But when I try to fetch likes from the API, it throws a “fetching error” in the console.
+
+The same code and API key work fine in Replit, so it’s not a coding issue — it’s a hosting or environment issue.
+
+⚙️ Technical Details
+
+Supabase Project URL: https://zsithfxmjtyeummbchpy.supabase.co
+
+Anon Public API Key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaXRoZnhtanR5ZXVtbWJjaHB5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk4NTUwOTEsImV4cCI6MjA3NTQzMTA5MX0.h8ej73edKcLyQJxY-N1irLc4tXTnavDVOySLF1aC5ps
+
+Likes API: https://likes.api.freefireofficial.com/api/{region}/{uid}?key=testkey12
+
+Regions can be: ind, sg, br, pk, bd, etc.
+
+A Supabase table named usage_logs tracks who used the tool once per day using:
+
+id (uuid)
+
+uid (text)
+
+region (text)
+
+ip (text)
+
+used_at (timestamp)
+
+✅ Requirements
+
+Fix the “fetch error” issue that happens on Vercel when trying to call the Likes API or Supabase.
+
+Ensure all Supabase insert/select operations work properly on the live domain.
+
+Make sure CORS is correctly configured for both Supabase and the Free Fire API so that fetch requests from the browser are allowed.
+
+Verify that all frontend animations, transitions, and responsiveness remain exactly as in the Replit version.
+
+Add one Google AdSense ad slot per page (just the divs; I’ll add my ad code).
+
+Keep the structure flexible so I can add more tools later (like Free Fire Info Bot, Spam Bot, Visit Bot).
+
+Ensure everything works perfectly across both desktop and mobile browsers.
+
+Deploy it fully working on Vercel, not Replit hosting.
+
+💡 Extra Notes
+
+The project uses only frontend code — no backend server.
+
+Supabase handles the data logic (one user/IP per day).
+
+The API key testkey12 is for testing.
+
+When Supabase or the API responds with “already used today” or “invalid UID,” the user’s limit shouldn’t be marked as used.
+
+When status=1 and likes are successfully sent, show a nice congratulations UI (with name, likes before/after, level, etc.).
+
+🚀 Deliverables
+
+A working Vercel-hosted version of the site where:
+✅ Likes API calls work perfectly
+✅ Supabase read/write works from the frontend
+✅ No CORS or fetch errors
+✅ Design and animations stay beautiful and responsive
