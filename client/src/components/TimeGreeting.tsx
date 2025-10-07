@@ -77,13 +77,22 @@ export default function TimeGreeting() {
 
   return (
     <div 
-      className="fixed top-20 left-6 z-40 glass px-4 py-2 rounded-lg animate-fadeUp transition-all duration-500"
+      className="fixed top-20 left-6 z-40 glass px-4 py-2 rounded-lg animate-fadeUp transition-all duration-500 hover:scale-105 group"
       data-testid="time-greeting"
     >
-      <span className="text-sm text-primary dark:text-primary block font-semibold animate-fadeUp" data-testid="greeting-text">
+      <span 
+        key={greeting}
+        className="text-sm text-primary dark:text-primary block font-semibold animate-slideLeft transition-all duration-500 group-hover:text-primary group-hover:scale-105" 
+        data-testid="greeting-text"
+      >
         {greeting}
       </span>
-      <small className="text-xs text-accent dark:text-accent animate-fadeUp" data-testid="hinglish-phrase" style={{ animationDelay: '0.1s' }}>
+      <small 
+        key={hinglishPhrase}
+        className="text-xs text-accent dark:text-accent animate-bounceIn block transition-all duration-500 group-hover:text-accent group-hover:scale-105" 
+        data-testid="hinglish-phrase" 
+        style={{ animationDelay: '0.15s' }}
+      >
         {hinglishPhrase}
       </small>
     </div>
