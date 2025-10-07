@@ -11,9 +11,9 @@ export default function Navigation() {
 
   const navigationItems = [
     { path: "/", label: "Home" },
-    { path: "/ff-bots", label: "🔥 FF Bots" },
     { path: "/about", label: "About" },
     { path: "/portfolio", label: "Portfolio" },
+    { path: "/ff-bots", label: "🔥 FF Bots" },
     { path: "/games", label: "Games" },
     { path: "/social", label: "Social" },
     { path: "/contact", label: "Contact" },

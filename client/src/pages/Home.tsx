@@ -60,6 +60,34 @@ export default function Home() {
           </div>
         </div>
         
+        {/* FF Bots Promo - Eye-Catching Section */}
+        <div className="glass rounded-2xl p-8 max-w-4xl mx-auto mb-12 border-2 border-primary/30 bg-gradient-to-br from-primary/10 via-accent/10 to-primary/5 animate-pulse-neon hover:scale-105 transition-all duration-500">
+          <div className="text-center mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-red-500 rounded-full text-white font-bold mb-4 animate-bounce">
+              <Zap className="w-5 h-5 animate-spin" />
+              <span>NEW! Free Fire Tools</span>
+              <Zap className="w-5 h-5 animate-spin" />
+            </div>
+            <h3 className="text-3xl font-orbitron font-bold mb-3 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-glow">
+              🔥 FF Bots Hub - Game Badlo Yaar! 
+            </h3>
+            <p className="text-lg text-muted-foreground mb-6">
+              Get free likes, boost stats, aur dominate karo battlefield mein! 💪 Sab kuch free hai boss! 🎮
+            </p>
+          </div>
+          <Link 
+            href="/ff-bots" 
+            className="block w-full py-4 px-8 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 hover:from-orange-600 hover:via-red-600 hover:to-pink-600 text-white font-bold rounded-xl text-center text-xl shadow-lg hover:shadow-[0_0_40px_rgba(249,115,22,0.6)] transition-all duration-300 hover:scale-105 animate-shimmer"
+            data-testid="cta-ffbots"
+          >
+            <span className="flex items-center justify-center gap-3">
+              <i className="fas fa-fire animate-pulse"></i>
+              Explore FF Bots Ab!
+              <i className="fas fa-arrow-right animate-bounce"></i>
+            </span>
+          </Link>
+        </div>
+
         {/* Mini Highlights */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mb-12">
           <Link href="/coding" className="glass rounded-lg p-6 text-center hover:scale-110 transition-all duration-300 hover:shadow-lg hover:shadow-primary/30 animate-pulse-neon cursor-pointer group" data-testid="highlight-coding">

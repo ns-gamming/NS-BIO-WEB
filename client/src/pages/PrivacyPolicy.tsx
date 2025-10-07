@@ -8,13 +8,13 @@ export default function PrivacyPolicy() {
     {
       icon: Database,
       title: "Information We Collect",
-      content: "We collect information you provide directly to us, such as when you contact us via email or WhatsApp. This may include your name, email address, and any other information you choose to provide.",
+      content: "We collect information you provide directly to us, such as when you contact us via email or WhatsApp. For our FF Bots tools, we collect your IP address and Free Fire UID to enforce daily usage limits and provide the service. We also collect usage data including timestamps and selected regions. This information is stored securely in our database and is never shared with third parties.",
       testId: "privacy-info-collect"
     },
     {
       icon: Eye,
       title: "How We Use Your Information",
-      content: "We use the information we collect to respond to your inquiries, improve our website, and communicate with you about updates and opportunities. We never sell your personal information to third parties.",
+      content: "We use the information we collect to: (1) Provide and maintain our FF Bots tools and services, (2) Enforce daily usage limits to ensure fair access for all users, (3) Respond to your inquiries and improve our website, (4) Communicate with you about updates and opportunities, (5) Analyze usage patterns to improve our services. We never sell your personal information to third parties.",
       testId: "privacy-info-use"
     },
     {
@@ -55,7 +55,7 @@ export default function PrivacyPolicy() {
           {/* Last Updated */}
           <div className="glass rounded-2xl p-6 mb-8 text-center animate-fadeUp">
             <p className="text-muted-foreground">
-              <strong className="text-primary">Last Updated:</strong> January 2025
+              <strong className="text-primary">Last Updated:</strong> October 7, 2025
             </p>
           </div>
 
@@ -95,23 +95,49 @@ export default function PrivacyPolicy() {
             );
           })}
 
-          {/* Third-Party Links */}
-          <div className="glass rounded-2xl p-8 mb-8 animate-fadeUp" style={{ animationDelay: "0.9s" }}>
-            <h3 className="text-xl font-bold text-primary mb-4">Third-Party Links</h3>
+          {/* FF Bots Tools Data Usage */}
+          <div className="glass rounded-2xl p-8 mb-8 border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-accent/10 animate-fadeUp" style={{ animationDelay: "0.9s" }}>
+            <h3 className="text-xl font-bold text-primary mb-4">FF Bots Tools & Data Usage</h3>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              Our Free Fire tools (FF Bots) are designed to enhance your gaming experience. When you use these tools:
+            </p>
+            <ul className="list-disc list-inside text-muted-foreground space-y-2 ml-4">
+              <li>We collect your IP address to enforce a fair 1-use-per-day limit for all users</li>
+              <li>We temporarily store your Free Fire UID and selected region to process your request</li>
+              <li>All data is encrypted and stored securely in our Supabase database</li>
+              <li>We do NOT access your Free Fire account or require any login credentials</li>
+              <li>Your data is never sold, shared, or used for marketing purposes</li>
+              <li>You can contact us anytime to request deletion of your data</li>
+            </ul>
+          </div>
+
+          {/* Third-Party Services */}
+          <div className="glass rounded-2xl p-8 mb-8 animate-fadeUp" style={{ animationDelay: "1s" }}>
+            <h3 className="text-xl font-bold text-primary mb-4">Third-Party Services & Links</h3>
+            <p className="text-muted-foreground leading-relaxed mb-3">
+              We use the following third-party services to provide our features:
+            </p>
+            <ul className="list-disc list-inside text-muted-foreground space-y-2 ml-4 mb-4">
+              <li><strong>Supabase:</strong> Secure database hosting for user data and usage logs</li>
+              <li><strong>Google AdSense:</strong> Displaying relevant advertisements to support our free services</li>
+              <li><strong>Vercel Analytics:</strong> Understanding website traffic and user behavior</li>
+              <li><strong>Free Fire Official API:</strong> Delivering likes and other game services</li>
+            </ul>
             <p className="text-muted-foreground leading-relaxed">
-              Our website may contain links to external sites (YouTube, Instagram, Telegram, etc.). 
+              Our website may contain links to external sites (YouTube, Instagram, Telegram, WhatsApp, etc.). 
               We are not responsible for the privacy practices of these third-party websites. 
               We encourage you to read their privacy policies before providing any personal information.
             </p>
           </div>
 
           {/* Children's Privacy */}
-          <div className="glass rounded-2xl p-8 mb-8 animate-fadeUp" style={{ animationDelay: "1s" }}>
+          <div className="glass rounded-2xl p-8 mb-8 animate-fadeUp" style={{ animationDelay: "1.1s" }}>
             <h3 className="text-xl font-bold text-primary mb-4">Children's Privacy</h3>
             <p className="text-muted-foreground leading-relaxed">
-              Our website is intended for general audiences and is not directed to children under 13. 
-              We do not knowingly collect personal information from children under 13. 
-              If you believe we have collected such information, please contact us immediately.
+              Our website and FF Bots tools are intended for general audiences. While Free Fire is rated for ages 12+, 
+              our tools do not knowingly collect personal information from children under 13 without parental consent. 
+              Parents and guardians should supervise children's use of our services. 
+              If you believe we have collected information from a child under 13, please contact us immediately so we can delete it.
             </p>
           </div>
 

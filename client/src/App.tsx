@@ -39,7 +39,8 @@ import SlidingPuzzle from "./pages/games/SlidingPuzzle";
 import Breakout from "./pages/games/Breakout";
 import ConnectFour from "./pages/games/ConnectFour";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
-import FFBots from "./pages/FFBots";
+import FFBotsHub from "./pages/FFBotsHub";
+import FFLikesBot from "./pages/FFLikesBot";
 import NotFound from "@/pages/not-found";
 import PageLoader from "./components/PageLoader";
 import { useEffect, useState } from "react";
@@ -48,7 +49,8 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
-      <Route path="/ff-bots" component={FFBots} />
+      <Route path="/ff-bots" component={FFBotsHub} />
+      <Route path="/ff-bots/likes" component={FFLikesBot} />
       <Route path="/about" component={About} />
       <Route path="/portfolio" component={Portfolio} />
       <Route path="/games" component={Games} />
