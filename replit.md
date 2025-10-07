@@ -2,11 +2,32 @@
 
 ## Overview
 
-NS GAMMING is a full-stack web application serving as a personal portfolio, gaming hub, and content creation platform for Nishant Sarkar (Naboraj Sarkar). The site combines a professional developer portfolio with interactive games, social media integration, and an AI-powered chatbot assistant. Built with modern web technologies, it showcases coding projects, gaming content, and community engagement tools while maintaining a vibrant, gaming-inspired aesthetic with neon blue theming.
+NS GAMMING is a full-stack web application serving as a personal portfolio, gaming hub, Free Fire tools platform, and content creation showcase for Nishant Sarkar (Naboraj Sarkar). The site combines a professional developer portfolio with interactive games, Free Fire power tools (FF Bots), social media integration, and an AI-powered chatbot assistant. Built with modern web technologies, it showcases coding projects, gaming content, community engagement tools, and exclusive FF gaming utilities while maintaining a vibrant, gaming-inspired aesthetic with neon blue theming and natural Hinglish content throughout.
 
 ## User Preferences
 
-Preferred communication style: Simple, everyday language.
+Preferred communication style: Simple, everyday language with natural Hinglish phrases (especially for FF Bots section).
+
+## Recent Changes (October 7, 2025)
+
+**FF Bots Hub Implementation**
+- Created comprehensive Free Fire tools platform with 4 bot pages
+- Reordered navigation: FF Bots positioned after Portfolio, before Games
+- Added eye-catching FF Bots promotional section on Home page with gradient animations
+- Implemented stunning hub page with gradient cards, animations, and Hinglish content
+- Created individual pages for each bot:
+  - FF Likes Bot (Live): Fully functional with Supabase rate limiting
+  - FF Info Bot (Coming Soon): Player stats lookup
+  - FF Spam Bot (Coming Soon): Profile engagement boost
+  - FF Visit Bot (Coming Soon): Profile visits and followers
+- Enhanced Privacy Policy for Google AdSense approval with:
+  - FF Bots data usage and IP tracking disclosure
+  - Third-party services enumeration (Supabase, AdSense, Vercel Analytics)
+  - Children's privacy compliance for Free Fire users (12+ age rating)
+  - Updated timestamp: October 7, 2025
+- Strategic ad placements on all FF Bots pages for monetization
+- Full responsive design with maximum animations and micro-interactions
+- Natural Hinglish integration: "Game badlo yaar!", "Sab kuch free hai boss!", etc.
 
 ## System Architecture
 
@@ -76,15 +97,20 @@ Preferred communication style: Simple, everyday language.
 - **TimeGreeting**: Dynamic time-based welcome messages
 
 **Page Structure**
-- Home: Landing page with profile card and CTAs
+- Home: Landing page with profile card, FF Bots promo section, and CTAs
 - About: Biography, skills showcase, values
 - Portfolio: GitHub projects, YouTube content, tech stack
+- FF Bots Hub: Central hub for Free Fire tools with stunning gradient cards
+  - FF Likes Bot: Live tool for getting free FF likes (1 use/day per IP via Supabase)
+  - FF Info Bot: Coming soon - Player stats and details lookup
+  - FF Spam Bot: Coming soon - Profile visibility and engagement boost
+  - FF Visit Bot: Coming soon - Profile visits and follower growth
 - Games: 14+ playable browser games grid
 - Social: Social media links and community stats
 - Contact: Email contact form with validation
 - Goals: Personal/professional objectives
 - Coding/Content/Gaming/Community: Specialized content pages
-- PrivacyPolicy: Legal compliance page
+- PrivacyPolicy: Legal compliance page with Google AdSense and FF Bots disclosures
 
 **Game Components**
 - 14 interactive games including: TicTacToe, Snake, Memory, Flappy Bird, 2048, Pong, Breakout, and more
