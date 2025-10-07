@@ -179,7 +179,7 @@ export default function FFBots() {
                   placeholder="Enter 8-11 digit UID"
                   value={uid}
                   onChange={(e) => setUid(e.target.value)}
-                  className="text-lg border-2 border-primary/30 dark:border-primary/50 focus:border-primary dark:focus:border-primary bg-background/50 dark:bg-background/70 text-foreground dark:text-foreground transition-all duration-300 hover:border-primary/50 dark:hover:border-primary/70"
+                  className="text-lg border-2 border-primary/30 dark:border-primary/50 focus:border-primary dark:focus:border-primary bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 transition-all duration-300 hover:border-primary/50 dark:hover:border-primary/70"
                   data-testid="input-uid"
                   maxLength={11}
                 />
@@ -192,14 +192,14 @@ export default function FFBots() {
                 <Select value={region} onValueChange={setRegion}>
                   <SelectTrigger 
                     id="region" 
-                    className="text-lg border-2 border-primary/30 dark:border-primary/50 focus:border-primary dark:focus:border-primary bg-background/50 dark:bg-background/70 text-foreground dark:text-foreground transition-all duration-300 hover:border-primary/50 dark:hover:border-primary/70" 
+                    className="text-lg border-2 border-primary/30 dark:border-primary/50 focus:border-primary dark:focus:border-primary bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-all duration-300 hover:border-primary/50 dark:hover:border-primary/70" 
                     data-testid="select-region"
                   >
                     <SelectValue placeholder="Select your region" />
                   </SelectTrigger>
-                  <SelectContent className="bg-background dark:bg-background border-primary/30 dark:border-primary/50">
+                  <SelectContent className="bg-white dark:bg-gray-900 border-primary/30 dark:border-primary/50">
                     {REGIONS.map((r) => (
-                      <SelectItem key={r.value} value={r.value} className="text-foreground dark:text-foreground hover:bg-primary/10 dark:hover:bg-primary/20">
+                      <SelectItem key={r.value} value={r.value} className="text-gray-900 dark:text-gray-100 hover:bg-primary/10 dark:hover:bg-primary/20 cursor-pointer">
                         {r.label}
                       </SelectItem>
                     ))}
