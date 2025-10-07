@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { TrendingUp, ArrowLeft, Rocket } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import AdSenseAd from "@/components/AdSenseAd";
+import TelegramWhatsAppCTA from "@/components/TelegramWhatsAppCTA";
 
 export default function FFSpamBot() {
   return (
@@ -85,6 +86,14 @@ export default function FFSpamBot() {
             </div>
           </div>
         </Card>
+
+        {/* Telegram & WhatsApp CTA */}
+        <div className="mb-12">
+          <h2 className="text-3xl font-orbitron font-bold mb-8 text-center bg-gradient-to-r from-blue-500 via-green-500 to-cyan-500 dark:from-blue-400 dark:via-green-400 dark:to-cyan-400 bg-clip-text text-transparent animate-glow">
+            Join Telegram for Updates! 📢
+          </h2>
+          <TelegramWhatsAppCTA />
+        </div>
 
         {/* CTA Section */}
         <Card className="p-8 bg-gradient-to-br from-primary/10 via-accent/10 to-primary/5 dark:from-primary/20 dark:via-accent/20 dark:to-primary/10 border-2 border-primary/30 dark:border-primary/50 text-center animate-bounceIn">
