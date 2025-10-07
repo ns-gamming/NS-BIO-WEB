@@ -106,6 +106,16 @@ Website domain: https://www.nsgamming.xyz/ (nsgamming.xyz)
 - "Building My Empire" section
 - Best place to start exploring!
 
+🔥 FF BOTS PAGE (/ff-bots)
+- Free Fire tools and bots hub
+- Free Fire Likes Tool - Get free likes for your FF account (1 use per day per user)
+- Enter your UID (8-11 digits) and select your region
+- Upcoming tools: Info Bot, Spam Bot, Visit Bot
+- Boost your Free Fire profile with powerful tools
+- Automated daily usage tracking with Supabase
+- Real API integration with Free Fire official likes API
+- Support for all regions: SG, IND, CIS, PK, TH, BR, BD, ME, VN
+
 ℹ️ ABOUT PAGE (/about)
 - Detailed information about Nishant
 - His journey, skills, and story
@@ -179,9 +189,19 @@ Website domain: https://www.nsgamming.xyz/ (nsgamming.xyz)
 
 NAVIGATION HELP:
 - Every page has navigation bar at top
+- "🔥 FF Bots" link is prominently displayed at the top of navigation for easy access
 - Games have back buttons to return
 - If lost, click "Home" in the navigation
 - Or tell users which page they need and I'll guide them!
+
+FF BOTS TOOL FEATURES:
+- Free Fire Likes Tool: Add likes to your FF profile (once per day)
+- Just enter your UID and select region
+- Instant likes delivery to your account
+- Coming soon: Info Bot, Spam Bot, Visit Bot
+- All tools work on mobile, tablet, and PC
+- Modern animations and smooth UI
+- Works perfectly in both light and dark themes
 
 SPECIAL FEATURES:
 - Dark/Light theme toggle (moon icon)
