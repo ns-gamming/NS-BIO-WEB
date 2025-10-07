@@ -10,7 +10,6 @@ const supabase = supabaseUrl && supabaseServiceKey
   : null;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -57,33 +56,60 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const { data: existingUsage } = await supabase
-      .from('ff_tool_usage')
+    const { data: existingUsage, error: checkError } = await supabase
+      .from('usage_logs')
       .select('*')
-      .eq('ip_address', ipString)
-      .eq('tool_type', 'likes')
-      .gte('created_at', today.toISOString())
-      .single();
+      .eq('ip', ipString)
+      .gte('used_at', today.toISOString());
 
-    if (existingUsage) {
-      return res.status(429).json({
-        success: false,
-        message: "You've already used this tool today. Please try again tomorrow!"
+    if (checkError) {
+      console.error('Error checking usage:', checkError);
+      return res.status(500).json({ 
+        success: false, 
+        message: "Failed to check usage limit" 
       });
     }
 
-    const apiUrl = `https://hunterapi.net/api/ff-likes.php?uid=${uid}&region=${region}`;
-    const response = await fetch(apiUrl);
-    const data = await response.json();
+    if (existingUsage && existingUsage.length > 0) {
+      return res.status(429).json({ 
+        success: false, 
+        message: "You have already used this tool today. Come back tomorrow!" 
+      });
+    }
 
-    await supabase.from('ff_tool_usage').insert({
-      ip_address: ipString,
-      tool_type: 'likes',
-      uid: uid,
-      region: region
-    });
+    const apiUrl = `https://likes.api.freefireofficial.com/api/${region}/${uid}?key=testkey12`;
+    const apiResponse = await fetch(apiUrl);
+    const apiData = await apiResponse.json();
 
-    return res.status(200).json(data);
+    if (apiData.status === 1 && apiData.response?.LikesGivenByAPI > 0) {
+      const { error: insertError } = await supabase
+        .from('usage_logs')
+        .insert([{ 
+          ip: ipString, 
+          uid, 
+          region, 
+          used_at: new Date().toISOString() 
+        }]);
+
+      if (insertError) {
+        console.error('Error logging usage:', insertError);
+      }
+
+      return res.json({
+        success: true,
+        player: apiData.response.PlayerNickname,
+        uid: apiData.response.UID,
+        level: apiData.response.PlayerLevel,
+        likesBefore: apiData.response.LikesbeforeCommand,
+        likesAdded: apiData.response.LikesGivenByAPI,
+        likesAfter: apiData.response.LikesafterCommand,
+      });
+    } else {
+      return res.json({
+        success: false,
+        message: apiData.message || "Unable to add likes at this time"
+      });
+    }
 
   } catch (error: any) {
     console.error('FF Likes API Error:', error);
