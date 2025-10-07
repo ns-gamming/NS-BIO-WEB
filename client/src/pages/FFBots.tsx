@@ -6,13 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Loader2, Trophy, Gamepad2, Sparkles, Gift, Clock, TrendingUp, Users } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { createClient } from '@supabase/supabase-js';
 import AdSenseAd from "@/components/AdSenseAd";
-
-const supabaseUrl = 'https://zsithfxmjtyeummbchpy.supabase.co';
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaXRoZnhtanR5ZXVtbWJjaHB5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk4NTUwOTEsImV4cCI6MjA3NTQzMTA5MX0.h8ej73edKcLyQJxY-N1irLc4tXTnavDVOySLF1aC5ps';
-
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 const REGIONS = [
   { value: 'sg', label: 'Singapore (SG)' },
@@ -54,45 +48,6 @@ export default function FFBots() {
   const [result, setResult] = useState<any>(null);
   const { toast } = useToast();
 
-  const getUserIP = async () => {
-    try {
-      const response = await fetch('https://api.ipify.org?format=json');
-      const data = await response.json();
-      return data.ip;
-    } catch (error) {
-      const browserFingerprint = `${navigator.userAgent}_${navigator.language}_${new Date().toDateString()}`;
-      return btoa(browserFingerprint);
-    }
-  };
-
-  const checkUsageLimit = async (ip: string) => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const { data, error } = await supabase
-      .from('usage_logs')
-      .select('*')
-      .eq('ip', ip)
-      .gte('used_at', today.toISOString());
-
-    if (error) {
-      console.error('Error checking usage:', error);
-      return false;
-    }
-
-    return data && data.length > 0;
-  };
-
-  const logUsage = async (ip: string, uid: string, region: string) => {
-    const { error } = await supabase
-      .from('usage_logs')
-      .insert([{ ip, uid, region, used_at: new Date().toISOString() }]);
-
-    if (error) {
-      console.error('Error logging usage:', error);
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -118,39 +73,40 @@ export default function FFBots() {
     setResult(null);
 
     try {
-      const userIP = await getUserIP();
-      const hasUsedToday = await checkUsageLimit(userIP);
+      const response = await fetch('/api/ff-likes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ uid, region }),
+      });
 
-      if (hasUsedToday) {
+      const data = await response.json();
+
+      if (response.status === 429) {
         toast({
           title: "⏰ Daily Limit Reached",
-          description: "You have already used this tool today. Come back tomorrow!",
+          description: data.message || "You have already used this tool today. Come back tomorrow!",
           variant: "destructive",
         });
-        setIsLoading(false);
+        setResult({ success: false, message: data.message });
         return;
       }
 
-      const apiUrl = `https://likes.api.freefireofficial.com/api/${region}/${uid}?key=testkey12`;
-      const response = await fetch(apiUrl);
-      const data = await response.json();
-
-      if (data.status === 1 && data.response?.LikesGivenByAPI > 0) {
-        await logUsage(userIP, uid, region);
-        
+      if (data.success) {
         setResult({
           success: true,
-          player: data.response.PlayerNickname,
-          uid: data.response.UID,
-          level: data.response.PlayerLevel,
-          likesBefore: data.response.LikesbeforeCommand,
-          likesAdded: data.response.LikesGivenByAPI,
-          likesAfter: data.response.LikesafterCommand,
+          player: data.player,
+          uid: data.uid,
+          level: data.level,
+          likesBefore: data.likesBefore,
+          likesAdded: data.likesAdded,
+          likesAfter: data.likesAfter,
         });
 
         toast({
           title: "🎉 Success!",
-          description: `Added ${data.response.LikesGivenByAPI} likes to ${data.response.PlayerNickname}!`,
+          description: `Added ${data.likesAdded} likes to ${data.player}!`,
         });
       } else {
         setResult({ success: false, message: data.message || "Unable to add likes at this time" });
@@ -164,7 +120,7 @@ export default function FFBots() {
       console.error('Error:', error);
       toast({
         title: "❌ Error",
-        description: "Failed to connect to the API. Please try again later.",
+        description: "Failed to connect to the server. Please try again later.",
         variant: "destructive",
       });
       setResult({ success: false, message: "Connection error" });
