@@ -9,15 +9,15 @@ import { useToast } from "@/hooks/use-toast";
 import AdSenseAd from "@/components/AdSenseAd";
 
 const REGIONS = [
-  { value: 'sg', label: 'Singapore (SG)' },
-  { value: 'ind', label: 'India (IND)' },
-  { value: 'cis', label: 'CIS' },
-  { value: 'pk', label: 'Pakistan (PK)' },
-  { value: 'th', label: 'Thailand (TH)' },
-  { value: 'br', label: 'Brazil (BR)' },
-  { value: 'bd', label: 'Bangladesh (BD)' },
-  { value: 'me', label: 'Middle East (ME)' },
-  { value: 'vn', label: 'Vietnam (VN)' },
+  { value: 'ind', label: '🇮🇳 India (IND)' },
+  { value: 'sg', label: '🇸🇬 Singapore (SG)' },
+  { value: 'pk', label: '🇵🇰 Pakistan (PK)' },
+  { value: 'bd', label: '🇧🇩 Bangladesh (BD)' },
+  { value: 'th', label: '🇹🇭 Thailand (TH)' },
+  { value: 'vn', label: '🇻🇳 Vietnam (VN)' },
+  { value: 'br', label: '🇧🇷 Brazil (BR)' },
+  { value: 'me', label: '🇦🇪 Middle East (ME)' },
+  { value: 'cis', label: '🌍 CIS' },
 ];
 
 const UPCOMING_TOOLS = [
