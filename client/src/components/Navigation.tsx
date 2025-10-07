@@ -13,7 +13,7 @@ export default function Navigation() {
     { path: "/", label: "Home" },
     { path: "/about", label: "About" },
     { path: "/portfolio", label: "Portfolio" },
-    { path: "/ff-bots", label: "🔥 FF Bots" },
+    { path: "/ff-bots", label: "Free Fire Bots" },
     { path: "/games", label: "Games" },
     { path: "/social", label: "Social" },
     { path: "/contact", label: "Contact" },
