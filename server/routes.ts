@@ -67,7 +67,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (existingUsage && existingUsage.length > 0) {
         return res.status(429).json({ 
           success: false, 
-          message: "You have already used this tool today. Come back tomorrow!" 
+          message: "You've already used your free daily like. To get unlimited likes, contact @Nishantsarkar10k on Telegram to buy VIP access." 
         });
       }
 
