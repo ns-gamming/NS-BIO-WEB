@@ -48,9 +48,9 @@ export default function TimeGreeting() {
   const updateGreeting = () => {
     const now = new Date();
     const hour = now.getHours();
-    
+
     let greetingsArray;
-    
+
     if (hour >= 5 && hour < 12) {
       greetingsArray = MORNING_GREETINGS;
     } else if (hour >= 12 && hour < 17) {
@@ -64,7 +64,7 @@ export default function TimeGreeting() {
     const selectedGreeting = greetingsArray[indexRef.current % greetingsArray.length];
     setGreeting(selectedGreeting.greeting);
     setHinglishPhrase(selectedGreeting.phrase);
-    
+
     indexRef.current += 1;
   };
 
