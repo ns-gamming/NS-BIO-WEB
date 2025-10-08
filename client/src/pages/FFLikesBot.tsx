@@ -86,11 +86,11 @@ export default function FFBots() {
 
       if (response.status === 429) {
         toast({
-          title: "⏰ Daily Limit Reached",
-          description: data.message || "You have already used this tool today. Come back tomorrow!",
+          title: "💎 VIP Access Available",
+          description: data.message || "You've already used your free daily like. To get unlimited likes, contact @Nishantsarkar10k on Telegram to buy VIP access.",
           variant: "destructive",
         });
-        setResult({ success: false, message: data.message });
+        setResult({ success: false, message: data.message, isVipMessage: true });
         return;
       }
 
@@ -232,41 +232,87 @@ export default function FFBots() {
           {result && (
             <div className={`mt-6 p-6 rounded-xl border-2 animate-bounceIn ${
               result.success 
-                ? 'bg-gradient-to-br from-green-500/10 to-emerald-500/10 dark:from-green-500/20 dark:to-emerald-500/20 border-green-500/50 dark:border-green-500/70' 
+                ? 'bg-gradient-to-br from-green-500/10 to-emerald-500/10 dark:from-green-500/20 dark:to-emerald-500/20 border-green-500/50 dark:border-green-500/70 shadow-[0_0_30px_rgba(34,197,94,0.3)]' 
+                : result.isVipMessage
+                ? 'bg-gradient-to-br from-yellow-500/10 via-amber-500/10 to-orange-500/10 dark:from-yellow-500/20 dark:via-amber-500/20 dark:to-orange-500/20 border-yellow-500/50 dark:border-yellow-500/70 shadow-[0_0_40px_rgba(234,179,8,0.4)] animate-pulse-slow'
                 : 'bg-gradient-to-br from-red-500/10 to-orange-500/10 dark:from-red-500/20 dark:to-orange-500/20 border-red-500/50 dark:border-red-500/70'
             }`} data-testid="result-display">
               {result.success ? (
                 <div className="space-y-3">
-                  <div className="flex items-center gap-2 text-green-600 dark:text-green-400 font-bold text-xl">
+                  <div className="flex items-center gap-2 text-green-600 dark:text-green-400 font-bold text-xl animate-fadeUp">
                     <Trophy className="w-6 h-6 animate-bounce" />
                     Congratulations! Likes sent successfully! 🎉
                   </div>
                   <div className="grid md:grid-cols-2 gap-4 mt-4">
-                    <div className="bg-white/50 dark:bg-gray-800/50 p-4 rounded-lg border border-green-500/30 dark:border-green-500/50">
+                    <div className="bg-white/50 dark:bg-gray-800/50 p-4 rounded-lg border border-green-500/30 dark:border-green-500/50 animate-scaleIn" style={{ animationDelay: '0.1s' }}>
                       <p className="text-sm text-muted-foreground dark:text-muted-foreground">Player</p>
                       <p className="text-lg font-bold text-foreground dark:text-foreground" data-testid="text-player">{result.player}</p>
                     </div>
-                    <div className="bg-white/50 dark:bg-gray-800/50 p-4 rounded-lg border border-green-500/30 dark:border-green-500/50">
+                    <div className="bg-white/50 dark:bg-gray-800/50 p-4 rounded-lg border border-green-500/30 dark:border-green-500/50 animate-scaleIn" style={{ animationDelay: '0.15s' }}>
                       <p className="text-sm text-muted-foreground dark:text-muted-foreground">UID</p>
                       <p className="text-lg font-bold text-foreground dark:text-foreground" data-testid="text-uid">{result.uid}</p>
                     </div>
-                    <div className="bg-white/50 dark:bg-gray-800/50 p-4 rounded-lg border border-green-500/30 dark:border-green-500/50">
+                    <div className="bg-white/50 dark:bg-gray-800/50 p-4 rounded-lg border border-green-500/30 dark:border-green-500/50 animate-scaleIn" style={{ animationDelay: '0.2s' }}>
                       <p className="text-sm text-muted-foreground dark:text-muted-foreground">Level</p>
                       <p className="text-lg font-bold text-foreground dark:text-foreground" data-testid="text-level">{result.level}</p>
                     </div>
-                    <div className="bg-white/50 dark:bg-gray-800/50 p-4 rounded-lg border border-green-500/30 dark:border-green-500/50">
+                    <div className="bg-white/50 dark:bg-gray-800/50 p-4 rounded-lg border border-green-500/30 dark:border-green-500/50 animate-scaleIn" style={{ animationDelay: '0.25s' }}>
                       <p className="text-sm text-muted-foreground dark:text-muted-foreground">Likes Added</p>
                       <p className="text-lg font-bold text-green-600 dark:text-green-400" data-testid="text-likes-added">+{result.likesAdded}</p>
                     </div>
-                    <div className="bg-white/50 dark:bg-gray-800/50 p-4 rounded-lg border border-green-500/30 dark:border-green-500/50">
+                    <div className="bg-white/50 dark:bg-gray-800/50 p-4 rounded-lg border border-green-500/30 dark:border-green-500/50 animate-scaleIn" style={{ animationDelay: '0.3s' }}>
                       <p className="text-sm text-muted-foreground dark:text-muted-foreground">Likes Before</p>
                       <p className="text-lg font-bold text-foreground dark:text-foreground" data-testid="text-likes-before">{result.likesBefore}</p>
                     </div>
-                    <div className="bg-white/50 dark:bg-gray-800/50 p-4 rounded-lg border border-green-500/30 dark:border-green-500/50">
+                    <div className="bg-white/50 dark:bg-gray-800/50 p-4 rounded-lg border border-green-500/30 dark:border-green-500/50 animate-scaleIn" style={{ animationDelay: '0.35s' }}>
                       <p className="text-sm text-muted-foreground dark:text-muted-foreground">Likes After</p>
                       <p className="text-lg font-bold text-primary dark:text-primary" data-testid="text-likes-after">{result.likesAfter}</p>
                     </div>
                   </div>
+                </div>
+              ) : result.isVipMessage ? (
+                <div className="space-y-4 animate-fadeUp">
+                  <div className="flex items-center gap-3 text-yellow-600 dark:text-yellow-400 font-bold text-xl">
+                    <div className="relative">
+                      <Sparkles className="w-7 h-7 animate-spin-slow" />
+                      <Sparkles className="w-7 h-7 absolute inset-0 animate-ping opacity-50" />
+                    </div>
+                    VIP Access Required
+                  </div>
+                  <p className="text-yellow-700 dark:text-yellow-300 font-medium text-lg leading-relaxed" data-testid="text-vip-message">
+                    {result.message}
+                  </p>
+                  <div className="mt-6 p-4 bg-gradient-to-r from-yellow-500/20 to-amber-500/20 dark:from-yellow-500/30 dark:to-amber-500/30 rounded-lg border-2 border-yellow-500/40 dark:border-yellow-500/60 animate-pulse-neon">
+                    <div className="flex items-center gap-2 text-yellow-700 dark:text-yellow-300 font-semibold mb-2">
+                      <Gift className="w-5 h-5" />
+                      VIP Benefits:
+                    </div>
+                    <ul className="space-y-2 text-yellow-800 dark:text-yellow-200 ml-7">
+                      <li className="flex items-center gap-2">
+                        <span className="text-yellow-500">✓</span> Unlimited daily likes
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-yellow-500">✓</span> Priority support
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-yellow-500">✓</span> Access to all premium tools
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-yellow-500">✓</span> Faster processing
+                      </li>
+                    </ul>
+                  </div>
+                  <a 
+                    href="https://t.me/Nishantsarkar10k" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="block w-full mt-4"
+                  >
+                    <Button className="w-full bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-600 hover:to-amber-600 text-white font-bold text-lg py-6 shadow-lg hover:shadow-[0_0_40px_rgba(234,179,8,0.6)] transition-all duration-300 hover:scale-105 animate-pulse-neon" data-testid="button-contact-vip">
+                      <Sparkles className="w-5 h-5 mr-2" />
+                      Contact for VIP Access
+                    </Button>
+                  </a>
                 </div>
               ) : (
                 <div className="text-red-600 dark:text-red-400 font-semibold" data-testid="text-error">

@@ -52,15 +52,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const { data: existingUsage, error: checkError } = await supabase
         .from('usage_logs')
-        .select('*')
+        .select('id')
         .eq('ip', ipString)
-        .gte('used_at', today.toISOString());
+        .gte('used_at', today.toISOString())
+        .limit(1);
 
       if (checkError) {
         console.error('Error checking usage:', checkError);
         return res.status(500).json({ 
           success: false, 
-          message: "Failed to check usage limit" 
+          message: "Database connection error. Please try again later." 
         });
       }
 
