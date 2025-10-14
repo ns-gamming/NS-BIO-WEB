@@ -155,25 +155,34 @@ export default function Home() {
             {/* Utility Tools Card */}
             <Link 
               href="/utility-tools" 
-              className="glass rounded-2xl p-8 hover:scale-105 transition-all duration-500 border-2 border-primary/30 hover:border-primary/60 hover:shadow-[0_0_30px_rgba(var(--primary),0.4)] group cursor-pointer"
+              className="glass rounded-2xl p-8 hover:scale-105 transition-all duration-500 border-2 border-primary/30 hover:border-primary/60 hover:shadow-[0_0_40px_rgba(6,182,212,0.6)] group cursor-pointer relative overflow-hidden animate-bounceIn"
               data-testid="tools-utility-card"
+              style={{ animationDelay: '0.4s' }}
             >
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-xl flex items-center justify-center group-hover:rotate-12 transition-all duration-500">
-                  <i className="fas fa-tools text-3xl text-white"></i>
+              {/* Animated Background Gradient */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-cyan-500/10 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient-shift" />
+
+              {/* Glowing Border Effect */}
+              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse-neon" style={{ background: 'linear-gradient(45deg, transparent 40%, rgba(6,182,212,0.3) 50%, transparent 60%)', backgroundSize: '200% 200%' }} />
+
+              <div className="relative z-10">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-16 h-16 bg-gradient-to-br from-primary to-cyan-600 rounded-xl flex items-center justify-center group-hover:rotate-12 group-hover:scale-110 transition-all duration-500 shadow-lg group-hover:shadow-[0_0_20px_rgba(6,182,212,0.6)]">
+                    <i className="fas fa-tools text-3xl text-white animate-pulse"></i>
+                  </div>
+                  <div>
+                    <h4 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
+                      Utility Tools
+                    </h4>
+                    <p className="text-sm text-muted-foreground group-hover:text-cyan-400 transition-colors">Productivity boosters</p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
-                    Utility Tools
-                  </h4>
-                  <p className="text-sm text-muted-foreground">Productivity boosters</p>
+                <p className="text-foreground mb-4 group-hover:text-cyan-50 dark:group-hover:text-cyan-100 transition-colors">
+                  Image Compressor, Text-to-Speech, QR Generator, Clipboard Saver - everything you need!
+                </p>
+                <div className="flex items-center text-primary font-semibold group-hover:translate-x-2 transition-transform">
+                  Explore Utilities <i className="fas fa-arrow-right ml-2 group-hover:animate-bounce"></i>
                 </div>
-              </div>
-              <p className="text-foreground mb-4">
-                Image Compressor, Text-to-Speech, QR Generator, Clipboard Saver - everything you need!
-              </p>
-              <div className="flex items-center text-primary font-semibold group-hover:translate-x-2 transition-transform">
-                Explore Utilities <i className="fas fa-arrow-right ml-2"></i>
               </div>
             </Link>
           </div>
