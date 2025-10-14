@@ -29,7 +29,7 @@ export default function Home() {
                 className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
               />
             </div>
-            
+
             {/* Intro Text */}
             <div className="text-left md:text-left flex-1">
               <h2 className="text-2xl font-bold mb-4 text-primary" data-testid="profile-title">
@@ -45,7 +45,7 @@ export default function Home() {
               </p>
             </div>
           </div>
-          
+
           {/* Primary CTAs */}
           <div className="flex flex-wrap justify-center gap-4 mt-8">
             <Link href="/about" className="neon-btn" data-testid="cta-about">
@@ -59,7 +59,7 @@ export default function Home() {
             </Link>
           </div>
         </div>
-        
+
         {/* FF Bots Promo - Eye-Catching Section */}
         <div className="glass rounded-2xl p-8 max-w-4xl mx-auto mb-12 border-2 border-primary/30 bg-gradient-to-br from-primary/10 via-accent/10 to-primary/5 animate-pulse-neon hover:scale-105 transition-all duration-500">
           <div className="text-center mb-6">
@@ -111,7 +111,7 @@ export default function Home() {
             <p className="text-sm text-muted-foreground">Life balance with passion</p>
           </Link>
         </div>
-        
+
         {/* Tools Access Section */}
         <div className="max-w-6xl mx-auto mb-12">
           <h3 className="text-3xl font-orbitron font-bold mb-8 text-center bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-glow">
@@ -121,25 +121,34 @@ export default function Home() {
             {/* FF Tools Card */}
             <Link 
               href="/tools" 
-              className="glass rounded-2xl p-8 hover:scale-105 transition-all duration-500 border-2 border-orange-500/30 hover:border-orange-500/60 hover:shadow-[0_0_30px_rgba(249,115,22,0.4)] group cursor-pointer"
+              className="glass rounded-2xl p-8 hover:scale-105 transition-all duration-500 border-2 border-orange-500/30 hover:border-orange-500/60 hover:shadow-[0_0_40px_rgba(249,115,22,0.6)] group cursor-pointer relative overflow-hidden animate-bounceIn"
               data-testid="tools-ff-card"
+              style={{ animationDelay: '0.3s' }}
             >
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center group-hover:rotate-12 transition-all duration-500">
-                  <i className="fas fa-fire text-3xl text-white"></i>
+              {/* Animated Background Gradient */}
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-red-500/10 to-orange-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient-shift" />
+
+              {/* Glowing Border Effect */}
+              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse-neon" style={{ background: 'linear-gradient(45deg, transparent 40%, rgba(249,115,22,0.3) 50%, transparent 60%)', backgroundSize: '200% 200%' }} />
+
+              <div className="relative z-10">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center group-hover:rotate-12 group-hover:scale-110 transition-all duration-500 shadow-lg group-hover:shadow-[0_0_20px_rgba(249,115,22,0.6)]">
+                    <i className="fas fa-fire text-3xl text-white animate-pulse"></i>
+                  </div>
+                  <div>
+                    <h4 className="text-2xl font-bold text-foreground group-hover:text-orange-500 transition-colors">
+                      Free Fire Tools
+                    </h4>
+                    <p className="text-sm text-muted-foreground group-hover:text-orange-400 transition-colors">Gaming utilities</p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-2xl font-bold text-foreground group-hover:text-orange-500 transition-colors">
-                    Free Fire Tools
-                  </h4>
-                  <p className="text-sm text-muted-foreground">Gaming utilities</p>
+                <p className="text-foreground mb-4 group-hover:text-orange-50 dark:group-hover:text-orange-100 transition-colors">
+                  Name Generator, UID Generator, Sensitivity Settings, and more FF tools to level up your game!
+                </p>
+                <div className="flex items-center text-orange-500 font-semibold group-hover:translate-x-2 transition-transform">
+                  Explore FF Tools <i className="fas fa-arrow-right ml-2 group-hover:animate-bounce"></i>
                 </div>
-              </div>
-              <p className="text-foreground mb-4">
-                Name Generator, UID Generator, Sensitivity Settings, and more FF tools to level up your game!
-              </p>
-              <div className="flex items-center text-orange-500 font-semibold group-hover:translate-x-2 transition-transform">
-                Explore FF Tools <i className="fas fa-arrow-right ml-2"></i>
               </div>
             </Link>
 
@@ -169,7 +178,7 @@ export default function Home() {
             </Link>
           </div>
         </div>
-        
+
         {/* Featured YouTube */}
         <div className="glass rounded-2xl p-8 max-w-2xl mx-auto mb-12 hover:scale-105 transition-all duration-300" data-testid="featured-youtube">
           <h3 className="text-2xl font-bold mb-4 text-center text-primary animate-glow">🎥 Latest from NS GAMMING</h3>
