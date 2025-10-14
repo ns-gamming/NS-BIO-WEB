@@ -246,7 +246,6 @@ Remember: The best sensitivity is one you can use consistently. Stick with setti
     tags: ["free fire", "sensitivity", "settings", "gaming tips", "mobile gaming"],
     readTime: 7,
     published: true,
-  }
   },
   {
     title: "YouTube Monetization Guide 2025: Multiple Income Streams Explained",
