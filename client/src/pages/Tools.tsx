@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { Link } from 'wouter';
 import HeroSection from '@/components/HeroSection';
+import AdSenseAd from '@/components/AdSenseAd';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { useToast } from '@/hooks/use-toast';
-import { Copy, Sparkles, Shield, Gamepad2, Wand2, QrCode, Download } from 'lucide-react';
+import { Copy, Sparkles, Shield, Gamepad2, Wand2, QrCode, Download, ArrowRight } from 'lucide-react';
 import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 
@@ -350,87 +352,130 @@ export default function Tools() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
       <HeroSection
-        title="Gaming & Utility Tools"
-        subtitle="Free Fire name generators, UID makers, sensitivity settings, and more! 🎮"
+        title="🛠️ Tools & Utilities Hub"
+        subtitle="Choose your category: Free Fire gaming tools or general utilities"
       />
 
       <div className="container mx-auto px-4 py-12">
-        <Tabs defaultValue="ffname" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 dark:bg-gray-800" data-testid="tabs-tools">
-            <TabsTrigger value="ffname" data-testid="tab-ffname">FF Name Generator</TabsTrigger>
-            <TabsTrigger value="uid" data-testid="tab-uid">UID Generator</TabsTrigger>
-            <TabsTrigger value="sensitivity" data-testid="tab-sensitivity">Sensitivity Settings</TabsTrigger>
-            <TabsTrigger value="password" data-testid="tab-password">Password Generator</TabsTrigger>
+        {/* Main Category Selection */}
+        <Tabs defaultValue="fftools" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 mb-8 dark:bg-gray-800" data-testid="tabs-category">
+            <TabsTrigger value="fftools" data-testid="tab-category-ff" className="text-lg py-3">
+              <i className="fas fa-fire mr-2"></i>
+              Free Fire Tools
+            </TabsTrigger>
+            <TabsTrigger value="utilities" data-testid="tab-category-utilities" className="text-lg py-3">
+              <i className="fas fa-tools mr-2"></i>
+              General Utilities
+            </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="ffname" className="mt-6">
-            <Card className="dark:bg-gray-900 dark:border-gray-800">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 dark:text-white">
-                  <Sparkles className="h-5 w-5 text-cyan-500" />
-                  Free Fire Stylish Name Generator
-                </CardTitle>
-                <CardDescription className="dark:text-gray-400">
-                  Create unique, stylish names with fancy fonts and symbols for your Free Fire profile
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <FFNameGenerator />
-              </CardContent>
-            </Card>
+          {/* FF Tools Category */}
+          <TabsContent value="fftools" className="mt-6">
+            <Tabs defaultValue="ffname" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 dark:bg-gray-800" data-testid="tabs-fftools">
+                <TabsTrigger value="ffname" data-testid="tab-ffname">FF Name Generator</TabsTrigger>
+                <TabsTrigger value="uid" data-testid="tab-uid">UID Generator</TabsTrigger>
+                <TabsTrigger value="sensitivity" data-testid="tab-sensitivity">Sensitivity Settings</TabsTrigger>
+                <TabsTrigger value="password" data-testid="tab-password">Password Generator</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="ffname" className="mt-6">
+                <Card className="dark:bg-gray-900 dark:border-gray-800">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 dark:text-white">
+                      <Sparkles className="h-5 w-5 text-cyan-500" />
+                      Free Fire Stylish Name Generator
+                    </CardTitle>
+                    <CardDescription className="dark:text-gray-400">
+                      Create unique, stylish names with fancy fonts and symbols for your Free Fire profile
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <FFNameGenerator />
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="uid" className="mt-6">
+                <Card className="dark:bg-gray-900 dark:border-gray-800">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 dark:text-white">
+                      <Gamepad2 className="h-5 w-5 text-purple-500" />
+                      Random UID Generator
+                    </CardTitle>
+                    <CardDescription className="dark:text-gray-400">
+                      Generate random Free Fire UIDs for testing and development purposes
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <UIDGenerator />
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="sensitivity" className="mt-6">
+                <Card className="dark:bg-gray-900 dark:border-gray-800">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 dark:text-white">
+                      <Sparkles className="h-5 w-5 text-green-500" />
+                      FF Sensitivity Settings Generator
+                    </CardTitle>
+                    <CardDescription className="dark:text-gray-400">
+                      Get optimized sensitivity settings based on your playstyle
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <SensitivityGenerator />
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="password" className="mt-6">
+                <Card className="dark:bg-gray-900 dark:border-gray-800">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 dark:text-white">
+                      <Shield className="h-5 w-5 text-orange-500" />
+                      Secure Password Generator
+                    </CardTitle>
+                    <CardDescription className="dark:text-gray-400">
+                      Create strong, random passwords to secure your gaming accounts
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <PasswordGenerator />
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
           </TabsContent>
 
-          <TabsContent value="uid" className="mt-6">
-            <Card className="dark:bg-gray-900 dark:border-gray-800">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 dark:text-white">
-                  <Gamepad2 className="h-5 w-5 text-purple-500" />
-                  Random UID Generator
-                </CardTitle>
-                <CardDescription className="dark:text-gray-400">
-                  Generate random Free Fire UIDs for testing and development purposes
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <UIDGenerator />
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="sensitivity" className="mt-6">
-            <Card className="dark:bg-gray-900 dark:border-gray-800">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 dark:text-white">
-                  <Sparkles className="h-5 w-5 text-green-500" />
-                  FF Sensitivity Settings Generator
-                </CardTitle>
-                <CardDescription className="dark:text-gray-400">
-                  Get optimized sensitivity settings based on your playstyle
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <SensitivityGenerator />
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="password" className="mt-6">
-            <Card className="dark:bg-gray-900 dark:border-gray-800">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 dark:text-white">
-                  <Shield className="h-5 w-5 text-orange-500" />
-                  Secure Password Generator
-                </CardTitle>
-                <CardDescription className="dark:text-gray-400">
-                  Create strong, random passwords to secure your gaming accounts
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <PasswordGenerator />
-              </CardContent>
-            </Card>
+          {/* General Utilities Category */}
+          <TabsContent value="utilities" className="mt-6">
+            <div className="text-center py-12">
+              <div className="max-w-2xl mx-auto glass rounded-2xl p-8 border-2 border-primary/30">
+                <i className="fas fa-tools text-6xl text-primary mb-6 block animate-bounce"></i>
+                <h3 className="text-2xl font-bold mb-4 dark:text-white">General Utility Tools</h3>
+                <p className="text-muted-foreground mb-6">
+                  Explore our collection of productivity tools including Image Compressor, Text-to-Speech, QR Code Generator, and more!
+                </p>
+                <Link href="/utility-tools">
+                  <Button size="lg" className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90" data-testid="button-goto-utilities">
+                    <span className="flex items-center gap-2">
+                      Go to Utility Tools
+                      <ArrowRight className="h-4 w-4" />
+                    </span>
+                  </Button>
+                </Link>
+              </div>
+            </div>
           </TabsContent>
         </Tabs>
+
+        {/* AdSense Ad */}
+        <div className="mt-12">
+          <AdSenseAd />
+        </div>
       </div>
     </div>
   );

@@ -112,6 +112,64 @@ export default function Home() {
           </Link>
         </div>
         
+        {/* Tools Access Section */}
+        <div className="max-w-6xl mx-auto mb-12">
+          <h3 className="text-3xl font-orbitron font-bold mb-8 text-center bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-glow">
+            🛠️ Free Tools & Utilities
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* FF Tools Card */}
+            <Link 
+              href="/tools" 
+              className="glass rounded-2xl p-8 hover:scale-105 transition-all duration-500 border-2 border-orange-500/30 hover:border-orange-500/60 hover:shadow-[0_0_30px_rgba(249,115,22,0.4)] group cursor-pointer"
+              data-testid="tools-ff-card"
+            >
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center group-hover:rotate-12 transition-all duration-500">
+                  <i className="fas fa-fire text-3xl text-white"></i>
+                </div>
+                <div>
+                  <h4 className="text-2xl font-bold text-foreground group-hover:text-orange-500 transition-colors">
+                    Free Fire Tools
+                  </h4>
+                  <p className="text-sm text-muted-foreground">Gaming utilities</p>
+                </div>
+              </div>
+              <p className="text-foreground mb-4">
+                Name Generator, UID Generator, Sensitivity Settings, and more FF tools to level up your game!
+              </p>
+              <div className="flex items-center text-orange-500 font-semibold group-hover:translate-x-2 transition-transform">
+                Explore FF Tools <i className="fas fa-arrow-right ml-2"></i>
+              </div>
+            </Link>
+
+            {/* Utility Tools Card */}
+            <Link 
+              href="/utility-tools" 
+              className="glass rounded-2xl p-8 hover:scale-105 transition-all duration-500 border-2 border-primary/30 hover:border-primary/60 hover:shadow-[0_0_30px_rgba(var(--primary),0.4)] group cursor-pointer"
+              data-testid="tools-utility-card"
+            >
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-xl flex items-center justify-center group-hover:rotate-12 transition-all duration-500">
+                  <i className="fas fa-tools text-3xl text-white"></i>
+                </div>
+                <div>
+                  <h4 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
+                    Utility Tools
+                  </h4>
+                  <p className="text-sm text-muted-foreground">Productivity boosters</p>
+                </div>
+              </div>
+              <p className="text-foreground mb-4">
+                Image Compressor, Text-to-Speech, QR Generator, Clipboard Saver - everything you need!
+              </p>
+              <div className="flex items-center text-primary font-semibold group-hover:translate-x-2 transition-transform">
+                Explore Utilities <i className="fas fa-arrow-right ml-2"></i>
+              </div>
+            </Link>
+          </div>
+        </div>
+        
         {/* Featured YouTube */}
         <div className="glass rounded-2xl p-8 max-w-2xl mx-auto mb-12 hover:scale-105 transition-all duration-300" data-testid="featured-youtube">
           <h3 className="text-2xl font-bold mb-4 text-center text-primary animate-glow">🎥 Latest from NS GAMMING</h3>
