@@ -44,6 +44,12 @@ import FFLikesBot from "./pages/FFLikesBot";
 import FFInfoBot from "./pages/FFInfoBot";
 import FFSpamBot from "./pages/FFSpamBot";
 import FFVisitBot from "./pages/FFVisitBot";
+import Tools from "./pages/Tools";
+import UtilityTools from "./pages/UtilityTools";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
+import TermsConditions from "./pages/TermsConditions";
+import Disclaimer from "./pages/Disclaimer";
 import NotFound from "@/pages/not-found";
 import PageLoader from "./components/PageLoader";
 import { useEffect, useState } from "react";
@@ -81,6 +87,12 @@ function Router() {
       <Route path="/games/sliding" component={SlidingPuzzle} />
       <Route path="/games/breakout" component={Breakout} />
       <Route path="/games/connect4" component={ConnectFour} />
+      <Route path="/tools" component={Tools} />
+      <Route path="/utility-tools" component={UtilityTools} />
+      <Route path="/blog" component={Blog} />
+      <Route path="/blog/:slug" component={BlogPost} />
+      <Route path="/terms-conditions" component={TermsConditions} />
+      <Route path="/disclaimer" component={Disclaimer} />
       <Route path="/privacy-policy" component={PrivacyPolicy} />
       <Route component={NotFound} />
     </Switch>

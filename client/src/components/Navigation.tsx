@@ -15,10 +15,11 @@ export default function Navigation() {
     { path: "/portfolio", label: "Portfolio" },
     { path: "/ff-bots", label: "Free Fire Bots" },
     { path: "/games", label: "Games" },
+    { path: "/tools", label: "Tools" },
+    { path: "/utility-tools", label: "Utilities" },
+    { path: "/blog", label: "Blog" },
     { path: "/social", label: "Social" },
     { path: "/contact", label: "Contact" },
-    { path: "/goals", label: "Goals" },
-    { path: "/privacy-policy", label: "Privacy" },
   ];
 
   const toggleMobileMenu = () => {
