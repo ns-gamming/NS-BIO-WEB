@@ -2,9 +2,10 @@ import { useQuery } from '@tanstack/react-query';
 import { useRoute } from 'wouter';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Clock, Eye, Calendar, Share2, Facebook, Twitter, Link as LinkIcon, ArrowLeft } from 'lucide-react';
+import { Clock, Eye, Calendar, Share2, Facebook, Twitter, Link as LinkIcon, ArrowLeft, TrendingUp } from 'lucide-react';
 import { Link } from 'wouter';
 import { useToast } from '@/hooks/use-toast';
+import { useLiveViewCounter } from '@/hooks/useLiveViewCounter';
 import type { BlogPost } from '@shared/schema';
 
 export default function BlogPost() {
@@ -19,6 +20,8 @@ export default function BlogPost() {
       return res.json();
     },
   });
+
+  const liveViews = useLiveViewCounter(post?.views || 100, 3000);
 
   const sharePost = (platform: string) => {
     const url = window.location.href;
@@ -99,9 +102,10 @@ export default function BlogPost() {
             <Clock className="h-4 w-4 mr-2" />
             {post.readTime} min read
           </span>
-          <span className="flex items-center" data-testid="text-post-views">
-            <Eye className="h-4 w-4 mr-2" />
-            {post.views} views
+          <span className="flex items-center text-green-600 dark:text-green-400 font-semibold animate-pulse" data-testid="text-post-views">
+            <Eye className="h-4 w-4 mr-2 animate-pulse" />
+            {liveViews.toLocaleString()}+ views
+            <TrendingUp className="h-4 w-4 ml-2 animate-bounce" />
           </span>
         </div>
 
