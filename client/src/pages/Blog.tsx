@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'wouter';
 import HeroSection from '@/components/HeroSection';
+import AdSenseAd from '@/components/AdSenseAd';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Clock, Eye, Calendar, ArrowRight } from 'lucide-react';
@@ -141,6 +142,11 @@ export default function Blog() {
             </Button>
           </div>
         )}
+
+        {/* AdSense Ad */}
+        <div className="mt-12">
+          <AdSenseAd />
+        </div>
       </div>
     </div>
   );
