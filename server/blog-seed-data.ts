@@ -1184,7 +1184,7 @@ print(a ^ b)  # Symmetric difference: {1, 2, 4, 5}
 **Functions**
 
 Basic Functions:
-```python
+\`\`\`python
 def greet(name):
     return f"Hello, {name}!"
 
@@ -1202,10 +1202,10 @@ def get_stats(numbers):
     return min(numbers), max(numbers), sum(numbers)/len(numbers)
 
 minimum, maximum, average = get_stats([1, 2, 3, 4, 5])
-```
+\`\`\`
 
 Advanced Function Concepts:
-```python
+\`\`\`python
 # *args (variable positional arguments)
 def sum_all(*numbers):
     return sum(numbers)
@@ -1227,12 +1227,12 @@ print(square(5))  # 25
 numbers = [1, 2, 3, 4, 5]
 squared = list(map(lambda x: x**2, numbers))
 even = list(filter(lambda x: x % 2 == 0, numbers))
-```
+\`\`\`
 
 **File Handling**
 
 Reading Files:
-```python
+\`\`\`python
 # Method 1: Manual close
 file = open("data.txt", "r")
 content = file.read()
@@ -1251,10 +1251,10 @@ with open("data.txt", "r") as file:
 # Read all lines into list
 with open("data.txt", "r") as file:
     lines = file.readlines()
-```
+\`\`\`
 
 Writing Files:
-```python
+\`\`\`python
 # Write (overwrites existing)
 with open("output.txt", "w") as file:
     file.write("Hello World\n")
@@ -1268,10 +1268,10 @@ with open("output.txt", "a") as file:
 lines = ["Line 1\n", "Line 2\n", "Line 3\n"]
 with open("output.txt", "w") as file:
     file.writelines(lines)
-```
+\`\`\`
 
 JSON Handling:
-```python
+\`\`\`python
 import json
 
 # Write JSON
@@ -1288,12 +1288,12 @@ with open("data.json", "w") as file:
 with open("data.json", "r") as file:
     loaded_data = json.load(file)
     print(loaded_data["name"])
-```
+\`\`\`
 
 **Object-Oriented Programming (OOP)**
 
 Classes and Objects:
-```python
+\`\`\`python
 class Person:
     # Class variable (shared by all instances)
     species = "Homo sapiens"
@@ -1318,10 +1318,10 @@ person2 = Person("John", 30)
 
 print(person1.introduce())
 print(person2.species)
-```
+\`\`\`
 
 Inheritance:
-```python
+\`\`\`python
 class Student(Person):  # Inherits from Person
     def __init__(self, name, age, student_id):
         super().__init__(name, age)  # Call parent constructor
@@ -1338,12 +1338,12 @@ student = Student("Alice", 20, "S12345")
 student.enroll("Python Programming")
 print(student.introduce())
 print(student.courses)
-```
+\`\`\`
 
 **Error Handling**
 
 Try-Except:
-```python
+\`\`\`python
 try:
     number = int(input("Enter a number: "))
     result = 10 / number
@@ -1358,10 +1358,10 @@ else:
     print("No errors occurred")
 finally:
     print("This always executes")
-```
+\`\`\`
 
 Custom Exceptions:
-```python
+\`\`\`python
 class InsufficientFundsError(Exception):
     pass
 
@@ -1379,12 +1379,12 @@ try:
     account.withdraw(1500)
 except InsufficientFundsError as e:
     print(e)
-```
+\`\`\`
 
 **Modules and Packages**
 
 Built-in Modules:
-```python
+\`\`\`python
 # Math module
 import math
 print(math.pi)
@@ -1407,10 +1407,10 @@ print(now.strftime("%Y-%m-%d %H:%M:%S"))
 import os
 print(os.getcwd())  # Current directory
 os.makedirs("new_folder", exist_ok=True)
-```
+\`\`\`
 
 Creating Your Own Module:
-```python
+\`\`\`python
 # File: mymodule.py
 def greet(name):
     return f"Hello, {name}!"
@@ -1427,7 +1427,7 @@ import mymodule
 print(mymodule.greet("Nishant"))
 print(mymodule.PI)
 print(mymodule.Calculator.add(5, 3))
-```
+\`\`\`
 
 **Popular Libraries to Learn**
 
@@ -1451,7 +1451,7 @@ Automation:
 **Practical Projects for Beginners**
 
 Project 1: To-Do List App
-```python
+\`\`\`python
 todo_list = []
 
 def add_task(task):
@@ -1472,10 +1472,10 @@ add_task("Build a project")
 show_tasks()
 mark_done(0)
 show_tasks()
-```
+\`\`\`
 
 Project 2: Password Generator
-```python
+\`\`\`python
 import random
 import string
 
@@ -1487,10 +1487,10 @@ def generate_password(length=12):
 # Generate 5 passwords
 for _ in range(5):
     print(generate_password(16))
-```
+\`\`\`
 
 Project 3: Web Scraper
-```python
+\`\`\`python
 import requests
 from bs4 import BeautifulSoup
 
@@ -1504,7 +1504,7 @@ def scrape_headlines(url):
 
 # Example (use actual news website)
 # scrape_headlines("https://example-news.com")
-```
+\`\`\`
 
 **Best Practices**
 
@@ -1515,7 +1515,7 @@ Code Style (PEP 8):
 - PascalCase for classes
 - UPPER_CASE for constants
 
-```python
+\`\`\`python
 # Good
 def calculate_total_price(quantity, unit_price):
     return quantity * unit_price
@@ -1523,10 +1523,10 @@ def calculate_total_price(quantity, unit_price):
 # Bad
 def CalculateTotalPrice(Quantity, unitPrice):
     return Quantity*unitPrice
-```
+\`\`\`
 
 Documentation:
-```python
+\`\`\`python
 def calculate_area(radius):
     """
     Calculate the area of a circle.
@@ -1542,7 +1542,7 @@ def calculate_area(radius):
         78.53981633974483
     """
     return 3.14159 * radius ** 2
-```
+\`\`\`
 
 **Learning Resources**
 
