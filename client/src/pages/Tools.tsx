@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Link } from 'wouter';
 import HeroSection from '@/components/HeroSection';
@@ -68,17 +69,17 @@ const FFNameGenerator = () => {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex gap-2">
+    <div className="space-y-4 animate-fadeUp">
+      <div className="flex gap-2 animate-slideInFromLeft" style={{ animationDelay: '0.1s' }}>
         <Input
           placeholder="Enter your name..."
           value={baseName}
           onChange={(e) => setBaseName(e.target.value)}
           data-testid="input-ffname"
-          className="flex-1 dark:bg-gray-800 dark:text-white"
+          className="flex-1 dark:bg-gray-800 dark:text-white transition-all duration-300 focus:scale-105 focus:shadow-[0_0_20px_rgba(6,182,212,0.4)]"
         />
-        <Button onClick={generateNames} data-testid="button-generate-ffname" className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600">
-          <Wand2 className="mr-2 h-4 w-4" />
+        <Button onClick={generateNames} data-testid="button-generate-ffname" className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 hover:scale-110 transition-all duration-300 hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]">
+          <Wand2 className="mr-2 h-4 w-4 animate-spin-slow" />
           Generate
         </Button>
       </div>
@@ -88,18 +89,19 @@ const FFNameGenerator = () => {
           {generatedNames.map((name, index) => (
             <div
               key={index}
-              className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-cyan-500/10 to-blue-500/10 dark:from-cyan-500/20 dark:to-blue-500/20 border border-cyan-500/20 dark:border-cyan-500/40"
+              className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-cyan-500/10 to-blue-500/10 dark:from-cyan-500/20 dark:to-blue-500/20 border border-cyan-500/20 dark:border-cyan-500/40 hover:scale-105 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all duration-300 animate-bounceIn"
               data-testid={`text-ffname-${index}`}
+              style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <span className="text-lg font-semibold dark:text-white">{name}</span>
+              <span className="text-lg font-semibold dark:text-white animate-textShine">{name}</span>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => copyToClipboard(name)}
                 data-testid={`button-copy-ffname-${index}`}
-                className="dark:hover:bg-gray-700"
+                className="dark:hover:bg-gray-700 hover:scale-125 transition-all duration-300"
               >
-                <Copy className="h-4 w-4" />
+                <Copy className="h-4 w-4 hover:animate-wiggle" />
               </Button>
             </div>
           ))}
@@ -130,22 +132,22 @@ const UIDGenerator = () => {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="space-y-2">
-        <Label data-testid="label-uid-count">Number of UIDs to generate: {uidCount}</Label>
+    <div className="space-y-4 animate-fadeUp">
+      <div className="space-y-2 animate-slideInFromRight" style={{ animationDelay: '0.1s' }}>
+        <Label data-testid="label-uid-count" className="text-lg font-semibold animate-textFadeSlide">Number of UIDs to generate: {uidCount}</Label>
         <Slider
           value={[uidCount]}
           onValueChange={(value) => setUidCount(value[0])}
           max={10}
           min={1}
           step={1}
-          className="dark:bg-gray-700"
+          className="dark:bg-gray-700 transition-all duration-300 hover:scale-105"
           data-testid="slider-uid-count"
         />
       </div>
 
-      <Button onClick={generateUIDs} className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600" data-testid="button-generate-uid">
-        <Gamepad2 className="mr-2 h-4 w-4" />
+      <Button onClick={generateUIDs} className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 hover:scale-105 hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] transition-all duration-300 animate-popIn" data-testid="button-generate-uid" style={{ animationDelay: '0.2s' }}>
+        <Gamepad2 className="mr-2 h-4 w-4 animate-bounce" />
         Generate UIDs
       </Button>
 
@@ -154,18 +156,19 @@ const UIDGenerator = () => {
           {generatedUIDs.map((uid, index) => (
             <div
               key={index}
-              className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-purple-500/10 to-pink-500/10 dark:from-purple-500/20 dark:to-pink-500/20 border border-purple-500/20 dark:border-purple-500/40"
+              className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-purple-500/10 to-pink-500/10 dark:from-purple-500/20 dark:to-pink-500/20 border border-purple-500/20 dark:border-purple-500/40 hover:scale-105 hover:shadow-[0_0_20px_rgba(168,85,247,0.3)] transition-all duration-300 animate-slideInFromBottom"
               data-testid={`text-uid-${index}`}
+              style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <span className="font-mono text-lg dark:text-white">{uid}</span>
+              <span className="font-mono text-lg dark:text-white animate-countUp">{uid}</span>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => copyToClipboard(uid)}
                 data-testid={`button-copy-uid-${index}`}
-                className="dark:hover:bg-gray-700"
+                className="dark:hover:bg-gray-700 hover:scale-125 transition-all duration-300"
               >
-                <Copy className="h-4 w-4" />
+                <Copy className="h-4 w-4 hover:animate-wiggle" />
               </Button>
             </div>
           ))}
@@ -206,11 +209,11 @@ const SensitivityGenerator = () => {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="space-y-2">
-        <Label data-testid="label-gamemode">Select Game Mode</Label>
+    <div className="space-y-4 animate-fadeUp">
+      <div className="space-y-2 animate-zoomIn" style={{ animationDelay: '0.1s' }}>
+        <Label data-testid="label-gamemode" className="text-lg font-semibold animate-textFadeSlide">Select Game Mode</Label>
         <Select value={gameMode} onValueChange={setGameMode}>
-          <SelectTrigger className="dark:bg-gray-800 dark:text-white" data-testid="select-gamemode">
+          <SelectTrigger className="dark:bg-gray-800 dark:text-white transition-all duration-300 hover:scale-105 hover:shadow-[0_0_15px_rgba(34,197,94,0.3)]" data-testid="select-gamemode">
             <SelectValue />
           </SelectTrigger>
           <SelectContent className="dark:bg-gray-800 dark:text-white">
@@ -222,38 +225,38 @@ const SensitivityGenerator = () => {
         </Select>
       </div>
 
-      <Button onClick={generateSensitivity} className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600" data-testid="button-generate-sensitivity">
-        <Sparkles className="mr-2 h-4 w-4" />
+      <Button onClick={generateSensitivity} className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 hover:scale-105 hover:shadow-[0_0_30px_rgba(34,197,94,0.6)] transition-all duration-300 animate-swingIn" data-testid="button-generate-sensitivity" style={{ animationDelay: '0.2s' }}>
+        <Sparkles className="mr-2 h-4 w-4 animate-pulse" />
         Generate Settings
       </Button>
 
       {sensitivity && (
-        <div className="space-y-3">
-          <div className="p-4 rounded-lg bg-gradient-to-r from-green-500/10 to-emerald-500/10 dark:from-green-500/20 dark:to-emerald-500/20 border border-green-500/20 dark:border-green-500/40 space-y-2">
-            <div className="flex justify-between" data-testid="text-general-sensitivity">
+        <div className="space-y-3 animate-popIn" style={{ animationDelay: '0.3s' }}>
+          <div className="p-4 rounded-lg bg-gradient-to-r from-green-500/10 to-emerald-500/10 dark:from-green-500/20 dark:to-emerald-500/20 border border-green-500/20 dark:border-green-500/40 space-y-2 hover:scale-105 hover:shadow-[0_0_25px_rgba(34,197,94,0.3)] transition-all duration-300">
+            <div className="flex justify-between animate-slideInFromLeft" data-testid="text-general-sensitivity" style={{ animationDelay: '0.1s' }}>
               <span className="dark:text-gray-300">General Sensitivity:</span>
-              <span className="font-bold dark:text-white">{sensitivity.general}</span>
+              <span className="font-bold dark:text-white animate-countUp">{sensitivity.general}</span>
             </div>
-            <div className="flex justify-between" data-testid="text-reddot-sensitivity">
+            <div className="flex justify-between animate-slideInFromRight" data-testid="text-reddot-sensitivity" style={{ animationDelay: '0.15s' }}>
               <span className="dark:text-gray-300">Red Dot:</span>
-              <span className="font-bold dark:text-white">{sensitivity.red_dot}</span>
+              <span className="font-bold dark:text-white animate-countUp">{sensitivity.red_dot}</span>
             </div>
-            <div className="flex justify-between" data-testid="text-2x-sensitivity">
+            <div className="flex justify-between animate-slideInFromLeft" data-testid="text-2x-sensitivity" style={{ animationDelay: '0.2s' }}>
               <span className="dark:text-gray-300">2x Scope:</span>
-              <span className="font-bold dark:text-white">{sensitivity.scope_2x}</span>
+              <span className="font-bold dark:text-white animate-countUp">{sensitivity.scope_2x}</span>
             </div>
-            <div className="flex justify-between" data-testid="text-4x-sensitivity">
+            <div className="flex justify-between animate-slideInFromRight" data-testid="text-4x-sensitivity" style={{ animationDelay: '0.25s' }}>
               <span className="dark:text-gray-300">4x Scope:</span>
-              <span className="font-bold dark:text-white">{sensitivity.scope_4x}</span>
+              <span className="font-bold dark:text-white animate-countUp">{sensitivity.scope_4x}</span>
             </div>
-            <div className="flex justify-between" data-testid="text-awm-sensitivity">
+            <div className="flex justify-between animate-slideInFromLeft" data-testid="text-awm-sensitivity" style={{ animationDelay: '0.3s' }}>
               <span className="dark:text-gray-300">AWM Scope:</span>
-              <span className="font-bold dark:text-white">{sensitivity.awm}</span>
+              <span className="font-bold dark:text-white animate-countUp">{sensitivity.awm}</span>
             </div>
           </div>
 
-          <Button onClick={downloadSettings} variant="outline" className="w-full dark:border-green-500 dark:text-green-400 dark:hover:bg-green-500/10" data-testid="button-download-sensitivity">
-            <Download className="mr-2 h-4 w-4" />
+          <Button onClick={downloadSettings} variant="outline" className="w-full dark:border-green-500 dark:text-green-400 dark:hover:bg-green-500/10 hover:scale-105 hover:shadow-[0_0_20px_rgba(34,197,94,0.4)] transition-all duration-300 animate-bounceIn" data-testid="button-download-sensitivity">
+            <Download className="mr-2 h-4 w-4 animate-bounce" />
             Download Settings
           </Button>
         </div>
@@ -288,53 +291,53 @@ const PasswordGenerator = () => {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="space-y-2">
-        <Label data-testid="label-password-length">Password Length: {length}</Label>
+    <div className="space-y-4 animate-fadeUp">
+      <div className="space-y-2 animate-slideInFromLeft" style={{ animationDelay: '0.1s' }}>
+        <Label data-testid="label-password-length" className="text-lg font-semibold animate-textFadeSlide">Password Length: {length}</Label>
         <Slider
           value={[length]}
           onValueChange={(value) => setLength(value[0])}
           max={32}
           min={8}
           step={1}
-          className="dark:bg-gray-700"
+          className="dark:bg-gray-700 transition-all duration-300 hover:scale-105"
           data-testid="slider-password-length"
         />
       </div>
 
-      <div className="space-y-2">
-        <label className="flex items-center space-x-2 cursor-pointer">
+      <div className="space-y-2 animate-slideInFromRight" style={{ animationDelay: '0.2s' }}>
+        <label className="flex items-center space-x-2 cursor-pointer hover:scale-105 transition-transform duration-300">
           <input
             type="checkbox"
             checked={includeNumbers}
             onChange={(e) => setIncludeNumbers(e.target.checked)}
-            className="w-4 h-4 text-cyan-500 rounded"
+            className="w-4 h-4 text-cyan-500 rounded transition-all duration-300"
             data-testid="checkbox-include-numbers"
           />
           <span className="dark:text-gray-300">Include Numbers</span>
         </label>
-        <label className="flex items-center space-x-2 cursor-pointer">
+        <label className="flex items-center space-x-2 cursor-pointer hover:scale-105 transition-transform duration-300">
           <input
             type="checkbox"
             checked={includeSymbols}
             onChange={(e) => setIncludeSymbols(e.target.checked)}
-            className="w-4 h-4 text-cyan-500 rounded"
+            className="w-4 h-4 text-cyan-500 rounded transition-all duration-300"
             data-testid="checkbox-include-symbols"
           />
           <span className="dark:text-gray-300">Include Symbols</span>
         </label>
       </div>
 
-      <Button onClick={generatePassword} className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600" data-testid="button-generate-password">
-        <Shield className="mr-2 h-4 w-4" />
+      <Button onClick={generatePassword} className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 hover:scale-105 hover:shadow-[0_0_30px_rgba(249,115,22,0.6)] transition-all duration-300 animate-popIn" data-testid="button-generate-password" style={{ animationDelay: '0.3s' }}>
+        <Shield className="mr-2 h-4 w-4 animate-pulse" />
         Generate Password
       </Button>
 
       {password && (
-        <div className="flex items-center justify-between p-4 rounded-lg bg-gradient-to-r from-orange-500/10 to-red-500/10 dark:from-orange-500/20 dark:to-red-500/20 border border-orange-500/20 dark:border-orange-500/40">
-          <span className="font-mono text-lg break-all dark:text-white" data-testid="text-generated-password">{password}</span>
-          <Button variant="ghost" size="sm" onClick={copyToClipboard} data-testid="button-copy-password" className="dark:hover:bg-gray-700">
-            <Copy className="h-4 w-4" />
+        <div className="flex items-center justify-between p-4 rounded-lg bg-gradient-to-r from-orange-500/10 to-red-500/10 dark:from-orange-500/20 dark:to-red-500/20 border border-orange-500/20 dark:border-orange-500/40 hover:scale-105 hover:shadow-[0_0_25px_rgba(249,115,22,0.3)] transition-all duration-300 animate-bounceIn">
+          <span className="font-mono text-lg break-all dark:text-white animate-textShine" data-testid="text-generated-password">{password}</span>
+          <Button variant="ghost" size="sm" onClick={copyToClipboard} data-testid="button-copy-password" className="dark:hover:bg-gray-700 hover:scale-125 transition-all duration-300">
+            <Copy className="h-4 w-4 hover:animate-wiggle" />
           </Button>
         </div>
       )}
@@ -350,7 +353,7 @@ const trackToolUsage = {
 
 export default function Tools() {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950">
+    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-500">
       <HeroSection
         title="🛠️ Tools & Utilities Hub"
         subtitle="Choose your category: Free Fire gaming tools or general utilities"
@@ -359,13 +362,13 @@ export default function Tools() {
       <div className="container mx-auto px-4 py-12">
         {/* Main Category Selection */}
         <Tabs defaultValue="fftools" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-8 dark:bg-gray-800" data-testid="tabs-category">
-            <TabsTrigger value="fftools" data-testid="tab-category-ff" className="text-lg py-3">
-              <i className="fas fa-fire mr-2"></i>
+          <TabsList className="grid w-full grid-cols-2 mb-8 dark:bg-gray-800 animate-slideInFromBottom shadow-lg hover:shadow-[0_0_30px_rgba(6,182,212,0.3)] transition-all duration-300" data-testid="tabs-category">
+            <TabsTrigger value="fftools" data-testid="tab-category-ff" className="text-lg py-3 transition-all duration-300 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/20 data-[state=active]:to-blue-500/20">
+              <i className="fas fa-fire mr-2 animate-pulse"></i>
               Free Fire Tools
             </TabsTrigger>
-            <TabsTrigger value="utilities" data-testid="tab-category-utilities" className="text-lg py-3">
-              <i className="fas fa-tools mr-2"></i>
+            <TabsTrigger value="utilities" data-testid="tab-category-utilities" className="text-lg py-3 transition-all duration-300 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary/20 data-[state=active]:to-accent/20">
+              <i className="fas fa-tools mr-2 animate-spin-slow"></i>
               General Utilities
             </TabsTrigger>
           </TabsList>
@@ -373,76 +376,80 @@ export default function Tools() {
           {/* FF Tools Category */}
           <TabsContent value="fftools" className="mt-6">
             <Tabs defaultValue="ffname" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 dark:bg-gray-800" data-testid="tabs-fftools">
-                <TabsTrigger value="ffname" data-testid="tab-ffname">FF Name Generator</TabsTrigger>
-                <TabsTrigger value="uid" data-testid="tab-uid">UID Generator</TabsTrigger>
-                <TabsTrigger value="sensitivity" data-testid="tab-sensitivity">Sensitivity Settings</TabsTrigger>
-                <TabsTrigger value="password" data-testid="tab-password">Password Generator</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 dark:bg-gray-800 animate-fadeUp shadow-md hover:shadow-[0_0_25px_rgba(6,182,212,0.25)] transition-all duration-300" data-testid="tabs-fftools">
+                <TabsTrigger value="ffname" data-testid="tab-ffname" className="transition-all duration-300 hover:scale-105 data-[state=active]:bg-cyan-500/20">FF Name Generator</TabsTrigger>
+                <TabsTrigger value="uid" data-testid="tab-uid" className="transition-all duration-300 hover:scale-105 data-[state=active]:bg-purple-500/20">UID Generator</TabsTrigger>
+                <TabsTrigger value="sensitivity" data-testid="tab-sensitivity" className="transition-all duration-300 hover:scale-105 data-[state=active]:bg-green-500/20">Sensitivity Settings</TabsTrigger>
+                <TabsTrigger value="password" data-testid="tab-password" className="transition-all duration-300 hover:scale-105 data-[state=active]:bg-orange-500/20">Password Generator</TabsTrigger>
               </TabsList>
 
-              <TabsContent value="ffname" className="mt-6">
-                <Card className="dark:bg-gray-900 dark:border-gray-800">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 dark:text-white">
-                      <Sparkles className="h-5 w-5 text-cyan-500" />
+              <TabsContent value="ffname" className="mt-6 animate-fadeUp">
+                <Card className="dark:bg-gray-900 dark:border-gray-800 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(6,182,212,0.3)] transition-all duration-500 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-blue-500/5 animate-gradient-shift" />
+                  <CardHeader className="relative z-10">
+                    <CardTitle className="flex items-center gap-2 dark:text-white animate-textBounceIn">
+                      <Sparkles className="h-5 w-5 text-cyan-500 animate-pulse" />
                       Free Fire Stylish Name Generator
                     </CardTitle>
-                    <CardDescription className="dark:text-gray-400">
+                    <CardDescription className="dark:text-gray-400 animate-textFadeSlide" style={{ animationDelay: '0.1s' }}>
                       Create unique, stylish names with fancy fonts and symbols for your Free Fire profile
                     </CardDescription>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="relative z-10">
                     <FFNameGenerator />
                   </CardContent>
                 </Card>
               </TabsContent>
 
-              <TabsContent value="uid" className="mt-6">
-                <Card className="dark:bg-gray-900 dark:border-gray-800">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 dark:text-white">
-                      <Gamepad2 className="h-5 w-5 text-purple-500" />
+              <TabsContent value="uid" className="mt-6 animate-fadeUp">
+                <Card className="dark:bg-gray-900 dark:border-gray-800 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(168,85,247,0.3)] transition-all duration-500 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-pink-500/5 animate-gradient-shift" />
+                  <CardHeader className="relative z-10">
+                    <CardTitle className="flex items-center gap-2 dark:text-white animate-textBounceIn">
+                      <Gamepad2 className="h-5 w-5 text-purple-500 animate-bounce" />
                       Random UID Generator
                     </CardTitle>
-                    <CardDescription className="dark:text-gray-400">
+                    <CardDescription className="dark:text-gray-400 animate-textFadeSlide" style={{ animationDelay: '0.1s' }}>
                       Generate random Free Fire UIDs for testing and development purposes
                     </CardDescription>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="relative z-10">
                     <UIDGenerator />
                   </CardContent>
                 </Card>
               </TabsContent>
 
-              <TabsContent value="sensitivity" className="mt-6">
-                <Card className="dark:bg-gray-900 dark:border-gray-800">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 dark:text-white">
-                      <Sparkles className="h-5 w-5 text-green-500" />
+              <TabsContent value="sensitivity" className="mt-6 animate-fadeUp">
+                <Card className="dark:bg-gray-900 dark:border-gray-800 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(34,197,94,0.3)] transition-all duration-500 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-transparent to-emerald-500/5 animate-gradient-shift" />
+                  <CardHeader className="relative z-10">
+                    <CardTitle className="flex items-center gap-2 dark:text-white animate-textBounceIn">
+                      <Sparkles className="h-5 w-5 text-green-500 animate-pulse" />
                       FF Sensitivity Settings Generator
                     </CardTitle>
-                    <CardDescription className="dark:text-gray-400">
+                    <CardDescription className="dark:text-gray-400 animate-textFadeSlide" style={{ animationDelay: '0.1s' }}>
                       Get optimized sensitivity settings based on your playstyle
                     </CardDescription>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="relative z-10">
                     <SensitivityGenerator />
                   </CardContent>
                 </Card>
               </TabsContent>
 
-              <TabsContent value="password" className="mt-6">
-                <Card className="dark:bg-gray-900 dark:border-gray-800">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 dark:text-white">
-                      <Shield className="h-5 w-5 text-orange-500" />
+              <TabsContent value="password" className="mt-6 animate-fadeUp">
+                <Card className="dark:bg-gray-900 dark:border-gray-800 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(249,115,22,0.3)] transition-all duration-500 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 via-transparent to-red-500/5 animate-gradient-shift" />
+                  <CardHeader className="relative z-10">
+                    <CardTitle className="flex items-center gap-2 dark:text-white animate-textBounceIn">
+                      <Shield className="h-5 w-5 text-orange-500 animate-pulse" />
                       Secure Password Generator
                     </CardTitle>
-                    <CardDescription className="dark:text-gray-400">
+                    <CardDescription className="dark:text-gray-400 animate-textFadeSlide" style={{ animationDelay: '0.1s' }}>
                       Create strong, random passwords to secure your gaming accounts
                     </CardDescription>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="relative z-10">
                     <PasswordGenerator />
                   </CardContent>
                 </Card>
@@ -451,29 +458,32 @@ export default function Tools() {
           </TabsContent>
 
           {/* General Utilities Category */}
-          <TabsContent value="utilities" className="mt-6">
+          <TabsContent value="utilities" className="mt-6 animate-fadeUp">
             <div className="text-center py-12">
-              <div className="max-w-2xl mx-auto glass rounded-2xl p-8 border-2 border-primary/30">
-                <i className="fas fa-tools text-6xl text-primary mb-6 block animate-bounce"></i>
-                <h3 className="text-2xl font-bold mb-4 dark:text-white">General Utility Tools</h3>
-                <p className="text-muted-foreground mb-6">
-                  Explore our collection of productivity tools including Image Compressor, Text-to-Speech, QR Code Generator, and more!
-                </p>
-                <Link href="/utility-tools">
-                  <Button size="lg" className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90" data-testid="button-goto-utilities">
-                    <span className="flex items-center gap-2">
-                      Go to Utility Tools
-                      <ArrowRight className="h-4 w-4" />
-                    </span>
-                  </Button>
-                </Link>
+              <div className="max-w-2xl mx-auto glass rounded-2xl p-8 border-2 border-primary/30 hover:scale-105 hover:shadow-[0_0_50px_rgba(6,182,212,0.4)] transition-all duration-500 animate-bounceIn relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 animate-gradient-shift" />
+                <div className="relative z-10">
+                  <i className="fas fa-tools text-6xl text-primary mb-6 block animate-floatSlow"></i>
+                  <h3 className="text-2xl font-bold mb-4 dark:text-white animate-textBounceIn">General Utility Tools</h3>
+                  <p className="text-muted-foreground mb-6 animate-textFadeSlide" style={{ animationDelay: '0.2s' }}>
+                    Explore our collection of productivity tools including Image Compressor, Text-to-Speech, QR Code Generator, and more!
+                  </p>
+                  <Link href="/utility-tools">
+                    <Button size="lg" className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 hover:scale-110 hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] transition-all duration-300 animate-swingIn" data-testid="button-goto-utilities" style={{ animationDelay: '0.3s' }}>
+                      <span className="flex items-center gap-2">
+                        Go to Utility Tools
+                        <ArrowRight className="h-4 w-4 animate-bounce" />
+                      </span>
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </div>
           </TabsContent>
         </Tabs>
 
         {/* AdSense Ad */}
-        <div className="mt-12">
+        <div className="mt-12 animate-slideInFromBottom" style={{ animationDelay: '0.5s' }}>
           <AdSenseAd />
         </div>
       </div>
