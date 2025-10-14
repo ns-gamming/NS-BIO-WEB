@@ -362,25 +362,25 @@ export default function Tools() {
       <div className="container mx-auto px-4 py-12">
         {/* Main Category Selection */}
         <Tabs defaultValue="fftools" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-8 dark:bg-gray-800 animate-slideInFromBottom shadow-lg hover:shadow-[0_0_30px_rgba(6,182,212,0.3)] transition-all duration-300" data-testid="tabs-category">
-            <TabsTrigger value="fftools" data-testid="tab-category-ff" className="text-lg py-3 transition-all duration-300 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/20 data-[state=active]:to-blue-500/20">
-              <i className="fas fa-fire mr-2 animate-pulse"></i>
-              Free Fire Tools
+          <TabsList className="grid w-full grid-cols-2 mb-8 gap-2 p-1 dark:bg-gray-800 animate-slideInFromBottom shadow-lg hover:shadow-[0_0_30px_rgba(6,182,212,0.3)] transition-all duration-300" data-testid="tabs-category">
+            <TabsTrigger value="fftools" data-testid="tab-category-ff" className="text-sm md:text-lg py-3 transition-all duration-300 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/20 data-[state=active]:to-blue-500/20 flex items-center justify-center gap-1 md:gap-2">
+              <i className="fas fa-fire animate-pulse text-sm md:text-base"></i>
+              <span className="truncate">Free Fire Tools</span>
             </TabsTrigger>
-            <TabsTrigger value="utilities" data-testid="tab-category-utilities" className="text-lg py-3 transition-all duration-300 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary/20 data-[state=active]:to-accent/20">
-              <i className="fas fa-tools mr-2 animate-spin-slow"></i>
-              General Utilities
+            <TabsTrigger value="utilities" data-testid="tab-category-utilities" className="text-sm md:text-lg py-3 transition-all duration-300 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary/20 data-[state=active]:to-accent/20 flex items-center justify-center gap-1 md:gap-2">
+              <i className="fas fa-tools animate-spin-slow text-sm md:text-base"></i>
+              <span className="truncate">General Utilities</span>
             </TabsTrigger>
           </TabsList>
 
           {/* FF Tools Category */}
           <TabsContent value="fftools" className="mt-6">
             <Tabs defaultValue="ffname" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 dark:bg-gray-800 animate-fadeUp shadow-md hover:shadow-[0_0_25px_rgba(6,182,212,0.25)] transition-all duration-300" data-testid="tabs-fftools">
-                <TabsTrigger value="ffname" data-testid="tab-ffname" className="transition-all duration-300 hover:scale-105 data-[state=active]:bg-cyan-500/20">FF Name Generator</TabsTrigger>
-                <TabsTrigger value="uid" data-testid="tab-uid" className="transition-all duration-300 hover:scale-105 data-[state=active]:bg-purple-500/20">UID Generator</TabsTrigger>
-                <TabsTrigger value="sensitivity" data-testid="tab-sensitivity" className="transition-all duration-300 hover:scale-105 data-[state=active]:bg-green-500/20">Sensitivity Settings</TabsTrigger>
-                <TabsTrigger value="password" data-testid="tab-password" className="transition-all duration-300 hover:scale-105 data-[state=active]:bg-orange-500/20">Password Generator</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-1 p-1 dark:bg-gray-800 animate-fadeUp shadow-md hover:shadow-[0_0_25px_rgba(6,182,212,0.25)] transition-all duration-300" data-testid="tabs-fftools">
+                <TabsTrigger value="ffname" data-testid="tab-ffname" className="text-xs sm:text-sm transition-all duration-300 hover:scale-105 data-[state=active]:bg-cyan-500/20 px-2 py-2">FF Name</TabsTrigger>
+                <TabsTrigger value="uid" data-testid="tab-uid" className="text-xs sm:text-sm transition-all duration-300 hover:scale-105 data-[state=active]:bg-purple-500/20 px-2 py-2">UID Gen</TabsTrigger>
+                <TabsTrigger value="sensitivity" data-testid="tab-sensitivity" className="text-xs sm:text-sm transition-all duration-300 hover:scale-105 data-[state=active]:bg-green-500/20 px-2 py-2">Sensitivity</TabsTrigger>
+                <TabsTrigger value="password" data-testid="tab-password" className="text-xs sm:text-sm transition-all duration-300 hover:scale-105 data-[state=active]:bg-orange-500/20 px-2 py-2">Password</TabsTrigger>
               </TabsList>
 
               <TabsContent value="ffname" className="mt-6 animate-fadeUp">

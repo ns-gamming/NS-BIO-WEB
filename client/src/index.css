@@ -848,8 +848,24 @@
 /* Smooth Transitions for All Interactive Elements */
 * {
   transition-property: transform, opacity, box-shadow, background-color, border-color, filter;
-  transition-duration: 0.4s;
+  transition-duration: 0.3s;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Disable scale animations on mobile to prevent overflow */
+@media (max-width: 768px) {
+  .hover\:scale-105:hover,
+  .hover\:scale-110:hover,
+  .hover\:scale-125:hover {
+    transform: scale(1) !important;
+  }
+  
+  /* Keep opacity and other effects */
+  .hover\:scale-105:hover,
+  .hover\:scale-110:hover,
+  .hover\:scale-125:hover {
+    opacity: 0.9;
+  }
 }
 
 /* Enhanced hover effects for all cards and interactive elements */
