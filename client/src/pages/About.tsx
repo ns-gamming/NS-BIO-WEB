@@ -128,6 +128,50 @@ export default function About() {
             </div>
           </div>
 
+          {/* Financial Achievements */}
+          <div className="glass rounded-2xl p-8 mb-12 animate-fadeUp hover:scale-[1.02] transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20 relative overflow-hidden group" data-testid="financial-achievements">
+            <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-yellow-500/10 to-green-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient"></div>
+            <div className="absolute inset-[2px] bg-background/95 dark:bg-background/95 rounded-2xl"></div>
+            
+            <div className="relative z-10">
+              <h2 className="text-3xl font-bold text-primary mb-6 flex items-center gap-3 animate-slideRight">
+                <Trophy className="w-8 h-8 animate-spin-slow" />
+                Financial Achievements 💰
+              </h2>
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-xl p-6 border-2 border-yellow-500/30 hover:border-yellow-500/60 transition-all duration-300 hover:scale-105 group/card">
+                  <div className="text-4xl mb-3 group-hover/card:animate-bounce">💎</div>
+                  <h3 className="font-bold text-xl mb-2 text-yellow-600 dark:text-yellow-400">Cryptocurrency</h3>
+                  <p className="text-2xl font-bold mb-2">$30,000+</p>
+                  <p className="text-sm text-muted-foreground">Invested in Bitcoin, Ethereum, and promising altcoins</p>
+                </div>
+                
+                <div className="bg-gradient-to-br from-amber-500/20 to-yellow-500/20 rounded-xl p-6 border-2 border-amber-500/30 hover:border-amber-500/60 transition-all duration-300 hover:scale-105 group/card">
+                  <div className="text-4xl mb-3 group-hover/card:animate-bounce">🪙</div>
+                  <h3 className="font-bold text-xl mb-2 text-amber-600 dark:text-amber-400">Digital Gold</h3>
+                  <p className="text-2xl font-bold mb-2">₹1,80,000</p>
+                  <p className="text-sm text-muted-foreground">Building wealth through digital precious metals</p>
+                </div>
+                
+                <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-xl p-6 border-2 border-green-500/30 hover:border-green-500/60 transition-all duration-300 hover:scale-105 group/card">
+                  <div className="text-4xl mb-3 group-hover/card:animate-bounce">📈</div>
+                  <h3 className="font-bold text-xl mb-2 text-green-600 dark:text-green-400">Stock Market</h3>
+                  <p className="text-2xl font-bold mb-2">₹80,000+</p>
+                  <p className="text-sm text-muted-foreground">Growing equity portfolio with dividend stocks</p>
+                </div>
+              </div>
+              
+              <div className="mt-6 p-4 bg-primary/10 rounded-lg border border-primary/20">
+                <p className="text-center text-foreground">
+                  <span className="font-bold text-primary">Total Portfolio Value:</span> $30,000+ USD + ₹2,60,000 INR across crypto, digital gold, and stocks 🚀
+                </p>
+                <p className="text-center text-sm text-muted-foreground mt-2">
+                  Young investor building wealth through smart diversification and long-term strategy
+                </p>
+              </div>
+            </div>
+          </div>
+
           {/* Values Cards */}
           <div className="grid md:grid-cols-3 gap-6 mb-16" data-testid="values-section">
             <div className="glass rounded-lg p-6 text-center hover:scale-110 transition-all duration-500 animate-popIn hover:shadow-2xl hover:shadow-accent/30 group relative overflow-hidden">

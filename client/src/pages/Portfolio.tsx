@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
@@ -166,8 +165,8 @@ export default function Portfolio() {
     <>
       <SEO
         title="Portfolio - Nishant Sarkar | Full Stack Developer & Content Creator"
-        description="Explore the portfolio of Nishant Sarkar (NS GAMMING) - Full Stack Developer, Gaming Content Creator, and Tech Enthusiast from Siliguri. View projects, skills in React, JavaScript, Python, and more."
-        keywords="Nishant Sarkar portfolio, NS GAMMING developer, full stack developer portfolio, React developer, JavaScript developer, Python programmer, gaming content creator, web developer Siliguri, Naboraj Sarkar projects, tech portfolio India"
+        description="Explore the portfolio of Nishant Sarkar (NS GAMMING) - Full Stack Developer, Gaming Content Creator, and Tech Enthusiast from Siliguri. View projects, skills in React, JavaScript, Python, and more. Includes details about my investment portfolio."
+        keywords="Nishant Sarkar portfolio, NS GAMMING developer, full stack developer portfolio, React developer, JavaScript developer, Python programmer, gaming content creator, web developer Siliguri, Naboraj Sarkar projects, tech portfolio India, investment portfolio, crypto assets, digital gold, stock market"
         type="profile"
         author="Nishant Sarkar (Naboraj Sarkar)"
       />
@@ -275,10 +274,103 @@ export default function Portfolio() {
                   Whether it's developing full-stack applications, creating gaming content, or helping others learn to code — 
                   I pour my heart into everything I do. My mission is to build my own empire while helping others achieve their dreams! 🚀
                 </p>
+                {/* AI Chatbot Introduction */}
+                <p>
+                  I also have a keen interest in AI and how it can be used to enhance user experiences and provide valuable insights. My personal investment portfolio, which includes <span className="font-semibold text-primary">$30,000+</span> in diverse <span className="font-semibold text-primary">Cryptocurrency</span> assets, <span className="font-semibold text-primary">₹1,80,000</span> in <span className="font-semibold text-primary">Digital Gold</span>, and <span className="font-semibold text-primary">₹80,000+</span> in <span className="font-semibold text-primary">Stock Market</span> investments, reflects my forward-thinking approach to wealth management and future technologies.
+                </p>
               </div>
             </motion.div>
           </div>
         </motion.section>
+
+        {/* Investment Portfolio Section */}
+      <motion.section
+        className="mb-20"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
+        <motion.h2 
+          className="text-4xl md:text-5xl font-orbitron font-bold text-center mb-12 bg-gradient-to-r from-yellow-400 via-green-400 to-emerald-400 bg-clip-text text-transparent"
+          initial={{ scale: 0.9 }}
+          whileInView={{ scale: 1 }}
+          viewport={{ once: true }}
+        >
+          💰 Investment Portfolio
+        </motion.h2>
+
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <motion.div
+            className="glass rounded-2xl p-8 hover:scale-105 transition-all duration-500 border-2 border-yellow-500/30 hover:border-yellow-500/60 hover:shadow-[0_0_40px_rgba(234,179,8,0.3)] group relative overflow-hidden"
+            whileHover={{ y: -10 }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/10 to-orange-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="relative z-10">
+              <div className="text-6xl mb-4 group-hover:animate-bounce">💎</div>
+              <h3 className="text-2xl font-bold mb-2 text-yellow-500">Cryptocurrency</h3>
+              <p className="text-4xl font-bold mb-4">$30,000+</p>
+              <p className="text-muted-foreground mb-4">Diversified portfolio across Bitcoin, Ethereum, and high-potential altcoins</p>
+              <div className="flex flex-wrap gap-2">
+                <span className="px-3 py-1 bg-yellow-500/20 border border-yellow-500/40 rounded-full text-xs">BTC</span>
+                <span className="px-3 py-1 bg-blue-500/20 border border-blue-500/40 rounded-full text-xs">ETH</span>
+                <span className="px-3 py-1 bg-purple-500/20 border border-purple-500/40 rounded-full text-xs">Altcoins</span>
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="glass rounded-2xl p-8 hover:scale-105 transition-all duration-500 border-2 border-amber-500/30 hover:border-amber-500/60 hover:shadow-[0_0_40px_rgba(245,158,11,0.3)] group relative overflow-hidden"
+            whileHover={{ y: -10 }}
+            transition={{ delay: 0.1 }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-yellow-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="relative z-10">
+              <div className="text-6xl mb-4 group-hover:animate-bounce">🪙</div>
+              <h3 className="text-2xl font-bold mb-2 text-amber-500">Digital Gold</h3>
+              <p className="text-4xl font-bold mb-4">₹1,80,000</p>
+              <p className="text-muted-foreground mb-4">Stable wealth preservation through digital precious metals</p>
+              <div className="flex flex-wrap gap-2">
+                <span className="px-3 py-1 bg-amber-500/20 border border-amber-500/40 rounded-full text-xs">Stability</span>
+                <span className="px-3 py-1 bg-yellow-500/20 border border-yellow-500/40 rounded-full text-xs">Long-term</span>
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="glass rounded-2xl p-8 hover:scale-105 transition-all duration-500 border-2 border-green-500/30 hover:border-green-500/60 hover:shadow-[0_0_40px_rgba(34,197,94,0.3)] group relative overflow-hidden"
+            whileHover={{ y: -10 }}
+            transition={{ delay: 0.2 }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="relative z-10">
+              <div className="text-6xl mb-4 group-hover:animate-bounce">📈</div>
+              <h3 className="text-2xl font-bold mb-2 text-green-500">Stock Market</h3>
+              <p className="text-4xl font-bold mb-4">₹80,000+</p>
+              <p className="text-muted-foreground mb-4">Growing equity portfolio with dividend-paying stocks</p>
+              <div className="flex flex-wrap gap-2">
+                <span className="px-3 py-1 bg-green-500/20 border border-green-500/40 rounded-full text-xs">Equity</span>
+                <span className="px-3 py-1 bg-emerald-500/20 border border-emerald-500/40 rounded-full text-xs">Dividends</span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        <motion.div
+          className="glass rounded-2xl p-6 mt-8 max-w-4xl mx-auto text-center"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+        >
+          <p className="text-lg mb-2">
+            <span className="font-bold text-primary">Total Investment Portfolio:</span> $30,000+ USD + ₹2,60,000 INR
+          </p>
+          <p className="text-muted-foreground">
+            Building wealth at a young age through smart diversification: crypto for growth, digital gold for stability, and stocks for passive income 🚀💰
+          </p>
+        </motion.div>
+      </motion.section>
 
         {/* Skills Section */}
         <motion.section 

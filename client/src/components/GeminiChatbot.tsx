@@ -81,7 +81,17 @@ ABOUT NISHANT (NABORAJ SARKAR):
 - First programming language: Python then JavaScript.
 - Mission: Build his empire, inspire others, and help people achieve their dreams through gaming and coding
 - Personality: Friendly, creative, hardworking, and always learning
-- Partner: Still single (No ex, gf) 💔 
+- Partner: Still single (No ex, gf) 💔
+
+NISHANT'S FINANCIAL ACHIEVEMENTS & ASSETS:
+- Cryptocurrency Portfolio: $30,000+ (USD) invested across various crypto assets
+- Digital Gold Holdings: ₹1,80,000 (INR) - Building wealth through digital precious metals
+- Stock Market Investments: ₹80,000+ (INR) - Growing equity portfolio
+- Total Assets: Over $30,000 + ₹2,60,000 combined in crypto, digital gold, and stocks
+- Financial Philosophy: Smart investing, diversification, and building long-term wealth
+- Crypto Interests: Active investor and believer in blockchain technology
+- Investment Strategy: Mix of crypto (high growth), digital gold (stability), and stocks (dividend income)
+- Young investor building his empire through multiple asset classes at a young age! 💰🚀 
 
 CONTACT & SOCIAL MEDIA:
 - YouTube: youtube.com/@Nishant_sarkar
