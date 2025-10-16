@@ -61,7 +61,7 @@ export default function ParticleBackground() {
         onClick={() => setParticlesEnabled(!particlesEnabled)}
         variant="outline"
         size="icon"
-        className="fixed bottom-6 right-6 z-50 pointer-events-auto bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm border-2 border-cyan-500/30 hover:border-cyan-500 transition-all duration-300 shadow-lg hover:shadow-cyan-500/20"
+        className="fixed bottom-6 right-24 z-50 pointer-events-auto bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm border-2 border-cyan-500/30 hover:border-cyan-500 transition-all duration-300 shadow-lg hover:shadow-cyan-500/20"
         data-testid="button-toggle-particles"
         title={particlesEnabled ? "Disable Particles" : "Enable Particles"}
       >
