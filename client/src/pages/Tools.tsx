@@ -677,49 +677,50 @@ export default function Tools() {
 
   if (!selectedCategory) {
     return (
-      <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-500 pt-20 pb-16">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 transition-colors duration-500 pt-20 pb-16">
         {/* Enhanced Animated Background */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-1/4 left-10 w-96 h-96 bg-cyan-500/10 dark:bg-cyan-500/20 rounded-full blur-3xl animate-floatSlow"></div>
-          <div className="absolute top-1/3 right-10 w-[30rem] h-[30rem] bg-purple-500/10 dark:bg-purple-500/20 rounded-full blur-3xl animate-floatSlow" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute bottom-20 left-1/3 w-[28rem] h-[28rem] bg-orange-500/10 dark:bg-orange-500/20 rounded-full blur-3xl animate-floatSlow" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-green-500/10 dark:bg-green-500/20 rounded-full blur-3xl animate-floatSlow" style={{ animationDelay: '1.5s' }}></div>
+          <div className="absolute top-1/4 left-10 w-96 h-96 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 dark:from-cyan-500/20 dark:to-blue-500/20 rounded-full blur-3xl animate-floatSlow"></div>
+          <div className="absolute top-1/3 right-10 w-[30rem] h-[30rem] bg-gradient-to-r from-purple-500/10 to-pink-500/10 dark:from-purple-500/20 dark:to-pink-500/20 rounded-full blur-3xl animate-floatSlow" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute bottom-20 left-1/3 w-[28rem] h-[28rem] bg-gradient-to-r from-orange-500/10 to-red-500/10 dark:from-orange-500/20 dark:to-red-500/20 rounded-full blur-3xl animate-floatSlow" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-green-500/10 to-emerald-500/10 dark:from-green-500/20 dark:to-emerald-500/20 rounded-full blur-3xl animate-floatSlow" style={{ animationDelay: '1.5s' }}></div>
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Enhanced Hero Section */}
           <div className="text-center mb-16 animate-fadeUp">
-            <div className="inline-block mb-6 px-6 py-2 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-orange-500/20 dark:from-cyan-500/30 dark:via-purple-500/30 dark:to-orange-500/30 rounded-full border border-cyan-500/30 dark:border-cyan-500/50 animate-shimmer">
-              <span className="text-sm font-semibold bg-gradient-to-r from-cyan-500 via-purple-500 to-orange-500 bg-clip-text text-transparent">
-                Choose Your Toolset
+            <div className="inline-block mb-6 px-6 py-3 bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-orange-500/20 dark:from-cyan-500/30 dark:via-purple-500/30 dark:to-orange-500/30 rounded-full border border-cyan-500/30 dark:border-cyan-500/50 backdrop-blur-sm animate-shimmer shadow-lg">
+              <span className="text-sm font-bold bg-gradient-to-r from-cyan-600 via-purple-600 to-orange-600 dark:from-cyan-400 dark:via-purple-400 dark:to-orange-400 bg-clip-text text-transparent">
+                ✨ Choose Your Toolset
               </span>
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold mb-6 bg-gradient-to-r from-cyan-500 via-purple-500 to-orange-500 bg-clip-text text-transparent animate-textShine">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-bold mb-6 bg-gradient-to-r from-cyan-500 via-purple-500 to-orange-500 bg-clip-text text-transparent animate-textShine drop-shadow-2xl">
               🛠️ Tools Hub
             </h1>
-            <p className="text-lg sm:text-xl text-muted-foreground dark:text-muted-foreground max-w-3xl mx-auto animate-fadeUp" style={{ animationDelay: '0.2s' }}>
+            <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto animate-fadeUp leading-relaxed" style={{ animationDelay: '0.2s' }}>
               Powerful utilities and gaming tools to supercharge your productivity and enhance your gaming experience
             </p>
           </div>
 
           {/* Modern Card Grid */}
-          <div className="grid md:grid-cols-2 gap-6 sm:gap-8 max-w-7xl mx-auto mb-16">
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-12 max-w-7xl mx-auto mb-16">
             {/* Free Fire Tools Card - Enhanced */}
             <div 
-              className="group relative overflow-hidden rounded-3xl cursor-pointer transform transition-all duration-700 hover:scale-[1.02] animate-scaleIn"
+              className="group relative overflow-hidden rounded-3xl cursor-pointer transform transition-all duration-700 hover:-translate-y-2 animate-scaleIn"
               onClick={() => setSelectedCategory('ff-tools')}
               data-testid="card-category-ff-tools"
             >
               {/* Gradient Border Effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-blue-500 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl p-[2px] animate-gradient-shift">
-                <div className="w-full h-full bg-white dark:bg-gray-950 rounded-3xl"></div>
-              </div>
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-3xl blur-sm animate-gradient-shift"></div>
 
               {/* Card Content */}
-              <div className="relative bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-cyan-500/5 dark:from-cyan-500/10 dark:via-blue-500/10 dark:to-cyan-500/10 backdrop-blur-xl border-2 border-cyan-500/20 dark:border-cyan-500/30 group-hover:border-cyan-500/50 dark:group-hover:border-cyan-500/60 rounded-3xl p-6 sm:p-8 transition-all duration-500 shadow-lg group-hover:shadow-[0_0_80px_rgba(6,182,212,0.4)]">
+              <div className="relative bg-white dark:bg-gray-900 backdrop-blur-xl border-2 border-gray-200 dark:border-gray-800 group-hover:border-cyan-500/50 dark:group-hover:border-cyan-500/60 rounded-3xl p-8 sm:p-10 transition-all duration-500 shadow-xl group-hover:shadow-[0_20px_80px_rgba(6,182,212,0.3)] dark:group-hover:shadow-[0_20px_80px_rgba(6,182,212,0.5)]">
 
-                {/* Animated Background Particles */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                {/* Animated Background Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-cyan-500/5 dark:from-cyan-500/10 dark:via-blue-500/10 dark:to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
+
+                {/* Animated Particles */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
                   <div className="absolute top-10 left-10 w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
                   <div className="absolute top-20 right-20 w-2 h-2 bg-blue-400 rounded-full animate-pulse" style={{ animationDelay: '0.3s' }}></div>
                   <div className="absolute bottom-10 left-20 w-2 h-2 bg-cyan-300 rounded-full animate-pulse" style={{ animationDelay: '0.6s' }}></div>
@@ -727,48 +728,47 @@ export default function Tools() {
                 </div>
 
                 {/* Icon Container */}
-                <div className="relative mb-6">
-                  <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-2xl group-hover:shadow-[0_0_40px_rgba(6,182,212,0.6)] transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
-                    <Sparkles className="w-12 h-12 sm:w-14 sm:h-14 text-white animate-pulse" />
+                <div className="relative mb-8">
+                  <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-2xl group-hover:shadow-[0_0_60px_rgba(6,182,212,0.8)] transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-700">
+                    <Sparkles className="w-14 h-14 sm:w-16 sm:h-16 text-white animate-pulse" />
                   </div>
-                  {/* Glow effect behind icon */}
-                  <div className="absolute inset-0 bg-cyan-500/30 dark:bg-cyan-500/40 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="absolute inset-0 bg-cyan-500/40 dark:bg-cyan-500/50 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                 </div>
 
                 {/* Title */}
-                <h3 className="text-2xl sm:text-3xl md:text-4xl font-orbitron font-bold mb-4 bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-400 dark:to-blue-400 bg-clip-text text-transparent group-hover:scale-105 transform transition-transform duration-300">
+                <h3 className="relative text-3xl sm:text-4xl font-orbitron font-bold mb-4 bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-400 dark:to-blue-400 bg-clip-text text-transparent group-hover:scale-105 transform transition-transform duration-300">
                   Free Fire Tools 🎮
                 </h3>
 
                 {/* Description */}
-                <p className="text-base sm:text-lg text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
+                <p className="relative text-base sm:text-lg text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
                   Stylish name generator, UID creator, sensitivity optimizer, and secure password tools for your gaming journey
                 </p>
 
                 {/* Feature Pills */}
-                <div className="flex flex-wrap gap-2 mb-6">
-                  <span className="px-3 py-1.5 bg-cyan-500/20 dark:bg-cyan-500/30 border border-cyan-500/40 dark:border-cyan-500/50 rounded-full text-xs sm:text-sm font-semibold text-cyan-700 dark:text-cyan-300 transform group-hover:scale-105 transition-transform duration-300">
+                <div className="relative flex flex-wrap gap-2 mb-8">
+                  <span className="px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 dark:from-cyan-500/30 dark:to-blue-500/30 border border-cyan-500/40 dark:border-cyan-500/50 rounded-full text-xs sm:text-sm font-bold text-cyan-700 dark:text-cyan-300 transform group-hover:scale-110 transition-all duration-300 shadow-md">
                     Name Gen
                   </span>
-                  <span className="px-3 py-1.5 bg-blue-500/20 dark:bg-blue-500/30 border border-blue-500/40 dark:border-blue-500/50 rounded-full text-xs sm:text-sm font-semibold text-blue-700 dark:text-blue-300 transform group-hover:scale-105 transition-transform duration-300" style={{ transitionDelay: '0.05s' }}>
+                  <span className="px-4 py-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 dark:from-blue-500/30 dark:to-purple-500/30 border border-blue-500/40 dark:border-blue-500/50 rounded-full text-xs sm:text-sm font-bold text-blue-700 dark:text-blue-300 transform group-hover:scale-110 transition-all duration-300 shadow-md" style={{ transitionDelay: '0.05s' }}>
                     UID Creator
                   </span>
-                  <span className="px-3 py-1.5 bg-purple-500/20 dark:bg-purple-500/30 border border-purple-500/40 dark:border-purple-500/50 rounded-full text-xs sm:text-sm font-semibold text-purple-700 dark:text-purple-300 transform group-hover:scale-105 transition-transform duration-300" style={{ transitionDelay: '0.1s' }}>
+                  <span className="px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 dark:from-purple-500/30 dark:to-pink-500/30 border border-purple-500/40 dark:border-purple-500/50 rounded-full text-xs sm:text-sm font-bold text-purple-700 dark:text-purple-300 transform group-hover:scale-110 transition-all duration-300 shadow-md" style={{ transitionDelay: '0.1s' }}>
                     Sensitivity
                   </span>
-                  <span className="px-3 py-1.5 bg-pink-500/20 dark:bg-pink-500/30 border border-pink-500/40 dark:border-pink-500/50 rounded-full text-xs sm:text-sm font-semibold text-pink-700 dark:text-pink-300 transform group-hover:scale-105 transition-transform duration-300" style={{ transitionDelay: '0.15s' }}>
+                  <span className="px-4 py-2 bg-gradient-to-r from-pink-500/20 to-red-500/20 dark:from-pink-500/30 dark:to-red-500/30 border border-pink-500/40 dark:border-pink-500/50 rounded-full text-xs sm:text-sm font-bold text-pink-700 dark:text-pink-300 transform group-hover:scale-110 transition-all duration-300 shadow-md" style={{ transitionDelay: '0.15s' }}>
                     Password
                   </span>
                 </div>
 
                 {/* CTA */}
-                <div className="flex items-center justify-between">
-                  <span className="text-lg sm:text-xl font-bold text-cyan-600 dark:text-cyan-400 group-hover:translate-x-2 transition-transform duration-300">
-                    Explore Now
+                <div className="relative flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-800">
+                  <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-400 dark:to-blue-400 bg-clip-text text-transparent group-hover:translate-x-2 transition-transform duration-300">
+                    Explore Now →
                   </span>
                   <div className="relative">
-                    <Zap className="w-6 h-6 sm:w-7 sm:h-7 text-cyan-500 animate-pulse" />
-                    <div className="absolute inset-0 bg-cyan-500/50 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <Zap className="w-7 h-7 sm:w-8 sm:h-8 text-cyan-500 animate-pulse" />
+                    <div className="absolute inset-0 bg-cyan-500/60 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
                 </div>
               </div>
@@ -776,21 +776,22 @@ export default function Tools() {
 
             {/* General Utilities Card - Enhanced */}
             <div 
-              className="group relative overflow-hidden rounded-3xl cursor-pointer transform transition-all duration-700 hover:scale-[1.02] animate-scaleIn"
+              className="group relative overflow-hidden rounded-3xl cursor-pointer transform transition-all duration-700 hover:-translate-y-2 animate-scaleIn"
               style={{ animationDelay: '0.15s' }}
               onClick={() => setSelectedCategory('utilities')}
               data-testid="card-category-utilities"
             >
               {/* Gradient Border Effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl p-[2px] animate-gradient-shift">
-                <div className="w-full h-full bg-white dark:bg-gray-950 rounded-3xl"></div>
-              </div>
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-3xl blur-sm animate-gradient-shift"></div>
 
               {/* Card Content */}
-              <div className="relative bg-gradient-to-br from-purple-500/5 via-pink-500/5 to-purple-500/5 dark:from-purple-500/10 dark:via-pink-500/10 dark:to-purple-500/10 backdrop-blur-xl border-2 border-purple-500/20 dark:border-purple-500/30 group-hover:border-purple-500/50 dark:group-hover:border-purple-500/60 rounded-3xl p-6 sm:p-8 transition-all duration-500 shadow-lg group-hover:shadow-[0_0_80px_rgba(168,85,247,0.4)]">
+              <div className="relative bg-white dark:bg-gray-900 backdrop-blur-xl border-2 border-gray-200 dark:border-gray-800 group-hover:border-purple-500/50 dark:group-hover:border-purple-500/60 rounded-3xl p-8 sm:p-10 transition-all duration-500 shadow-xl group-hover:shadow-[0_20px_80px_rgba(168,85,247,0.3)] dark:group-hover:shadow-[0_20px_80px_rgba(168,85,247,0.5)]">
 
-                {/* Animated Background Particles */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                {/* Animated Background Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-pink-500/5 to-purple-500/5 dark:from-purple-500/10 dark:via-pink-500/10 dark:to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
+
+                {/* Animated Particles */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
                   <div className="absolute top-10 left-10 w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
                   <div className="absolute top-20 right-20 w-2 h-2 bg-pink-400 rounded-full animate-pulse" style={{ animationDelay: '0.3s' }}></div>
                   <div className="absolute bottom-10 left-20 w-2 h-2 bg-purple-300 rounded-full animate-pulse" style={{ animationDelay: '0.6s' }}></div>
@@ -798,48 +799,47 @@ export default function Tools() {
                 </div>
 
                 {/* Icon Container */}
-                <div className="relative mb-6">
-                  <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center shadow-2xl group-hover:shadow-[0_0_40px_rgba(168,85,247,0.6)] transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
-                    <Wrench className="w-12 h-12 sm:w-14 sm:h-14 text-white animate-pulse" />
+                <div className="relative mb-8">
+                  <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center shadow-2xl group-hover:shadow-[0_0_60px_rgba(168,85,247,0.8)] transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-700">
+                    <Wrench className="w-14 h-14 sm:w-16 sm:h-16 text-white animate-pulse" />
                   </div>
-                  {/* Glow effect behind icon */}
-                  <div className="absolute inset-0 bg-purple-500/30 dark:bg-purple-500/40 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="absolute inset-0 bg-purple-500/40 dark:bg-purple-500/50 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                 </div>
 
                 {/* Title */}
-                <h3 className="text-2xl sm:text-3xl md:text-4xl font-orbitron font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent group-hover:scale-105 transform transition-transform duration-300">
+                <h3 className="relative text-3xl sm:text-4xl font-orbitron font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent group-hover:scale-105 transform transition-transform duration-300">
                   General Utilities 🔧
                 </h3>
 
                 {/* Description */}
-                <p className="text-base sm:text-lg text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
+                <p className="relative text-base sm:text-lg text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
                   Image optimization, text-to-speech, QR generator, and clipboard tools for boosting your productivity
                 </p>
 
                 {/* Feature Pills */}
-                <div className="flex flex-wrap gap-2 mb-6">
-                  <span className="px-3 py-1.5 bg-cyan-500/20 dark:bg-cyan-500/30 border border-cyan-500/40 dark:border-cyan-500/50 rounded-full text-xs sm:text-sm font-semibold text-cyan-700 dark:text-cyan-300 transform group-hover:scale-105 transition-transform duration-300">
+                <div className="relative flex flex-wrap gap-2 mb-8">
+                  <span className="px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 dark:from-cyan-500/30 dark:to-blue-500/30 border border-cyan-500/40 dark:border-cyan-500/50 rounded-full text-xs sm:text-sm font-bold text-cyan-700 dark:text-cyan-300 transform group-hover:scale-110 transition-all duration-300 shadow-md">
                     Image Compress
                   </span>
-                  <span className="px-3 py-1.5 bg-purple-500/20 dark:bg-purple-500/30 border border-purple-500/40 dark:border-purple-500/50 rounded-full text-xs sm:text-sm font-semibold text-purple-700 dark:text-purple-300 transform group-hover:scale-105 transition-transform duration-300" style={{ transitionDelay: '0.05s' }}>
+                  <span className="px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 dark:from-purple-500/30 dark:to-pink-500/30 border border-purple-500/40 dark:border-purple-500/50 rounded-full text-xs sm:text-sm font-bold text-purple-700 dark:text-purple-300 transform group-hover:scale-110 transition-all duration-300 shadow-md" style={{ transitionDelay: '0.05s' }}>
                     Text-to-Speech
                   </span>
-                  <span className="px-3 py-1.5 bg-green-500/20 dark:bg-green-500/30 border border-green-500/40 dark:border-green-500/50 rounded-full text-xs sm:text-sm font-semibold text-green-700 dark:text-green-300 transform group-hover:scale-105 transition-transform duration-300" style={{ transitionDelay: '0.1s' }}>
+                  <span className="px-4 py-2 bg-gradient-to-r from-green-500/20 to-emerald-500/20 dark:from-green-500/30 dark:to-emerald-500/30 border border-green-500/40 dark:border-green-500/50 rounded-full text-xs sm:text-sm font-bold text-green-700 dark:text-green-300 transform group-hover:scale-110 transition-all duration-300 shadow-md" style={{ transitionDelay: '0.1s' }}>
                     QR Code
                   </span>
-                  <span className="px-3 py-1.5 bg-orange-500/20 dark:bg-orange-500/30 border border-orange-500/40 dark:border-orange-500/50 rounded-full text-xs sm:text-sm font-semibold text-orange-700 dark:text-orange-300 transform group-hover:scale-105 transition-transform duration-300" style={{ transitionDelay: '0.15s' }}>
+                  <span className="px-4 py-2 bg-gradient-to-r from-orange-500/20 to-red-500/20 dark:from-orange-500/30 dark:to-red-500/30 border border-orange-500/40 dark:border-orange-500/50 rounded-full text-xs sm:text-sm font-bold text-orange-700 dark:text-orange-300 transform group-hover:scale-110 transition-all duration-300 shadow-md" style={{ transitionDelay: '0.15s' }}>
                     Clipboard
                   </span>
                 </div>
 
                 {/* CTA */}
-                <div className="flex items-center justify-between">
-                  <span className="text-lg sm:text-xl font-bold text-purple-600 dark:text-purple-400 group-hover:translate-x-2 transition-transform duration-300">
-                    Get Started
+                <div className="relative flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-800">
+                  <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent group-hover:translate-x-2 transition-transform duration-300">
+                    Get Started →
                   </span>
                   <div className="relative">
-                    <Star className="w-6 h-6 sm:w-7 sm:h-7 text-purple-500 animate-spin-slow" />
-                    <div className="absolute inset-0 bg-purple-500/50 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <Star className="w-7 h-7 sm:w-8 sm:h-8 text-purple-500 animate-spin-slow" />
+                    <div className="absolute inset-0 bg-purple-500/60 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
                 </div>
               </div>
@@ -847,7 +847,7 @@ export default function Tools() {
           </div>
 
           {/* Ad Placement */}
-          <div className="mt-12 animate-fadeUp" style={{ animationDelay: '0.3s' }}>
+          <div className="mt-16 animate-fadeUp" style={{ animationDelay: '0.3s' }}>
             <AdSenseAd />
           </div>
         </div>
