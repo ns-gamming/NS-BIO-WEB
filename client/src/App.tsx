@@ -11,7 +11,6 @@ import TimeGreeting from "./components/TimeGreeting";
 import ScrollToTop from "./components/ScrollToTop";
 import EasterEggs from "./components/EasterEggs";
 import BackButton from "./components/BackButton";
-import QuickNav from "./components/QuickNav";
 import Footer from "./components/Footer";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
@@ -147,8 +146,6 @@ Keep coding, keep creating! 🚀
     return <PageLoader />;
   }
 
-  const isBlogPage = location.startsWith('/blog');
-
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="dark">
@@ -163,8 +160,7 @@ Keep coding, keep creating! 🚀
             <ScrollToTop />
             <BackButton />
             <EasterEggs />
-            {isBlogPage && <GeminiChatbot />}
-            <QuickNav />
+            <GeminiChatbot />
             <Footer />
             <Toaster />
           </div>
