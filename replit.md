@@ -8,7 +8,25 @@ NS GAMMING is a full-stack web application serving as a personal portfolio, gami
 
 Preferred communication style: Simple, everyday language with natural Hinglish phrases (especially for FF Bots section).
 
-## Recent Changes (October 7, 2025)
+## Recent Changes
+
+### October 16, 2025 - Unified Tools & Utilities Hub
+
+**Tools Page Consolidation**
+- Merged Free Fire Tools and Utilities into single "Tools & Utilities Hub" page
+- Updated Navigation: Replaced separate "Tools" and "Utilities" menu items with single "Tools" entry
+- Implemented tabbed category selection interface:
+  - Free Fire Tools tab: QR Code Scanner, ID Finder, ID-to-UID Converter
+  - Utilities tab: Image Converter, QR Code Generator, Color Picker, Base64 Encoder/Decoder, Text Case Converter, Lorem Ipsum Generator, Password Generator
+- Added QuickNav component: Sticky vertical navigation sidebar with icons for all main pages (Home, About, Portfolio, FF Bots, Games, Tools, Blog, Social, Contact)
+- Added Footer component: Comprehensive site map with quick links, social media, and legal pages (Privacy Policy, Terms, Disclaimer)
+- Enhanced with extensive animations: Staggered fade-ins, hover effects, gradient transitions, icon rotations
+- Full responsive design with mobile-optimized layout
+- Professional micro-interactions and polished UX throughout
+- One ad placement per page for monetization
+- Works seamlessly in both light and dark themes across all devices
+
+### October 7, 2025 - FF Bots Hub Implementation
 
 **FF Bots Hub Implementation**
 - Created comprehensive Free Fire tools platform with 4 bot pages
