@@ -309,7 +309,7 @@ export default function Portfolio() {
             <div className="relative z-10">
               <div className="text-6xl mb-4 group-hover:animate-bounce">💎</div>
               <h3 className="text-2xl font-bold mb-2 text-yellow-500">Cryptocurrency</h3>
-              <p className="text-4xl font-bold mb-4">$30,000+</p>
+              <p className="text-4xl font-bold mb-4">$32,000+</p>
               <p className="text-muted-foreground mb-4">Diversified portfolio across Bitcoin, Ethereum, and high-potential altcoins</p>
               <div className="flex flex-wrap gap-2">
                 <span className="px-3 py-1 bg-yellow-500/20 border border-yellow-500/40 rounded-full text-xs">BTC</span>
@@ -328,7 +328,7 @@ export default function Portfolio() {
             <div className="relative z-10">
               <div className="text-6xl mb-4 group-hover:animate-bounce">🪙</div>
               <h3 className="text-2xl font-bold mb-2 text-amber-500">Digital Gold</h3>
-              <p className="text-4xl font-bold mb-4">₹1,80,000</p>
+              <p className="text-4xl font-bold mb-4">₹1,80,000+</p>
               <p className="text-muted-foreground mb-4">Stable wealth preservation through digital precious metals</p>
               <div className="flex flex-wrap gap-2">
                 <span className="px-3 py-1 bg-amber-500/20 border border-amber-500/40 rounded-full text-xs">Stability</span>
@@ -364,7 +364,7 @@ export default function Portfolio() {
           transition={{ delay: 0.3 }}
         >
           <p className="text-lg mb-2">
-            <span className="font-bold text-primary">Total Investment Portfolio:</span> $30,000+ USD + ₹2,60,000 INR
+            <span className="font-bold text-primary">Total Investment Portfolio:</span> $32,000+ USD + ₹2,60,000 INR
           </p>
           <p className="text-muted-foreground">
             Building wealth at a young age through smart diversification: crypto for growth, digital gold for stability, and stocks for passive income 🚀💰
