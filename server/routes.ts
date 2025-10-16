@@ -3,12 +3,45 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { createClient } from '@supabase/supabase-js';
 import { insertBlogPostSchema, insertPollSchema } from "@shared/schema";
+import { GoogleGenAI } from "@google/genai";
 
 const supabase = process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_KEY
   ? createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY)
   : null;
 
+const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
+
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Gemini Chat API endpoint
+  app.post("/api/chat", async (req, res) => {
+    try {
+      const { messages } = req.body;
+
+      if (!messages || !Array.isArray(messages)) {
+        return res.status(400).json({ error: "Messages array is required" });
+      }
+
+      // Convert messages to Gemini format
+      const contents = messages.map((msg: { role: string; content: string }) => ({
+        role: msg.role === "user" ? "user" : "model",
+        parts: [{ text: msg.content }]
+      }));
+
+      const response = await genAI.models.generateContent({
+        model: "gemini-2.0-flash-exp",
+        contents: contents,
+      });
+
+      const text = response.text || "I apologize, but I couldn't generate a response. Please try again!";
+
+      res.json({ message: text });
+    } catch (error) {
+      console.error('Gemini API error:', error);
+      res.status(500).json({ 
+        error: "Failed to generate response. Please try again!" 
+      });
+    }
+  });
   // Free Fire Likes API proxy endpoint
   app.post("/api/ff-likes", async (req, res) => {
     try {

@@ -46,6 +46,20 @@ export const toolUsage = pgTable("tool_usage", {
   lastUsed: timestamp("last_used").defaultNow().notNull(),
 });
 
+export const toolRateLimits = pgTable("tool_rate_limits", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  ip: text("ip").notNull(),
+  toolName: text("tool_name").notNull(),
+  usedAt: timestamp("used_at").defaultNow().notNull(),
+});
+
+export const blogShares = pgTable("blog_shares", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  blogSlug: text("blog_slug").notNull(),
+  platform: text("platform").notNull(),
+  sharedAt: timestamp("shared_at").defaultNow().notNull(),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -71,6 +85,16 @@ export const insertToolUsageSchema = createInsertSchema(toolUsage).omit({
   lastUsed: true,
 });
 
+export const insertToolRateLimitSchema = createInsertSchema(toolRateLimits).omit({
+  id: true,
+  usedAt: true,
+});
+
+export const insertBlogShareSchema = createInsertSchema(blogShares).omit({
+  id: true,
+  sharedAt: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type BlogPost = typeof blogPosts.$inferSelect;
@@ -81,3 +105,7 @@ export type VisitorStat = typeof visitorStats.$inferSelect;
 export type InsertVisitorStat = z.infer<typeof insertVisitorStatSchema>;
 export type ToolUsage = typeof toolUsage.$inferSelect;
 export type InsertToolUsage = z.infer<typeof insertToolUsageSchema>;
+export type ToolRateLimit = typeof toolRateLimits.$inferSelect;
+export type InsertToolRateLimit = z.infer<typeof insertToolRateLimitSchema>;
+export type BlogShare = typeof blogShares.$inferSelect;
+export type InsertBlogShare = z.infer<typeof insertBlogShareSchema>;

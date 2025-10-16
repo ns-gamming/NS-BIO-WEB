@@ -446,22 +446,15 @@ User: ${userMessage.content}
 
 Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
 
-      const response = await fetch(GEMINI_API_URL, {
+      const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-goog-api-key": GEMINI_API_KEY,
         },
         body: JSON.stringify({
-          contents: [
-            {
-              parts: [{ text: prompt }],
-            },
-          ],
-          generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 500,
-          },
+          messages: [
+            { role: "user", content: prompt }
+          ]
         }),
       });
 
@@ -470,7 +463,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
       }
 
       const data = await response.json();
-      const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't generate a response.";
+      const aiResponse = data.message || "Sorry, I couldn't generate a response.";
 
       const assistantMessage: Message = {
         role: "assistant",

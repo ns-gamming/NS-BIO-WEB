@@ -2,15 +2,19 @@ import { useQuery } from '@tanstack/react-query';
 import { useRoute } from 'wouter';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Clock, Eye, Calendar, Share2, Facebook, Twitter, Link as LinkIcon, ArrowLeft, TrendingUp } from 'lucide-react';
+import { Clock, Eye, Calendar, Share2, Facebook, Twitter, Link as LinkIcon, ArrowLeft, TrendingUp, Volume2, VolumeX, MessageCircle } from 'lucide-react';
+import { SiWhatsapp, SiTelegram, SiInstagram } from 'react-icons/si';
 import { Link } from 'wouter';
 import { useToast } from '@/hooks/use-toast';
 import { useLiveViewCounter } from '@/hooks/useLiveViewCounter';
+import { useState, useEffect } from 'react';
 import type { BlogPost } from '@shared/schema';
 
 export default function BlogPost() {
   const [, params] = useRoute('/blog/:slug');
   const { toast } = useToast();
+  const [isReading, setIsReading] = useState(false);
+  const [speechSynthesis, setSpeechSynthesis] = useState<SpeechSynthesis | null>(null);
   
   const { data: post, isLoading } = useQuery<BlogPost>({
     queryKey: ['/api/blog', params?.slug],
@@ -23,6 +27,18 @@ export default function BlogPost() {
 
   const liveViews = useLiveViewCounter(post?.views || 100, 3000);
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setSpeechSynthesis(window.speechSynthesis);
+    }
+    
+    return () => {
+      if (speechSynthesis) {
+        speechSynthesis.cancel();
+      }
+    };
+  }, []);
+
   const sharePost = (platform: string) => {
     const url = window.location.href;
     const text = post?.title || '';
@@ -30,14 +46,56 @@ export default function BlogPost() {
     const urls: Record<string, string> = {
       facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
       twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`,
+      whatsapp: `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`,
+      telegram: `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`,
+      instagram: url,
       copy: url
     };
 
     if (platform === 'copy') {
       navigator.clipboard.writeText(url);
       toast({ title: "Copied!", description: "Link copied to clipboard" });
+    } else if (platform === 'instagram') {
+      navigator.clipboard.writeText(url);
+      toast({ 
+        title: "Link Copied!", 
+        description: "Paste in your Instagram story or DM to share" 
+      });
     } else {
       window.open(urls[platform], '_blank', 'width=600,height=400');
+    }
+  };
+
+  const toggleReadAloud = () => {
+    if (!speechSynthesis || !post) return;
+
+    if (isReading) {
+      speechSynthesis.cancel();
+      setIsReading(false);
+      toast({ title: "Stopped", description: "Read-aloud stopped" });
+    } else {
+      const utterance = new SpeechSynthesisUtterance(post.content);
+      utterance.rate = 1.0;
+      utterance.pitch = 1.0;
+      utterance.volume = 1.0;
+      
+      utterance.onend = () => {
+        setIsReading(false);
+        toast({ title: "Finished", description: "Read-aloud complete" });
+      };
+      
+      utterance.onerror = () => {
+        setIsReading(false);
+        toast({ 
+          title: "Error", 
+          description: "Could not read article. Try again!",
+          variant: "destructive" 
+        });
+      };
+
+      speechSynthesis.speak(utterance);
+      setIsReading(true);
+      toast({ title: "Reading...", description: "Article is being read aloud" });
     }
   };
 
@@ -136,27 +194,54 @@ export default function BlogPost() {
           ))}
         </div>
 
-        <div className="border-t border-gray-200 dark:border-gray-800 pt-6">
+        <div className="border-t border-gray-200 dark:border-gray-800 pt-6 space-y-4">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <h3 className="text-lg font-semibold dark:text-white">Share this article</h3>
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap">
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => sharePost('facebook')}
-                className="dark:border-gray-700 dark:hover:bg-gray-800"
-                data-testid="button-share-facebook"
+                onClick={() => sharePost('whatsapp')}
+                className="dark:border-gray-700 dark:hover:bg-green-500/10 hover:text-green-600 dark:hover:text-green-400"
+                data-testid="button-share-whatsapp"
               >
-                <Facebook className="h-4 w-4" />
+                <SiWhatsapp className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => sharePost('telegram')}
+                className="dark:border-gray-700 dark:hover:bg-blue-500/10 hover:text-blue-600 dark:hover:text-blue-400"
+                data-testid="button-share-telegram"
+              >
+                <SiTelegram className="h-4 w-4" />
               </Button>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => sharePost('twitter')}
-                className="dark:border-gray-700 dark:hover:bg-gray-800"
+                className="dark:border-gray-700 dark:hover:bg-sky-500/10 hover:text-sky-600 dark:hover:text-sky-400"
                 data-testid="button-share-twitter"
               >
                 <Twitter className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => sharePost('instagram')}
+                className="dark:border-gray-700 dark:hover:bg-pink-500/10 hover:text-pink-600 dark:hover:text-pink-400"
+                data-testid="button-share-instagram"
+              >
+                <SiInstagram className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => sharePost('facebook')}
+                className="dark:border-gray-700 dark:hover:bg-blue-700/10 hover:text-blue-700 dark:hover:text-blue-500"
+                data-testid="button-share-facebook"
+              >
+                <Facebook className="h-4 w-4" />
               </Button>
               <Button
                 variant="outline"
@@ -168,6 +253,29 @@ export default function BlogPost() {
                 <LinkIcon className="h-4 w-4" />
               </Button>
             </div>
+          </div>
+          
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <h3 className="text-lg font-semibold dark:text-white">Listen to article</h3>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={toggleReadAloud}
+              className={`dark:border-gray-700 ${isReading ? 'bg-cyan-500/20 dark:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400' : 'dark:hover:bg-gray-800'}`}
+              data-testid="button-read-aloud"
+            >
+              {isReading ? (
+                <>
+                  <VolumeX className="h-4 w-4 mr-2 animate-pulse" />
+                  Stop Reading
+                </>
+              ) : (
+                <>
+                  <Volume2 className="h-4 w-4 mr-2" />
+                  Read Aloud
+                </>
+              )}
+            </Button>
           </div>
         </div>
       </article>
