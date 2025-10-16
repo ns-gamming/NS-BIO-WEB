@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
-import { ImageDown, Volume2, QrCode, ClipboardCopy, Download, Upload, Mic, MicOff } from 'lucide-react';
+import { ImageDown, Volume2, QrCode, ClipboardCopy, Download, Upload, Mic, MicOff, Settings, Sparkles } from 'lucide-react';
 import QRCode from 'qrcode';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -19,8 +19,20 @@ const ImageCompressor = () => {
   const [compressedImage, setCompressedImage] = useState<string | null>(null);
   const [originalSize, setOriginalSize] = useState<number>(0);
   const [compressedSize, setCompressedSize] = useState<number>(0);
+  const [targetSize, setTargetSize] = useState<number>(2); // in MB
+  const [compressionMode, setCompressionMode] = useState<'quality' | 'size'>('quality');
+  const [quality, setQuality] = useState<number>(85);
+  const [imageFormat, setImageFormat] = useState<'jpeg' | 'png' | 'webp'>('jpeg');
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const compressionPresets = [
+    { label: 'YouTube Thumbnail', size: 2, quality: 95, format: 'jpeg' as const, desc: 'Perfect for YouTube thumbnails (2MB max, high quality)' },
+    { label: 'Instagram Post', size: 1, quality: 90, format: 'jpeg' as const, desc: 'Optimized for Instagram (1MB, balanced quality)' },
+    { label: 'Web Optimized', size: 0.5, quality: 85, format: 'webp' as const, desc: 'Fast loading websites (500KB, WebP format)' },
+    { label: 'Ultra Compressed', size: 0.1, quality: 70, format: 'jpeg' as const, desc: 'Maximum compression (100KB, smaller file)' },
+    { label: 'Custom', size: 2, quality: 85, format: 'jpeg' as const, desc: 'Set your own compression settings' },
+  ];
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -40,27 +52,35 @@ const ImageCompressor = () => {
     reader.readAsDataURL(file);
   };
 
-  const compressImage = (imageData: string, originalSize: number) => {
+  const compressImage = (imageData: string, originalFileSize: number) => {
     const img = new Image();
     img.onload = () => {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
-      const maxWidth = 1920;
-      const maxHeight = 1080;
+      // Start with original dimensions
       let width = img.width;
       let height = img.height;
+      let currentQuality = quality / 100;
 
-      if (width > height) {
-        if (width > maxWidth) {
-          height *= maxWidth / width;
-          width = maxWidth;
-        }
+      if (compressionMode === 'size') {
+        // Compress to target file size
+        const targetBytes = targetSize * 1024 * 1024;
+        
+        // Estimate initial scale based on target size
+        const estimatedScale = Math.sqrt(targetBytes / originalFileSize);
+        width = Math.round(img.width * Math.min(estimatedScale, 1));
+        height = Math.round(img.height * Math.min(estimatedScale, 1));
       } else {
-        if (height > maxHeight) {
-          width *= maxHeight / height;
-          height = maxHeight;
+        // Quality mode - maintain dimensions, adjust quality only
+        const maxWidth = 1920;
+        const maxHeight = 1080;
+        
+        if (width > maxWidth || height > maxHeight) {
+          const ratio = Math.min(maxWidth / width, maxHeight / height);
+          width = Math.round(width * ratio);
+          height = Math.round(height * ratio);
         }
       }
 
@@ -68,39 +88,77 @@ const ImageCompressor = () => {
       canvas.height = height;
       ctx.drawImage(img, 0, 0, width, height);
 
-      const compressed = canvas.toDataURL('image/jpeg', 0.7);
-      setCompressedImage(compressed);
-      setCompressedSize(Math.round(compressed.length * 0.75));
+      // Get MIME type based on format
+      const mimeType = imageFormat === 'png' ? 'image/png' : imageFormat === 'webp' ? 'image/webp' : 'image/jpeg';
+      
+      let compressed = canvas.toDataURL(mimeType, currentQuality);
+      let estimatedSize = Math.round(compressed.length * 0.75);
 
+      // If size mode, iteratively adjust quality to hit target
+      if (compressionMode === 'size') {
+        const targetBytes = targetSize * 1024 * 1024;
+        let iterations = 0;
+        const maxIterations = 10;
+
+        while (Math.abs(estimatedSize - targetBytes) > targetBytes * 0.1 && iterations < maxIterations) {
+          if (estimatedSize > targetBytes) {
+            currentQuality *= 0.9;
+          } else {
+            currentQuality *= 1.05;
+          }
+          currentQuality = Math.max(0.1, Math.min(1, currentQuality));
+          
+          compressed = canvas.toDataURL(mimeType, currentQuality);
+          estimatedSize = Math.round(compressed.length * 0.75);
+          iterations++;
+        }
+      }
+
+      setCompressedImage(compressed);
+      setCompressedSize(estimatedSize);
+
+      const reduction = ((originalFileSize - estimatedSize) / originalFileSize) * 100;
       toast({
-        title: "Compressed!",
-        description: `Reduced by ${Math.round(((originalSize - compressed.length * 0.75) / originalSize) * 100)}%`
+        title: "✅ Compression Complete!",
+        description: `Reduced by ${Math.round(reduction)}% | Size: ${formatFileSize(estimatedSize)}`
       });
     };
     img.src = imageData;
   };
 
+  const applyPreset = (preset: typeof compressionPresets[0]) => {
+    setTargetSize(preset.size);
+    setQuality(preset.quality);
+    setImageFormat(preset.format);
+    if (originalImage) {
+      compressImage(originalImage, originalSize);
+    }
+  };
+
   const downloadCompressed = () => {
     if (!compressedImage) return;
+    const extension = imageFormat === 'png' ? 'png' : imageFormat === 'webp' ? 'webp' : 'jpg';
     const link = document.createElement('a');
     link.href = compressedImage;
-    link.download = 'compressed-image.jpg';
+    link.download = `compressed-image-${targetSize}mb.${extension}`;
     link.click();
+    toast({ title: "Downloaded!", description: `Image saved as ${extension.toUpperCase()}` });
   };
 
   const formatFileSize = (bytes: number) => {
     if (bytes < 1024) return bytes + ' B';
-    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
     return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
   };
 
   return (
     <div className="space-y-6 animate-fadeUp">
+      {/* Upload Area */}
       <div className="relative group flex flex-col items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-2xl p-12 cursor-pointer hover:border-cyan-500 dark:hover:border-cyan-400 transition-all duration-700 hover:scale-[1.03] hover:shadow-[0_0_50px_rgba(6,182,212,0.4)] animate-popIn" onClick={() => fileInputRef.current?.click()}>
         <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/5 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-all duration-700 rounded-2xl"></div>
         <Upload className="h-16 w-16 text-gray-400 dark:text-gray-500 mb-6 animate-bounce-slow group-hover:scale-125 transition-transform duration-500" />
         <p className="text-lg font-semibold text-gray-600 dark:text-gray-400 animate-slideInFromBottom">Click to upload an image</p>
-        <p className="text-sm text-gray-400 dark:text-gray-500 mt-2 animate-fadeInLeft" style={{ animationDelay: '0.2s' }}>Supports JPG, PNG, WEBP</p>
+        <p className="text-sm text-gray-400 dark:text-gray-500 mt-2 animate-fadeInLeft" style={{ animationDelay: '0.2s' }}>JPG, PNG, WEBP • Max 10MB</p>
         <input
           ref={fileInputRef}
           type="file"
@@ -111,22 +169,156 @@ const ImageCompressor = () => {
         />
       </div>
 
+      {/* Compression Presets */}
+      <div className="space-y-4 animate-slideInFromLeft">
+        <Label className="text-lg font-bold dark:text-white flex items-center gap-2">
+          <Sparkles className="w-5 h-5 text-cyan-500" />
+          Quick Presets
+        </Label>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+          {compressionPresets.map((preset, idx) => (
+            <button
+              key={idx}
+              onClick={() => applyPreset(preset)}
+              className="p-4 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-cyan-500 dark:hover:border-cyan-400 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(6,182,212,0.3)] text-left group"
+            >
+              <p className="font-bold text-sm dark:text-white mb-1 group-hover:text-cyan-500 transition-colors">{preset.label}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">{preset.desc}</p>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Advanced Settings */}
+      <div className="space-y-4 p-6 rounded-2xl bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-cyan-500/5 border-2 border-gray-200 dark:border-gray-700 animate-fadeUp">
+        <Label className="text-lg font-bold dark:text-white flex items-center gap-2">
+          <Settings className="w-5 h-5 text-blue-500" />
+          Advanced Settings
+        </Label>
+
+        {/* Compression Mode */}
+        <div className="space-y-2">
+          <Label className="text-sm font-semibold dark:text-gray-300">Compression Mode</Label>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setCompressionMode('quality')}
+              className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-300 ${
+                compressionMode === 'quality'
+                  ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-lg'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
+              }`}
+            >
+              Quality First
+            </button>
+            <button
+              onClick={() => setCompressionMode('size')}
+              className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-300 ${
+                compressionMode === 'size'
+                  ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-lg'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
+              }`}
+            >
+              Target Size
+            </button>
+          </div>
+        </div>
+
+        {/* Target Size Slider */}
+        <div className="space-y-2">
+          <Label className="text-sm font-semibold dark:text-gray-300 flex items-center justify-between">
+            <span>Target Size: {targetSize} MB</span>
+            <span className="text-xs text-gray-500">({(targetSize * 1024).toFixed(0)} KB)</span>
+          </Label>
+          <Slider
+            value={[targetSize]}
+            onValueChange={(value) => {
+              setTargetSize(value[0]);
+              if (originalImage) compressImage(originalImage, originalSize);
+            }}
+            min={0.1}
+            max={5}
+            step={0.1}
+            className="dark:bg-gray-700"
+          />
+          <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+            <span>100 KB</span>
+            <span>2 MB (YouTube)</span>
+            <span>5 MB</span>
+          </div>
+        </div>
+
+        {/* Quality Slider */}
+        <div className="space-y-2">
+          <Label className="text-sm font-semibold dark:text-gray-300">Quality: {quality}%</Label>
+          <Slider
+            value={[quality]}
+            onValueChange={(value) => {
+              setQuality(value[0]);
+              if (originalImage) compressImage(originalImage, originalSize);
+            }}
+            min={10}
+            max={100}
+            step={5}
+            className="dark:bg-gray-700"
+          />
+          <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+            <span>Low (Small Size)</span>
+            <span>High (Best Quality)</span>
+          </div>
+        </div>
+
+        {/* Format Selection */}
+        <div className="space-y-2">
+          <Label className="text-sm font-semibold dark:text-gray-300">Output Format</Label>
+          <div className="grid grid-cols-3 gap-2">
+            {(['jpeg', 'png', 'webp'] as const).map((format) => (
+              <button
+                key={format}
+                onClick={() => {
+                  setImageFormat(format);
+                  if (originalImage) compressImage(originalImage, originalSize);
+                }}
+                className={`py-2 px-4 rounded-lg font-semibold text-sm transition-all duration-300 ${
+                  imageFormat === format
+                    ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white'
+                    : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
+                }`}
+              >
+                {format.toUpperCase()}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Result Display */}
       {originalImage && compressedImage && (
         <div className="grid md:grid-cols-2 gap-6 animate-zoomIn">
           <div className="space-y-3 animate-slideInFromLeft group">
-            <p className="text-base font-bold dark:text-white animate-textShine bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent">Original ({formatFileSize(originalSize)})</p>
+            <div className="flex items-center justify-between">
+              <p className="text-base font-bold dark:text-white">Original</p>
+              <span className="text-sm font-semibold text-cyan-600 dark:text-cyan-400">{formatFileSize(originalSize)}</span>
+            </div>
             <div className="relative overflow-hidden rounded-2xl">
               <img src={originalImage} alt="Original" className="rounded-2xl w-full transition-all duration-700 group-hover:scale-110 hover:shadow-[0_0_60px_rgba(6,182,212,0.5)]" data-testid="img-original" />
             </div>
           </div>
           <div className="space-y-3 animate-slideInFromRight group">
-            <p className="text-base font-bold dark:text-white animate-textShine bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent">Compressed ({formatFileSize(compressedSize)})</p>
+            <div className="flex items-center justify-between">
+              <p className="text-base font-bold dark:text-white">Compressed</p>
+              <span className="text-sm font-semibold text-green-600 dark:text-green-400">{formatFileSize(compressedSize)}</span>
+            </div>
             <div className="relative overflow-hidden rounded-2xl">
               <img src={compressedImage} alt="Compressed" className="rounded-2xl w-full transition-all duration-700 group-hover:scale-110 hover:shadow-[0_0_60px_rgba(6,182,212,0.5)]" data-testid="img-compressed" />
             </div>
+            <div className="p-4 rounded-xl bg-green-500/10 border border-green-500/30">
+              <p className="text-sm font-semibold text-green-600 dark:text-green-400">
+                ✅ Saved {((originalSize - compressedSize) / originalSize * 100).toFixed(1)}% • {formatFileSize(originalSize - compressedSize)} smaller
+              </p>
+            </div>
             <Button onClick={downloadCompressed} className="w-full bg-gradient-to-r from-cyan-500 via-blue-500 to-cyan-600 hover:from-cyan-600 hover:via-blue-600 hover:to-cyan-700 transition-all duration-500 hover:scale-105 hover:shadow-[0_0_40px_rgba(6,182,212,0.6)] animate-bounceIn text-base font-semibold py-6" data-testid="button-download-compressed">
               <Download className="mr-2 h-5 w-5 animate-bounce" />
-              Download Compressed Image
+              Download {imageFormat.toUpperCase()} ({formatFileSize(compressedSize)})
             </Button>
           </div>
         </div>
@@ -349,17 +541,50 @@ const ClipboardManager = () => {
 export default function UtilityTools() {
   useEffect(() => {
     // SEO Meta Tags
-    document.title = 'Free Utility Tools - Image Compressor, QR Generator, Text to Speech | NS Gamming';
+    document.title = 'Free Image Compressor - YouTube Thumbnail Optimizer, Reduce Image Size to MB/KB | NS Gamming';
     
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'Free online utility tools: Image compressor, QR code generator, text-to-speech converter, and clipboard manager. Fast, secure, and easy to use productivity tools.');
+      metaDescription.setAttribute('content', 'Professional image compressor for YouTubers & creators. Compress images to 100KB-5MB for YouTube thumbnails, Instagram posts. Free online tool with quality presets - JPEG, PNG, WebP support. #ImageCompressor #YouTubeThumbnails');
     }
 
     const metaKeywords = document.querySelector('meta[name="keywords"]');
     if (metaKeywords) {
-      metaKeywords.setAttribute('content', 'image compressor, QR code generator, text to speech, clipboard manager, online tools, free utilities, productivity tools, image optimization, TTS converter');
+      metaKeywords.setAttribute('content', 'image compressor, compress image to 2mb, youtube thumbnail compressor, reduce image size to mb, compress image to 100kb, compress image online free, image size reducer, jpeg compressor, png compressor, webp converter, thumbnail optimizer, image compression tool, reduce photo size, compress image for youtube, instagram image compressor, image quality optimizer, online image resizer, free image compression, best image compressor 2025');
     }
+
+    // Add structured data for better SEO
+    const structuredData = {
+      '@context': 'https://schema.org',
+      '@type': 'WebApplication',
+      'name': 'NS Gamming Image Compressor',
+      'applicationCategory': 'UtilityApplication',
+      'offers': {
+        '@type': 'Offer',
+        'price': '0',
+        'priceCurrency': 'USD'
+      },
+      'description': 'Professional image compression tool for YouTube thumbnails and social media. Compress images to specific sizes (100KB to 5MB) with quality control.',
+      'featureList': [
+        'YouTube Thumbnail Optimization (2MB)',
+        'Instagram Post Compression (1MB)',
+        'Custom size targeting (100KB to 5MB)',
+        'Multiple format support (JPEG, PNG, WebP)',
+        'Quality control slider',
+        'Real-time compression preview'
+      ]
+    };
+
+    const existingScript = document.querySelector('script[type="application/ld+json"][data-image-compressor]');
+    if (existingScript) {
+      existingScript.remove();
+    }
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.setAttribute('data-image-compressor', 'true');
+    script.textContent = JSON.stringify(structuredData);
+    document.head.appendChild(script);
   }, []);
 
   return (
@@ -422,10 +647,11 @@ export default function UtilityTools() {
                   <div className="p-3 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl shadow-xl hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] transition-all duration-500 hover:scale-110 hover:rotate-12">
                     <ImageDown className="h-7 w-7 text-white animate-bounce-slow" />
                   </div>
-                  Image Compressor
+                  Advanced Image Compressor
                 </CardTitle>
-                <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-base sm:text-lg">
-                  Reduce image file size while maintaining quality 📸
+                <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-base sm:text-lg space-y-1">
+                  <p>Compress images to 100KB-5MB for YouTube thumbnails & social media 📸</p>
+                  <p className="text-xs text-cyan-600 dark:text-cyan-400 font-semibold">#ImageCompressor #YouTubeThumbnails #CompressImage #ImageOptimizer</p>
                 </CardDescription>
               </CardHeader>
               <CardContent className="relative z-10">
