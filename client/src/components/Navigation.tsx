@@ -16,7 +16,6 @@ export default function Navigation() {
     { path: "/ff-bots", label: "Free Fire Bots" },
     { path: "/games", label: "Games" },
     { path: "/tools", label: "Tools" },
-    { path: "/utility-tools", label: "Utilities" },
     { path: "/blog", label: "Blog" },
     { path: "/social", label: "Social" },
     { path: "/contact", label: "Contact" },

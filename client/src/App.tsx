@@ -11,6 +11,8 @@ import TimeGreeting from "./components/TimeGreeting";
 import ScrollToTop from "./components/ScrollToTop";
 import EasterEggs from "./components/EasterEggs";
 import BackButton from "./components/BackButton";
+import QuickNav from "./components/QuickNav";
+import Footer from "./components/Footer";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import Home from "./pages/Home";
@@ -45,7 +47,6 @@ import FFInfoBot from "./pages/FFInfoBot";
 import FFSpamBot from "./pages/FFSpamBot";
 import FFVisitBot from "./pages/FFVisitBot";
 import Tools from "./pages/Tools";
-import UtilityTools from "./pages/UtilityTools";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import TermsConditions from "./pages/TermsConditions";
@@ -88,7 +89,6 @@ function Router() {
       <Route path="/games/breakout" component={Breakout} />
       <Route path="/games/connect4" component={ConnectFour} />
       <Route path="/tools" component={Tools} />
-      <Route path="/utility-tools" component={UtilityTools} />
       <Route path="/blog" component={Blog} />
       <Route path="/blog/:slug" component={BlogPost} />
       <Route path="/terms-conditions" component={TermsConditions} />
@@ -161,6 +161,8 @@ Keep coding, keep creating! 🚀
             <BackButton />
             <EasterEggs />
             <GeminiChatbot />
+            <QuickNav />
+            <Footer />
             <Toaster />
           </div>
           <Analytics />
