@@ -925,7 +925,7 @@ export default function Tools() {
           <Button 
             onClick={() => setSelectedCategory(null)} 
             variant="outline" 
-            className="mb-8 group transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)] dark:border-cyan-500/50 dark:hover:bg-cyan-500/10 animate-slideInFromLeft"
+            className="mb-6 group transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)] dark:border-cyan-500/50 dark:hover:bg-cyan-500/10 animate-slideInFromLeft"
             data-testid="button-back-category"
           >
             <Wrench className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform" />
@@ -933,7 +933,7 @@ export default function Tools() {
           </Button>
 
           <Tabs defaultValue="ffname" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 gap-3 p-2 dark:bg-gray-800/50 backdrop-blur-xl mb-10 animate-fadeUp shadow-2xl hover:shadow-[0_0_50px_rgba(6,182,212,0.4)] transition-all duration-500 rounded-2xl border-2 border-gray-200 dark:border-gray-700" data-testid="tabs-fftools">
+            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 gap-3 p-2 dark:bg-gray-800/50 backdrop-blur-xl mb-8 animate-fadeUp shadow-2xl hover:shadow-[0_0_50px_rgba(6,182,212,0.4)] transition-all duration-500 rounded-2xl border-2 border-gray-200 dark:border-gray-700" data-testid="tabs-fftools">
               <TabsTrigger value="ffname" data-testid="tab-ffname" className="text-sm sm:text-base font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/30 data-[state=active]:to-blue-500/30 data-[state=active]:shadow-[0_0_25px_rgba(6,182,212,0.5)] rounded-xl py-4 px-4">
                 <Sparkles className="mr-2 h-5 w-5" />
                 FF Name
@@ -1063,7 +1063,7 @@ export default function Tools() {
         <Button 
           onClick={() => setSelectedCategory(null)} 
           variant="outline" 
-          className="mb-8 group transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(168,85,247,0.3)] dark:border-purple-500/50 dark:hover:bg-purple-500/10 animate-slideInFromLeft"
+          className="mb-6 group transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(168,85,247,0.3)] dark:border-purple-500/50 dark:hover:bg-purple-500/10 animate-slideInFromLeft"
           data-testid="button-back-category"
         >
           <Sparkles className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform" />
@@ -1071,7 +1071,7 @@ export default function Tools() {
         </Button>
 
         <Tabs defaultValue="image" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 gap-3 p-2 dark:bg-gray-800/50 backdrop-blur-xl mb-10 animate-fadeUp shadow-2xl hover:shadow-[0_0_50px_rgba(168,85,247,0.4)] transition-all duration-500 rounded-2xl border-2 border-gray-200 dark:border-gray-700" data-testid="tabs-utility">
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 gap-3 p-2 dark:bg-gray-800/50 backdrop-blur-xl mb-8 animate-fadeUp shadow-2xl hover:shadow-[0_0_50px_rgba(168,85,247,0.4)] transition-all duration-500 rounded-2xl border-2 border-gray-200 dark:border-gray-700" data-testid="tabs-utility">
             <TabsTrigger value="image" data-testid="tab-image" className="text-sm sm:text-base font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/30 data-[state=active]:to-blue-500/30 data-[state=active]:shadow-[0_0_25px_rgba(6,182,212,0.5)] rounded-xl py-4 px-4">
               <ImageDown className="mr-2 h-5 w-5" />
               Image
