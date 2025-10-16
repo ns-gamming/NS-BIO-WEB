@@ -13,6 +13,7 @@ import { ImageDown, Volume2, QrCode, ClipboardCopy, Download, Upload, Mic, MicOf
 import QRCode from 'qrcode';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Slider } from '@/components/ui/slider';
 
 const ImageCompressor = () => {
   const [originalImage, setOriginalImage] = useState<string | null>(null);
@@ -27,11 +28,12 @@ const ImageCompressor = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const compressionPresets = [
-    { label: 'YouTube Thumbnail', size: 2, quality: 95, format: 'jpeg' as const, desc: 'Perfect for YouTube thumbnails (2MB max, high quality)' },
-    { label: 'Instagram Post', size: 1, quality: 90, format: 'jpeg' as const, desc: 'Optimized for Instagram (1MB, balanced quality)' },
-    { label: 'Web Optimized', size: 0.5, quality: 85, format: 'webp' as const, desc: 'Fast loading websites (500KB, WebP format)' },
-    { label: 'Ultra Compressed', size: 0.1, quality: 70, format: 'jpeg' as const, desc: 'Maximum compression (100KB, smaller file)' },
-    { label: 'Custom', size: 2, quality: 85, format: 'jpeg' as const, desc: 'Set your own compression settings' },
+    { label: '100 KB', size: 0.1, quality: 70, format: 'jpeg' as const, desc: 'Ultra compressed for fast loading' },
+    { label: '500 KB', size: 0.5, quality: 80, format: 'jpeg' as const, desc: 'Good balance for web use' },
+    { label: '1 MB', size: 1, quality: 85, format: 'jpeg' as const, desc: 'Instagram & social media' },
+    { label: '2 MB', size: 2, quality: 90, format: 'jpeg' as const, desc: 'YouTube thumbnails' },
+    { label: '3 MB', size: 3, quality: 92, format: 'jpeg' as const, desc: 'High quality images' },
+    { label: '5 MB', size: 5, quality: 95, format: 'jpeg' as const, desc: 'Maximum quality allowed' },
   ];
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -172,18 +174,20 @@ const ImageCompressor = () => {
       {/* Compression Presets */}
       <div className="space-y-4 animate-slideInFromLeft">
         <Label className="text-lg font-bold dark:text-white flex items-center gap-2">
-          <Sparkles className="w-5 h-5 text-cyan-500" />
-          Quick Presets
+          <Sparkles className="w-5 h-5 text-cyan-500 animate-spin-slow" />
+          Quick Size Presets
         </Label>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {compressionPresets.map((preset, idx) => (
             <button
               key={idx}
               onClick={() => applyPreset(preset)}
-              className="p-4 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-cyan-500 dark:hover:border-cyan-400 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(6,182,212,0.3)] text-left group"
+              className="p-4 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-cyan-500 dark:hover:border-cyan-400 transition-all duration-300 hover:scale-110 hover:shadow-[0_0_30px_rgba(6,182,212,0.4)] text-center group relative overflow-hidden"
+              style={{ animationDelay: `${idx * 0.1}s` }}
             >
-              <p className="font-bold text-sm dark:text-white mb-1 group-hover:text-cyan-500 transition-colors">{preset.label}</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">{preset.desc}</p>
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/0 to-blue-500/0 group-hover:from-cyan-500/20 group-hover:to-blue-500/20 transition-all duration-500"></div>
+              <p className="font-bold text-lg dark:text-white mb-1 group-hover:text-cyan-500 transition-colors relative z-10">{preset.label}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors relative z-10">{preset.desc}</p>
             </button>
           ))}
         </div>
@@ -224,10 +228,15 @@ const ImageCompressor = () => {
         </div>
 
         {/* Target Size Slider */}
-        <div className="space-y-2">
-          <Label className="text-sm font-semibold dark:text-gray-300 flex items-center justify-between">
-            <span>Target Size: {targetSize} MB</span>
-            <span className="text-xs text-gray-500">({(targetSize * 1024).toFixed(0)} KB)</span>
+        <div className="space-y-3">
+          <Label className="text-sm font-semibold dark:text-gray-300 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+            <span className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-cyan-500 animate-pulse" />
+              Target Size: <span className="text-cyan-600 dark:text-cyan-400 font-bold">{targetSize.toFixed(1)} MB</span>
+            </span>
+            <span className="text-xs text-gray-500 bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded-full">
+              {(targetSize * 1024).toFixed(0)} KB
+            </span>
           </Label>
           <Slider
             value={[targetSize]}
@@ -238,12 +247,21 @@ const ImageCompressor = () => {
             min={0.1}
             max={5}
             step={0.1}
-            className="dark:bg-gray-700"
+            className="dark:bg-gray-700 cursor-pointer"
           />
-          <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
-            <span>100 KB</span>
-            <span>2 MB (YouTube)</span>
-            <span>5 MB</span>
+          <div className="grid grid-cols-3 gap-2 text-xs text-gray-500 dark:text-gray-400">
+            <div className="text-left">
+              <span className="block font-semibold">Min</span>
+              <span>100 KB</span>
+            </div>
+            <div className="text-center">
+              <span className="block font-semibold">Recommended</span>
+              <span>2 MB</span>
+            </div>
+            <div className="text-right">
+              <span className="block font-semibold">Max</span>
+              <span>5 MB</span>
+            </div>
           </div>
         </div>
 
@@ -330,9 +348,26 @@ const ImageCompressor = () => {
 const TextToSpeech = () => {
   const [text, setText] = useState('');
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [voiceSpeed, setVoiceSpeed] = useState<number>(1);
+  const [voicePitch, setVoicePitch] = useState<number>(1);
+  const [selectedVoice, setSelectedVoice] = useState<number>(0);
+  const [availableVoices, setAvailableVoices] = useState<SpeechSynthesisVoice[]>([]);
   const { toast } = useToast();
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
 
-  const speak = () => {
+  useEffect(() => {
+    const loadVoices = () => {
+      const voices = window.speechSynthesis.getVoices();
+      setAvailableVoices(voices);
+    };
+
+    loadVoices();
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  }, []);
+
+  const speak = async () => {
     if (!text.trim()) {
       toast({ title: "Error", description: "Please enter some text first" });
       return;
@@ -340,11 +375,50 @@ const TextToSpeech = () => {
 
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
+      
+      // Start recording
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const mediaRecorder = new MediaRecorder(stream);
+        mediaRecorderRef.current = mediaRecorder;
+        audioChunksRef.current = [];
+
+        mediaRecorder.ondataavailable = (event) => {
+          audioChunksRef.current.push(event.data);
+        };
+
+        mediaRecorder.onstop = () => {
+          const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+          const url = URL.createObjectURL(audioBlob);
+          setAudioUrl(url);
+          stream.getTracks().forEach(track => track.stop());
+        };
+
+        mediaRecorder.start();
+      } catch (error) {
+        console.log("Recording not available, will use system audio");
+      }
+
       const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = voiceSpeed;
+      utterance.pitch = voicePitch;
+      if (availableVoices.length > 0) {
+        utterance.voice = availableVoices[selectedVoice] || availableVoices[0];
+      }
+      
       utterance.onstart = () => setIsSpeaking(true);
-      utterance.onend = () => setIsSpeaking(false);
+      utterance.onend = () => {
+        setIsSpeaking(false);
+        if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+          mediaRecorderRef.current.stop();
+        }
+        toast({ title: "✅ Complete!", description: "Audio is ready to download" });
+      };
       utterance.onerror = () => {
         setIsSpeaking(false);
+        if (mediaRecorderRef.current) {
+          mediaRecorderRef.current.stop();
+        }
         toast({ title: "Error", description: "Speech synthesis failed", variant: "destructive" });
       };
       window.speechSynthesis.speak(utterance);
@@ -356,6 +430,33 @@ const TextToSpeech = () => {
   const stopSpeaking = () => {
     window.speechSynthesis.cancel();
     setIsSpeaking(false);
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+      mediaRecorderRef.current.stop();
+    }
+  };
+
+  const downloadAudio = () => {
+    if (!audioUrl) {
+      // Create audio using Web Audio API as fallback
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = voiceSpeed;
+      utterance.pitch = voicePitch;
+      if (availableVoices.length > 0) {
+        utterance.voice = availableVoices[selectedVoice] || availableVoices[0];
+      }
+      
+      toast({ 
+        title: "Generating Audio...", 
+        description: "Please click 'Speak Text' first to generate audio" 
+      });
+      return;
+    }
+
+    const link = document.createElement('a');
+    link.href = audioUrl;
+    link.download = `tts-audio-${Date.now()}.webm`;
+    link.click();
+    toast({ title: "Downloaded!", description: "Audio file saved successfully" });
   };
 
   return (
@@ -368,6 +469,52 @@ const TextToSpeech = () => {
         className="dark:bg-gray-800 dark:text-white transition-all duration-500 hover:shadow-[0_0_30px_rgba(168,85,247,0.4)] focus:shadow-[0_0_50px_rgba(168,85,247,0.6)] animate-slideInFromBottom border-2 hover:border-purple-500/50 focus:border-purple-500 rounded-2xl text-base"
         data-testid="textarea-tts"
       />
+
+      {/* Voice Settings */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-5 rounded-2xl bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-purple-500/10 border-2 border-purple-500/30 animate-slideInFromLeft">
+        <div className="space-y-2">
+          <Label className="text-sm font-semibold dark:text-gray-300 flex items-center gap-2">
+            <Settings className="w-4 h-4 text-purple-500" />
+            Voice
+          </Label>
+          <select
+            value={selectedVoice}
+            onChange={(e) => setSelectedVoice(Number(e.target.value))}
+            className="w-full p-2 rounded-lg border-2 border-purple-500/30 dark:bg-gray-800 dark:text-white transition-all duration-300 hover:border-purple-500 focus:border-purple-500"
+          >
+            {availableVoices.map((voice, index) => (
+              <option key={index} value={index}>
+                {voice.name} ({voice.lang})
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="space-y-2">
+          <Label className="text-sm font-semibold dark:text-gray-300">Speed: {voiceSpeed.toFixed(1)}x</Label>
+          <Slider
+            value={[voiceSpeed]}
+            onValueChange={(value) => setVoiceSpeed(value[0])}
+            min={0.5}
+            max={2}
+            step={0.1}
+            className="dark:bg-gray-700"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label className="text-sm font-semibold dark:text-gray-300">Pitch: {voicePitch.toFixed(1)}</Label>
+          <Slider
+            value={[voicePitch]}
+            onValueChange={(value) => setVoicePitch(value[0])}
+            min={0.5}
+            max={2}
+            step={0.1}
+            className="dark:bg-gray-700"
+          />
+        </div>
+      </div>
+
       <div className="flex gap-3">
         {!isSpeaking ? (
           <Button onClick={speak} className="flex-1 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-600 hover:from-purple-600 hover:via-pink-600 hover:to-purple-700 transition-all duration-500 hover:scale-105 hover:shadow-[0_0_40px_rgba(168,85,247,0.6)] animate-popIn text-base font-semibold py-6" data-testid="button-speak">
@@ -381,6 +528,19 @@ const TextToSpeech = () => {
           </Button>
         )}
       </div>
+
+      {audioUrl && (
+        <div className="space-y-4 p-5 rounded-2xl bg-gradient-to-br from-green-500/10 via-emerald-500/10 to-green-500/10 border-2 border-green-500/30 animate-zoomIn">
+          <div className="flex items-center justify-between">
+            <p className="text-base font-semibold text-green-600 dark:text-green-400">✅ Audio Generated Successfully!</p>
+          </div>
+          <audio controls src={audioUrl} className="w-full rounded-lg animate-slideInFromBottom" />
+          <Button onClick={downloadAudio} className="w-full bg-gradient-to-r from-green-500 via-emerald-500 to-green-600 hover:from-green-600 hover:via-emerald-600 hover:to-green-700 transition-all duration-500 hover:scale-105 hover:shadow-[0_0_40px_rgba(34,197,94,0.6)] text-base font-semibold py-6">
+            <Download className="mr-2 h-5 w-5 animate-bounce" />
+            Download Audio
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
