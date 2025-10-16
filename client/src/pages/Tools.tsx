@@ -933,26 +933,29 @@ export default function Tools() {
           </Button>
 
           <Tabs defaultValue="ffname" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 gap-3 p-2 dark:bg-gray-800/50 backdrop-blur-xl mb-8 animate-fadeUp shadow-2xl hover:shadow-[0_0_50px_rgba(6,182,212,0.4)] transition-all duration-500 rounded-2xl border-2 border-gray-200 dark:border-gray-700" data-testid="tabs-fftools">
-              <TabsTrigger value="ffname" data-testid="tab-ffname" className="text-sm sm:text-base font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/30 data-[state=active]:to-blue-500/30 data-[state=active]:shadow-[0_0_25px_rgba(6,182,212,0.5)] rounded-xl py-4 px-4">
-                <Sparkles className="mr-2 h-5 w-5" />
-                FF Name
+            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 p-1.5 sm:p-2 dark:bg-gray-800/50 backdrop-blur-xl mb-12 animate-fadeUp shadow-2xl hover:shadow-[0_0_50px_rgba(6,182,212,0.4)] transition-all duration-500 rounded-2xl border-2 border-gray-200 dark:border-gray-700" data-testid="tabs-fftools">
+              <TabsTrigger value="ffname" data-testid="tab-ffname" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/30 data-[state=active]:to-blue-500/30 data-[state=active]:shadow-[0_0_25px_rgba(6,182,212,0.5)] rounded-xl py-3 sm:py-4 px-2 sm:px-4">
+                <Sparkles className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                <span className="hidden sm:inline">FF Name</span>
+                <span className="sm:hidden">Name</span>
               </TabsTrigger>
-              <TabsTrigger value="uid" data-testid="tab-uid" className="text-sm sm:text-base font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/30 data-[state=active]:to-pink-500/30 data-[state=active]:shadow-[0_0_25px_rgba(168,85,247,0.5)] rounded-xl py-4 px-4">
-                <Gamepad2 className="mr-2 h-5 w-5" />
-                UID Gen
+              <TabsTrigger value="uid" data-testid="tab-uid" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/30 data-[state=active]:to-pink-500/30 data-[state=active]:shadow-[0_0_25px_rgba(168,85,247,0.5)] rounded-xl py-3 sm:py-4 px-2 sm:px-4">
+                <Gamepad2 className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                <span>UID</span>
               </TabsTrigger>
-              <TabsTrigger value="sensitivity" data-testid="tab-sensitivity" className="text-sm sm:text-base font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/30 data-[state=active]:to-emerald-500/30 data-[state=active]:shadow-[0_0_25px_rgba(34,197,94,0.5)] rounded-xl py-4 px-4">
-                <Zap className="mr-2 h-5 w-5" />
-                Sensitivity
+              <TabsTrigger value="sensitivity" data-testid="tab-sensitivity" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/30 data-[state=active]:to-emerald-500/30 data-[state=active]:shadow-[0_0_25px_rgba(34,197,94,0.5)] rounded-xl py-3 sm:py-4 px-2 sm:px-4">
+                <Zap className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                <span className="hidden sm:inline">Sensitivity</span>
+                <span className="sm:hidden">Sens</span>
               </TabsTrigger>
-              <TabsTrigger value="password" data-testid="tab-password" className="text-sm sm:text-base font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500/30 data-[state=active]:to-red-500/30 data-[state=active]:shadow-[0_0_25px_rgba(249,115,22,0.5)] rounded-xl py-4 px-4">
-                <Shield className="mr-2 h-5 w-5" />
-                Password
+              <TabsTrigger value="password" data-testid="tab-password" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500/30 data-[state=active]:to-red-500/30 data-[state=active]:shadow-[0_0_25px_rgba(249,115,22,0.5)] rounded-xl py-3 sm:py-4 px-2 sm:px-4">
+                <Shield className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                <span className="hidden sm:inline">Password</span>
+                <span className="sm:hidden">Pass</span>
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="ffname" className="mt-6 animate-fadeUp">
+            <TabsContent value="ffname" className="mt-8 animate-fadeUp">
               <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(6,182,212,0.4)] dark:hover:shadow-[0_0_40px_rgba(6,182,212,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-cyan-500/50 rounded-2xl">
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/5 to-cyan-500/10 animate-gradient-shift" />
                 <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
@@ -1071,26 +1074,29 @@ export default function Tools() {
         </Button>
 
         <Tabs defaultValue="image" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 gap-3 p-2 dark:bg-gray-800/50 backdrop-blur-xl mb-8 animate-fadeUp shadow-2xl hover:shadow-[0_0_50px_rgba(168,85,247,0.4)] transition-all duration-500 rounded-2xl border-2 border-gray-200 dark:border-gray-700" data-testid="tabs-utility">
-            <TabsTrigger value="image" data-testid="tab-image" className="text-sm sm:text-base font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/30 data-[state=active]:to-blue-500/30 data-[state=active]:shadow-[0_0_25px_rgba(6,182,212,0.5)] rounded-xl py-4 px-4">
-              <ImageDown className="mr-2 h-5 w-5" />
-              Image
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 p-1.5 sm:p-2 dark:bg-gray-800/50 backdrop-blur-xl mb-12 animate-fadeUp shadow-2xl hover:shadow-[0_0_50px_rgba(168,85,247,0.4)] transition-all duration-500 rounded-2xl border-2 border-gray-200 dark:border-gray-700" data-testid="tabs-utility">
+            <TabsTrigger value="image" data-testid="tab-image" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/30 data-[state=active]:to-blue-500/30 data-[state=active]:shadow-[0_0_25px_rgba(6,182,212,0.5)] rounded-xl py-3 sm:py-4 px-2 sm:px-4">
+              <ImageDown className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+              <span className="hidden sm:inline">Image</span>
+              <span className="sm:hidden">Img</span>
             </TabsTrigger>
-            <TabsTrigger value="tts" data-testid="tab-tts" className="text-sm sm:text-base font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/30 data-[state=active]:to-pink-500/30 data-[state=active]:shadow-[0_0_25px_rgba(168,85,247,0.5)] rounded-xl py-4 px-4">
-              <Volume2 className="mr-2 h-5 w-5" />
-              TTS
+            <TabsTrigger value="tts" data-testid="tab-tts" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/30 data-[state=active]:to-pink-500/30 data-[state=active]:shadow-[0_0_25px_rgba(168,85,247,0.5)] rounded-xl py-3 sm:py-4 px-2 sm:px-4">
+              <Volume2 className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+              <span>TTS</span>
             </TabsTrigger>
-            <TabsTrigger value="qr" data-testid="tab-qr" className="text-sm sm:text-base font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/30 data-[state=active]:to-emerald-500/30 data-[state=active]:shadow-[0_0_25px_rgba(34,197,94,0.5)] rounded-xl py-4 px-4">
-              <QrCode className="mr-2 h-5 w-5" />
-              QR Code
+            <TabsTrigger value="qr" data-testid="tab-qr" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/30 data-[state=active]:to-emerald-500/30 data-[state=active]:shadow-[0_0_25px_rgba(34,197,94,0.5)] rounded-xl py-3 sm:py-4 px-2 sm:px-4">
+              <QrCode className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+              <span className="hidden sm:inline">QR Code</span>
+              <span className="sm:hidden">QR</span>
             </TabsTrigger>
-            <TabsTrigger value="clipboard" data-testid="tab-clipboard" className="text-sm sm:text-base font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500/30 data-[state=active]:to-red-500/30 data-[state=active]:shadow-[0_0_25px_rgba(249,115,22,0.5)] rounded-xl py-4 px-4">
-              <ClipboardCopy className="mr-2 h-5 w-5" />
-              Clipboard
+            <TabsTrigger value="clipboard" data-testid="tab-clipboard" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500/30 data-[state=active]:to-red-500/30 data-[state=active]:shadow-[0_0_25px_rgba(249,115,22,0.5)] rounded-xl py-3 sm:py-4 px-2 sm:px-4">
+              <ClipboardCopy className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+              <span className="hidden sm:inline">Clipboard</span>
+              <span className="sm:hidden">Clip</span>
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="image" className="mt-6 animate-fadeUp">
+          <TabsContent value="image" className="mt-8 animate-fadeUp">
             <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(6,182,212,0.4)] dark:hover:shadow-[0_0_40px_rgba(6,182,212,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-cyan-500/50 rounded-2xl">
               <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/5 to-cyan-500/10 animate-gradient-shift" />
               <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
