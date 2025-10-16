@@ -57,13 +57,14 @@ export default function Navigation() {
                 <span>Back</span>
               </button>
             )}
-            {navigationItems.map((item) => (
+            {navigationItems.map((item, index) => (
               <Link
                 key={item.path}
                 href={item.path}
-                className={`text-foreground hover:text-primary transition-colors ${
-                  location === item.path ? "text-primary" : ""
+                className={`text-foreground hover:text-primary transition-all duration-300 hover:scale-110 hover:-translate-y-0.5 animate-fadeUp ${
+                  location === item.path ? "text-primary font-semibold" : ""
                 }`}
+                style={{ animationDelay: `${index * 0.05}s` }}
                 data-testid={`nav-${item.label.toLowerCase()}`}
               >
                 {item.label}

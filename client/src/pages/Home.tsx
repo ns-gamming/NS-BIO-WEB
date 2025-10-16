@@ -24,19 +24,28 @@ export default function Home() {
         {/* Profile Card */}
         <div className="glass rounded-2xl p-8 max-w-4xl mx-auto mb-12 animate-float">
           <div className="flex flex-col md:flex-row items-center gap-8">
-            {/* Avatar */}
-            <div 
-              className="w-32 h-32 rounded-full border-4 border-primary overflow-hidden animate-pulse-neon cursor-pointer backdrop-blur-sm hover:scale-110 hover:rotate-6 transition-all duration-500 group"
-              data-testid="profile-avatar"
-              onClick={() => {
-                alert("🎮 NS GAMMING - Nishant here! Thanks for clicking on my avatar! Keep exploring and let's build something amazing together! ❤️");
-              }}
-            >
-              <img 
-                src={_1000016408} 
-                alt="NS GAMMING - Nishant Sarkar" 
-                className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
-              />
+            {/* Avatar with Enhanced Effects */}
+            <div className="relative">
+              <div className="absolute inset-0 bg-primary/30 rounded-full blur-xl animate-pulse"></div>
+              <div 
+                className="relative w-32 h-32 rounded-full border-4 border-primary overflow-hidden animate-pulse-neon cursor-pointer backdrop-blur-sm hover:scale-110 hover:rotate-6 transition-all duration-500 group"
+                data-testid="profile-avatar"
+                onClick={() => {
+                  alert("🎮 NS GAMMING - Nishant here! Thanks for clicking on my avatar! Keep exploring and let's build something amazing together! ❤️");
+                }}
+              >
+                <img 
+                  src={_1000016408} 
+                  alt="NS GAMMING - Nishant Sarkar" 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
+                />
+                {/* Rotating ring effect */}
+                <div className="absolute inset-0 border-2 border-cyan-400/50 rounded-full animate-spin" style={{ animationDuration: '3s' }}></div>
+              </div>
+              {/* Floating badge */}
+              <div className="absolute -bottom-2 -right-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-full animate-bounce shadow-lg">
+                Active 🟢
+              </div>
             </div>
 
             {/* Intro Text */}
@@ -185,10 +194,14 @@ export default function Home() {
 
             {/* Utility Tools Card - Enhanced */}
             <Link 
-              href="/utility-tools" 
+              href="/tools" 
               className="glass rounded-2xl p-6 sm:p-8 hover:scale-105 transition-all duration-500 border-2 border-primary/30 hover:border-primary/60 hover:shadow-[0_0_40px_rgba(6,182,212,0.6)] group cursor-pointer relative overflow-hidden animate-bounceIn"
               data-testid="tools-utility-card"
               style={{ animationDelay: '0.4s' }}
+              onClick={(e) => {
+                e.preventDefault();
+                window.location.href = '/tools';
+              }}
             >
               {/* Animated Background Gradient */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-cyan-500/10 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient-shift" />
