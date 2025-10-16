@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { createClient } from '@supabase/supabase-js';
 import { insertBlogPostSchema, insertPollSchema } from "@shared/schema";
 import { GoogleGenAI } from "@google/genai";
+import { comprehensiveBlogPosts } from "./blog-seed-data";
 
 const supabase = process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_KEY
   ? createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY)
@@ -11,7 +12,30 @@ const supabase = process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_KEY
 
 const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
 
+// Seed blog posts automatically on server startup
+async function seedBlogPosts() {
+  try {
+    console.log("Checking if blog posts need seeding...");
+    const existingPosts = await storage.getAllBlogPosts();
+    
+    if (existingPosts.length === 0) {
+      console.log("Seeding blog posts...");
+      for (const post of comprehensiveBlogPosts) {
+        await storage.createBlogPost(post);
+        console.log(`✓ Created post: ${post.title}`);
+      }
+      console.log("✅ Blog posts seeded successfully!");
+    } else {
+      console.log(`Blog posts already exist (${existingPosts.length} posts found)`);
+    }
+  } catch (error) {
+    console.error("Error seeding blog posts:", error);
+  }
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Seed blog posts on startup
+  await seedBlogPosts();
   // Gemini Chat API endpoint
   app.post("/api/chat", async (req, res) => {
     try {
@@ -145,6 +169,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
         success: false, 
         message: "Internal server error" 
       });
+    }
+  });
+
+  // Manual seed endpoint (for admin use)
+  app.post("/api/seed-blog", async (req, res) => {
+    try {
+      console.log("Manual blog seeding triggered...");
+      const existingPosts = await storage.getAllBlogPosts();
+      let seededCount = 0;
+      
+      for (const post of comprehensiveBlogPosts) {
+        const exists = existingPosts.find(p => p.slug === post.slug);
+        if (!exists) {
+          await storage.createBlogPost(post);
+          seededCount++;
+          console.log(`✓ Created post: ${post.title}`);
+        }
+      }
+      
+      res.json({ 
+        success: true, 
+        message: `Seeded ${seededCount} new blog posts`,
+        total: existingPosts.length + seededCount
+      });
+    } catch (error) {
+      console.error('Error seeding blog posts:', error);
+      res.status(500).json({ error: "Failed to seed blog posts" });
     }
   });
 

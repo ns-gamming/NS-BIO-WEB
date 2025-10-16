@@ -76,9 +76,12 @@ function LiveBlogCard({ post }: { post: BlogPost }) {
 export default function Blog() {
   const [searchQuery, setSearchQuery] = useState('');
   
-  const { data: posts, isLoading } = useQuery<BlogPost[]>({
+  const { data: posts, isLoading, error } = useQuery<BlogPost[]>({
     queryKey: ['/api/blog'],
   });
+
+  // Debug logging
+  console.log('Blog page - Loading:', isLoading, 'Posts:', posts?.length, 'Error:', error);
 
   const filteredPosts = posts?.filter(post =>
     post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -140,6 +143,14 @@ export default function Blog() {
               </Card>
             ))}
           </div>
+        ) : error ? (
+          <div className="text-center py-12">
+            <p className="text-red-500 text-lg mb-4">Error loading blog posts: {error instanceof Error ? error.message : 'Unknown error'}</p>
+            <p className="text-gray-500 dark:text-gray-400 mb-4">Please check your database connection and try refreshing the page.</p>
+            <Button onClick={() => window.location.reload()} variant="outline" className="dark:border-cyan-500 dark:text-cyan-400">
+              Refresh Page
+            </Button>
+          </div>
         ) : filteredPosts && filteredPosts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredPosts.map((post) => (
@@ -148,7 +159,14 @@ export default function Blog() {
           </div>
         ) : (
           <div className="text-center py-12">
-            <p className="text-gray-500 dark:text-gray-400 text-lg mb-4">No articles found matching your search.</p>
+            <p className="text-gray-500 dark:text-gray-400 text-lg mb-4">
+              {posts?.length === 0 ? 'No blog posts found. The database may need seeding.' : 'No articles found matching your search.'}
+            </p>
+            {posts?.length === 0 && (
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                Contact admin to seed blog posts or wait for automatic seeding on next deployment.
+              </p>
+            )}
             <Button onClick={() => setSearchQuery('')} variant="outline" className="dark:border-cyan-500 dark:text-cyan-400" data-testid="button-clear-search">
               Clear Search
             </Button>
