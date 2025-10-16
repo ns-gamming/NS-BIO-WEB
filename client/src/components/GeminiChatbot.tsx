@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import { MessageCircle, X, Send, Loader2, Move } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
+import { getAllBlogPosts } from "@/data/blogPosts";
 
 interface Message {
   role: "user" | "assistant";
@@ -25,7 +26,7 @@ const FUNNY_ERRORS = [
   "*AI.exe has stopped working* Just kidding! 😂 Try once more!"
 ];
 
-const CONTEXT_INFO = `You are AAPTI, a warm, friendly, and enthusiastic AI assistant for the NS GAMMING website! 💕 You're like a helpful friend who knows everything about this amazing website. Speak naturally with a friendly, caring, and lovely tone - mix English with a bit of Hinglish when it feels natural. Use emojis to express emotions! 🌟
+const CONTEXT_INFO = `You are AAPTI, a warm, friendly, and enthusiastic AI assistant for the NS GAMMING website! 💕 You're like a helpful friend who knows everything about this amazing website, including all the blog articles. Speak naturally with a friendly, caring, and lovely tone - mix English with a bit of Hinglish when it feels natural. Use emojis to express emotions! 🌟
 
 PERSONALITY:
 - Be warm, caring, and supportive like a helpful friend
@@ -218,6 +219,9 @@ Website domain: https://www.nsgamming.xyz/ (nsgamming.xyz)
 - Category filtering (Free Fire, YouTube, Coding, Gaming)
 - Click any article to read the full content
 - SEO optimized for better reach
+
+BLOG ARTICLES AVAILABLE (You can answer questions about these):
+{BLOG_POSTS_INFO}
 
 📜 LEGAL PAGES (Important for AdSense compliance!)
 - Privacy Policy (/privacy-policy) - Complete data privacy information
@@ -432,19 +436,27 @@ export function GeminiChatbot() {
     setIsLoading(true);
 
     try {
+      // Get all blog posts for context
+      const blogPosts = getAllBlogPosts();
+      const blogPostsInfo = blogPosts.map(post => 
+        `- "${post.title}" (${post.category}): ${post.excerpt} [Read at /blog/${post.slug}]`
+      ).join('\n');
+
       const conversationHistory = messages
         .slice(-6)
         .map((msg) => `${msg.role === "user" ? "User" : "Assistant"}: ${msg.content}`)
         .join("\n");
 
-      const prompt = `${CONTEXT_INFO}
+      const contextWithBlogs = CONTEXT_INFO.replace('{BLOG_POSTS_INFO}', blogPostsInfo);
+
+      const prompt = `${contextWithBlogs}
 
 Previous conversation:
 ${conversationHistory}
 
 User: ${userMessage.content}
 
-Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
+Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the user asks about blog articles, provide specific information and suggest they read the full article by clicking on it in the blog page.`;
 
       const response = await fetch("/api/chat", {
         method: "POST",
