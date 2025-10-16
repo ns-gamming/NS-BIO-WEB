@@ -81,14 +81,14 @@ export default function TimeGreeting() {
       data-testid="time-greeting"
     >
       <span 
-        key={greeting}
+        key={`greeting-${greeting}`}
         className="text-sm text-primary dark:text-primary block font-semibold animate-slideLeft transition-all duration-500 group-hover:text-primary group-hover:scale-105" 
         data-testid="greeting-text"
       >
         {greeting}
       </span>
       <small 
-        key={hinglishPhrase}
+        key={`phrase-${hinglishPhrase}`}
         className="text-xs text-accent dark:text-accent animate-bounceIn block transition-all duration-500 group-hover:text-accent group-hover:scale-105" 
         data-testid="hinglish-phrase" 
         style={{ animationDelay: '0.15s' }}

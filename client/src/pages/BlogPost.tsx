@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useLiveViewCounter } from '@/hooks/useLiveViewCounter';
 import { useState, useEffect } from 'react';
 import type { BlogPost } from '@shared/schema';
+import AdSenseAd from '@/components/AdSenseAd';
 
 export default function BlogPost() {
   const [, params] = useRoute('/blog/:slug');
@@ -277,6 +278,11 @@ export default function BlogPost() {
               )}
             </Button>
           </div>
+        </div>
+
+        {/* AdSense Ad */}
+        <div className="mt-12 animate-fadeUp">
+          <AdSenseAd />
         </div>
       </article>
     </div>
