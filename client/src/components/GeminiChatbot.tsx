@@ -528,7 +528,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful.`;
       const isMobile = window.innerWidth < 640;
       
       return {
-        bottom: '1rem',
+        bottom: '6rem',
         [isMobile ? 'left' : 'right']: '1rem',
         [isMobile ? 'right' : 'left']: 'auto',
         top: 'auto'
