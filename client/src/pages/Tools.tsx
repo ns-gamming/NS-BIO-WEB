@@ -677,13 +677,18 @@ export default function Tools() {
 
   if (!selectedCategory) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 transition-colors duration-500 pt-20 pb-16">
-        {/* Enhanced Animated Background */}
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 transition-colors duration-500 pt-20 pb-16 overflow-hidden">
+        {/* Enhanced Animated Background with More Particles */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-1/4 left-10 w-96 h-96 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 dark:from-cyan-500/20 dark:to-blue-500/20 rounded-full blur-3xl animate-floatSlow"></div>
           <div className="absolute top-1/3 right-10 w-[30rem] h-[30rem] bg-gradient-to-r from-purple-500/10 to-pink-500/10 dark:from-purple-500/20 dark:to-pink-500/20 rounded-full blur-3xl animate-floatSlow" style={{ animationDelay: '1s' }}></div>
           <div className="absolute bottom-20 left-1/3 w-[28rem] h-[28rem] bg-gradient-to-r from-orange-500/10 to-red-500/10 dark:from-orange-500/20 dark:to-red-500/20 rounded-full blur-3xl animate-floatSlow" style={{ animationDelay: '2s' }}></div>
           <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-green-500/10 to-emerald-500/10 dark:from-green-500/20 dark:to-emerald-500/20 rounded-full blur-3xl animate-floatSlow" style={{ animationDelay: '1.5s' }}></div>
+          
+          {/* Additional Floating Particles */}
+          <div className="absolute top-1/2 left-1/4 w-32 h-32 bg-cyan-400/20 dark:bg-cyan-400/30 rounded-full blur-2xl animate-pulse"></div>
+          <div className="absolute top-3/4 right-1/3 w-40 h-40 bg-purple-400/20 dark:bg-purple-400/30 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+          <div className="absolute top-1/3 left-2/3 w-36 h-36 bg-orange-400/20 dark:bg-orange-400/30 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1s' }}></div>
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -704,35 +709,43 @@ export default function Tools() {
 
           {/* Modern Card Grid */}
           <div className="grid md:grid-cols-2 gap-8 lg:gap-12 max-w-7xl mx-auto mb-16">
-            {/* Free Fire Tools Card - Enhanced */}
+            {/* Free Fire Tools Card - Enhanced with 3D Effects */}
             <div 
-              className="group relative overflow-hidden rounded-3xl cursor-pointer transform transition-all duration-700 hover:-translate-y-2 animate-scaleIn"
+              className="group relative overflow-hidden rounded-3xl cursor-pointer transform transition-all duration-700 hover:-translate-y-4 hover:scale-105 animate-scaleIn perspective-1000"
               onClick={() => setSelectedCategory('ff-tools')}
               data-testid="card-category-ff-tools"
+              style={{ transformStyle: 'preserve-3d' }}
             >
-              {/* Gradient Border Effect */}
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-3xl blur-sm animate-gradient-shift"></div>
+              {/* Gradient Border Effect with Animation */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-3xl blur-md animate-gradient-shift"></div>
 
-              {/* Card Content */}
-              <div className="relative bg-white dark:bg-gray-900 backdrop-blur-xl border-2 border-gray-200 dark:border-gray-800 group-hover:border-cyan-500/50 dark:group-hover:border-cyan-500/60 rounded-3xl p-8 sm:p-10 transition-all duration-500 shadow-xl group-hover:shadow-[0_20px_80px_rgba(6,182,212,0.3)] dark:group-hover:shadow-[0_20px_80px_rgba(6,182,212,0.5)]">
+              {/* Glow Effect on Hover */}
+              <div className="absolute -inset-2 bg-gradient-to-r from-cyan-500/50 to-blue-500/50 opacity-0 group-hover:opacity-30 blur-3xl rounded-3xl transition-opacity duration-700"></div>
+
+              {/* Card Content with 3D Transform */}
+              <div className="relative bg-white dark:bg-gray-900 backdrop-blur-xl border-2 border-gray-200 dark:border-gray-800 group-hover:border-cyan-500/60 dark:group-hover:border-cyan-500/80 rounded-3xl p-8 sm:p-10 transition-all duration-500 shadow-2xl group-hover:shadow-[0_30px_100px_rgba(6,182,212,0.4)] dark:group-hover:shadow-[0_30px_100px_rgba(6,182,212,0.6)]" style={{ transform: 'translateZ(20px)' }}>
 
                 {/* Animated Background Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-cyan-500/5 dark:from-cyan-500/10 dark:via-blue-500/10 dark:to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
 
-                {/* Animated Particles */}
+                {/* Enhanced Animated Particles with More Elements */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                  <div className="absolute top-10 left-10 w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
-                  <div className="absolute top-20 right-20 w-2 h-2 bg-blue-400 rounded-full animate-pulse" style={{ animationDelay: '0.3s' }}></div>
-                  <div className="absolute bottom-10 left-20 w-2 h-2 bg-cyan-300 rounded-full animate-pulse" style={{ animationDelay: '0.6s' }}></div>
-                  <div className="absolute bottom-20 right-10 w-2 h-2 bg-blue-300 rounded-full animate-pulse" style={{ animationDelay: '0.9s' }}></div>
+                  <div className="absolute top-10 left-10 w-2 h-2 bg-cyan-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(6,182,212,0.8)]"></div>
+                  <div className="absolute top-20 right-20 w-2 h-2 bg-blue-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(37,99,235,0.8)]" style={{ animationDelay: '0.3s' }}></div>
+                  <div className="absolute bottom-10 left-20 w-2 h-2 bg-cyan-300 rounded-full animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.8)]" style={{ animationDelay: '0.6s' }}></div>
+                  <div className="absolute bottom-20 right-10 w-2 h-2 bg-blue-300 rounded-full animate-pulse shadow-[0_0_10px_rgba(96,165,250,0.8)]" style={{ animationDelay: '0.9s' }}></div>
+                  <div className="absolute top-1/2 left-1/3 w-1.5 h-1.5 bg-cyan-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.5s' }}></div>
+                  <div className="absolute bottom-1/3 left-1/2 w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{ animationDelay: '0.8s' }}></div>
                 </div>
 
-                {/* Icon Container */}
+                {/* Icon Container with Enhanced 3D Effect */}
                 <div className="relative mb-8">
-                  <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-2xl group-hover:shadow-[0_0_60px_rgba(6,182,212,0.8)] transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-700">
-                    <Sparkles className="w-14 h-14 sm:w-16 sm:h-16 text-white animate-pulse" />
+                  <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl bg-gradient-to-br from-cyan-500 via-cyan-400 to-blue-600 flex items-center justify-center shadow-2xl group-hover:shadow-[0_0_80px_rgba(6,182,212,1)] transform group-hover:scale-125 group-hover:rotate-12 transition-all duration-700 animate-pulse-slow" style={{ transformStyle: 'preserve-3d', transform: 'translateZ(30px)' }}>
+                    <Sparkles className="w-14 h-14 sm:w-16 sm:h-16 text-white animate-pulse group-hover:animate-spin-slow" />
                   </div>
-                  <div className="absolute inset-0 bg-cyan-500/40 dark:bg-cyan-500/50 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                  <div className="absolute inset-0 bg-cyan-500/60 dark:bg-cyan-500/80 rounded-3xl blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 animate-pulse"></div>
+                  <div className="absolute -inset-2 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-3xl opacity-0 group-hover:opacity-20 blur-2xl transition-opacity duration-700"></div>
                 </div>
 
                 {/* Title */}
@@ -774,36 +787,43 @@ export default function Tools() {
               </div>
             </div>
 
-            {/* General Utilities Card - Enhanced */}
+            {/* General Utilities Card - Enhanced with 3D Effects */}
             <div 
-              className="group relative overflow-hidden rounded-3xl cursor-pointer transform transition-all duration-700 hover:-translate-y-2 animate-scaleIn"
-              style={{ animationDelay: '0.15s' }}
+              className="group relative overflow-hidden rounded-3xl cursor-pointer transform transition-all duration-700 hover:-translate-y-4 hover:scale-105 animate-scaleIn perspective-1000"
+              style={{ animationDelay: '0.15s', transformStyle: 'preserve-3d' }}
               onClick={() => setSelectedCategory('utilities')}
               data-testid="card-category-utilities"
             >
-              {/* Gradient Border Effect */}
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-3xl blur-sm animate-gradient-shift"></div>
+              {/* Gradient Border Effect with Animation */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-3xl blur-md animate-gradient-shift"></div>
 
-              {/* Card Content */}
-              <div className="relative bg-white dark:bg-gray-900 backdrop-blur-xl border-2 border-gray-200 dark:border-gray-800 group-hover:border-purple-500/50 dark:group-hover:border-purple-500/60 rounded-3xl p-8 sm:p-10 transition-all duration-500 shadow-xl group-hover:shadow-[0_20px_80px_rgba(168,85,247,0.3)] dark:group-hover:shadow-[0_20px_80px_rgba(168,85,247,0.5)]">
+              {/* Glow Effect on Hover */}
+              <div className="absolute -inset-2 bg-gradient-to-r from-purple-500/50 to-pink-500/50 opacity-0 group-hover:opacity-30 blur-3xl rounded-3xl transition-opacity duration-700"></div>
+
+              {/* Card Content with 3D Transform */}
+              <div className="relative bg-white dark:bg-gray-900 backdrop-blur-xl border-2 border-gray-200 dark:border-gray-800 group-hover:border-purple-500/60 dark:group-hover:border-purple-500/80 rounded-3xl p-8 sm:p-10 transition-all duration-500 shadow-2xl group-hover:shadow-[0_30px_100px_rgba(168,85,247,0.4)] dark:group-hover:shadow-[0_30px_100px_rgba(168,85,247,0.6)]" style={{ transform: 'translateZ(20px)' }}>
 
                 {/* Animated Background Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-pink-500/5 to-purple-500/5 dark:from-purple-500/10 dark:via-pink-500/10 dark:to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
 
-                {/* Animated Particles */}
+                {/* Enhanced Animated Particles with More Elements */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                  <div className="absolute top-10 left-10 w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
-                  <div className="absolute top-20 right-20 w-2 h-2 bg-pink-400 rounded-full animate-pulse" style={{ animationDelay: '0.3s' }}></div>
-                  <div className="absolute bottom-10 left-20 w-2 h-2 bg-purple-300 rounded-full animate-pulse" style={{ animationDelay: '0.6s' }}></div>
-                  <div className="absolute bottom-20 right-10 w-2 h-2 bg-pink-300 rounded-full animate-pulse" style={{ animationDelay: '0.9s' }}></div>
+                  <div className="absolute top-10 left-10 w-2 h-2 bg-purple-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(168,85,247,0.8)]"></div>
+                  <div className="absolute top-20 right-20 w-2 h-2 bg-pink-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(236,72,153,0.8)]" style={{ animationDelay: '0.3s' }}></div>
+                  <div className="absolute bottom-10 left-20 w-2 h-2 bg-purple-300 rounded-full animate-pulse shadow-[0_0_10px_rgba(216,180,254,0.8)]" style={{ animationDelay: '0.6s' }}></div>
+                  <div className="absolute bottom-20 right-10 w-2 h-2 bg-pink-300 rounded-full animate-pulse shadow-[0_0_10px_rgba(249,168,212,0.8)]" style={{ animationDelay: '0.9s' }}></div>
+                  <div className="absolute top-1/2 left-1/3 w-1.5 h-1.5 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 bg-pink-500 rounded-full animate-bounce" style={{ animationDelay: '0.5s' }}></div>
+                  <div className="absolute bottom-1/3 left-1/2 w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0.8s' }}></div>
                 </div>
 
-                {/* Icon Container */}
+                {/* Icon Container with Enhanced 3D Effect */}
                 <div className="relative mb-8">
-                  <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center shadow-2xl group-hover:shadow-[0_0_60px_rgba(168,85,247,0.8)] transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-700">
-                    <Wrench className="w-14 h-14 sm:w-16 sm:h-16 text-white animate-pulse" />
+                  <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl bg-gradient-to-br from-purple-500 via-purple-400 to-pink-600 flex items-center justify-center shadow-2xl group-hover:shadow-[0_0_80px_rgba(168,85,247,1)] transform group-hover:scale-125 group-hover:rotate-12 transition-all duration-700 animate-pulse-slow" style={{ transformStyle: 'preserve-3d', transform: 'translateZ(30px)' }}>
+                    <Wrench className="w-14 h-14 sm:w-16 sm:h-16 text-white animate-pulse group-hover:animate-wiggle" />
                   </div>
-                  <div className="absolute inset-0 bg-purple-500/40 dark:bg-purple-500/50 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                  <div className="absolute inset-0 bg-purple-500/60 dark:bg-purple-500/80 rounded-3xl blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 animate-pulse"></div>
+                  <div className="absolute -inset-2 bg-gradient-to-r from-purple-400 to-pink-500 rounded-3xl opacity-0 group-hover:opacity-20 blur-2xl transition-opacity duration-700"></div>
                 </div>
 
                 {/* Title */}
@@ -902,15 +922,18 @@ export default function Tools() {
             </TabsList>
 
             <TabsContent value="ffname" className="mt-6 animate-fadeUp">
-              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:scale-[1.01] hover:shadow-[0_0_40px_rgba(6,182,212,0.3)] transition-all duration-500 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-blue-500/5 animate-gradient-shift" />
+              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(6,182,212,0.5)] dark:hover:shadow-[0_0_60px_rgba(6,182,212,0.7)] transition-all duration-500 relative overflow-hidden border-2 hover:border-cyan-500/50">
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/5 to-cyan-500/10 animate-gradient-shift" />
+                <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
                 <CardHeader className="relative z-10">
-                  <CardTitle className="flex items-center gap-2 dark:text-white animate-textBounceIn">
-                    <Sparkles className="h-5 w-5 text-cyan-500 animate-pulse" />
+                  <CardTitle className="flex items-center gap-3 dark:text-white animate-textBounceIn text-xl sm:text-2xl">
+                    <div className="p-2 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg shadow-lg">
+                      <Sparkles className="h-6 w-6 text-white animate-pulse" />
+                    </div>
                     Free Fire Stylish Name Generator
                   </CardTitle>
-                  <CardDescription className="dark:text-gray-400 animate-textFadeSlide" style={{ animationDelay: '0.1s' }}>
-                    Create unique, stylish names with fancy fonts and symbols
+                  <CardDescription className="dark:text-gray-400 animate-textFadeSlide text-base" style={{ animationDelay: '0.1s' }}>
+                    Create unique, stylish names with fancy fonts and symbols ✨
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="relative z-10">
@@ -920,15 +943,18 @@ export default function Tools() {
             </TabsContent>
 
             <TabsContent value="uid" className="mt-6 animate-fadeUp">
-              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:scale-[1.01] hover:shadow-[0_0_40px_rgba(168,85,247,0.3)] transition-all duration-500 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-pink-500/5 animate-gradient-shift" />
+              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(168,85,247,0.5)] dark:hover:shadow-[0_0_60px_rgba(168,85,247,0.7)] transition-all duration-500 relative overflow-hidden border-2 hover:border-purple-500/50">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-purple-500/10 animate-gradient-shift" />
+                <div className="absolute -inset-1 bg-gradient-to-r from-purple-500/20 to-pink-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
                 <CardHeader className="relative z-10">
-                  <CardTitle className="flex items-center gap-2 dark:text-white animate-textBounceIn">
-                    <Gamepad2 className="h-5 w-5 text-purple-500 animate-bounce" />
+                  <CardTitle className="flex items-center gap-3 dark:text-white animate-textBounceIn text-xl sm:text-2xl">
+                    <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg shadow-lg">
+                      <Gamepad2 className="h-6 w-6 text-white animate-bounce" />
+                    </div>
                     Random UID Generator
                   </CardTitle>
-                  <CardDescription className="dark:text-gray-400 animate-textFadeSlide" style={{ animationDelay: '0.1s' }}>
-                    Generate random Free Fire UIDs for testing
+                  <CardDescription className="dark:text-gray-400 animate-textFadeSlide text-base" style={{ animationDelay: '0.1s' }}>
+                    Generate random Free Fire UIDs for testing 🎮
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="relative z-10">
@@ -938,15 +964,18 @@ export default function Tools() {
             </TabsContent>
 
             <TabsContent value="sensitivity" className="mt-6 animate-fadeUp">
-              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:scale-[1.01] hover:shadow-[0_0_40px_rgba(34,197,94,0.3)] transition-all duration-500 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-transparent to-emerald-500/5 animate-gradient-shift" />
+              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(34,197,94,0.5)] dark:hover:shadow-[0_0_60px_rgba(34,197,94,0.7)] transition-all duration-500 relative overflow-hidden border-2 hover:border-green-500/50">
+                <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-emerald-500/5 to-green-500/10 animate-gradient-shift" />
+                <div className="absolute -inset-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
                 <CardHeader className="relative z-10">
-                  <CardTitle className="flex items-center gap-2 dark:text-white animate-textBounceIn">
-                    <Sparkles className="h-5 w-5 text-green-500 animate-pulse" />
+                  <CardTitle className="flex items-center gap-3 dark:text-white animate-textBounceIn text-xl sm:text-2xl">
+                    <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg shadow-lg">
+                      <Sparkles className="h-6 w-6 text-white animate-pulse" />
+                    </div>
                     FF Sensitivity Settings Generator
                   </CardTitle>
-                  <CardDescription className="dark:text-gray-400 animate-textFadeSlide" style={{ animationDelay: '0.1s' }}>
-                    Get optimized sensitivity settings based on your playstyle
+                  <CardDescription className="dark:text-gray-400 animate-textFadeSlide text-base" style={{ animationDelay: '0.1s' }}>
+                    Get optimized sensitivity settings based on your playstyle ⚡
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="relative z-10">
@@ -956,15 +985,18 @@ export default function Tools() {
             </TabsContent>
 
             <TabsContent value="password" className="mt-6 animate-fadeUp">
-              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:scale-[1.01] hover:shadow-[0_0_40px_rgba(249,115,22,0.3)] transition-all duration-500 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 via-transparent to-red-500/5 animate-gradient-shift" />
+              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(249,115,22,0.5)] dark:hover:shadow-[0_0_60px_rgba(249,115,22,0.7)] transition-all duration-500 relative overflow-hidden border-2 hover:border-orange-500/50">
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-red-500/5 to-orange-500/10 animate-gradient-shift" />
+                <div className="absolute -inset-1 bg-gradient-to-r from-orange-500/20 to-red-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
                 <CardHeader className="relative z-10">
-                  <CardTitle className="flex items-center gap-2 dark:text-white animate-textBounceIn">
-                    <Shield className="h-5 w-5 text-orange-500 animate-pulse" />
+                  <CardTitle className="flex items-center gap-3 dark:text-white animate-textBounceIn text-xl sm:text-2xl">
+                    <div className="p-2 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg shadow-lg">
+                      <Shield className="h-6 w-6 text-white animate-pulse" />
+                    </div>
                     Secure Password Generator
                   </CardTitle>
-                  <CardDescription className="dark:text-gray-400 animate-textFadeSlide" style={{ animationDelay: '0.1s' }}>
-                    Create strong, secure passwords for your gaming accounts
+                  <CardDescription className="dark:text-gray-400 animate-textFadeSlide text-base" style={{ animationDelay: '0.1s' }}>
+                    Create strong, secure passwords for your gaming accounts 🔒
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="relative z-10">
@@ -1028,68 +1060,84 @@ export default function Tools() {
           </TabsList>
 
           <TabsContent value="image" className="mt-6 animate-fadeUp">
-            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:scale-[1.01] hover:shadow-[0_0_40px_rgba(6,182,212,0.3)] transition-all duration-500">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 dark:text-white animate-textShine">
-                  <ImageDown className="h-5 w-5 text-cyan-500 animate-bounce-slow" />
+            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(6,182,212,0.5)] dark:hover:shadow-[0_0_60px_rgba(6,182,212,0.7)] transition-all duration-500 relative overflow-hidden border-2 hover:border-cyan-500/50">
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/5 to-cyan-500/10 animate-gradient-shift" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+              <CardHeader className="relative z-10">
+                <CardTitle className="flex items-center gap-3 dark:text-white animate-textShine text-xl sm:text-2xl">
+                  <div className="p-2 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg shadow-lg">
+                    <ImageDown className="h-6 w-6 text-white animate-bounce-slow" />
+                  </div>
                   Image Compressor
                 </CardTitle>
-                <CardDescription className="dark:text-gray-400 animate-fadeInLeft">
-                  Reduce image file size while maintaining quality
+                <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-base">
+                  Reduce image file size while maintaining quality 📸
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="relative z-10">
                 <ImageCompressor />
               </CardContent>
             </Card>
           </TabsContent>
 
           <TabsContent value="tts" className="mt-6 animate-fadeUp">
-            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:scale-[1.01] hover:shadow-[0_0_40px_rgba(168,85,247,0.3)] transition-all duration-500">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 dark:text-white animate-textShine">
-                  <Volume2 className="h-5 w-5 text-purple-500 animate-pulse" />
+            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(168,85,247,0.5)] dark:hover:shadow-[0_0_60px_rgba(168,85,247,0.7)] transition-all duration-500 relative overflow-hidden border-2 hover:border-purple-500/50">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-purple-500/10 animate-gradient-shift" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-purple-500/20 to-pink-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+              <CardHeader className="relative z-10">
+                <CardTitle className="flex items-center gap-3 dark:text-white animate-textShine text-xl sm:text-2xl">
+                  <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg shadow-lg">
+                    <Volume2 className="h-6 w-6 text-white animate-pulse" />
+                  </div>
                   Text-to-Speech
                 </CardTitle>
-                <CardDescription className="dark:text-gray-400 animate-fadeInLeft">
-                  Convert any text to natural-sounding speech
+                <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-base">
+                  Convert any text to natural-sounding speech 🔊
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="relative z-10">
                 <TextToSpeech />
               </CardContent>
             </Card>
           </TabsContent>
 
           <TabsContent value="qr" className="mt-6 animate-fadeUp">
-            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:scale-[1.01] hover:shadow-[0_0_40px_rgba(34,197,94,0.3)] transition-all duration-500">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 dark:text-white animate-textShine">
-                  <QrCode className="h-5 w-5 text-green-500 animate-spin-slow" />
+            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(34,197,94,0.5)] dark:hover:shadow-[0_0_60px_rgba(34,197,94,0.7)] transition-all duration-500 relative overflow-hidden border-2 hover:border-green-500/50">
+              <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-emerald-500/5 to-green-500/10 animate-gradient-shift" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+              <CardHeader className="relative z-10">
+                <CardTitle className="flex items-center gap-3 dark:text-white animate-textShine text-xl sm:text-2xl">
+                  <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg shadow-lg">
+                    <QrCode className="h-6 w-6 text-white animate-spin-slow" />
+                  </div>
                   QR Code Generator
                 </CardTitle>
-                <CardDescription className="dark:text-gray-400 animate-fadeInLeft">
-                  Generate QR codes for any text or URL instantly
+                <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-base">
+                  Generate QR codes for any text or URL instantly 📱
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="relative z-10">
                 <QRCodeGenerator />
               </CardContent>
             </Card>
           </TabsContent>
 
           <TabsContent value="clipboard" className="mt-6 animate-fadeUp">
-            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:scale-[1.01] hover:shadow-[0_0_40px_rgba(249,115,22,0.3)] transition-all duration-500">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 dark:text-white animate-textShine">
-                  <ClipboardCopy className="h-5 w-5 text-orange-500 animate-wiggle" />
+            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:scale-[1.02] hover:shadow-[0_0_60px_rgba(249,115,22,0.5)] dark:hover:shadow-[0_0_60px_rgba(249,115,22,0.7)] transition-all duration-500 relative overflow-hidden border-2 hover:border-orange-500/50">
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-red-500/5 to-orange-500/10 animate-gradient-shift" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-orange-500/20 to-red-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+              <CardHeader className="relative z-10">
+                <CardTitle className="flex items-center gap-3 dark:text-white animate-textShine text-xl sm:text-2xl">
+                  <div className="p-2 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg shadow-lg">
+                    <ClipboardCopy className="h-6 w-6 text-white animate-wiggle" />
+                  </div>
                   Clipboard Manager
                 </CardTitle>
-                <CardDescription className="dark:text-gray-400 animate-fadeInLeft">
-                  Save and manage text snippets for quick access
+                <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-base">
+                  Save and manage text snippets for quick access 📋
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="relative z-10">
                 <ClipboardManager />
               </CardContent>
             </Card>
