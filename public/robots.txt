@@ -1,4 +1,25 @@
+# robots.txt for nsgamming.xyz
+# Optimized for Google AdSense and SEO
+
+# Allow all crawlers
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /_redirects
 
+# Allow Google and Bing specific crawlers
+User-agent: Googlebot
+Allow: /
+User-agent: Googlebot-Image
+Allow: /
+User-agent: Bingbot
+Allow: /
+
+# Crawl delay (0 = no delay, good for popular sites)
+Crawl-delay: 0
+
+# Sitemap location
 Sitemap: https://nsgamming.xyz/sitemap.xml
+
+# Host
+Host: https://nsgamming.xyz

@@ -130,10 +130,33 @@ const Footer = () => {
           </div>
         </div>
 
+        {/* Contact & Support */}
+        <div className="pt-6 border-t border-border/50 mb-6 animate-fadeUp" style={{ animationDelay: '0.4s' }}>
+          <h4 className="font-bold text-foreground dark:text-foreground mb-3 text-center">Contact & Support</h4>
+          <div className="flex flex-wrap justify-center gap-4 text-sm">
+            <a 
+              href="mailto:nsgamming69@gmail.com" 
+              className="text-muted-foreground dark:text-muted-foreground hover:text-primary dark:hover:text-primary transition-colors hover:scale-105 inline-block"
+              data-testid="footer-email"
+            >
+              📧 Email: nsgamming69@gmail.com
+            </a>
+            <a 
+              href="https://wa.me/918900653250" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground dark:text-muted-foreground hover:text-primary dark:hover:text-primary transition-colors hover:scale-105 inline-block"
+              data-testid="footer-whatsapp"
+            >
+              📱 WhatsApp: +91 89006 53250
+            </a>
+          </div>
+        </div>
+
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4 animate-fadeUp" style={{ animationDelay: '0.4s' }}>
+        <div className="pt-6 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4 animate-fadeUp" style={{ animationDelay: '0.5s' }}>
           <p className="text-sm text-muted-foreground dark:text-muted-foreground text-center md:text-left">
-            © {currentYear} NS GAMMING. All rights reserved.
+            © {currentYear} Naboraj Sarkar (Nishant). All rights reserved.
           </p>
           <p className="text-sm text-muted-foreground dark:text-muted-foreground flex items-center gap-1">
             Made with <Heart className="w-4 h-4 text-red-500 animate-heartBeat inline" /> by Nishant Sarkar

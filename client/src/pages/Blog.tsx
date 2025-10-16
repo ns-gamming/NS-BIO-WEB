@@ -1,15 +1,15 @@
-import { useQuery } from '@tanstack/react-query';
 import { Link } from 'wouter';
 import HeroSection from '@/components/HeroSection';
 import AdSenseAd from '@/components/AdSenseAd';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Clock, Eye, Calendar, ArrowRight, TrendingUp } from 'lucide-react';
+import { Clock, Eye, Calendar, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useLiveViewCounter } from '@/hooks/useLiveViewCounter';
-import type { BlogPost } from '@shared/schema';
+import { getAllBlogPosts, type BlogPost } from '@/data/blogPosts';
+import { motion } from 'framer-motion';
 
 function LiveBlogCard({ post }: { post: BlogPost }) {
   const liveViews = useLiveViewCounter(post.views, 3000);
@@ -76,108 +76,126 @@ function LiveBlogCard({ post }: { post: BlogPost }) {
 export default function Blog() {
   const [searchQuery, setSearchQuery] = useState('');
   
-  const { data: posts, isLoading, error } = useQuery<BlogPost[]>({
-    queryKey: ['/api/blog'],
-  });
+  const posts = useMemo(() => getAllBlogPosts(), []);
 
-  // Debug logging
-  console.log('Blog page - Loading:', isLoading, 'Posts:', posts?.length, 'Error:', error);
-
-  const filteredPosts = posts?.filter(post =>
-    post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+  const filteredPosts = useMemo(() => 
+    posts.filter(post =>
+      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+    ),
+    [posts, searchQuery]
   );
 
-  const categories = Array.from(new Set(posts?.map(p => p.category) || []));
+  const categories = useMemo(() => 
+    Array.from(new Set(posts.map(p => p.category))),
+    [posts]
+  );
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen bg-white dark:bg-gray-950"
+    >
       <HeroSection
         title="Gaming & Tech Blog"
         subtitle="Expert tips, tutorials, and guides for Free Fire, coding, and content creation 📚"
       />
 
       <div className="container mx-auto px-4 py-12">
-        <div className="mb-8">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mb-8"
+        >
           <Input
             type="search"
             placeholder="Search articles..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="max-w-md dark:bg-gray-800 dark:text-white"
+            className="max-w-md dark:bg-gray-800 dark:text-white dark:border-gray-700 focus:ring-2 focus:ring-cyan-500 transition-all"
             data-testid="input-blog-search"
           />
-        </div>
+        </motion.div>
 
-        {!isLoading && categories.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-8">
-            {categories.map((cat) => (
-              <Badge
+        {categories.length > 0 && (
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="flex flex-wrap gap-2 mb-8"
+          >
+            {categories.map((cat, index) => (
+              <motion.div
                 key={cat}
-                variant="outline"
-                className="cursor-pointer dark:border-cyan-500 dark:text-cyan-400 dark:hover:bg-cyan-500/10"
-                onClick={() => setSearchQuery(cat)}
-                data-testid={`badge-category-${cat}`}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3, delay: 0.4 + index * 0.1 }}
               >
-                {cat}
-              </Badge>
+                <Badge
+                  variant="outline"
+                  className="cursor-pointer dark:border-cyan-500 dark:text-cyan-400 dark:hover:bg-cyan-500/10 hover:scale-105 transition-all"
+                  onClick={() => setSearchQuery(cat)}
+                  data-testid={`badge-category-${cat}`}
+                >
+                  {cat}
+                </Badge>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
 
-        {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[...Array(6)].map((_, i) => (
-              <Card key={i} className="dark:bg-gray-900 dark:border-gray-800">
-                <CardHeader>
-                  <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-2" />
-                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse w-3/4" />
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
-                    <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
-                  </div>
-                </CardContent>
-              </Card>
+        {filteredPosts.length > 0 ? (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
+            {filteredPosts.map((post, index) => (
+              <motion.div
+                key={post.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
+              >
+                <LiveBlogCard post={post} />
+              </motion.div>
             ))}
-          </div>
-        ) : error ? (
-          <div className="text-center py-12">
-            <p className="text-red-500 text-lg mb-4">Error loading blog posts: {error instanceof Error ? error.message : 'Unknown error'}</p>
-            <p className="text-gray-500 dark:text-gray-400 mb-4">Please check your database connection and try refreshing the page.</p>
-            <Button onClick={() => window.location.reload()} variant="outline" className="dark:border-cyan-500 dark:text-cyan-400">
-              Refresh Page
-            </Button>
-          </div>
-        ) : filteredPosts && filteredPosts.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredPosts.map((post) => (
-              <LiveBlogCard key={post.id} post={post} />
-            ))}
-          </div>
+          </motion.div>
         ) : (
-          <div className="text-center py-12">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center py-12"
+          >
             <p className="text-gray-500 dark:text-gray-400 text-lg mb-4">
-              {posts?.length === 0 ? 'No blog posts found. The database may need seeding.' : 'No articles found matching your search.'}
+              No articles found matching your search.
             </p>
-            {posts?.length === 0 && (
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                Contact admin to seed blog posts or wait for automatic seeding on next deployment.
-              </p>
-            )}
-            <Button onClick={() => setSearchQuery('')} variant="outline" className="dark:border-cyan-500 dark:text-cyan-400" data-testid="button-clear-search">
+            <Button 
+              onClick={() => setSearchQuery('')} 
+              variant="outline" 
+              className="dark:border-cyan-500 dark:text-cyan-400 hover:scale-105 transition-transform" 
+              data-testid="button-clear-search"
+            >
               Clear Search
             </Button>
-          </div>
+          </motion.div>
         )}
 
-        {/* AdSense Ad */}
-        <div className="mt-12">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.8 }}
+          className="mt-12"
+        >
           <AdSenseAd />
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }
