@@ -46,11 +46,30 @@ export default function ScrollToTop() {
   return (
     <button
       onClick={scrollToTop}
-      className="fixed bottom-8 right-8 z-50 bg-primary/90 hover:bg-primary text-white p-3 rounded-full shadow-xl hover:scale-110 transition-all duration-300 backdrop-blur-sm border border-white/20 hover:shadow-2xl hover:shadow-primary/30 group"
+      className="fixed bottom-8 right-8 z-50 group"
       aria-label="Scroll to top"
       data-testid="scroll-to-top"
     >
-      <ArrowUp className="w-5 h-5 group-hover:-translate-y-1 transition-transform" />
+      {/* Outer glow ring */}
+      <div className="absolute inset-0 rounded-full bg-primary/30 blur-xl group-hover:bg-primary/50 transition-all duration-300 animate-pulse"></div>
+      
+      {/* Main button */}
+      <div className="relative glass rounded-full p-4 border-2 border-primary/40 hover:border-primary/80 shadow-2xl hover:shadow-primary/50 transition-all duration-300 group-hover:scale-110 bg-background/80 backdrop-blur-xl">
+        {/* Inner glow effect */}
+        <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary/20 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        
+        {/* Arrow icon */}
+        <ArrowUp className="w-6 h-6 text-primary relative z-10 group-hover:-translate-y-1 transition-transform duration-300 drop-shadow-lg" />
+        
+        {/* Ripple effect on hover */}
+        <div className="absolute inset-0 rounded-full border-2 border-primary/60 scale-100 opacity-0 group-hover:scale-150 group-hover:opacity-0 transition-all duration-500"></div>
+      </div>
+
+      {/* Bottom tooltip */}
+      <div className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-background/95 border border-primary/40 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap backdrop-blur-sm">
+        <span className="text-sm font-medium text-primary">Back to Top</span>
+        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-background/95 border-r border-b border-primary/40 rotate-45"></div>
+      </div>
     </button>
   );
 }
