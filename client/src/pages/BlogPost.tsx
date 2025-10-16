@@ -192,11 +192,23 @@ export default function BlogPost() {
         )}
 
         <div className="prose prose-lg dark:prose-invert max-w-none mb-8" data-testid="content-post-body">
-          {post.content.split('\n\n').map((paragraph, index) => (
-            <p key={index} className="mb-4 leading-relaxed dark:text-gray-300">
-              {paragraph}
-            </p>
-          ))}
+          <div 
+            className="blog-content leading-relaxed dark:text-gray-300"
+            dangerouslySetInnerHTML={{ 
+              __html: post.content
+                .replace(/\n\n/g, '</p><p class="mb-4">')
+                .replace(/^/, '<p class="mb-4">')
+                .replace(/$/, '</p>')
+                .replace(/#{3}\s(.+)/g, '<h3 class="text-2xl font-bold mt-8 mb-4 dark:text-white">$1</h3>')
+                .replace(/#{2}\s(.+)/g, '<h2 class="text-3xl font-bold mt-10 mb-6 dark:text-white">$1</h2>')
+                .replace(/#{1}\s(.+)/g, '<h1 class="text-4xl font-bold mt-12 mb-8 dark:text-white">$1</h1>')
+                .replace(/\*\*(.+?)\*\*/g, '<strong class="font-bold text-gray-900 dark:text-white">$1</strong>')
+                .replace(/\*(.+?)\*/g, '<em class="italic">$1</em>')
+                .replace(/- (.+)/g, '<li class="ml-6 mb-2">$1</li>')
+                .replace(/(<li.*<\/li>)/s, '<ul class="list-disc mb-4">$1</ul>')
+                .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto mb-4"><code class="text-sm">$2</code></pre>')
+            }}
+          />
         </div>
 
         <div className="flex flex-wrap gap-2 mb-8">
