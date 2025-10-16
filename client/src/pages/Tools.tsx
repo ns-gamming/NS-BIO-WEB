@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'wouter';
 import HeroSection from '@/components/HeroSection';
 import AdSenseAd from '@/components/AdSenseAd';
@@ -675,6 +675,37 @@ const ClipboardManager = () => {
 export default function Tools() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
+  useEffect(() => {
+    // SEO Meta Tags
+    if (!selectedCategory) {
+      document.title = 'Free Fire Tools & Utilities - Name Generator, UID Creator, Sensitivity | NS Gamming';
+      
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.setAttribute('content', 'Free Fire tools hub: Stylish name generator, UID creator, sensitivity optimizer, password generator. Best Free Fire utilities and general productivity tools.');
+      }
+
+      const metaKeywords = document.querySelector('meta[name="keywords"]');
+      if (metaKeywords) {
+        metaKeywords.setAttribute('content', 'free fire tools, ff name generator, free fire uid, sensitivity settings, free fire utilities, gaming tools, password generator, stylish names');
+      }
+    } else if (selectedCategory === 'ff-tools') {
+      document.title = 'Free Fire Tools - Stylish Names, UID, Sensitivity Settings | NS Gamming';
+      
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.setAttribute('content', 'Free Fire gaming tools: Create stylish names with fancy fonts, generate random UIDs, optimize sensitivity settings, and create secure passwords for your FF account.');
+      }
+    } else if (selectedCategory === 'utilities') {
+      document.title = 'General Utilities - Image Tools, QR Generator, Productivity | NS Gamming';
+      
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.setAttribute('content', 'Free productivity utilities: Image compressor, QR code generator, text-to-speech converter, clipboard manager. Boost your productivity with these free online tools.');
+      }
+    }
+  }, [selectedCategory]);
+
   if (!selectedCategory) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 transition-colors duration-500 pt-20 pb-16 overflow-hidden">
@@ -902,21 +933,21 @@ export default function Tools() {
           </Button>
 
           <Tabs defaultValue="ffname" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 gap-2 p-2 dark:bg-gray-800 mb-8 animate-fadeUp shadow-lg hover:shadow-[0_0_30px_rgba(6,182,212,0.3)] transition-all duration-300" data-testid="tabs-fftools">
-              <TabsTrigger value="ffname" data-testid="tab-ffname" className="text-sm transition-all duration-300 hover:scale-105 data-[state=active]:bg-cyan-500/20 data-[state=active]:shadow-[0_0_15px_rgba(6,182,212,0.4)]">
-                <Sparkles className="mr-2 h-4 w-4" />
+            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 gap-3 p-2 dark:bg-gray-800/50 backdrop-blur-xl mb-10 animate-fadeUp shadow-2xl hover:shadow-[0_0_50px_rgba(6,182,212,0.4)] transition-all duration-500 rounded-2xl border-2 border-gray-200 dark:border-gray-700" data-testid="tabs-fftools">
+              <TabsTrigger value="ffname" data-testid="tab-ffname" className="text-sm sm:text-base font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/30 data-[state=active]:to-blue-500/30 data-[state=active]:shadow-[0_0_25px_rgba(6,182,212,0.5)] rounded-xl py-4 px-4">
+                <Sparkles className="mr-2 h-5 w-5" />
                 FF Name
               </TabsTrigger>
-              <TabsTrigger value="uid" data-testid="tab-uid" className="text-sm transition-all duration-300 hover:scale-105 data-[state=active]:bg-purple-500/20 data-[state=active]:shadow-[0_0_15px_rgba(168,85,247,0.4)]">
-                <Gamepad2 className="mr-2 h-4 w-4" />
+              <TabsTrigger value="uid" data-testid="tab-uid" className="text-sm sm:text-base font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/30 data-[state=active]:to-pink-500/30 data-[state=active]:shadow-[0_0_25px_rgba(168,85,247,0.5)] rounded-xl py-4 px-4">
+                <Gamepad2 className="mr-2 h-5 w-5" />
                 UID Gen
               </TabsTrigger>
-              <TabsTrigger value="sensitivity" data-testid="tab-sensitivity" className="text-sm transition-all duration-300 hover:scale-105 data-[state=active]:bg-green-500/20 data-[state=active]:shadow-[0_0_15px_rgba(34,197,94,0.4)]">
-                <Zap className="mr-2 h-4 w-4" />
+              <TabsTrigger value="sensitivity" data-testid="tab-sensitivity" className="text-sm sm:text-base font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/30 data-[state=active]:to-emerald-500/30 data-[state=active]:shadow-[0_0_25px_rgba(34,197,94,0.5)] rounded-xl py-4 px-4">
+                <Zap className="mr-2 h-5 w-5" />
                 Sensitivity
               </TabsTrigger>
-              <TabsTrigger value="password" data-testid="tab-password" className="text-sm transition-all duration-300 hover:scale-105 data-[state=active]:bg-orange-500/20 data-[state=active]:shadow-[0_0_15px_rgba(249,115,22,0.4)]">
-                <Shield className="mr-2 h-4 w-4" />
+              <TabsTrigger value="password" data-testid="tab-password" className="text-sm sm:text-base font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500/30 data-[state=active]:to-red-500/30 data-[state=active]:shadow-[0_0_25px_rgba(249,115,22,0.5)] rounded-xl py-4 px-4">
+                <Shield className="mr-2 h-5 w-5" />
                 Password
               </TabsTrigger>
             </TabsList>
@@ -1040,21 +1071,21 @@ export default function Tools() {
         </Button>
 
         <Tabs defaultValue="image" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 gap-2 p-2 dark:bg-gray-800 mb-8 animate-fadeUp shadow-lg hover:shadow-[0_0_30px_rgba(168,85,247,0.3)] transition-all duration-300" data-testid="tabs-utility">
-            <TabsTrigger value="image" data-testid="tab-image" className="text-sm transition-all duration-300 hover:scale-105 data-[state=active]:bg-cyan-500/20 data-[state=active]:shadow-[0_0_15px_rgba(6,182,212,0.4)]">
-              <ImageDown className="mr-2 h-4 w-4" />
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 gap-3 p-2 dark:bg-gray-800/50 backdrop-blur-xl mb-10 animate-fadeUp shadow-2xl hover:shadow-[0_0_50px_rgba(168,85,247,0.4)] transition-all duration-500 rounded-2xl border-2 border-gray-200 dark:border-gray-700" data-testid="tabs-utility">
+            <TabsTrigger value="image" data-testid="tab-image" className="text-sm sm:text-base font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/30 data-[state=active]:to-blue-500/30 data-[state=active]:shadow-[0_0_25px_rgba(6,182,212,0.5)] rounded-xl py-4 px-4">
+              <ImageDown className="mr-2 h-5 w-5" />
               Image
             </TabsTrigger>
-            <TabsTrigger value="tts" data-testid="tab-tts" className="text-sm transition-all duration-300 hover:scale-105 data-[state=active]:bg-purple-500/20 data-[state=active]:shadow-[0_0_15px_rgba(168,85,247,0.4)]">
-              <Volume2 className="mr-2 h-4 w-4" />
+            <TabsTrigger value="tts" data-testid="tab-tts" className="text-sm sm:text-base font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/30 data-[state=active]:to-pink-500/30 data-[state=active]:shadow-[0_0_25px_rgba(168,85,247,0.5)] rounded-xl py-4 px-4">
+              <Volume2 className="mr-2 h-5 w-5" />
               TTS
             </TabsTrigger>
-            <TabsTrigger value="qr" data-testid="tab-qr" className="text-sm transition-all duration-300 hover:scale-105 data-[state=active]:bg-green-500/20 data-[state=active]:shadow-[0_0_15px_rgba(34,197,94,0.4)]">
-              <QrCode className="mr-2 h-4 w-4" />
+            <TabsTrigger value="qr" data-testid="tab-qr" className="text-sm sm:text-base font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/30 data-[state=active]:to-emerald-500/30 data-[state=active]:shadow-[0_0_25px_rgba(34,197,94,0.5)] rounded-xl py-4 px-4">
+              <QrCode className="mr-2 h-5 w-5" />
               QR Code
             </TabsTrigger>
-            <TabsTrigger value="clipboard" data-testid="tab-clipboard" className="text-sm transition-all duration-300 hover:scale-105 data-[state=active]:bg-orange-500/20 data-[state=active]:shadow-[0_0_15px_rgba(249,115,22,0.4)]">
-              <ClipboardCopy className="mr-2 h-4 w-4" />
+            <TabsTrigger value="clipboard" data-testid="tab-clipboard" className="text-sm sm:text-base font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500/30 data-[state=active]:to-red-500/30 data-[state=active]:shadow-[0_0_25px_rgba(249,115,22,0.5)] rounded-xl py-4 px-4">
+              <ClipboardCopy className="mr-2 h-5 w-5" />
               Clipboard
             </TabsTrigger>
           </TabsList>
