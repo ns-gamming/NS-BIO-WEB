@@ -112,16 +112,16 @@ export default function Home() {
           </Link>
         </div>
 
-        {/* Tools Access Section */}
+        {/* Tools Access Section - Enhanced */}
         <div className="max-w-6xl mx-auto mb-12">
-          <h3 className="text-3xl font-orbitron font-bold mb-8 text-center bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-glow">
+          <h3 className="text-3xl sm:text-4xl font-orbitron font-bold mb-10 text-center bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-glow">
             🛠️ Free Tools & Utilities
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* FF Tools Card */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+            {/* FF Tools Card - Enhanced */}
             <Link 
               href="/tools" 
-              className="glass rounded-2xl p-8 hover:scale-105 transition-all duration-500 border-2 border-orange-500/30 hover:border-orange-500/60 hover:shadow-[0_0_40px_rgba(249,115,22,0.6)] group cursor-pointer relative overflow-hidden animate-bounceIn"
+              className="glass rounded-2xl p-6 sm:p-8 hover:scale-105 transition-all duration-500 border-2 border-orange-500/30 hover:border-orange-500/60 hover:shadow-[0_0_40px_rgba(249,115,22,0.6)] group cursor-pointer relative overflow-hidden animate-bounceIn"
               data-testid="tools-ff-card"
               style={{ animationDelay: '0.3s' }}
             >
@@ -131,31 +131,53 @@ export default function Home() {
               {/* Glowing Border Effect */}
               <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse-neon" style={{ background: 'linear-gradient(45deg, transparent 40%, rgba(249,115,22,0.3) 50%, transparent 60%)', backgroundSize: '200% 200%' }} />
 
+              {/* Animated Particles */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                <div className="absolute top-5 left-5 w-2 h-2 bg-orange-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(249,115,22,0.8)]"></div>
+                <div className="absolute top-10 right-10 w-2 h-2 bg-red-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(220,38,38,0.8)]" style={{ animationDelay: '0.3s' }}></div>
+                <div className="absolute bottom-5 left-10 w-1.5 h-1.5 bg-orange-300 rounded-full animate-bounce" style={{ animationDelay: '0.6s' }}></div>
+                <div className="absolute bottom-10 right-5 w-1.5 h-1.5 bg-red-300 rounded-full animate-bounce" style={{ animationDelay: '0.9s' }}></div>
+              </div>
+
               <div className="relative z-10">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center group-hover:rotate-12 group-hover:scale-110 transition-all duration-500 shadow-lg group-hover:shadow-[0_0_20px_rgba(249,115,22,0.6)]">
-                    <i className="fas fa-fire text-3xl text-white animate-pulse"></i>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center group-hover:rotate-12 group-hover:scale-110 transition-all duration-500 shadow-lg group-hover:shadow-[0_0_20px_rgba(249,115,22,0.6)]">
+                    <i className="fas fa-fire text-2xl sm:text-3xl text-white animate-pulse"></i>
                   </div>
-                  <div>
-                    <h4 className="text-2xl font-bold text-foreground group-hover:text-orange-500 transition-colors">
+                  <div className="flex-1">
+                    <h4 className="text-xl sm:text-2xl font-bold text-foreground group-hover:text-orange-500 transition-colors mb-1">
                       Free Fire Tools
                     </h4>
-                    <p className="text-sm text-muted-foreground group-hover:text-orange-400 transition-colors">Gaming utilities</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground group-hover:text-orange-400 transition-colors">Advanced gaming utilities</p>
                   </div>
                 </div>
-                <p className="text-foreground mb-4 group-hover:text-orange-50 dark:group-hover:text-orange-100 transition-colors">
-                  Name Generator, UID Generator, Sensitivity Settings, and more FF tools to level up your game!
+                <p className="text-sm sm:text-base text-foreground mb-4 group-hover:text-orange-50 dark:group-hover:text-orange-100 transition-colors leading-relaxed">
+                  Stylish Name Generator, UID Creator, Advanced Sensitivity Settings (Max 200 with DPI), and Secure Password Generator!
                 </p>
-                <div className="flex items-center text-orange-500 font-semibold group-hover:translate-x-2 transition-transform">
-                  Explore FF Tools <i className="fas fa-arrow-right ml-2 group-hover:animate-bounce"></i>
+                
+                {/* Feature Tags */}
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="px-3 py-1 bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/40 rounded-full text-xs font-bold text-orange-700 dark:text-orange-300 transform group-hover:scale-110 transition-all duration-300">
+                    Device Optimized
+                  </span>
+                  <span className="px-3 py-1 bg-gradient-to-r from-red-500/20 to-pink-500/20 border border-red-500/40 rounded-full text-xs font-bold text-red-700 dark:text-red-300 transform group-hover:scale-110 transition-all duration-300" style={{ transitionDelay: '0.05s' }}>
+                    Max 200 Sens
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between pt-3 border-t border-orange-500/20">
+                  <span className="text-base sm:text-lg font-bold text-orange-500 group-hover:translate-x-2 transition-transform">
+                    Explore FF Tools →
+                  </span>
+                  <i className="fas fa-gamepad text-xl text-orange-500 animate-pulse"></i>
                 </div>
               </div>
             </Link>
 
-            {/* Utility Tools Card */}
+            {/* Utility Tools Card - Enhanced */}
             <Link 
               href="/utility-tools" 
-              className="glass rounded-2xl p-8 hover:scale-105 transition-all duration-500 border-2 border-primary/30 hover:border-primary/60 hover:shadow-[0_0_40px_rgba(6,182,212,0.6)] group cursor-pointer relative overflow-hidden animate-bounceIn"
+              className="glass rounded-2xl p-6 sm:p-8 hover:scale-105 transition-all duration-500 border-2 border-primary/30 hover:border-primary/60 hover:shadow-[0_0_40px_rgba(6,182,212,0.6)] group cursor-pointer relative overflow-hidden animate-bounceIn"
               data-testid="tools-utility-card"
               style={{ animationDelay: '0.4s' }}
             >
@@ -165,23 +187,45 @@ export default function Home() {
               {/* Glowing Border Effect */}
               <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse-neon" style={{ background: 'linear-gradient(45deg, transparent 40%, rgba(6,182,212,0.3) 50%, transparent 60%)', backgroundSize: '200% 200%' }} />
 
+              {/* Animated Particles */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                <div className="absolute top-5 left-5 w-2 h-2 bg-cyan-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(6,182,212,0.8)]"></div>
+                <div className="absolute top-10 right-10 w-2 h-2 bg-blue-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(37,99,235,0.8)]" style={{ animationDelay: '0.3s' }}></div>
+                <div className="absolute bottom-5 left-10 w-1.5 h-1.5 bg-cyan-300 rounded-full animate-bounce" style={{ animationDelay: '0.6s' }}></div>
+                <div className="absolute bottom-10 right-5 w-1.5 h-1.5 bg-blue-300 rounded-full animate-bounce" style={{ animationDelay: '0.9s' }}></div>
+              </div>
+
               <div className="relative z-10">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-primary to-cyan-600 rounded-xl flex items-center justify-center group-hover:rotate-12 group-hover:scale-110 transition-all duration-500 shadow-lg group-hover:shadow-[0_0_20px_rgba(6,182,212,0.6)]">
-                    <i className="fas fa-tools text-3xl text-white animate-pulse"></i>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-primary to-cyan-600 rounded-xl flex items-center justify-center group-hover:rotate-12 group-hover:scale-110 transition-all duration-500 shadow-lg group-hover:shadow-[0_0_20px_rgba(6,182,212,0.6)]">
+                    <i className="fas fa-tools text-2xl sm:text-3xl text-white animate-pulse"></i>
                   </div>
-                  <div>
-                    <h4 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
-                      Utility Tools
+                  <div className="flex-1">
+                    <h4 className="text-xl sm:text-2xl font-bold text-foreground group-hover:text-primary transition-colors mb-1">
+                      Productivity Tools
                     </h4>
-                    <p className="text-sm text-muted-foreground group-hover:text-cyan-400 transition-colors">Productivity boosters</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground group-hover:text-cyan-400 transition-colors">Essential utilities</p>
                   </div>
                 </div>
-                <p className="text-foreground mb-4 group-hover:text-cyan-50 dark:group-hover:text-cyan-100 transition-colors">
-                  Image Compressor, Text-to-Speech, QR Generator, Clipboard Saver - everything you need!
+                <p className="text-sm sm:text-base text-foreground mb-4 group-hover:text-cyan-50 dark:group-hover:text-cyan-100 transition-colors leading-relaxed">
+                  Image Compressor, Text-to-Speech Converter, QR Code Generator, and Clipboard Manager - all in one place!
                 </p>
-                <div className="flex items-center text-primary font-semibold group-hover:translate-x-2 transition-transform">
-                  Explore Utilities <i className="fas fa-arrow-right ml-2 group-hover:animate-bounce"></i>
+
+                {/* Feature Tags */}
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="px-3 py-1 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/40 rounded-full text-xs font-bold text-cyan-700 dark:text-cyan-300 transform group-hover:scale-110 transition-all duration-300">
+                    Fast & Easy
+                  </span>
+                  <span className="px-3 py-1 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/40 rounded-full text-xs font-bold text-blue-700 dark:text-blue-300 transform group-hover:scale-110 transition-all duration-300" style={{ transitionDelay: '0.05s' }}>
+                    Free Forever
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between pt-3 border-t border-primary/20">
+                  <span className="text-base sm:text-lg font-bold text-primary group-hover:translate-x-2 transition-transform">
+                    Explore Utilities →
+                  </span>
+                  <i className="fas fa-wrench text-xl text-primary animate-pulse"></i>
                 </div>
               </div>
             </Link>
