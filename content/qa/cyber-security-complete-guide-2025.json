@@ -1,0 +1,103 @@
+
+[
+  {
+    "q": "What is cyber security?",
+    "a": "Cyber security is the practice of protecting computer systems, networks, programs, and data from digital attacks, unauthorized access, damage, or theft. It involves implementing measures to safeguard your online presence from criminals, hackers, and malicious software.",
+    "source": "Introduction section"
+  },
+  {
+    "q": "Why is cyber security important in 2025?",
+    "a": "Cyber security is crucial because cyber attacks happen every 39 seconds globally, the average data breach costs $4.45 million, and our personal data, financial information, and digital identities are constantly at risk from sophisticated hackers and cybercriminals.",
+    "source": "Why It Matters section"
+  },
+  {
+    "q": "What is phishing and how do I recognize it?",
+    "a": "Phishing is a fraudulent attempt to obtain sensitive information by disguising as trustworthy entities. Warning signs include generic greetings, spelling errors, suspicious sender addresses, urgent threats, and links that don't match official website URLs.",
+    "source": "Common Online Threats - Phishing section"
+  },
+  {
+    "q": "How do I create a strong password?",
+    "a": "A strong password should be 12-16+ characters long, mix uppercase and lowercase letters, include numbers and special symbols, avoid dictionary words and personal information. Example: 'T7$mK9@pL2#xR4' or use a passphrase like 'Purpl3!Eleph@nt$Danc1ng'.",
+    "source": "Strong Password Management section"
+  },
+  {
+    "q": "What is two-factor authentication (2FA)?",
+    "a": "2FA requires two different verification methods to log in: something you know (password) and something you have (phone/security key). It adds an extra security layer, protecting your account even if your password is compromised.",
+    "source": "Two-Factor Authentication section"
+  },
+  {
+    "q": "Should I use a password manager?",
+    "a": "Yes! Password managers like Bitwarden, 1Password, or LastPass generate random unique passwords for every account, store them encrypted, auto-fill login forms (preventing keyloggers), and sync across devices. They dramatically improve your security.",
+    "source": "Password Management section"
+  },
+  {
+    "q": "Why are software updates important for security?",
+    "a": "Updates patch known security vulnerabilities, fix bugs that hackers can exploit, and improve overall system security. The WannaCry ransomware exploited a Windows vulnerability that was already patched—users who didn't update were infected.",
+    "source": "Software Updates section"
+  },
+  {
+    "q": "What is ransomware?",
+    "a": "Ransomware is malicious software that locks your files or entire hard drive and demands payment for release. It can spread through email attachments or infected downloads. The Colonial Pipeline attack in 2021 disrupted fuel supplies and cost $4.4 million in ransom.",
+    "source": "Malware and Ransomware section"
+  },
+  {
+    "q": "How can I tell if a website is safe?",
+    "a": "Check for HTTPS (padlock icon) before entering data, examine the URL carefully for misspellings, avoid shortened links from unknown sources, and use browser extensions like Web of Trust (WOT) to verify website reputation.",
+    "source": "Safe Browsing Habits section"
+  },
+  {
+    "q": "Is public Wi-Fi safe to use?",
+    "a": "Public Wi-Fi is risky because hackers can intercept your data. Never access banking or sensitive accounts on public networks. Use a VPN for encryption, disable auto-connect to Wi-Fi, and forget public networks after using them.",
+    "source": "Safe Browsing Habits section"
+  },
+  {
+    "q": "What should I do if my account gets hacked?",
+    "a": "Immediately change your password, enable 2FA if not already active, review recent account activity, check for unauthorized changes, notify the platform's support team, scan your device for malware, and change passwords on other accounts that used the same credentials.",
+    "source": "Based on security best practices"
+  },
+  {
+    "q": "What is the 3-2-1 backup rule?",
+    "a": "The 3-2-1 backup rule means keeping 3 copies of important data, on 2 different storage mediums (like external drive and cloud), with 1 copy stored offsite. This protects against data loss from hardware failure, theft, or ransomware.",
+    "source": "Data Backup Strategy section"
+  },
+  {
+    "q": "How can gamers protect their accounts?",
+    "a": "Use unique passwords for each gaming platform, enable Steam Guard/Battle.net Authenticator, never share credentials with boosting services, be wary of free item offers, verify trading websites, and don't click unknown Discord links.",
+    "source": "For Gamers section"
+  },
+  {
+    "q": "What is an ethical hacker?",
+    "a": "Ethical hackers (white hat hackers) use their skills to protect systems by finding and fixing security vulnerabilities before malicious actors exploit them. They work legally for companies, conduct penetration testing, and receive bounties for discovering security flaws.",
+    "source": "Ethical Hackers section"
+  },
+  {
+    "q": "Can I make a career in cyber security?",
+    "a": "Yes! Cyber security offers excellent career opportunities with millions of unfilled positions globally. Roles include Security Analyst ($70K-$120K), Penetration Tester ($90K-$150K), Security Architect ($120K-$180K+), and CISO ($150K-$400K+). Certifications like CompTIA Security+, CEH, and CISSP help.",
+    "source": "Cyber Security Careers section"
+  },
+  {
+    "q": "What was the SolarWinds attack?",
+    "a": "The SolarWinds attack (2020) was when Russian hackers compromised SolarWinds Orion software and sent trojanized updates to 18,000 customers including US government agencies. It remained undetected for months and caused an estimated $100+ billion in damages.",
+    "source": "Real-Life Examples section"
+  },
+  {
+    "q": "How do I check if my email was in a data breach?",
+    "a": "Visit haveibeenpwned.com and enter your email address. It will show if your email appeared in any known data breaches and which services were compromised. If found, change passwords immediately on affected accounts.",
+    "source": "Data Breaches section"
+  },
+  {
+    "q": "Should I use a VPN?",
+    "a": "Yes, especially on public Wi-Fi. VPNs encrypt your internet traffic, hide your IP address, and protect your browsing privacy. Recommended services include NordVPN, ExpressVPN, and ProtonVPN. Avoid free VPNs as they often sell your data.",
+    "source": "VPN Services section"
+  },
+  {
+    "q": "What browser extensions improve security?",
+    "a": "Essential security extensions include uBlock Origin (ad and tracker blocker), Privacy Badger (automatic tracker blocking), HTTPS Everywhere (force secure connections), and password manager extensions like Bitwarden or LastPass.",
+    "source": "Browser Extensions section"
+  },
+  {
+    "q": "How can I protect my kids online?",
+    "a": "Teach age-appropriate lessons about not sharing personal info, talking to strangers, and recognizing scams. Use parental controls, screen time management apps, content filtering, and maintain open communication about online activities. Adjust privacy settings on all platforms.",
+    "source": "Teaching Kids Online Safety section"
+  }
+]
