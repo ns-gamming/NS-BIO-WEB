@@ -388,73 +388,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Blog feedback endpoints
-  app.post("/api/blog/:slug/feedback", async (req, res) => {
-    try {
-      if (!supabase) {
-        console.warn('Supabase not configured - feedback will not be saved');
-        return res.status(503).json({ 
-          success: false, 
-          message: "Database service temporarily unavailable" 
-        });
-      }
-
-      const { slug } = req.params;
-      const { rating, feedback } = req.body;
-
-      // Validate rating
-      if (!rating || typeof rating !== 'number' || rating < 1 || rating > 5) {
-        return res.status(400).json({ 
-          success: false, 
-          message: "Rating must be a number between 1 and 5" 
-        });
-      }
-
-      // Validate slug
-      if (!slug || typeof slug !== 'string' || slug.trim().length === 0) {
-        return res.status(400).json({ 
-          success: false, 
-          message: "Invalid blog post identifier" 
-        });
-      }
-
-      const userIP = req.headers['x-forwarded-for'] || 
-                     req.headers['x-real-ip'] || 
-                     req.socket.remoteAddress || 
-                     'unknown';
-      const ipString = Array.isArray(userIP) ? userIP[0] : userIP.toString();
-
-      console.log(`Submitting feedback for ${slug}: rating=${rating}, IP=${ipString}`);
-
-      const { data, error } = await supabase
-        .from('blog_feedback')
-        .insert([{ 
-          blog_slug: slug.trim(),
-          rating: Math.floor(rating),
-          feedback: feedback && typeof feedback === 'string' && feedback.trim() ? feedback.trim() : null,
-          user_ip: ipString
-        }])
-        .select();
-
-      if (error) {
-        console.error('Supabase error saving feedback:', error);
-        return res.status(500).json({ 
-          success: false, 
-          message: "Database error: " + error.message 
-        });
-      }
-
-      console.log('Feedback saved successfully:', data);
-      res.json({ success: true, message: "Feedback submitted successfully", data });
-    } catch (error) {
-      console.error('Error processing feedback:', error);
-      res.status(500).json({ 
-        success: false, 
-        message: error instanceof Error ? error.message : "Internal server error" 
-      });
-    }
-  });
-
+  // Blog feedback stats endpoint
   app.get("/api/blog/:slug/feedback-stats", async (req, res) => {
     try {
       if (!supabase) {
@@ -490,6 +424,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const totalRatings = data.length;
       const averageRating = data.reduce((sum, item) => sum + item.rating, 0) / totalRatings;
+
+      res.json({ 
+        averageRating: Math.round(averageRating * 10) / 10, 
+        totalRatings 
+      });
+    } catch (error: any) {
+      console.error('Error fetching blog feedback stats:', error);
+      res.status(500).json({ 
+        error: error.message,
+        averageRating: 0, 
+        totalRatings: 0 
+      });
+    }
+  });
+
+  // Remove old duplicate endpoint - blog feedback is now handled in feedback-routes.ts
+  /*
+  app.post("/api/blog/:slug/feedback", async (req, res) => {
+    try {
+      if (!supabase) {
+        console.warn('Supabase not configured - feedback will not be saved');
+        return res.status(503).json({ 
+          success: false, 
+          message: "Database service temporarily unavailable" 
+        });
+      }
+
+      const { slug } = req.params;
+      const { rating, feedback } = req.body;
+
+      */
+
+  // Blog feedback is now handled in feedback-routes.ts with proper schema mapping
+      }
+
+      tings;
 
       res.json({ 
         averageRating: Math.round(averageRating * 10) / 10, 

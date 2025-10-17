@@ -43,10 +43,10 @@ export default function BlogFeedback({ slug }: BlogFeedbackProps) {
 
     setIsSubmitting(true);
     try {
-      const response = await fetch(`/api/blog-feedback`, {
+      const response = await fetch(`/api/blog/${slug}/feedback`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ slug, rating, feedback: feedback.trim() || null }),
+        body: JSON.stringify({ rating, feedback: feedback.trim() || null }),
       });
 
       if (!response.ok) {

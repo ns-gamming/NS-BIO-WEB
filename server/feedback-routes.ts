@@ -63,14 +63,14 @@ export function registerFeedbackRoutes(app: Express) {
 
       const { data, error } = await supabase
         .from('blog_feedback')
-        .insert([{
+        .insert({
           blog_slug: slug,
-          rating,
+          rating: parseInt(rating),
           feedback_text: feedback || null,
           user_ip: ipAddress,
           user_agent: userAgent,
           submitted_at: new Date().toISOString()
-        }])
+        })
         .select()
         .single();
 
