@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Star } from 'lucide-react';
+import { Star, Send } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { getSessionId } from "@/lib/analytics";
 
 interface BlogFeedbackProps {
   slug: string;
@@ -33,20 +34,21 @@ export default function BlogFeedback({ slug }: BlogFeedbackProps) {
 
   const handleSubmit = async () => {
     if (rating === 0) {
-      toast({ 
-        title: "Rating Required", 
+      toast({
+        title: "Rating Required",
         description: "Please select a rating before submitting",
-        variant: "destructive" 
+        variant: "destructive"
       });
       return;
     }
 
     setIsSubmitting(true);
     try {
+      const sessionId = getSessionId();
       const response = await fetch(`/api/blog/${slug}/feedback`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ rating, feedback: feedback.trim() || null }),
+        body: JSON.stringify({ rating, feedback: feedback.trim() || null, sessionId }),
       });
 
       if (!response.ok) {
@@ -60,23 +62,23 @@ export default function BlogFeedback({ slug }: BlogFeedbackProps) {
         setRating(0);
         setFeedback('');
         fetchStats();
-        toast({ 
-          title: "Thank You!", 
-          description: "Your feedback has been submitted successfully" 
+        toast({
+          title: "Thank You!",
+          description: "Your feedback has been submitted successfully"
         });
       } else {
-        toast({ 
-          title: "Error", 
+        toast({
+          title: "Error",
           description: data.message || "Failed to submit feedback",
-          variant: "destructive" 
+          variant: "destructive"
         });
       }
     } catch (error) {
       console.error('Feedback submission error:', error);
-      toast({ 
-        title: "Error", 
+      toast({
+        title: "Error",
         description: "Failed to submit feedback. Please try again.",
-        variant: "destructive" 
+        variant: "destructive"
       });
     } finally {
       setIsSubmitting(false);

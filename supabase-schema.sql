@@ -1,4 +1,3 @@
-
 -- ================================================
 -- NS GAMMING - COMPREHENSIVE DATABASE SCHEMA
 -- Advanced User Tracking, AI Chat & Analytics

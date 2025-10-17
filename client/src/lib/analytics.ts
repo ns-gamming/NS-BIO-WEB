@@ -123,6 +123,7 @@ class AnalyticsTracker {
       const data = await response.json();
       if (data.success && data.pageView) {
         this.currentPageViewId = data.pageView.id;
+        console.log(`Page view tracked: ${data.pageView.page_url} from IP: ${data.pageView.ip_address}`);
       }
     } catch (error) {
       console.error('Failed to track page view:', error);
@@ -281,6 +282,10 @@ class AnalyticsTracker {
   public trackCustomEvent(eventType: string, metadata?: any) {
     this.trackEvent(eventType, null, metadata);
   }
+
+  public getSessionId(): string {
+    return this.sessionId;
+  }
 }
 
 export const analytics = new AnalyticsTracker();
@@ -288,4 +293,9 @@ export const analytics = new AnalyticsTracker();
 // Named export for convenience
 export function trackEvent(eventType: string, metadata?: any) {
   analytics.trackCustomEvent(eventType, metadata);
+}
+
+// Export session ID getter
+export function getSessionId(): string {
+  return analytics.getSessionId();
 }

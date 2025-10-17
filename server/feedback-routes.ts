@@ -12,7 +12,7 @@ export function registerFeedbackRoutes(app: Express) {
   // Submit page/tool feedback
   app.post("/api/feedback", async (req, res) => {
     try {
-      const { pageName, toolName, rating, feedbackText } = req.body;
+      const { pageName, toolName, rating, feedbackText, sessionId } = req.body;
       const userIp = getClientIP(req);
       const userAgent = req.headers['user-agent'] || 'unknown';
 
@@ -20,10 +20,14 @@ export function registerFeedbackRoutes(app: Express) {
         return res.status(400).json({ success: false, message: "Invalid feedback data" });
       }
 
+      console.log(`Feedback received from IP: ${userIp} for page: ${pageName}`);
+
       const { data, error } = await supabase
         .from('user_feedback')
         .insert([{
+          session_id: sessionId || null,
           page_name: pageName,
+          page_url: req.headers.referer || null,
           tool_name: toolName || null,
           rating: rating,
           feedback_text: feedbackText || null,
@@ -50,7 +54,7 @@ export function registerFeedbackRoutes(app: Express) {
   app.post("/api/blog/:slug/feedback", async (req, res) => {
     try {
       const { slug } = req.params;
-      const { rating, feedback } = req.body;
+      const { rating, feedback, sessionId } = req.body;
       const ipAddress = getClientIP(req);
       const userAgent = req.headers['user-agent'] || 'unknown';
 
@@ -61,9 +65,12 @@ export function registerFeedbackRoutes(app: Express) {
         });
       }
 
+      console.log(`Blog feedback received from IP: ${ipAddress} for post: ${slug}`);
+
       const { data, error } = await supabase
         .from('blog_feedback')
         .insert({
+          session_id: sessionId || null,
           blog_slug: slug,
           rating: parseInt(rating),
           feedback_text: feedback || null,

@@ -1,10 +1,10 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Star, Send, CheckCircle2, Sparkles } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { motion, AnimatePresence } from 'framer-motion';
+import { getSessionId } from '@/lib/analytics';
 
 interface PageFeedbackProps {
   pageName: string;
@@ -31,6 +31,7 @@ export default function PageFeedback({ pageName, toolName }: PageFeedbackProps) 
 
     setIsSubmitting(true);
     try {
+      const sessionId = getSessionId();
       const response = await fetch('/api/feedback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -38,7 +39,8 @@ export default function PageFeedback({ pageName, toolName }: PageFeedbackProps) 
           pageName, 
           toolName: toolName || null,
           rating, 
-          feedbackText: feedback.trim() || null 
+          feedbackText: feedback.trim() || null,
+          sessionId
         })
       });
 
@@ -122,7 +124,7 @@ export default function PageFeedback({ pageName, toolName }: PageFeedbackProps) 
     >
       {/* Animated Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/5 to-purple-500/10 dark:from-cyan-500/20 dark:via-blue-500/10 dark:to-purple-500/20 animate-gradient-shift"></div>
-      
+
       {/* Floating Particles */}
       <div className="absolute inset-0 opacity-30">
         <motion.div 

@@ -85,6 +85,7 @@ export function registerAnalyticsRoutes(app: Express) {
     try {
       const { sessionId, pageUrl, pageTitle, referrer } = req.body;
       const ipAddress = getClientIP(req);
+      const userAgent = req.headers['user-agent'] || 'unknown';
 
       const { data, error } = await supabase
         .from('page_views')
@@ -94,6 +95,7 @@ export function registerAnalyticsRoutes(app: Express) {
           page_title: pageTitle,
           referrer: referrer || null,
           ip_address: ipAddress,
+          user_agent: userAgent,
           viewed_at: new Date().toISOString(),
           time_spent_seconds: 0
         }])
@@ -113,6 +115,7 @@ export function registerAnalyticsRoutes(app: Express) {
     try {
       const { sessionId, eventType, elementId, elementText, elementTag, pageUrl, metadata } = req.body;
       const ipAddress = getClientIP(req);
+      const userAgent = req.headers['user-agent'] || 'unknown';
 
       const { data, error } = await supabase
         .from('user_events')
@@ -124,6 +127,7 @@ export function registerAnalyticsRoutes(app: Express) {
           element_tag: elementTag || null,
           page_url: pageUrl,
           ip_address: ipAddress,
+          user_agent: userAgent,
           occurred_at: new Date().toISOString(),
           metadata: metadata || {}
         }])
