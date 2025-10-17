@@ -59,7 +59,7 @@ export default function ScrollToTop() {
         <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary/20 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         
         {/* Arrow icon */}
-        <ArrowUp className="w-6 h-6 text-primary relative z-10 group-hover:-translate-y-1 transition-transform duration-300 drop-shadow-lg" />
+        <ArrowUp className="w-6 h-6 text-foreground group-hover:text-primary relative z-10 group-hover:-translate-y-1 transition-transform duration-300 drop-shadow-lg" />
         
         {/* Ripple effect on hover */}
         <div className="absolute inset-0 rounded-full border-2 border-primary/60 scale-100 opacity-0 group-hover:scale-150 group-hover:opacity-0 transition-all duration-500"></div>
