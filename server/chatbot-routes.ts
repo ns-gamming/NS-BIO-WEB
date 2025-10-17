@@ -17,6 +17,11 @@ export function registerChatbotRoutes(app: Express) {
   // Save or update user profile with comprehensive data
   app.post("/api/chat/profile", async (req, res) => {
     try {
+      if (!supabase) {
+        console.warn('Database not configured - profile will not be saved');
+        return res.json({ success: true, profile: null, message: 'Database unavailable' });
+      }
+
       const { userId, name, age, gender, email, phone, location, timezone, language, preferences, interests, additionalInfo } = req.body;
       const ipAddress = getClientIP(req);
       const userAgent = getUserAgent(req);
@@ -98,6 +103,11 @@ export function registerChatbotRoutes(app: Express) {
   // Start new AI chat session with full tracking
   app.post("/api/chat/session/start", async (req, res) => {
     try {
+      if (!supabase) {
+        console.warn('Database not configured - session will not be saved');
+        return res.json({ success: true, session: null, message: 'Database unavailable' });
+      }
+
       const { userId, sessionId, deviceInfo, browser, os, deviceType } = req.body;
       const ipAddress = getClientIP(req);
       const userAgent = getUserAgent(req);
@@ -157,6 +167,11 @@ export function registerChatbotRoutes(app: Express) {
   // Save chat message with comprehensive metadata
   app.post("/api/chat/message", async (req, res) => {
     try {
+      if (!supabase) {
+        console.warn('Database not configured - message will not be saved');
+        return res.json({ success: true, message: null, warning: 'Database unavailable' });
+      }
+
       const { sessionId, messageId, userId, senderType, messageText, sentiment, intent, entities, pageUrl, metadata } = req.body;
       const ipAddress = getClientIP(req);
       const userAgent = getUserAgent(req);
@@ -219,6 +234,10 @@ export function registerChatbotRoutes(app: Express) {
   // Save AI detected topics
   app.post("/api/chat/topics", async (req, res) => {
     try {
+      if (!supabase) {
+        return res.json({ success: true, topics: [], message: 'Database unavailable' });
+      }
+
       const { sessionId, userId, topics } = req.body;
       const now = new Date().toISOString();
 
@@ -263,6 +282,10 @@ export function registerChatbotRoutes(app: Express) {
   // Save user context/memory
   app.post("/api/chat/context", async (req, res) => {
     try {
+      if (!supabase) {
+        return res.json({ success: true, context: null, message: 'Database unavailable' });
+      }
+
       const { userId, sessionId, contextKey, contextValue, contextType, contextCategory, importance, isSensitive, expiresAt } = req.body;
       const ipAddress = getClientIP(req);
       const now = new Date().toISOString();
