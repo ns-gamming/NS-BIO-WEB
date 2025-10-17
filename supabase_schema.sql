@@ -591,7 +591,8 @@ CREATE INDEX idx_usage_logs_date ON usage_logs(used_at);
 -- ROW LEVEL SECURITY (RLS) POLICIES
 -- ============================================================================
 
--- Enable RLS on all tables
+-- Enable RLS on ALL tables without exception
+ALTER TABLE users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE analytics_sessions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE page_views ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_events ENABLE ROW LEVEL SECURITY;
@@ -608,17 +609,17 @@ ALTER TABLE feature_requests ENABLE ROW LEVEL SECURITY;
 ALTER TABLE bug_reports ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_consent ENABLE ROW LEVEL SECURITY;
 ALTER TABLE cookie_preferences ENABLE ROW LEVEL SECURITY;
-ALTER TABLE ff_bot_interactions ENABLE ROW LEVEL SECURITY;
-ALTER TABLE usage_logs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE blog_posts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE blog_shares ENABLE ROW LEVEL SECURITY;
 ALTER TABLE tool_usage ENABLE ROW LEVEL SECURITY;
 ALTER TABLE tool_rate_limits ENABLE ROW LEVEL SECURITY;
 ALTER TABLE polls ENABLE ROW LEVEL SECURITY;
 ALTER TABLE visitor_stats ENABLE ROW LEVEL SECURITY;
-ALTER TABLE users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE ff_bot_interactions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE usage_logs ENABLE ROW LEVEL SECURITY;
 
--- Service role has full access to everything
+-- Service role has full access to everything (backend uses service key)
+CREATE POLICY "Service role full access users" ON users FOR ALL USING (auth.role() = 'service_role');
 CREATE POLICY "Service role full access analytics_sessions" ON analytics_sessions FOR ALL USING (auth.role() = 'service_role');
 CREATE POLICY "Service role full access page_views" ON page_views FOR ALL USING (auth.role() = 'service_role');
 CREATE POLICY "Service role full access user_events" ON user_events FOR ALL USING (auth.role() = 'service_role');
@@ -635,17 +636,16 @@ CREATE POLICY "Service role full access feature_requests" ON feature_requests FO
 CREATE POLICY "Service role full access bug_reports" ON bug_reports FOR ALL USING (auth.role() = 'service_role');
 CREATE POLICY "Service role full access user_consent" ON user_consent FOR ALL USING (auth.role() = 'service_role');
 CREATE POLICY "Service role full access cookie_preferences" ON cookie_preferences FOR ALL USING (auth.role() = 'service_role');
-CREATE POLICY "Service role full access ff_bot_interactions" ON ff_bot_interactions FOR ALL USING (auth.role() = 'service_role');
-CREATE POLICY "Service role full access usage_logs" ON usage_logs FOR ALL USING (auth.role() = 'service_role');
 CREATE POLICY "Service role full access blog_posts" ON blog_posts FOR ALL USING (auth.role() = 'service_role');
 CREATE POLICY "Service role full access blog_shares" ON blog_shares FOR ALL USING (auth.role() = 'service_role');
 CREATE POLICY "Service role full access tool_usage" ON tool_usage FOR ALL USING (auth.role() = 'service_role');
 CREATE POLICY "Service role full access tool_rate_limits" ON tool_rate_limits FOR ALL USING (auth.role() = 'service_role');
 CREATE POLICY "Service role full access polls" ON polls FOR ALL USING (auth.role() = 'service_role');
 CREATE POLICY "Service role full access visitor_stats" ON visitor_stats FOR ALL USING (auth.role() = 'service_role');
-CREATE POLICY "Service role full access users" ON users FOR ALL USING (auth.role() = 'service_role');
+CREATE POLICY "Service role full access ff_bot_interactions" ON ff_bot_interactions FOR ALL USING (auth.role() = 'service_role');
+CREATE POLICY "Service role full access usage_logs" ON usage_logs FOR ALL USING (auth.role() = 'service_role');
 
--- Public can insert their own data (backend will use service key)
+-- Public can insert their own data (backend will use service key, but allow public insert for direct tracking)
 CREATE POLICY "Public insert analytics_sessions" ON analytics_sessions FOR INSERT WITH CHECK (true);
 CREATE POLICY "Public insert page_views" ON page_views FOR INSERT WITH CHECK (true);
 CREATE POLICY "Public insert user_events" ON user_events FOR INSERT WITH CHECK (true);
@@ -662,15 +662,21 @@ CREATE POLICY "Public insert feature_requests" ON feature_requests FOR INSERT WI
 CREATE POLICY "Public insert bug_reports" ON bug_reports FOR INSERT WITH CHECK (true);
 CREATE POLICY "Public insert user_consent" ON user_consent FOR INSERT WITH CHECK (true);
 CREATE POLICY "Public insert cookie_preferences" ON cookie_preferences FOR INSERT WITH CHECK (true);
-CREATE POLICY "Public insert ff_bot_interactions" ON ff_bot_interactions FOR INSERT WITH CHECK (true);
-CREATE POLICY "Public insert usage_logs" ON usage_logs FOR INSERT WITH CHECK (true);
 CREATE POLICY "Public insert blog_shares" ON blog_shares FOR INSERT WITH CHECK (true);
 CREATE POLICY "Public insert tool_usage" ON tool_usage FOR INSERT WITH CHECK (true);
 CREATE POLICY "Public insert tool_rate_limits" ON tool_rate_limits FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public insert ff_bot_interactions" ON ff_bot_interactions FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public insert usage_logs" ON usage_logs FOR INSERT WITH CHECK (true);
 
 -- Public read access for blog posts and polls
 CREATE POLICY "Public read blog_posts" ON blog_posts FOR SELECT USING (published = true);
 CREATE POLICY "Public read polls" ON polls FOR SELECT USING (active = true);
+
+-- Allow public to update polls (voting)
+CREATE POLICY "Public update polls" ON polls FOR UPDATE USING (active = true);
+
+-- Allow public to read visitor stats
+CREATE POLICY "Public read visitor_stats" ON visitor_stats FOR SELECT USING (true);
 
 -- ============================================================================
 -- VIEWS FOR ANALYTICS
