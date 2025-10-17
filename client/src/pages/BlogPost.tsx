@@ -16,7 +16,6 @@ export default function BlogPost() {
   const [, params] = useRoute('/blog/:slug');
   const { toast } = useToast();
   const [isReading, setIsReading] = useState(false);
-  const [speechSynthesis, setSpeechSynthesis] = useState<SpeechSynthesis | null>(null);
   
   const post = useMemo(() => 
     params?.slug ? getBlogPostBySlug(params.slug) : null,
@@ -26,13 +25,9 @@ export default function BlogPost() {
   const liveViews = useLiveViewCounter(post?.views || 100, 3000);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setSpeechSynthesis(window.speechSynthesis);
-    }
-    
     return () => {
-      if (speechSynthesis) {
-        speechSynthesis.cancel();
+      if (typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
       }
     };
   }, []);
@@ -65,10 +60,10 @@ export default function BlogPost() {
   };
 
   const toggleReadAloud = () => {
-    if (!speechSynthesis || !post) return;
+    if (typeof window === 'undefined' || !window.speechSynthesis || !post) return;
 
     if (isReading) {
-      speechSynthesis.cancel();
+      window.speechSynthesis.cancel();
       setIsReading(false);
       toast({ title: "Stopped", description: "Read-aloud stopped" });
     } else {
@@ -91,7 +86,7 @@ export default function BlogPost() {
         });
       };
 
-      speechSynthesis.speak(utterance);
+      window.speechSynthesis.speak(utterance);
       setIsReading(true);
       toast({ title: "Reading...", description: "Article is being read aloud" });
     }
