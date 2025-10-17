@@ -1,5 +1,25 @@
 
 -- ================================================
+-- DROP EXISTING TABLES (if needed for clean slate)
+-- ================================================
+-- Uncomment these lines if you want to start fresh:
+-- DROP TABLE IF EXISTS mouse_movements CASCADE;
+-- DROP TABLE IF EXISTS form_interactions CASCADE;
+-- DROP TABLE IF EXISTS error_logs CASCADE;
+-- DROP TABLE IF EXISTS performance_metrics CASCADE;
+-- DROP TABLE IF EXISTS user_interactions CASCADE;
+-- DROP TABLE IF EXISTS user_events CASCADE;
+-- DROP TABLE IF EXISTS page_views CASCADE;
+-- DROP TABLE IF EXISTS analytics_sessions CASCADE;
+-- DROP TABLE IF EXISTS chat_messages CASCADE;
+-- DROP TABLE IF EXISTS chat_sessions CASCADE;
+-- DROP TABLE IF EXISTS user_profiles CASCADE;
+-- DROP TABLE IF EXISTS blog_feedback CASCADE;
+-- DROP TABLE IF EXISTS user_feedback CASCADE;
+-- DROP TABLE IF EXISTS ff_bot_interactions CASCADE;
+-- DROP TABLE IF EXISTS usage_logs CASCADE;
+
+-- ================================================
 -- ANALYTICS TABLES (ENHANCED)
 -- ================================================
 
@@ -60,6 +80,52 @@ CREATE TABLE IF NOT EXISTS user_interactions (
   duration_ms INTEGER,
   timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   metadata JSONB
+);
+
+CREATE TABLE IF NOT EXISTS mouse_movements (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  session_id VARCHAR(255) REFERENCES analytics_sessions(session_id) ON DELETE CASCADE,
+  page_url TEXT NOT NULL,
+  mouse_path JSONB,
+  clicks INTEGER DEFAULT 0,
+  scroll_events INTEGER DEFAULT 0,
+  timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS form_interactions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  session_id VARCHAR(255) REFERENCES analytics_sessions(session_id) ON DELETE CASCADE,
+  form_id TEXT,
+  field_name TEXT,
+  interaction_type VARCHAR(50),
+  field_value_length INTEGER,
+  time_spent_seconds INTEGER,
+  ip_address VARCHAR(100),
+  timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS error_logs (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  session_id VARCHAR(255) REFERENCES analytics_sessions(session_id) ON DELETE CASCADE,
+  error_type VARCHAR(100),
+  error_message TEXT,
+  stack_trace TEXT,
+  page_url TEXT,
+  ip_address VARCHAR(100),
+  user_agent TEXT,
+  timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  metadata JSONB
+);
+
+CREATE TABLE IF NOT EXISTS performance_metrics (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  session_id VARCHAR(255) REFERENCES analytics_sessions(session_id) ON DELETE CASCADE,
+  page_url TEXT NOT NULL,
+  load_time_ms INTEGER,
+  dom_ready_ms INTEGER,
+  first_paint_ms INTEGER,
+  network_speed VARCHAR(20),
+  timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- ================================================
@@ -183,56 +249,6 @@ CREATE TABLE IF NOT EXISTS usage_logs (
 );
 
 -- ================================================
--- NEW: COMPREHENSIVE TRACKING TABLES
--- ================================================
-
-CREATE TABLE IF NOT EXISTS mouse_movements (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  session_id VARCHAR(255) REFERENCES analytics_sessions(session_id) ON DELETE CASCADE,
-  page_url TEXT NOT NULL,
-  mouse_path JSONB,
-  clicks INTEGER DEFAULT 0,
-  scroll_events INTEGER DEFAULT 0,
-  timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
-CREATE TABLE IF NOT EXISTS form_interactions (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  session_id VARCHAR(255) REFERENCES analytics_sessions(session_id) ON DELETE CASCADE,
-  form_id TEXT,
-  field_name TEXT,
-  interaction_type VARCHAR(50),
-  field_value_length INTEGER,
-  time_spent_seconds INTEGER,
-  ip_address VARCHAR(100),
-  timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
-CREATE TABLE IF NOT EXISTS error_logs (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  session_id VARCHAR(255) REFERENCES analytics_sessions(session_id) ON DELETE CASCADE,
-  error_type VARCHAR(100),
-  error_message TEXT,
-  stack_trace TEXT,
-  page_url TEXT,
-  ip_address VARCHAR(100),
-  user_agent TEXT,
-  timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  metadata JSONB
-);
-
-CREATE TABLE IF NOT EXISTS performance_metrics (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  session_id VARCHAR(255) REFERENCES analytics_sessions(session_id) ON DELETE CASCADE,
-  page_url TEXT NOT NULL,
-  load_time_ms INTEGER,
-  dom_ready_ms INTEGER,
-  first_paint_ms INTEGER,
-  network_speed VARCHAR(20),
-  timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
--- ================================================
 -- INDEXES FOR PERFORMANCE
 -- ================================================
 
@@ -292,6 +308,39 @@ ALTER TABLE mouse_movements ENABLE ROW LEVEL SECURITY;
 ALTER TABLE form_interactions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE error_logs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE performance_metrics ENABLE ROW LEVEL SECURITY;
+
+-- Drop existing policies if they exist
+DROP POLICY IF EXISTS "Service role full access analytics_sessions" ON analytics_sessions;
+DROP POLICY IF EXISTS "Service role full access page_views" ON page_views;
+DROP POLICY IF EXISTS "Service role full access user_events" ON user_events;
+DROP POLICY IF EXISTS "Service role full access user_interactions" ON user_interactions;
+DROP POLICY IF EXISTS "Service role full access user_profiles" ON user_profiles;
+DROP POLICY IF EXISTS "Service role full access chat_sessions" ON chat_sessions;
+DROP POLICY IF EXISTS "Service role full access chat_messages" ON chat_messages;
+DROP POLICY IF EXISTS "Service role full access user_feedback" ON user_feedback;
+DROP POLICY IF EXISTS "Service role full access blog_feedback" ON blog_feedback;
+DROP POLICY IF EXISTS "Service role full access ff_bot_interactions" ON ff_bot_interactions;
+DROP POLICY IF EXISTS "Service role full access usage_logs" ON usage_logs;
+DROP POLICY IF EXISTS "Service role full access mouse_movements" ON mouse_movements;
+DROP POLICY IF EXISTS "Service role full access form_interactions" ON form_interactions;
+DROP POLICY IF EXISTS "Service role full access error_logs" ON error_logs;
+DROP POLICY IF EXISTS "Service role full access performance_metrics" ON performance_metrics;
+
+DROP POLICY IF EXISTS "Public insert analytics_sessions" ON analytics_sessions;
+DROP POLICY IF EXISTS "Public insert page_views" ON page_views;
+DROP POLICY IF EXISTS "Public insert user_events" ON user_events;
+DROP POLICY IF EXISTS "Public insert user_interactions" ON user_interactions;
+DROP POLICY IF EXISTS "Public insert user_profiles" ON user_profiles;
+DROP POLICY IF EXISTS "Public insert chat_sessions" ON chat_sessions;
+DROP POLICY IF EXISTS "Public insert chat_messages" ON chat_messages;
+DROP POLICY IF EXISTS "Public insert user_feedback" ON user_feedback;
+DROP POLICY IF EXISTS "Public insert blog_feedback" ON blog_feedback;
+DROP POLICY IF EXISTS "Public insert ff_bot_interactions" ON ff_bot_interactions;
+DROP POLICY IF EXISTS "Public insert usage_logs" ON usage_logs;
+DROP POLICY IF EXISTS "Public insert mouse_movements" ON mouse_movements;
+DROP POLICY IF EXISTS "Public insert form_interactions" ON form_interactions;
+DROP POLICY IF EXISTS "Public insert error_logs" ON error_logs;
+DROP POLICY IF EXISTS "Public insert performance_metrics" ON performance_metrics;
 
 -- Service role has full access to everything
 CREATE POLICY "Service role full access analytics_sessions" ON analytics_sessions FOR ALL USING (auth.role() = 'service_role');
