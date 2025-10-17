@@ -47,13 +47,19 @@ export default function BlogFeedback({ slug }: BlogFeedbackProps) {
       const response = await fetch(`/api/blog/${slug}/feedback`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ rating, feedback })
+        body: JSON.stringify({ rating, feedback: feedback.trim() || null })
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
       const data = await response.json();
 
       if (data.success) {
         setHasSubmitted(true);
+        setRating(0);
+        setFeedback('');
         fetchStats();
         toast({ 
           title: "Thank You!", 
@@ -67,6 +73,7 @@ export default function BlogFeedback({ slug }: BlogFeedbackProps) {
         });
       }
     } catch (error) {
+      console.error('Feedback submission error:', error);
       toast({ 
         title: "Error", 
         description: "Failed to submit feedback. Please try again.",

@@ -203,19 +203,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/blog/:slug/feedback", async (req, res) => {
     try {
       if (!supabase) {
+        console.warn('Supabase not configured - feedback will not be saved');
         return res.status(503).json({ 
           success: false, 
-          message: "Service temporarily unavailable" 
+          message: "Database service temporarily unavailable" 
         });
       }
 
       const { slug } = req.params;
       const { rating, feedback } = req.body;
 
-      if (!rating || rating < 1 || rating > 5) {
+      // Validate rating
+      if (!rating || typeof rating !== 'number' || rating < 1 || rating > 5) {
         return res.status(400).json({ 
           success: false, 
-          message: "Rating must be between 1 and 5" 
+          message: "Rating must be a number between 1 and 5" 
+        });
+      }
+
+      // Validate slug
+      if (!slug || typeof slug !== 'string' || slug.trim().length === 0) {
+        return res.status(400).json({ 
+          success: false, 
+          message: "Invalid blog post identifier" 
         });
       }
 
@@ -225,45 +235,63 @@ export async function registerRoutes(app: Express): Promise<Server> {
                      'unknown';
       const ipString = Array.isArray(userIP) ? userIP[0] : userIP.toString();
 
-      const { error } = await supabase
+      console.log(`Submitting feedback for ${slug}: rating=${rating}, IP=${ipString}`);
+
+      const { data, error } = await supabase
         .from('blog_feedback')
         .insert([{ 
-          blog_slug: slug,
-          rating,
-          feedback: feedback || null,
+          blog_slug: slug.trim(),
+          rating: Math.floor(rating),
+          feedback: feedback && typeof feedback === 'string' && feedback.trim() ? feedback.trim() : null,
           user_ip: ipString
-        }]);
+        }])
+        .select();
 
       if (error) {
-        console.error('Error saving feedback:', error);
+        console.error('Supabase error saving feedback:', error);
         return res.status(500).json({ 
           success: false, 
-          message: "Failed to save feedback" 
+          message: "Database error: " + error.message 
         });
       }
 
-      res.json({ success: true, message: "Feedback submitted successfully" });
+      console.log('Feedback saved successfully:', data);
+      res.json({ success: true, message: "Feedback submitted successfully", data });
     } catch (error) {
       console.error('Error processing feedback:', error);
-      res.status(500).json({ success: false, message: "Internal server error" });
+      res.status(500).json({ 
+        success: false, 
+        message: error instanceof Error ? error.message : "Internal server error" 
+      });
     }
   });
 
   app.get("/api/blog/:slug/feedback-stats", async (req, res) => {
     try {
       if (!supabase) {
+        console.warn('Supabase not configured - returning empty stats');
         return res.json({ averageRating: 0, totalRatings: 0 });
       }
 
       const { slug } = req.params;
 
+      if (!slug || typeof slug !== 'string') {
+        return res.status(400).json({ 
+          error: "Invalid blog post identifier",
+          averageRating: 0, 
+          totalRatings: 0 
+        });
+      }
+
+      console.log(`Fetching feedback stats for: ${slug}`);
+
       const { data, error } = await supabase
         .from('blog_feedback')
         .select('rating')
-        .eq('blog_slug', slug);
+        .eq('blog_slug', slug.trim());
 
       if (error) {
-        console.error('Error fetching feedback stats:', error);
+        console.error('Supabase error fetching feedback stats:', error);
         return res.json({ averageRating: 0, totalRatings: 0 });
       }
 

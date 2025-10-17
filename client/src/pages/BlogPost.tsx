@@ -89,24 +89,38 @@ export default function BlogPost() {
       setIsReading(false);
       toast({ title: "Stopped", description: "Read-aloud stopped" });
     } else {
-      // Clean the content for better speech output
-      const cleanContent = post.content
-        .replace(/<[^>]*>/g, '') // Remove HTML tags
-        .replace(/#{1,6}\s/g, '') // Remove markdown headers
-        .replace(/\*\*/g, '') // Remove bold markers
-        .replace(/\*/g, '') // Remove italic markers
-        .replace(/```[\s\S]*?```/g, '') // Remove code blocks
-        .replace(/\n\n+/g, '. ') // Replace paragraph breaks with pauses
-        .replace(/\n/g, ' ') // Replace line breaks with spaces
+      // Clean the content for better speech output - improved version
+      let cleanContent = post.content
+        // First remove code blocks completely (they're hard to read)
+        .replace(/```[\s\S]*?```/g, ' ')
+        // Remove HTML tags but keep the text content
+        .replace(/<[^>]*>/g, ' ')
+        // Remove markdown headers but keep the text
+        .replace(/#{1,6}\s+/g, '')
+        // Remove bold/italic markers but keep the text
+        .replace(/\*\*([^*]+)\*\*/g, '$1')
+        .replace(/\*([^*]+)\*/g, '$1')
+        // Remove list markers but keep the text
+        .replace(/^[-*+]\s+/gm, '')
+        .replace(/^\d+\.\s+/gm, '')
+        // Clean up extra whitespace
+        .replace(/\s+/g, ' ')
+        // Remove URLs
+        .replace(/https?:\/\/[^\s]+/g, '')
         .trim();
 
-      if (!cleanContent) {
+      if (!cleanContent || cleanContent.length < 50) {
         toast({ 
           title: "Error", 
-          description: "No readable content found",
+          description: "No readable content found in this article",
           variant: "destructive" 
         });
         return;
+      }
+
+      // Limit length to avoid browser issues (max 32KB for most browsers)
+      if (cleanContent.length > 30000) {
+        cleanContent = cleanContent.substring(0, 30000) + "... Article truncated for text-to-speech.";
       }
 
       // Cancel any ongoing speech
