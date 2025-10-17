@@ -7,16 +7,7 @@ import { useState, useEffect } from "react";
 
 export default function About() {
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
-
-  return (
-    <>
-      <SEO 
-        title={SEO_CONFIG.about.title}
-        description={SEO_CONFIG.about.description}
-        keywords={SEO_CONFIG.about.keywords}
-        type={SEO_CONFIG.about.type}
-      />
-
+  
   // Live counter animation for investment values
   const [cryptoValue, setCryptoValue] = useState(30000);
   const [digitalGoldValue, setDigitalGoldValue] = useState(180000);
@@ -78,7 +69,15 @@ export default function About() {
     { name: "Project Management", description: "Planning and executing projects efficiently.", icon: "📊", color: "from-purple-500/20 to-indigo-500/20" },
   ];
 
-  <div className="pt-16 overflow-hidden">
+  return (
+    <>
+      <SEO 
+        title={SEO_CONFIG.about.title}
+        description={SEO_CONFIG.about.description}
+        keywords={SEO_CONFIG.about.keywords}
+        type={SEO_CONFIG.about.type}
+      />
+      <div className="pt-16 overflow-hidden">
       <HeroSection 
         title="About Nishant"
         subtitle="The story behind NS GAMMING"
