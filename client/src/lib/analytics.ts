@@ -284,3 +284,8 @@ class AnalyticsTracker {
 }
 
 export const analytics = new AnalyticsTracker();
+
+// Named export for convenience
+export function trackEvent(eventType: string, metadata?: any) {
+  analytics.trackCustomEvent(eventType, metadata);
+}
