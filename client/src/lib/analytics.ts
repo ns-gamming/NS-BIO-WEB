@@ -1,3 +1,4 @@
+
 function generateUUID(): string {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
     const r = Math.random() * 16 | 0;
@@ -11,6 +12,9 @@ class AnalyticsTracker {
   private currentPageViewId: string | null = null;
   private pageStartTime: number = 0;
   private isInitialized: boolean = false;
+  private mouseMovements: any[] = [];
+  private lastMousePosition = { x: 0, y: 0 };
+  private interactionStartTime: number = 0;
 
   constructor() {
     this.sessionId = this.getOrCreateSessionId();
@@ -29,7 +33,11 @@ class AnalyticsTracker {
     return {
       screen: {
         width: window.screen.width,
-        height: window.screen.height
+        height: window.screen.height,
+        availWidth: window.screen.availWidth,
+        availHeight: window.screen.availHeight,
+        colorDepth: window.screen.colorDepth,
+        pixelDepth: window.screen.pixelDepth
       },
       viewport: {
         width: window.innerWidth,
@@ -43,8 +51,24 @@ class AnalyticsTracker {
       os: this.getOSInfo(),
       referrer: document.referrer || 'direct',
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      timezoneOffset: new Date().getTimezoneOffset(),
       cookieEnabled: navigator.cookieEnabled,
-      onLine: navigator.onLine
+      onLine: navigator.onLine,
+      connection: this.getConnectionInfo(),
+      hardwareConcurrency: navigator.hardwareConcurrency || 'unknown',
+      deviceMemory: (navigator as any).deviceMemory || 'unknown',
+      maxTouchPoints: navigator.maxTouchPoints || 0
+    };
+  }
+
+  private getConnectionInfo() {
+    const conn = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection;
+    if (!conn) return 'unknown';
+    return {
+      effectiveType: conn.effectiveType || 'unknown',
+      downlink: conn.downlink || 'unknown',
+      rtt: conn.rtt || 'unknown',
+      saveData: conn.saveData || false
     };
   }
 
@@ -72,7 +96,6 @@ class AnalyticsTracker {
     if (this.isInitialized) return;
 
     try {
-      // Check if session already exists
       const checkResponse = await fetch(`/api/analytics/session/${this.sessionId}/check`);
       const { exists } = await checkResponse.json();
 
@@ -96,6 +119,8 @@ class AnalyticsTracker {
       this.trackPageView();
       this.setupEventListeners();
       this.setupBeforeUnload();
+      this.trackMouseMovements();
+      this.trackPerformanceMetrics();
     } catch (error) {
       console.error('Failed to initialize analytics:', error);
     }
@@ -116,7 +141,13 @@ class AnalyticsTracker {
           sessionId: this.sessionId,
           pageUrl: window.location.pathname + window.location.search,
           pageTitle: document.title,
-          referrer: document.referrer
+          referrer: document.referrer,
+          metadata: {
+            hash: window.location.hash,
+            protocol: window.location.protocol,
+            host: window.location.host,
+            timestamp: new Date().toISOString()
+          }
         })
       });
 
@@ -133,12 +164,18 @@ class AnalyticsTracker {
     if (!this.currentPageViewId) return;
 
     const timeSpent = Math.floor((Date.now() - this.pageStartTime) / 1000);
+    const scrollDepth = Math.round(
+      (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
+    );
 
     try {
       await fetch(`/api/analytics/pageview/${this.currentPageViewId}/time`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ timeSpent })
+        body: JSON.stringify({ 
+          timeSpent,
+          scrollDepth: scrollDepth || 0
+        })
       });
     } catch (error) {
       console.error('Failed to update page view time:', error);
@@ -156,8 +193,22 @@ class AnalyticsTracker {
           elementId: element?.id || null,
           elementText: element?.textContent?.slice(0, 100) || null,
           elementTag: element?.tagName.toLowerCase() || null,
+          elementClass: element?.className || null,
           pageUrl: window.location.pathname + window.location.search,
-          metadata: metadata || {}
+          metadata: {
+            ...metadata,
+            timestamp: new Date().toISOString(),
+            pageX: (metadata as any)?.x || 0,
+            pageY: (metadata as any)?.y || 0
+          },
+          mousePosition: {
+            x: this.lastMousePosition.x,
+            y: this.lastMousePosition.y
+          },
+          viewportSize: {
+            width: window.innerWidth,
+            height: window.innerHeight
+          }
         })
       });
     } catch (error) {
@@ -165,28 +216,101 @@ class AnalyticsTracker {
     }
   }
 
+  private trackMouseMovements() {
+    let mouseMoveTimeout: NodeJS.Timeout;
+    
+    document.addEventListener('mousemove', (e) => {
+      this.lastMousePosition = { x: e.clientX, y: e.clientY };
+      this.mouseMovements.push({
+        x: e.clientX,
+        y: e.clientY,
+        timestamp: Date.now()
+      });
+
+      if (this.mouseMovements.length > 100) {
+        this.mouseMovements = this.mouseMovements.slice(-50);
+      }
+
+      clearTimeout(mouseMoveTimeout);
+      mouseMoveTimeout = setTimeout(() => {
+        this.saveMouseMovements();
+      }, 5000);
+    });
+  }
+
+  private async saveMouseMovements() {
+    if (this.mouseMovements.length === 0) return;
+
+    try {
+      await fetch('/api/analytics/mouse-movements', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId: this.sessionId,
+          pageUrl: window.location.pathname + window.location.search,
+          mousePath: this.mouseMovements,
+          timestamp: new Date().toISOString()
+        })
+      });
+      this.mouseMovements = [];
+    } catch (error) {
+      console.error('Failed to save mouse movements:', error);
+    }
+  }
+
+  private async trackPerformanceMetrics() {
+    if (!window.performance || !window.performance.timing) return;
+
+    setTimeout(() => {
+      const timing = window.performance.timing;
+      const loadTime = timing.loadEventEnd - timing.navigationStart;
+      const domReady = timing.domContentLoadedEventEnd - timing.navigationStart;
+      const firstPaint = timing.responseStart - timing.navigationStart;
+
+      fetch('/api/analytics/performance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId: this.sessionId,
+          pageUrl: window.location.pathname + window.location.search,
+          loadTimeMs: loadTime,
+          domReadyMs: domReady,
+          firstPaintMs: firstPaint,
+          networkSpeed: this.getConnectionInfo().effectiveType || 'unknown',
+          timestamp: new Date().toISOString()
+        })
+      }).catch(err => console.error('Failed to track performance:', err));
+    }, 1000);
+  }
+
   private setupEventListeners() {
-    // Click tracking
+    // Click tracking with detailed metadata
     document.addEventListener('click', (e) => {
       const target = e.target as HTMLElement;
       const metadata: any = {
         x: e.clientX,
         y: e.clientY,
-        button: e.button
+        pageX: e.pageX,
+        pageY: e.pageY,
+        button: e.button,
+        ctrlKey: e.ctrlKey,
+        shiftKey: e.shiftKey,
+        altKey: e.altKey,
+        timestamp: new Date().toISOString()
       };
 
-      // Track button clicks specifically
       if (target.tagName === 'BUTTON' || target.closest('button')) {
         const button = target.tagName === 'BUTTON' ? target : target.closest('button');
         metadata.buttonType = button?.getAttribute('type') || 'button';
         metadata.buttonText = button?.textContent?.trim().slice(0, 50);
+        metadata.buttonId = button?.id;
       }
 
-      // Track link clicks
       if (target.tagName === 'A' || target.closest('a')) {
         const link = target.tagName === 'A' ? target : target.closest('a');
         metadata.href = link?.getAttribute('href');
         metadata.linkText = link?.textContent?.trim().slice(0, 50);
+        metadata.linkTarget = link?.getAttribute('target');
       }
 
       this.trackEvent('click', target, metadata);
@@ -198,17 +322,34 @@ class AnalyticsTracker {
       this.trackEvent('form_submit', form, {
         formId: form.id,
         formAction: form.action,
-        formMethod: form.method
+        formMethod: form.method,
+        timestamp: new Date().toISOString()
       });
     });
 
-    // Input focus tracking
+    // Input focus tracking with duration
     document.addEventListener('focus', (e) => {
       const target = e.target as HTMLElement;
       if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT') {
+        this.interactionStartTime = Date.now();
         this.trackEvent('input_focus', target, {
           inputType: target.getAttribute('type'),
-          inputName: target.getAttribute('name')
+          inputName: target.getAttribute('name'),
+          timestamp: new Date().toISOString()
+        });
+      }
+    }, true);
+
+    // Input blur tracking with time spent
+    document.addEventListener('blur', (e) => {
+      const target = e.target as HTMLElement;
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT') {
+        const timeSpent = Date.now() - this.interactionStartTime;
+        this.trackEvent('input_blur', target, {
+          inputType: target.getAttribute('type'),
+          inputName: target.getAttribute('name'),
+          timeSpentMs: timeSpent,
+          timestamp: new Date().toISOString()
         });
       }
     }, true);
@@ -221,7 +362,11 @@ class AnalyticsTracker {
         const scrollPercentage = Math.round(
           (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
         );
-        this.trackEvent('scroll', null, { scrollPercentage });
+        this.trackEvent('scroll', null, { 
+          scrollPercentage,
+          scrollY: window.scrollY,
+          timestamp: new Date().toISOString()
+        });
       }, 500);
     });
 
@@ -247,24 +392,48 @@ class AnalyticsTracker {
     // Track page visibility
     document.addEventListener('visibilitychange', () => {
       this.trackEvent('visibility_change', null, {
-        hidden: document.hidden
+        hidden: document.hidden,
+        timestamp: new Date().toISOString()
       });
     });
 
-    // Track page errors
+    // Track page errors with full details
     window.addEventListener('error', (e) => {
       this.trackEvent('error', null, {
         message: e.message,
         filename: e.filename,
         lineno: e.lineno,
-        colno: e.colno
+        colno: e.colno,
+        stack: e.error?.stack,
+        timestamp: new Date().toISOString()
       });
+    });
+
+    // Track copy/paste events
+    document.addEventListener('copy', () => {
+      this.trackEvent('copy', null, { timestamp: new Date().toISOString() });
+    });
+
+    document.addEventListener('paste', () => {
+      this.trackEvent('paste', null, { timestamp: new Date().toISOString() });
+    });
+
+    // Track selection
+    document.addEventListener('selectionchange', () => {
+      const selection = window.getSelection();
+      if (selection && selection.toString().length > 0) {
+        this.trackEvent('text_select', null, {
+          selectedText: selection.toString().slice(0, 100),
+          timestamp: new Date().toISOString()
+        });
+      }
     });
   }
 
   private setupBeforeUnload() {
     window.addEventListener('beforeunload', async () => {
       await this.endPageView();
+      await this.saveMouseMovements();
       
       try {
         await fetch(`/api/analytics/session/${this.sessionId}/end`, {
@@ -279,13 +448,15 @@ class AnalyticsTracker {
   }
 
   public trackCustomEvent(eventType: string, metadata?: any) {
-    this.trackEvent(eventType, null, metadata);
+    this.trackEvent(eventType, null, {
+      ...metadata,
+      timestamp: new Date().toISOString()
+    });
   }
 }
 
 export const analytics = new AnalyticsTracker();
 
-// Named export for convenience
 export function trackEvent(eventType: string, metadata?: any) {
   analytics.trackCustomEvent(eventType, metadata);
 }
