@@ -42,10 +42,6 @@ export default function Home() {
                 {/* Rotating ring effect */}
                 <div className="absolute inset-0 border-2 border-cyan-400/50 rounded-full animate-spin" style={{ animationDuration: '3s' }}></div>
               </div>
-              {/* Floating badge */}
-              <div className="absolute -bottom-2 -right-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-full animate-bounce shadow-lg">
-                Active 🟢
-              </div>
             </div>
 
             {/* Intro Text */}
