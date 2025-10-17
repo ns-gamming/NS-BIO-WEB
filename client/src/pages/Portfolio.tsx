@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import { Github, Youtube, ExternalLink, Code2, Sparkles, X, Calendar, Users, Globe, ArrowUp, Mail, Linkedin, Twitter } from "lucide-react";
@@ -148,6 +148,46 @@ export default function Portfolio() {
   const [selectedSkill, setSelectedSkill] = useState<SkillData | null>(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const { theme } = useTheme();
+
+  // Live counter animation for investment values
+  const [cryptoValue, setCryptoValue] = useState(32000);
+  const [digitalGoldValue, setDigitalGoldValue] = useState(180000);
+  const [stockValue, setStockValue] = useState(80000);
+
+  useEffect(() => {
+    // Crypto counter - fluctuates between $31,800 - $32,200
+    const cryptoInterval = setInterval(() => {
+      setCryptoValue(prev => {
+        const change = (Math.random() - 0.5) * 40; // ±$20 change
+        const newValue = prev + change;
+        return Math.max(31800, Math.min(32200, newValue));
+      });
+    }, 3000); // Update every 3 seconds
+
+    // Digital Gold counter - fluctuates between ₹179,500 - ₹180,500
+    const goldInterval = setInterval(() => {
+      setDigitalGoldValue(prev => {
+        const change = (Math.random() - 0.5) * 200; // ±₹100 change
+        const newValue = prev + change;
+        return Math.max(179500, Math.min(180500, newValue));
+      });
+    }, 4000); // Update every 4 seconds
+
+    // Stock counter - fluctuates between ₹79,500 - ₹80,500
+    const stockInterval = setInterval(() => {
+      setStockValue(prev => {
+        const change = (Math.random() - 0.5) * 200; // ±₹100 change
+        const newValue = prev + change;
+        return Math.max(79500, Math.min(80500, newValue));
+      });
+    }, 3500); // Update every 3.5 seconds
+
+    return () => {
+      clearInterval(cryptoInterval);
+      clearInterval(goldInterval);
+      clearInterval(stockInterval);
+    };
+  }, []);
 
   // Scroll to top handler
   const scrollToTop = () => {
@@ -309,7 +349,15 @@ export default function Portfolio() {
             <div className="relative z-10">
               <div className="text-6xl mb-4 group-hover:animate-bounce">💎</div>
               <h3 className="text-2xl font-bold mb-2 text-yellow-500">Cryptocurrency</h3>
-              <p className="text-4xl font-bold mb-4">$32,000+</p>
+              <motion.p 
+                className="text-4xl font-bold mb-4"
+                key={cryptoValue}
+                initial={{ opacity: 0.7 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                ${cryptoValue.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}+
+              </motion.p>
               <p className="text-muted-foreground mb-4">Diversified portfolio across Bitcoin, Ethereum, and high-potential altcoins</p>
               <div className="flex flex-wrap gap-2">
                 <span className="px-3 py-1 bg-yellow-500/20 border border-yellow-500/40 rounded-full text-xs">BTC</span>
@@ -328,7 +376,15 @@ export default function Portfolio() {
             <div className="relative z-10">
               <div className="text-6xl mb-4 group-hover:animate-bounce">🪙</div>
               <h3 className="text-2xl font-bold mb-2 text-amber-500">Digital Gold</h3>
-              <p className="text-4xl font-bold mb-4">₹1,80,000+</p>
+              <motion.p 
+                className="text-4xl font-bold mb-4"
+                key={digitalGoldValue}
+                initial={{ opacity: 0.7 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                ₹{digitalGoldValue.toLocaleString('en-IN', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}+
+              </motion.p>
               <p className="text-muted-foreground mb-4">Stable wealth preservation through digital precious metals</p>
               <div className="flex flex-wrap gap-2">
                 <span className="px-3 py-1 bg-amber-500/20 border border-amber-500/40 rounded-full text-xs">Stability</span>
@@ -346,7 +402,15 @@ export default function Portfolio() {
             <div className="relative z-10">
               <div className="text-6xl mb-4 group-hover:animate-bounce">📈</div>
               <h3 className="text-2xl font-bold mb-2 text-green-500">Stock Market</h3>
-              <p className="text-4xl font-bold mb-4">₹80,000+</p>
+              <motion.p 
+                className="text-4xl font-bold mb-4"
+                key={stockValue}
+                initial={{ opacity: 0.7 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                ₹{stockValue.toLocaleString('en-IN', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}+
+              </motion.p>
               <p className="text-muted-foreground mb-4">Growing equity portfolio with dividend-paying stocks</p>
               <div className="flex flex-wrap gap-2">
                 <span className="px-3 py-1 bg-green-500/20 border border-green-500/40 rounded-full text-xs">Equity</span>
