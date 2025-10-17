@@ -1,4 +1,3 @@
-
 import type { Express, Request } from "express";
 import { supabase } from './supabase-client';
 
@@ -13,7 +12,7 @@ function getUserAgent(req: Request): string {
 }
 
 export function registerChatbotRoutes(app: Express) {
-  
+
   // Save or update user profile with comprehensive data
   app.post("/api/chat/profile", async (req, res) => {
     try {
@@ -34,7 +33,7 @@ export function registerChatbotRoutes(app: Express) {
 
       let data;
       const now = new Date().toISOString();
-      
+
       if (existing) {
         const { data: updated, error } = await supabase
           .from('user_profiles')

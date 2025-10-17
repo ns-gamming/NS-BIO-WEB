@@ -132,56 +132,49 @@ CREATE TABLE IF NOT EXISTS ai_chat_statistics (
 );
 
 -- ================================================
--- AI CHATBOT (AAPTI) - SCHEMA FIX
--- Add missing columns and ensure proper setup
+-- AI CHATBOT (AAPTI) - CLEAN MIGRATION
+-- Only the essentials for AI memory & tracking
 -- ================================================
 
--- Add missing email column to user_profiles if it doesn't exist
+-- 1. Ensure user_profiles table exists with all needed columns
 DO $$ 
 BEGIN
+  -- Add email if missing
   IF NOT EXISTS (
     SELECT 1 FROM information_schema.columns 
     WHERE table_name = 'user_profiles' AND column_name = 'email'
   ) THEN
     ALTER TABLE user_profiles ADD COLUMN email VARCHAR(255);
   END IF;
+
+  -- Add ip_address if missing
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_name = 'user_profiles' AND column_name = 'ip_address'
+  ) THEN
+    ALTER TABLE user_profiles ADD COLUMN ip_address VARCHAR(100);
+  END IF;
+
+  -- Add user_agent if missing
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_name = 'user_profiles' AND column_name = 'user_agent'
+  ) THEN
+    ALTER TABLE user_profiles ADD COLUMN user_agent TEXT;
+  END IF;
 END $$;
 
--- ================================================
--- INDEXES FOR PERFORMANCE
--- ================================================
-
+-- 2. Create indexes for performance
 CREATE INDEX IF NOT EXISTS idx_user_profiles_user_id ON user_profiles(user_id);
 CREATE INDEX IF NOT EXISTS idx_user_profiles_ip ON user_profiles(ip_address);
-CREATE INDEX IF NOT EXISTS idx_user_profiles_email ON user_profiles(email);
-
 CREATE INDEX IF NOT EXISTS idx_ai_chat_sessions_session_id ON ai_chat_sessions(session_id);
 CREATE INDEX IF NOT EXISTS idx_ai_chat_sessions_user_id ON ai_chat_sessions(user_id);
 CREATE INDEX IF NOT EXISTS idx_ai_chat_sessions_ip ON ai_chat_sessions(ip_address);
-CREATE INDEX IF NOT EXISTS idx_ai_chat_sessions_started ON ai_chat_sessions(started_at DESC);
-
 CREATE INDEX IF NOT EXISTS idx_ai_chat_messages_session_id ON ai_chat_messages(session_id);
 CREATE INDEX IF NOT EXISTS idx_ai_chat_messages_user_id ON ai_chat_messages(user_id);
-CREATE INDEX IF NOT EXISTS idx_ai_chat_messages_ip ON ai_chat_messages(ip_address);
 CREATE INDEX IF NOT EXISTS idx_ai_chat_messages_timestamp ON ai_chat_messages(timestamp DESC);
 
-CREATE INDEX IF NOT EXISTS idx_ai_chat_topics_session_id ON ai_chat_topics(session_id);
-CREATE INDEX IF NOT EXISTS idx_ai_chat_topics_user_id ON ai_chat_topics(user_id);
-CREATE INDEX IF NOT EXISTS idx_ai_chat_topics_topic ON ai_chat_topics(topic);
-
-CREATE INDEX IF NOT EXISTS idx_ai_user_context_user_id ON ai_user_context(user_id);
-CREATE INDEX IF NOT EXISTS idx_ai_user_context_session_id ON ai_user_context(session_id);
-CREATE INDEX IF NOT EXISTS idx_ai_user_context_ip ON ai_user_context(ip_address);
-CREATE INDEX IF NOT EXISTS idx_ai_user_context_key ON ai_user_context(context_key);
-
-CREATE INDEX IF NOT EXISTS idx_user_preferences_user_id ON user_preferences(user_id);
-CREATE INDEX IF NOT EXISTS idx_user_preferences_ip ON user_preferences(ip_address);
-
--- ================================================
--- ROW LEVEL SECURITY (RLS) POLICIES
--- ================================================
-
--- Enable RLS
+-- 3. Enable RLS on all AI tables
 ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE ai_chat_sessions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE ai_chat_messages ENABLE ROW LEVEL SECURITY;
@@ -190,7 +183,7 @@ ALTER TABLE ai_user_context ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_preferences ENABLE ROW LEVEL SECURITY;
 ALTER TABLE ai_chat_statistics ENABLE ROW LEVEL SECURITY;
 
--- Drop existing policies if they exist and recreate them
+-- 4. Drop old policies if they exist
 DROP POLICY IF EXISTS "Allow all operations on user_profiles" ON user_profiles;
 DROP POLICY IF EXISTS "Allow all operations on ai_chat_sessions" ON ai_chat_sessions;
 DROP POLICY IF EXISTS "Allow all operations on ai_chat_messages" ON ai_chat_messages;
@@ -200,12 +193,38 @@ DROP POLICY IF EXISTS "Allow all operations on user_preferences" ON user_prefere
 DROP POLICY IF EXISTS "Allow read on ai_chat_statistics" ON ai_chat_statistics;
 DROP POLICY IF EXISTS "Allow insert/update on ai_chat_statistics" ON ai_chat_statistics;
 
--- Public read/write policies for AI chatbot (authenticated via API)
-CREATE POLICY "Allow all operations on user_profiles" ON user_profiles FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all operations on ai_chat_sessions" ON ai_chat_sessions FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all operations on ai_chat_messages" ON ai_chat_messages FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all operations on ai_chat_topics" ON ai_chat_topics FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all operations on ai_user_context" ON ai_user_context FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all operations on user_preferences" ON user_preferences FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Allow read on ai_chat_statistics" ON ai_chat_statistics FOR SELECT USING (true);
-CREATE POLICY "Allow insert/update on ai_chat_statistics" ON ai_chat_statistics FOR ALL USING (true) WITH CHECK (true);
+-- 5. Create permissive policies for API access
+CREATE POLICY "Allow all operations on user_profiles" 
+  ON user_profiles FOR ALL 
+  USING (true) 
+  WITH CHECK (true);
+
+CREATE POLICY "Allow all operations on ai_chat_sessions" 
+  ON ai_chat_sessions FOR ALL 
+  USING (true) 
+  WITH CHECK (true);
+
+CREATE POLICY "Allow all operations on ai_chat_messages" 
+  ON ai_chat_messages FOR ALL 
+  USING (true) 
+  WITH CHECK (true);
+
+CREATE POLICY "Allow all operations on ai_chat_topics" 
+  ON ai_chat_topics FOR ALL 
+  USING (true) 
+  WITH CHECK (true);
+
+CREATE POLICY "Allow all operations on ai_user_context" 
+  ON ai_user_context FOR ALL 
+  USING (true) 
+  WITH CHECK (true);
+
+CREATE POLICY "Allow all operations on user_preferences" 
+  ON user_preferences FOR ALL 
+  USING (true) 
+  WITH CHECK (true);
+
+CREATE POLICY "Allow all operations on ai_chat_statistics" 
+  ON ai_chat_statistics FOR ALL 
+  USING (true) 
+  WITH CHECK (true);
