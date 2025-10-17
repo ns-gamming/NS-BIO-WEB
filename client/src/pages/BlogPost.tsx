@@ -25,6 +25,17 @@ export default function BlogPost() {
   const liveViews = useLiveViewCounter(post?.views || 100, 3000);
 
   useEffect(() => {
+    // Load voices on component mount
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      // Trigger voice loading
+      window.speechSynthesis.getVoices();
+      
+      // Some browsers need this event to load voices
+      window.speechSynthesis.onvoiceschanged = () => {
+        window.speechSynthesis.getVoices();
+      };
+    }
+
     return () => {
       if (typeof window !== 'undefined' && window.speechSynthesis) {
         window.speechSynthesis.cancel();
@@ -60,35 +71,99 @@ export default function BlogPost() {
   };
 
   const toggleReadAloud = () => {
-    if (typeof window === 'undefined' || !window.speechSynthesis || !post) return;
+    if (typeof window === 'undefined' || !post) return;
+
+    // Check if speech synthesis is supported
+    if (!window.speechSynthesis) {
+      toast({ 
+        title: "Not Supported", 
+        description: "Text-to-speech is not supported in your browser",
+        variant: "destructive" 
+      });
+      return;
+    }
 
     if (isReading) {
       window.speechSynthesis.cancel();
       setIsReading(false);
       toast({ title: "Stopped", description: "Read-aloud stopped" });
     } else {
-      const utterance = new SpeechSynthesisUtterance(post.content);
-      utterance.rate = 1.0;
+      // Clean the content for better speech output
+      const cleanContent = post.content
+        .replace(/<[^>]*>/g, '') // Remove HTML tags
+        .replace(/#{1,6}\s/g, '') // Remove markdown headers
+        .replace(/\*\*/g, '') // Remove bold markers
+        .replace(/\*/g, '') // Remove italic markers
+        .replace(/```[\s\S]*?```/g, '') // Remove code blocks
+        .replace(/\n\n+/g, '. ') // Replace paragraph breaks with pauses
+        .replace(/\n/g, ' ') // Replace line breaks with spaces
+        .trim();
+
+      if (!cleanContent) {
+        toast({ 
+          title: "Error", 
+          description: "No readable content found",
+          variant: "destructive" 
+        });
+        return;
+      }
+
+      // Cancel any ongoing speech
+      window.speechSynthesis.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(cleanContent);
+      
+      // Set natural speech parameters
+      utterance.rate = 0.9; // Slightly slower for better comprehension
       utterance.pitch = 1.0;
       utterance.volume = 1.0;
+      utterance.lang = 'en-US';
       
+      // Try to use a natural voice if available
+      const voices = window.speechSynthesis.getVoices();
+      const preferredVoice = voices.find(voice => 
+        voice.lang.startsWith('en') && 
+        (voice.name.includes('Natural') || voice.name.includes('Google') || voice.name.includes('Microsoft'))
+      ) || voices.find(voice => voice.lang.startsWith('en'));
+      
+      if (preferredVoice) {
+        utterance.voice = preferredVoice;
+      }
+      
+      utterance.onstart = () => {
+        setIsReading(true);
+        toast({ title: "Reading...", description: "Article is being read aloud" });
+      };
+
       utterance.onend = () => {
         setIsReading(false);
         toast({ title: "Finished", description: "Read-aloud complete" });
       };
       
-      utterance.onerror = () => {
+      utterance.onerror = (event) => {
         setIsReading(false);
+        console.error('Speech synthesis error:', event);
         toast({ 
           title: "Error", 
-          description: "Could not read article. Try again!",
+          description: "Could not read article. Please try again",
           variant: "destructive" 
         });
       };
 
-      window.speechSynthesis.speak(utterance);
-      setIsReading(true);
-      toast({ title: "Reading...", description: "Article is being read aloud" });
+      // Small delay to ensure synthesis is ready
+      setTimeout(() => {
+        try {
+          window.speechSynthesis.speak(utterance);
+        } catch (error) {
+          console.error('Speech synthesis error:', error);
+          setIsReading(false);
+          toast({ 
+            title: "Error", 
+            description: "Could not start text-to-speech",
+            variant: "destructive" 
+          });
+        }
+      }, 100);
     }
   };
 
@@ -282,7 +357,11 @@ export default function BlogPost() {
               variant="outline"
               size="sm"
               onClick={toggleReadAloud}
-              className={`dark:border-gray-700 ${isReading ? 'bg-cyan-500/20 dark:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400' : 'dark:hover:bg-gray-800'}`}
+              className={`dark:border-gray-700 transition-all duration-300 ${
+                isReading 
+                  ? 'bg-cyan-500/20 dark:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 border-cyan-500 dark:border-cyan-400' 
+                  : 'hover:bg-gray-100 dark:hover:bg-gray-800 hover:border-cyan-500/50'
+              }`}
               data-testid="button-read-aloud"
             >
               {isReading ? (
