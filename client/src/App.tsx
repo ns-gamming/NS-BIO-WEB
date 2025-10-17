@@ -59,11 +59,11 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
-      <Route path="/ff-bots" component={FFBotsHub} />
       <Route path="/ff-bots/likes" component={FFLikesBot} />
       <Route path="/ff-bots/info" component={FFInfoBot} />
       <Route path="/ff-bots/spam" component={FFSpamBot} />
       <Route path="/ff-bots/visit" component={FFVisitBot} />
+      <Route path="/ff-bots" component={FFBotsHub} />
       <Route path="/about" component={About} />
       <Route path="/portfolio" component={Portfolio} />
       <Route path="/games" component={Games} />
