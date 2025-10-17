@@ -1,13 +1,12 @@
 
 import HeroSection from "../components/HeroSection";
 import AdSenseAd from "../components/AdSenseAd";
-import { SEO, SEO_CONFIG } from "../components/SEO";
 import { Heart, GraduationCap, Users, Sparkles, Zap, Code, Trophy } from "lucide-react";
 import { useState, useEffect } from "react";
 
 export default function About() {
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
-  
+
   // Live counter animation for investment values
   const [cryptoValue, setCryptoValue] = useState(30000);
   const [digitalGoldValue, setDigitalGoldValue] = useState(180000);
@@ -70,14 +69,7 @@ export default function About() {
   ];
 
   return (
-    <>
-      <SEO 
-        title={SEO_CONFIG.about.title}
-        description={SEO_CONFIG.about.description}
-        keywords={SEO_CONFIG.about.keywords}
-        type={SEO_CONFIG.about.type}
-      />
-      <div className="pt-16 overflow-hidden">
+    <div className="pt-16 overflow-hidden">
       <HeroSection 
         title="About Nishant"
         subtitle="The story behind NS GAMMING"
@@ -304,7 +296,6 @@ export default function About() {
       </div>
 
       <AdSenseAd />
-      </div>
-    </>
+    </div>
   );
 }

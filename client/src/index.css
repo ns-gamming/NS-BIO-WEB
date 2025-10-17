@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -350,7 +350,7 @@
 }
 
 .animate-neonPulse {
-  animation: neonPulse 2s ease-in-out infinite alternate;
+  animation: neonPulse 2s ease-in-out infinite;
 }
 
 .animate-countUp {
@@ -913,7 +913,7 @@
   .hover\:scale-125:hover {
     transform: scale(1) !important;
   }
-
+  
   /* Keep opacity and other effects */
   .hover\:scale-105:hover,
   .hover\:scale-110:hover,
@@ -1188,4 +1188,3 @@ html {
     animation: gradient-shift 3s ease infinite;
     background-size: 200% 200%;
   }
-}

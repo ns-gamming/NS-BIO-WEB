@@ -109,13 +109,12 @@ export default function Social() {
   ];
 
   return (
-    <>
     <div className="pt-16">
       <HeroSection 
         title="🌍 Follow Me Everywhere"
         subtitle="Join the NS GAMMING family across all platforms!"
       />
-
+      
       <div className="container mx-auto px-6 pb-20">
         <div className="max-w-6xl mx-auto">
           <motion.div 
@@ -159,7 +158,7 @@ export default function Social() {
                     whileHover={{ opacity: 1 }}
                     transition={{ duration: 0.5 }}
                   />
-
+                  
                   {/* Animated orbs */}
                   <motion.div 
                     className={`absolute top-0 right-0 w-40 h-40 ${social.color} opacity-20 rounded-full blur-3xl`}
@@ -173,7 +172,7 @@ export default function Social() {
                       ease: "easeInOut"
                     }}
                   />
-
+                  
                   <motion.div 
                     className={`absolute bottom-0 left-0 w-32 h-32 ${social.color} opacity-15 rounded-full blur-2xl`}
                     animate={{
@@ -187,7 +186,7 @@ export default function Social() {
                       delay: 0.5
                     }}
                   />
-
+                  
                   {/* Shimmer effect */}
                   <motion.div
                     className="absolute inset-0 opacity-0 group-hover:opacity-100"
@@ -200,7 +199,7 @@ export default function Social() {
                       background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)"
                     }}
                   />
-
+                  
                   <div className="relative z-10">
                     <div className="flex items-center gap-4 mb-4">
                       <motion.div 
@@ -227,7 +226,7 @@ export default function Social() {
                           <IconComponent className={`w-12 h-12 ${social.color} relative`} />
                         </motion.div>
                       </motion.div>
-
+                      
                       <motion.h3 
                         className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300"
                         initial={{ x: -20, opacity: 0 }}
@@ -237,7 +236,7 @@ export default function Social() {
                         {social.name}
                       </motion.h3>
                     </div>
-
+                    
                     <motion.p 
                       className="text-muted-foreground mb-6 group-hover:text-foreground transition-colors duration-300"
                       initial={{ opacity: 0 }}
@@ -246,7 +245,7 @@ export default function Social() {
                     >
                       {social.description}
                     </motion.p>
-
+                    
                     <motion.a 
                       href={social.url} 
                       target="_blank" 
@@ -277,7 +276,7 @@ export default function Social() {
               );
             })}
           </motion.div>
-
+          
           {/* Brand Showcase */}
           <motion.div 
             className="glass rounded-2xl p-8 mt-12 text-center group relative overflow-hidden" 
@@ -294,7 +293,7 @@ export default function Social() {
               whileHover={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
             />
-
+            
             <motion.div 
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary/10 rounded-full blur-3xl"
               animate={{
@@ -307,7 +306,7 @@ export default function Social() {
                 ease: "easeInOut"
               }}
             />
-
+            
             <div className="relative z-10">
               <div className="flex items-center justify-center mb-6">
                 <motion.div 
@@ -329,7 +328,7 @@ export default function Social() {
                   />
                 </motion.div>
               </div>
-
+              
               <motion.h2 
                 className="text-2xl font-bold text-primary mb-4"
                 initial={{ y: 20, opacity: 0 }}
@@ -339,7 +338,7 @@ export default function Social() {
               >
                 The NS GAMMING Brand
               </motion.h2>
-
+              
               <motion.p 
                 className="text-muted-foreground group-hover:text-foreground transition-colors duration-300"
                 initial={{ y: 20, opacity: 0 }}
@@ -423,9 +422,8 @@ export default function Social() {
           </motion.div>
         </div>
       </div>
-
+      
       <AdSenseAd />
     </div>
-    </>
   );
 }
