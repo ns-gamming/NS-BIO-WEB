@@ -1,4 +1,3 @@
-
 import HeroSection from "../components/HeroSection";
 import AdSenseAd from "../components/AdSenseAd";
 import { Link } from "wouter";
@@ -16,7 +15,7 @@ export default function Coding() {
       hoverBg: "hover:bg-blue-500/20"
     },
     {
-      name: "Backend Development", 
+      name: "Backend Development",
       icon: Terminal,
       skills: ["Node.js", "Express", "Python", "REST APIs"],
       description: "Building robust server-side applications and APIs.",
@@ -46,16 +45,16 @@ export default function Coding() {
 
   return (
     <div className="pt-16 min-h-screen">
-      <HeroSection 
+      <HeroSection
         title="💻 Coding Journey"
         subtitle="Building the future, one line at a time — every bug is a lesson, every feature is a victory!"
       />
-      
+
       <div className="container mx-auto px-4 sm:px-6 pb-20">
         <div className="max-w-6xl mx-auto">
           {/* Coding Philosophy */}
-          <div 
-            className="glass rounded-2xl p-6 sm:p-8 mb-12 text-center animate-fadeUp hover:scale-[1.02] transition-all duration-500 hover:shadow-2xl hover:shadow-primary/30 relative overflow-hidden group" 
+          <div
+            className="glass rounded-2xl p-6 sm:p-8 mb-12 text-center animate-fadeUp hover:scale-[1.02] transition-all duration-500 hover:shadow-2xl hover:shadow-primary/30 relative overflow-hidden group"
             data-testid="coding-philosophy"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 animate-shimmer"></div>
@@ -65,12 +64,12 @@ export default function Coding() {
             <div className="absolute bottom-4 left-4 animate-floatSlow">
               <Zap className="w-5 h-5 text-accent animate-wiggle" />
             </div>
-            
+
             <h2 className="text-2xl sm:text-3xl font-bold text-primary mb-6 animate-slideInFromBottom animate-textShine">
               My Coding Philosophy 🚀
             </h2>
             <p className="text-base sm:text-lg text-foreground leading-relaxed max-w-4xl mx-auto mb-6 animate-fadeInLeft" style={{ animationDelay: '0.2s' }}>
-              Code is poetry in motion! Every line I write is crafted with love, purpose, and the burning desire to create something amazing. 
+              Code is poetry in motion! Every line I write is crafted with love, purpose, and the burning desire to create something amazing.
               I don't just write code — I architect dreams, solve problems, and build bridges between imagination and reality.
             </p>
             <div className="relative inline-block animate-popIn" style={{ animationDelay: '0.4s' }}>
@@ -86,14 +85,14 @@ export default function Coding() {
             {techStack.map((tech, index) => {
               const IconComponent = tech.icon;
               return (
-                <div 
+                <div
                   key={tech.name}
                   className={`glass rounded-2xl p-6 hover:scale-105 transition-all duration-500 animate-slideInFromBottom hover:shadow-2xl hover:shadow-${tech.color}/30 cursor-pointer relative overflow-hidden group ${tech.hoverBg}`}
                   style={{ animationDelay: `${index * 0.15}s` }}
                   data-testid={`tech-${tech.name.toLowerCase().replace(' ', '-')}`}
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                  
+
                   <div className="flex items-center gap-4 mb-4 relative z-10">
                     <div className={`${tech.bgColor} p-3 rounded-xl group-hover:rotate-12 transition-transform duration-500 group-hover:scale-110 animate-bounceSmooth`}>
                       <IconComponent className={`w-8 h-8 sm:w-10 sm:h-10 ${tech.color} group-hover:animate-pulse`} />
@@ -102,14 +101,14 @@ export default function Coding() {
                       {tech.name}
                     </h3>
                   </div>
-                  
+
                   <p className="text-sm sm:text-base text-muted-foreground mb-4 group-hover:text-foreground transition-colors duration-300 relative z-10">
                     {tech.description}
                   </p>
-                  
+
                   <div className="flex flex-wrap gap-2 relative z-10">
                     {tech.skills.map((skill, skillIndex) => (
-                      <span 
+                      <span
                         key={skill}
                         className={`px-3 py-1 ${tech.bgColor} ${tech.color} rounded-full text-xs sm:text-sm font-medium hover:scale-110 transition-all duration-300 cursor-pointer animate-fadeInRight hover:shadow-lg`}
                         style={{ animationDelay: `${(index * 0.15) + (skillIndex * 0.1)}s` }}
@@ -124,8 +123,8 @@ export default function Coding() {
           </div>
 
           {/* Current Projects */}
-          <div 
-            className="glass rounded-2xl p-6 sm:p-8 mb-12 animate-zoomIn hover:scale-[1.02] transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20" 
+          <div
+            className="glass rounded-2xl p-6 sm:p-8 mb-12 animate-zoomIn hover:scale-[1.02] transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20"
             data-testid="current-projects"
             style={{ animationDelay: '0.6s' }}
           >
@@ -136,7 +135,7 @@ export default function Coding() {
               </h2>
               <Code className="w-8 h-8 text-primary animate-wiggle" style={{ animationDelay: '0.5s' }} />
             </div>
-            
+
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               <div className="bg-muted/50 rounded-lg p-4 sm:p-6 hover:bg-muted transition-all duration-500 hover:scale-105 hover:shadow-xl cursor-pointer animate-popIn group relative overflow-hidden" style={{ animationDelay: '0.7s' }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -147,7 +146,7 @@ export default function Coding() {
                   This very website you're on! Built with React, TypeScript, and lots of love.
                 </p>
               </div>
-              
+
               <div className="bg-muted/50 rounded-lg p-4 sm:p-6 hover:bg-muted transition-all duration-500 hover:scale-105 hover:shadow-xl cursor-pointer animate-popIn group relative overflow-hidden" style={{ animationDelay: '0.75s' }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <h3 className="font-bold text-foreground mb-2 text-base sm:text-lg group-hover:text-blue-500 transition-colors duration-300 relative z-10">
@@ -157,7 +156,7 @@ export default function Coding() {
                   Smart automation bots for Telegram! Managing communities with powerful features and commands.
                 </p>
               </div>
-              
+
               <div className="bg-muted/50 rounded-lg p-4 sm:p-6 hover:bg-muted transition-all duration-500 hover:scale-105 hover:shadow-xl cursor-pointer animate-popIn group relative overflow-hidden" style={{ animationDelay: '0.8s' }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <h3 className="font-bold text-foreground mb-2 text-base sm:text-lg group-hover:text-indigo-500 transition-colors duration-300 relative z-10">
@@ -167,7 +166,7 @@ export default function Coding() {
                   Custom Discord bots with moderation, gaming features, and community engagement tools!
                 </p>
               </div>
-              
+
               <div className="bg-muted/50 rounded-lg p-4 sm:p-6 hover:bg-muted transition-all duration-500 hover:scale-105 hover:shadow-xl cursor-pointer animate-popIn group relative overflow-hidden" style={{ animationDelay: '0.85s' }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <h3 className="font-bold text-foreground mb-2 text-base sm:text-lg group-hover:text-orange-500 transition-colors duration-300 relative z-10">
@@ -177,7 +176,7 @@ export default function Coding() {
                   Building my own VPS hosting infrastructure! Learning server management and deployment at scale.
                 </p>
               </div>
-              
+
               <div className="bg-muted/50 rounded-lg p-4 sm:p-6 hover:bg-muted transition-all duration-500 hover:scale-105 hover:shadow-xl cursor-pointer animate-popIn group relative overflow-hidden" style={{ animationDelay: '0.9s' }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <h3 className="font-bold text-foreground mb-2 text-base sm:text-lg group-hover:text-green-500 transition-colors duration-300 relative z-10">
@@ -187,7 +186,7 @@ export default function Coding() {
                   Interactive games and challenges for the community to enjoy.
                 </p>
               </div>
-              
+
               <div className="bg-muted/50 rounded-lg p-4 sm:p-6 hover:bg-muted transition-all duration-500 hover:scale-105 hover:shadow-xl cursor-pointer animate-popIn group relative overflow-hidden" style={{ animationDelay: '0.95s' }}>
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-shimmer"></div>
                 <h3 className="font-bold text-foreground mb-2 text-base sm:text-lg group-hover:text-purple-500 transition-colors duration-300 relative z-10">
@@ -201,20 +200,20 @@ export default function Coding() {
           </div>
 
           {/* Call to Action */}
-          <div 
-            className="glass rounded-2xl p-6 sm:p-8 text-center animate-bounceIn hover:scale-[1.02] transition-all duration-500 hover:shadow-2xl hover:shadow-primary/30 relative overflow-hidden group" 
+          <div
+            className="glass rounded-2xl p-6 sm:p-8 text-center animate-bounceIn hover:scale-[1.02] transition-all duration-500 hover:shadow-2xl hover:shadow-primary/30 relative overflow-hidden group"
             data-testid="coding-cta"
             style={{ animationDelay: '1s' }}
           >
             <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-            
+
             <h2 className="text-xl sm:text-2xl font-bold text-primary mb-4 animate-slideInFromBottom relative z-10">
               Want to Code Together? 🤝
             </h2>
             <p className="text-sm sm:text-base text-foreground mb-6 max-w-2xl mx-auto animate-fadeInLeft relative z-10" style={{ animationDelay: '1.1s' }}>
               I'm always open to collaborating on exciting projects! Whether it's a game, a website, or something completely new — let's build it together!
             </p>
-            
+
             <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 relative z-10">
               <Link href="/portfolio">
                 <button className="neon-btn w-full sm:w-auto animate-slideInFromLeft hover:scale-110 transition-all duration-300 group/btn" style={{ animationDelay: '1.2s' }}>
@@ -232,8 +231,9 @@ export default function Coding() {
           </div>
         </div>
       </div>
-      
+
       <AdSenseAd />
     </div>
+    </>
   );
 }

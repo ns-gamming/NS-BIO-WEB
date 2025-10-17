@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import HeroSection from "../components/HeroSection";
 import AdSenseAd from "../components/AdSenseAd";
-import { SEO } from "../components/SEO";
+import { SEO, SEO_CONFIG } from "../components/SEO";
 import { Code, Video, Users, Zap } from "lucide-react";
 
 import _1000016408 from "@assets/1000016408.jpg";
@@ -10,10 +10,11 @@ export default function Home() {
   return (
     <>
       <SEO 
-        title="NS GAMMING - Naboraj Sarkar (Nishant) | Free Fire Tools, Gaming & Coding"
-        description="Welcome to NS GAMMING! I'm Naboraj Sarkar (Nishant), a developer and gamer creating free Free Fire tools, gaming utilities, coding projects, and content. Explore FF Bots Hub, games, blogs, and more!"
-        keywords="NS GAMMING, Naboraj Sarkar, Nishant Sarkar, NishantB, Naboraj, Free Fire tools, FF Bots, Gaming utilities, Coding projects, YouTube gaming, Developer portfolio, Free Fire likes bot, Free Fire utilities, Gaming content creator, Web developer India"
-        ogImage={_1000016408}
+        title={SEO_CONFIG.home.title}
+        description={SEO_CONFIG.home.description}
+        keywords={SEO_CONFIG.home.keywords}
+        type={SEO_CONFIG.home.type}
+        image={_1000016408}
         canonicalUrl="/"
       />
       <div className="pt-16">
