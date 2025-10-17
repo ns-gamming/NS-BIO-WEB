@@ -1,6 +1,8 @@
 import HeroSection from "../components/HeroSection";
 import AdSenseAd from "../components/AdSenseAd";
 import { Link } from "wouter";
+import { motion } from "framer-motion";
+import PageFeedback from "@/components/PageFeedback";
 import { Gamepad2, Grid3X3, Cpu, Brain, Bird, Hand, Lightbulb, Grid2X2, Hammer, Palette, Keyboard, Grid, Blocks, Circle, Zap } from "lucide-react";
 
 export default function Games() {
@@ -18,7 +20,7 @@ export default function Games() {
           title="Play & Chill"
           subtitle="Games by NS GAMMING — Made with love ❤️"
         />
-        
+
         <div className="container mx-auto px-4 sm:px-6 pb-20">
           <div className="max-w-6xl mx-auto">
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8" data-testid="games-grid">
@@ -43,7 +45,7 @@ export default function Games() {
                   </Link>
                 </div>
               </div>
-            
+
             {/* Snake Game */}
             <div className="glass rounded-2xl p-4 sm:p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-2xl hover:shadow-green-500/50 cursor-pointer relative overflow-hidden" data-testid="game-snake" style={{ animationDelay: '0.1s' }}>
               <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -65,7 +67,7 @@ export default function Games() {
                 </Link>
               </div>
             </div>
-            
+
             {/* Memory Match */}
             <div className="glass rounded-2xl p-4 sm:p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-2xl hover:shadow-purple-500/50 cursor-pointer relative overflow-hidden" data-testid="game-memory" style={{ animationDelay: '0.2s' }}>
               <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -87,7 +89,7 @@ export default function Games() {
                 </Link>
               </div>
             </div>
-            
+
             {/* Flappy Clone */}
             <div className="glass rounded-2xl p-4 sm:p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-2xl hover:shadow-yellow-500/50 cursor-pointer relative overflow-hidden" data-testid="game-flappy" style={{ animationDelay: '0.3s' }}>
               <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -109,7 +111,7 @@ export default function Games() {
                 </Link>
               </div>
             </div>
-            
+
             {/* Rock Paper Scissors */}
             <div className="glass rounded-2xl p-4 sm:p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-2xl hover:shadow-red-500/50 cursor-pointer relative overflow-hidden" data-testid="game-rps" style={{ animationDelay: '0.4s' }}>
               <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -131,7 +133,7 @@ export default function Games() {
                 </Link>
               </div>
             </div>
-            
+
             {/* Simon Says */}
             <div className="glass rounded-2xl p-4 sm:p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-2xl hover:shadow-blue-500/50 cursor-pointer relative overflow-hidden" data-testid="game-simon" style={{ animationDelay: '0.5s' }}>
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -153,7 +155,7 @@ export default function Games() {
                 </Link>
               </div>
             </div>
-            
+
             {/* 2048 */}
             <div className="glass rounded-2xl p-4 sm:p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-2xl hover:shadow-orange-500/50 cursor-pointer relative overflow-hidden" data-testid="game-2048" style={{ animationDelay: '0.6s' }}>
               <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -175,7 +177,7 @@ export default function Games() {
                 </Link>
               </div>
             </div>
-            
+
             {/* Whack-a-Mole */}
             <div className="glass rounded-2xl p-4 sm:p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-2xl hover:shadow-amber-500/50 cursor-pointer relative overflow-hidden" data-testid="game-whack" style={{ animationDelay: '0.7s' }}>
               <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -197,7 +199,7 @@ export default function Games() {
                 </Link>
               </div>
             </div>
-            
+
             {/* Pong */}
             <div className="glass rounded-2xl p-4 sm:p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-2xl hover:shadow-cyan-500/50 cursor-pointer relative overflow-hidden" data-testid="game-pong" style={{ animationDelay: '0.8s' }}>
               <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -219,7 +221,7 @@ export default function Games() {
                 </Link>
               </div>
             </div>
-            
+
             {/* Color Match */}
             <div className="glass rounded-2xl p-4 sm:p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-2xl hover:shadow-pink-500/50 cursor-pointer relative overflow-hidden" data-testid="game-colormatch" style={{ animationDelay: '0.9s' }}>
               <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -241,7 +243,7 @@ export default function Games() {
                 </Link>
               </div>
             </div>
-            
+
             {/* Typing Speed */}
             <div className="glass rounded-2xl p-4 sm:p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-2xl hover:shadow-indigo-500/50 cursor-pointer relative overflow-hidden" data-testid="game-typing" style={{ animationDelay: '1s' }}>
               <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -263,7 +265,7 @@ export default function Games() {
                 </Link>
               </div>
             </div>
-            
+
             {/* Sliding Puzzle */}
             <div className="glass rounded-2xl p-4 sm:p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-2xl hover:shadow-teal-500/50 cursor-pointer relative overflow-hidden" data-testid="game-sliding" style={{ animationDelay: '1.1s' }}>
               <div className="absolute inset-0 bg-gradient-to-br from-teal-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -285,7 +287,7 @@ export default function Games() {
                 </Link>
               </div>
             </div>
-            
+
             {/* Breakout */}
             <div className="glass rounded-2xl p-4 sm:p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-2xl hover:shadow-violet-500/50 cursor-pointer relative overflow-hidden" data-testid="game-breakout" style={{ animationDelay: '1.2s' }}>
               <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -307,7 +309,7 @@ export default function Games() {
                 </Link>
               </div>
             </div>
-            
+
             {/* Connect Four */}
             <div className="glass rounded-2xl p-4 sm:p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-2xl hover:shadow-rose-500/50 cursor-pointer relative overflow-hidden" data-testid="game-connect4" style={{ animationDelay: '1.3s' }}>
               <div className="absolute inset-0 bg-gradient-to-br from-rose-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -330,13 +332,13 @@ export default function Games() {
               </div>
             </div>
           </div>
-          
+
           {/* Gaming Philosophy */}
           <div className="glass rounded-2xl p-6 sm:p-8 mt-12 text-center relative overflow-hidden group animate-fadeUp" data-testid="gaming-philosophy">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-purple-500/5 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
             <div className="absolute top-0 left-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl animate-pulse-slow"></div>
             <div className="absolute bottom-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }}></div>
-            
+
             <div className="relative z-10">
               <div className="flex items-center justify-center gap-3 mb-4">
                 <Zap className="w-6 h-6 sm:w-8 sm:h-8 text-primary animate-pulse" />
@@ -353,8 +355,27 @@ export default function Games() {
         </div>
       </div>
       </div>
-      
-      <AdSenseAd />
+
+      {/* AdSense Ad and Feedback Section */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+        >
+          <AdSenseAd />
+        </motion.div>
+
+        {/* Feedback Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.7 }}
+          className="mt-12"
+        >
+          <PageFeedback pageName="Games" />
+        </motion.div>
     </div>
   );
 }

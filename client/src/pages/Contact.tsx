@@ -1,10 +1,12 @@
 import { useState } from "react";
-import HeroSection from "../components/HeroSection";
-import AdSenseAd from "../components/AdSenseAd";
+import { motion } from "framer-motion";
+import HeroSection from "@/components/HeroSection";
+import AdSenseAd from "@/components/AdSenseAd";
 import { Mail, MessageCircle, Send, Eye, Code, Smartphone, Search, Target, CheckCircle } from "lucide-react";
 import { SiWhatsapp, SiTelegram, SiFacebook } from "react-icons/si";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
+import PageFeedback from "@/components/PageFeedback";
 
 export default function Contact() {
   const { toast } = useToast();
@@ -13,7 +15,7 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.name || !formData.email || !formData.message) {
       toast({
         title: "Missing Information",
@@ -57,7 +59,7 @@ export default function Contact() {
         title="📩 Let's Connect"
         subtitle="Want to talk? I reply with love and respect! ✨"
       />
-      
+
       <div className="container mx-auto px-6 pb-20">
         <div className="max-w-4xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8 mb-12" data-testid="contact-methods">
@@ -79,7 +81,7 @@ export default function Contact() {
                 Send Email
               </a>
             </div>
-            
+
             {/* WhatsApp Chat */}
             <div className="glass rounded-2xl p-6 hover:scale-105 transition-transform" data-testid="contact-whatsapp">
               <div className="text-center mb-4">
@@ -100,7 +102,7 @@ export default function Contact() {
                 Chat with Nishant
               </a>
             </div>
-            
+
             {/* Telegram Chat */}
             <div className="glass rounded-2xl p-6 hover:scale-105 transition-transform" data-testid="contact-telegram">
               <div className="text-center mb-4">
@@ -122,14 +124,14 @@ export default function Contact() {
               </a>
             </div>
           </div>
-          
+
           {/* Contact Form */}
           <div className="glass rounded-2xl p-8 mb-12 animate-fadeUp" data-testid="contact-form-section">
             <h2 className="text-3xl font-bold text-primary mb-6 text-center">📨 Send Me a Message</h2>
             <p className="text-center text-muted-foreground mb-8">
               Fill out the form below and I'll get back to you as soon as possible! 💬
             </p>
-            
+
             <form onSubmit={handleSubmit} className="max-w-2xl mx-auto space-y-6">
               <div className="animate-fadeUp" style={{ animationDelay: '0.1s' }}>
                 <label htmlFor="name" className="block text-sm font-semibold text-foreground mb-2">
@@ -204,7 +206,7 @@ export default function Contact() {
               </p>
             </form>
           </div>
-          
+
           {/* Commission Section */}
           <div className="glass rounded-2xl p-8 text-center" data-testid="commission-section">
             <h2 className="text-3xl font-bold text-primary mb-6">🎨 Want a Website Like This?</h2>
@@ -213,7 +215,7 @@ export default function Contact() {
               Whether it's a personal portfolio, business site, or gaming platform — I create digital experiences that matter.
               <span className="block mt-4 text-primary font-semibold">DM me on WhatsApp to discuss your project! 🚀</span>
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <a 
                 href="https://wa.me/918900653250" 
@@ -230,7 +232,7 @@ export default function Contact() {
                 View My Work
               </Link>
             </div>
-            
+
             <div className="glass bg-muted rounded-lg p-6" data-testid="services-offered">
               <h3 className="text-lg font-semibold text-foreground mb-3">What I Offer:</h3>
               <div className="grid md:grid-cols-3 gap-4 text-sm text-muted-foreground">
@@ -261,20 +263,40 @@ export default function Contact() {
               </div>
             </div>
           </div>
-          
+
           {/* Personal Touch */}
           <div className="text-center mt-12 glass rounded-2xl p-8" data-testid="personal-touch">
             <h2 className="text-2xl font-bold text-primary mb-4">Why Choose Me? 💙</h2>
             <p className="text-lg text-foreground max-w-3xl mx-auto leading-relaxed">
               I don't just build websites — I create digital homes for your ideas! Every project gets my personal attention, 
-              love, and dedication. From concept to launch, you'll work directly with me, not a team of strangers.
+              love, and dedication.
+              From concept to launch, you'll work directly with me, not a team of strangers.
               <span className="block mt-4 text-primary">Let's build something amazing together! Chalo shuru karte hain! 🎯</span>
             </p>
           </div>
         </div>
+
+        {/* AdSense */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <AdSenseAd />
+        </motion.div>
+
+        {/* Feedback Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="mt-12"
+        >
+          <PageFeedback pageName="Contact" />
+        </motion.div>
       </div>
-      
-      <AdSenseAd />
     </div>
   );
 }

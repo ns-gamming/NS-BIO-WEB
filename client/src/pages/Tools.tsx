@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link } from 'wouter';
 import HeroSection from '@/components/HeroSection';
 import AdSenseAd from '@/components/AdSenseAd';
+import PageFeedback from '@/components/PageFeedback';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -2059,6 +2060,11 @@ export default function Tools() {
           <div className="mt-12 animate-fadeUp">
             <AdSenseAd />
           </div>
+
+          {/* Feedback Section */}
+          <div className="mt-12 animate-fadeUp" style={{ animationDelay: '0.6s' }}>
+            <PageFeedback pageName="FF Tools" />
+          </div>
         </div>
       </div>
     );
@@ -2251,6 +2257,11 @@ export default function Tools() {
 
         <div className="mt-12 animate-fadeUp">
           <AdSenseAd />
+        </div>
+
+        {/* Feedback Section */}
+        <div className="mt-12 animate-fadeUp" style={{ animationDelay: '0.6s' }}>
+          <PageFeedback pageName="Utility Tools" />
         </div>
       </div>
     </div>

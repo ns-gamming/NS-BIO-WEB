@@ -8,6 +8,7 @@ import { Loader2, Trophy, Gamepad2, Sparkles, Gift, Clock, TrendingUp, Users } f
 import { useToast } from "@/hooks/use-toast";
 import AdSenseAd from "@/components/AdSenseAd";
 import TelegramWhatsAppCTA from "@/components/TelegramWhatsAppCTA";
+import PageFeedback from '@/components/PageFeedback';
 
 const REGIONS = [
   { value: 'ind', label: '🇮🇳 India (IND)' },
@@ -51,7 +52,7 @@ export default function FFBots() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!uid || !region) {
       toast({
         title: "Missing Information",
@@ -321,6 +322,10 @@ export default function FFBots() {
               )}
             </div>
           )}
+          {/* Feedback Component */}
+          <div className="mt-8">
+            <PageFeedback pageName="FF Likes Bot" />
+          </div>
         </Card>
 
         {/* Upcoming Tools Section */}
