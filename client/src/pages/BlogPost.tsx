@@ -89,132 +89,141 @@ export default function BlogPost() {
       setIsReading(false);
       toast({ title: "Stopped", description: "Read-aloud stopped" });
     } else {
-      // Enhanced content cleaning for reliable speech synthesis
-      let cleanContent = post.content
-        // Remove code blocks completely
-        .replace(/```[\s\S]*?```/g, ' ')
-        // Remove inline code
-        .replace(/`[^`]+`/g, ' ')
-        // Remove HTML/XML tags
-        .replace(/<[^>]*>/g, ' ')
-        // Remove markdown links but keep text: [text](url) -> text
-        .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')
-        // Remove markdown images
-        .replace(/!\[([^\]]*)\]\([^\)]+\)/g, '')
-        // Remove markdown headers (#, ##, ###, etc.) but keep text
-        .replace(/^#{1,6}\s+/gm, '')
-        // Remove bold/italic markers but keep text
-        .replace(/\*\*\*([^*]+)\*\*\*/g, '$1')  // bold+italic
-        .replace(/\*\*([^*]+)\*\*/g, '$1')      // bold
-        .replace(/\*([^*]+)\*/g, '$1')          // italic
-        .replace(/__([^_]+)__/g, '$1')          // bold alt
-        .replace(/_([^_]+)_/g, '$1')            // italic alt
-        // Remove list markers
-        .replace(/^[-*+]\s+/gm, '')
-        .replace(/^\d+\.\s+/gm, '')
-        // Remove blockquotes
-        .replace(/^>\s+/gm, '')
-        // Remove horizontal rules
-        .replace(/^[-*_]{3,}$/gm, '')
-        // Remove special characters and symbols that might cause issues
-        .replace(/[#$%^&*()_+=\[\]{}|\\:;"'<>?,./~`]/g, ' ')
-        // Remove URLs
-        .replace(/https?:\/\/[^\s]+/g, '')
-        .replace(/www\.[^\s]+/g, '')
-        // Remove extra whitespace and normalize
-        .replace(/\s+/g, ' ')
-        .replace(/\n+/g, '. ')
-        .trim();
+      try {
+        // Enhanced content cleaning for reliable speech synthesis
+        let cleanContent = post.content
+          // Remove code blocks completely
+          .replace(/```[\s\S]*?```/g, ' ')
+          // Remove inline code
+          .replace(/`[^`]+`/g, ' ')
+          // Remove HTML/XML tags
+          .replace(/<[^>]*>/g, ' ')
+          // Remove markdown links but keep text: [text](url) -> text
+          .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')
+          // Remove markdown images
+          .replace(/!\[([^\]]*)\]\([^\)]+\)/g, '')
+          // Remove markdown headers (#, ##, ###, etc.) but keep text
+          .replace(/^#{1,6}\s+/gm, '')
+          // Remove bold/italic markers but keep text
+          .replace(/\*\*\*([^*]+)\*\*\*/g, '$1')  // bold+italic
+          .replace(/\*\*([^*]+)\*\*/g, '$1')      // bold
+          .replace(/\*([^*]+)\*/g, '$1')          // italic
+          .replace(/__([^_]+)__/g, '$1')          // bold alt
+          .replace(/_([^_]+)_/g, '$1')            // italic alt
+          // Remove list markers
+          .replace(/^[-*+]\s+/gm, '')
+          .replace(/^\d+\.\s+/gm, '')
+          // Remove blockquotes
+          .replace(/^>\s+/gm, '')
+          // Remove horizontal rules
+          .replace(/^[-*_]{3,}$/gm, '')
+          // Remove special characters and symbols that might cause issues
+          .replace(/[#$%^&*()_+=\[\]{}|\\:;"'<>?,./~`]/g, ' ')
+          // Remove URLs
+          .replace(/https?:\/\/[^\s]+/g, '')
+          .replace(/www\.[^\s]+/g, '')
+          // Remove extra whitespace and normalize
+          .replace(/\s+/g, ' ')
+          .replace(/\n+/g, '. ')
+          .trim();
 
-      // Validation checks
-      if (!cleanContent || cleanContent.length < 50) {
-        toast({ 
-          title: "Error", 
-          description: "No readable content found in this article",
-          variant: "destructive" 
-        });
-        return;
-      }
-
-      // Limit length (speech synthesis has limits)
-      if (cleanContent.length > 25000) {
-        cleanContent = cleanContent.substring(0, 25000) + ". Article truncated for text-to-speech.";
-      }
-
-      // Add periods for better pausing if missing
-      cleanContent = cleanContent.replace(/([a-z])\s+([A-Z])/g, '$1. $2');
-
-      // Cancel any ongoing speech
-      window.speechSynthesis.cancel();
-
-      // Small delay to ensure cancellation is complete
-      setTimeout(() => {
-        const utterance = new SpeechSynthesisUtterance(cleanContent);
-        
-        // Optimal speech parameters
-        utterance.rate = 0.95;
-        utterance.pitch = 1.0;
-        utterance.volume = 1.0;
-        utterance.lang = 'en-US';
-        
-        // Try to use best available voice
-        const voices = window.speechSynthesis.getVoices();
-        const preferredVoice = voices.find(voice => 
-          voice.lang.startsWith('en') && 
-          (voice.name.includes('Google') || voice.name.includes('Natural') || voice.name.includes('Premium'))
-        ) || voices.find(voice => voice.lang.startsWith('en')) || voices[0];
-        
-        if (preferredVoice) {
-          utterance.voice = preferredVoice;
+        // Validation checks
+        if (!cleanContent || cleanContent.length < 50) {
+          toast({ 
+            title: "Error", 
+            description: "No readable content found in this article",
+            variant: "destructive" 
+          });
+          return;
         }
-        
-        utterance.onstart = () => {
-          setIsReading(true);
-          toast({ 
-            title: "🔊 Reading Article", 
-            description: "Listening to the content..." 
-          });
-        };
 
-        utterance.onend = () => {
-          setIsReading(false);
-          toast({ 
-            title: "✅ Finished", 
-            description: "Read-aloud complete" 
-          });
-        };
-        
-        utterance.onerror = (event) => {
-          setIsReading(false);
-          console.error('Speech synthesis error:', event);
+        // Limit length (speech synthesis has limits)
+        if (cleanContent.length > 25000) {
+          cleanContent = cleanContent.substring(0, 25000) + ". Article truncated for text-to-speech.";
+        }
+
+        // Add periods for better pausing if missing
+        cleanContent = cleanContent.replace(/([a-z])\s+([A-Z])/g, '$1. $2');
+
+        // Cancel any ongoing speech
+        window.speechSynthesis.cancel();
+
+        // Small delay to ensure cancellation is complete
+        setTimeout(() => {
+          const utterance = new SpeechSynthesisUtterance(cleanContent);
           
-          // Provide helpful error message
-          let errorMsg = "Could not read article. Please try again";
-          if (event.error === 'network') {
-            errorMsg = "Network error. Check your connection";
-          } else if (event.error === 'synthesis-failed') {
-            errorMsg = "Speech synthesis failed. Try a shorter article";
+          // Optimal speech parameters
+          utterance.rate = 0.95;
+          utterance.pitch = 1.0;
+          utterance.volume = 1.0;
+          utterance.lang = 'en-US';
+          
+          // Try to use best available voice
+          const voices = window.speechSynthesis.getVoices();
+          const preferredVoice = voices.find(voice => 
+            voice.lang.startsWith('en') && 
+            (voice.name.includes('Google') || voice.name.includes('Natural') || voice.name.includes('Premium'))
+          ) || voices.find(voice => voice.lang.startsWith('en')) || voices[0];
+          
+          if (preferredVoice) {
+            utterance.voice = preferredVoice;
           }
           
-          toast({ 
-            title: "Error", 
-            description: errorMsg,
-            variant: "destructive" 
-          });
-        };
+          utterance.onstart = () => {
+            setIsReading(true);
+            toast({ 
+              title: "🔊 Reading Article", 
+              description: "Listening to the content..." 
+            });
+          };
 
-        try {
-          window.speechSynthesis.speak(utterance);
-        } catch (error) {
-          console.error('Speech synthesis error:', error);
-          setIsReading(false);
-          toast({ 
-            title: "Error", 
-            description: "Could not start text-to-speech. Browser may not support it.",
-            variant: "destructive" 
-          });
-        }
-      }, 200);
+          utterance.onend = () => {
+            setIsReading(false);
+            toast({ 
+              title: "✅ Finished", 
+              description: "Read-aloud complete" 
+            });
+          };
+          
+          utterance.onerror = (event) => {
+            setIsReading(false);
+            console.error('Speech synthesis error:', event);
+            
+            // Provide helpful error message
+            let errorMsg = "Could not read article. Please try again";
+            if (event.error === 'network') {
+              errorMsg = "Network error. Check your connection";
+            } else if (event.error === 'synthesis-failed') {
+              errorMsg = "Speech synthesis failed. Try a shorter article";
+            }
+            
+            toast({ 
+              title: "Error", 
+              description: errorMsg,
+              variant: "destructive" 
+            });
+          };
+
+          try {
+            window.speechSynthesis.speak(utterance);
+          } catch (error) {
+            console.error('Speech synthesis error:', error);
+            setIsReading(false);
+            toast({ 
+              title: "Error", 
+              description: "Could not start text-to-speech. Browser may not support it.",
+              variant: "destructive" 
+            });
+          }
+        }, 200);
+      } catch (error) {
+        console.error('Read-aloud error:', error);
+        toast({ 
+          title: "Error", 
+          description: "Failed to process article content",
+          variant: "destructive" 
+        });
+      }
     }
   };
 

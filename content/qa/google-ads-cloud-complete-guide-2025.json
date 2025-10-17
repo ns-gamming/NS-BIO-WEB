@@ -1,0 +1,103 @@
+
+[
+  {
+    "q": "What is Google Ads?",
+    "a": "Google Ads is the world's largest online advertising platform that allows businesses to display ads across Google Search, YouTube, Gmail, and millions of partner websites. It operates on a pay-per-click (PPC) model where you only pay when someone clicks your ad.",
+    "source": "What is Google Ads section"
+  },
+  {
+    "q": "How much does Google Ads cost?",
+    "a": "Google Ads has no minimum budget requirement. You can start with as little as $10/day. Average cost-per-click (CPC) ranges from $1-$50 depending on industry and competition. Businesses typically make $8 for every $1 spent on Google Ads.",
+    "source": "Google Ads costs section"
+  },
+  {
+    "q": "What types of Google Ads are there?",
+    "a": "There are 6 main types: (1) Search Ads (text ads in search results), (2) Display Ads (banner ads on websites), (3) Video Ads (YouTube ads), (4) Shopping Ads (product listings), (5) App Ads (promote mobile apps), and (6) Smart Ads (AI-powered automation).",
+    "source": "Types of Google Ads section"
+  },
+  {
+    "q": "What is Google Cloud Platform?",
+    "a": "Google Cloud Platform (GCP) is Google's suite of cloud computing services providing infrastructure, platform, and software solutions. It includes compute services (virtual machines), storage, databases, AI/ML tools, and networking services to build, deploy, and scale applications.",
+    "source": "What is Google Cloud section"
+  },
+  {
+    "q": "How much does Google Cloud cost?",
+    "a": "Google Cloud offers a free tier with $300 credit for 90 days plus Always Free products. Pricing varies by service - Cloud Storage costs ~$0.02/GB/month, Compute Engine starts at ~$5/month, and Cloud Run charges only for execution time. It's generally 30-40% cheaper than AWS.",
+    "source": "Google Cloud pricing section"
+  },
+  {
+    "q": "How does the Google Ads auction work?",
+    "a": "Google Ads uses an auction system: (1) Select keywords to target, (2) Set maximum bid amount, (3) Google calculates Quality Score based on relevance, (4) Ad Rank = Bid × Quality Score, (5) Highest Ad Rank wins placement. You only pay when someone clicks.",
+    "source": "How Google Ads Works section"
+  },
+  {
+    "q": "What is Quality Score in Google Ads?",
+    "a": "Quality Score (1-10 rating) measures ad relevance, expected click-through rate, and landing page quality. Higher scores (7+) reduce your cost-per-click by 30-50% and improve ad positions. It's crucial for efficient ad spending.",
+    "source": "Quality Score section"
+  },
+  {
+    "q": "What are the main Google Cloud services?",
+    "a": "Main services include: Compute (VM, App Engine, Cloud Run, Kubernetes), Storage (Cloud Storage, Cloud SQL, Firestore, BigQuery), Networking (CDN, Load Balancing, VPN), AI/ML (Vertex AI, Vision AI, Natural Language), and Developer Tools (Cloud Build, Cloud Functions, Firebase).",
+    "source": "Core Google Cloud Services section"
+  },
+  {
+    "q": "Can beginners use Google Ads effectively?",
+    "a": "Yes! Start with Smart Ads campaigns that use AI automation. Begin with $10-20/day budget, use long-tail keywords (lower competition), focus on one ad type initially, and enable responsive search ads. Google provides free certification courses on Skillshop.",
+    "source": "Tips & Best Practices section"
+  },
+  {
+    "q": "What is the difference between Google Cloud and AWS?",
+    "a": "Google Cloud has 11% market share vs AWS's 32%. Google Cloud excels in AI/ML, big data, and competitive pricing (30-40% cheaper). AWS has the largest service ecosystem. Google Cloud is best for startups and data science; AWS for enterprise with wide service needs.",
+    "source": "Google Cloud vs AWS comparison section"
+  },
+  {
+    "q": "How can content creators use Google Ads?",
+    "a": "Content creators can: (1) Promote YouTube videos with video discovery ads, (2) Drive blog traffic with search ads, (3) Use display ads on relevant websites, (4) Retarget website visitors, (5) Promote Discord/Telegram communities, (6) Advertise affiliate products.",
+    "source": "Google Ads for Content Creators section"
+  },
+  {
+    "q": "What AI services does Google Cloud offer?",
+    "a": "Google Cloud offers Vertex AI (unified ML platform), Vision AI (image recognition), Natural Language AI (text analysis), Speech-to-Text/Text-to-Speech, Recommendations AI, and Generative AI Platform with PaLM 2 and Gemini models for building ChatGPT-like applications.",
+    "source": "AI & Machine Learning Services section"
+  },
+  {
+    "q": "How do I start with Google Cloud for free?",
+    "a": "Visit cloud.google.com and create an account. You get $300 free credit (90 days) plus Always Free tier (20+ products). No credit card charged during trial. Start with Cloud Run or App Engine, follow Qwiklabs tutorials, and use Google Cloud Skills Boost for free training.",
+    "source": "Getting Started with Google Cloud section"
+  },
+  {
+    "q": "What is remarketing in Google Ads?",
+    "a": "Remarketing shows ads to people who previously visited your website. It has 50% higher conversion rates and lower CPC than cold traffic. You can show different ads based on behavior - cart abandoners see discount offers, blog readers see product ads, etc.",
+    "source": "Remarketing section"
+  },
+  {
+    "q": "Can I build a gaming backend on Google Cloud?",
+    "a": "Absolutely! Use Firestore for real-time player data, Redis on Compute Engine for leaderboards, Cloud Functions for matchmaking, BigQuery for analytics, and Vertex AI ML models for anti-cheat. This is the same technology powering major games.",
+    "source": "Gaming Use Cases section"
+  },
+  {
+    "q": "What is Cloud Run in Google Cloud?",
+    "a": "Cloud Run is a serverless platform for running containerized applications. It auto-scales based on traffic, scales to zero when idle (pay nothing), supports any programming language, and charges only for actual usage. Perfect for APIs and web apps.",
+    "source": "Compute Services section"
+  },
+  {
+    "q": "How can I optimize Google Ads costs?",
+    "a": "Optimize by: (1) Starting with small budget ($10-20/day), (2) Improving Quality Score to 7+, (3) Using negative keywords to exclude irrelevant searches, (4) Enabling Smart Bidding automation, (5) Remarketing to previous visitors, (6) Mobile-first landing pages.",
+    "source": "Google Ads Optimization Secrets section"
+  },
+  {
+    "q": "What is BigQuery used for?",
+    "a": "BigQuery is Google Cloud's data warehouse for analyzing petabytes of data in seconds using SQL. It's used for business intelligence, data science, machine learning, customer analytics, and real-time dashboards. Pay only for queries executed and storage used.",
+    "source": "Storage Services section"
+  },
+  {
+    "q": "How do Google Ads and Google Cloud work together?",
+    "a": "They synergize powerfully: Store customer data in BigQuery, analyze with ML to create custom ad audiences, host high-performance landing pages on Cloud, generate dynamic ad content with AI, track attribution in BigQuery, and optimize spend with predictive models.",
+    "source": "Google Ads + Google Cloud Combination section"
+  },
+  {
+    "q": "What certifications should I get?",
+    "a": "For Google Ads: Google Ads Certification (free on Skillshop). For Google Cloud: Associate Cloud Engineer (beginner), Professional Cloud Architect (advanced), Machine Learning Engineer (ML focus). These significantly boost career prospects and demonstrate expertise.",
+    "source": "Getting Started and Certifications section"
+  }
+]
