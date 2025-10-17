@@ -460,8 +460,24 @@ export function GeminiChatbot() {
     setInputValue("");
     setIsLoading(true);
 
+    const messageStartTime = Date.now();
+    const sessionId = localStorage.getItem("analytics_session_id") || "unknown";
+    const pageUrl = window.location.href;
+
     try {
-      // Get all blog posts for context
+      const userMessageId = `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      await fetch("/api/chat/message", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId,
+          messageId: userMessageId,
+          senderType: "user",
+          messageText: userMessage.content,
+          metadata: { pageUrl }
+        }),
+      }).catch(err => console.error("Error saving user message:", err));
+
       const blogPosts = getAllBlogPosts();
       const blogPostsInfo = blogPosts.map(post => 
         `- "${post.title}" (${post.category}): ${post.excerpt} [Read at /blog/${post.slug}]`
@@ -501,6 +517,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
 
       const data = await response.json();
       const aiResponse = data.message || "Sorry, I couldn't generate a response.";
+      const responseTime = Date.now() - messageStartTime;
 
       const assistantMessage: Message = {
         role: "assistant",
@@ -508,6 +525,24 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
+
+      const assistantMessageId = `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      await fetch("/api/chat/message", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId,
+          messageId: assistantMessageId,
+          senderType: "assistant",
+          messageText: aiResponse,
+          metadata: { 
+            pageUrl,
+            responseTimeMs: responseTime,
+            userMessageId
+          }
+        }),
+      }).catch(err => console.error("Error saving assistant message:", err));
+
     } catch (error) {
       console.error("Error sending message:", error);
       const randomError = FUNNY_ERRORS[Math.floor(Math.random() * FUNNY_ERRORS.length)];
@@ -516,6 +551,23 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
         content: randomError,
       };
       setMessages((prev) => [...prev, errorMessage]);
+      
+      const errorMessageId = `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      await fetch("/api/chat/message", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId,
+          messageId: errorMessageId,
+          senderType: "assistant",
+          messageText: randomError,
+          metadata: { 
+            pageUrl,
+            isError: true,
+            errorType: "api_failure"
+          }
+        }),
+      }).catch(err => console.error("Error saving error message:", err));
     } finally {
       setIsLoading(false);
     }
