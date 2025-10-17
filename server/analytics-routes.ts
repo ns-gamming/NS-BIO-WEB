@@ -9,11 +9,55 @@ function getClientIP(req: Request): string {
 
 export function registerAnalyticsRoutes(app: Express) {
   
+  // Check if session exists
+  app.get("/api/analytics/session/:sessionId/check", async (req, res) => {
+    try {
+      const { sessionId } = req.params;
+
+      const { data, error } = await supabase
+        .from('analytics_sessions')
+        .select('session_id')
+        .eq('session_id', sessionId)
+        .single();
+
+      if (error && error.code !== 'PGRST116') throw error;
+
+      res.json({ exists: !!data });
+    } catch (error: any) {
+      console.error('Error checking session:', error);
+      res.status(500).json({ exists: false, error: error.message });
+    }
+  });
+
   app.post("/api/analytics/session", async (req, res) => {
     try {
       const { sessionId, deviceInfo } = req.body;
       const ipAddress = getClientIP(req);
       const userAgent = req.headers['user-agent'] || 'unknown';
+
+      // Check if session already exists
+      const { data: existing } = await supabase
+        .from('analytics_sessions')
+        .select('*')
+        .eq('session_id', sessionId)
+        .single();
+
+      if (existing) {
+        // Update existing session to active
+        const { data: updated, error } = await supabase
+          .from('analytics_sessions')
+          .update({ 
+            is_active: true,
+            user_agent: userAgent,
+            device_info: deviceInfo || {}
+          })
+          .eq('session_id', sessionId)
+          .select()
+          .single();
+
+        if (error) throw error;
+        return res.json({ success: true, session: updated });
+      }
 
       const { data, error } = await supabase
         .from('analytics_sessions')
