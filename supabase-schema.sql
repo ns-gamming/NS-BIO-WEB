@@ -1,3 +1,4 @@
+
 -- ================================================
 -- ANALYTICS TABLES
 -- ================================================
@@ -87,6 +88,15 @@ CREATE TABLE IF NOT EXISTS user_feedback (
   submitted_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS blog_feedback (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  blog_slug VARCHAR(255) NOT NULL,
+  rating INTEGER CHECK (rating >= 1 AND rating <= 5) NOT NULL,
+  feedback TEXT,
+  user_ip VARCHAR(100),
+  submitted_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- ================================================
 -- FREE FIRE BOT INTERACTION TRACKING
 -- ================================================
@@ -107,6 +117,14 @@ CREATE TABLE IF NOT EXISTS ff_bot_interactions (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS usage_logs (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  ip VARCHAR(100) NOT NULL,
+  uid VARCHAR(20) NOT NULL,
+  region VARCHAR(10) NOT NULL,
+  used_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- ================================================
 -- INDEXES FOR PERFORMANCE
 -- ================================================
@@ -122,8 +140,11 @@ CREATE INDEX IF NOT EXISTS idx_chat_messages_session_id ON chat_messages(session
 CREATE INDEX IF NOT EXISTS idx_chat_messages_timestamp ON chat_messages(timestamp);
 CREATE INDEX IF NOT EXISTS idx_user_feedback_page ON user_feedback(page_name);
 CREATE INDEX IF NOT EXISTS idx_user_feedback_tool ON user_feedback(tool_name);
+CREATE INDEX IF NOT EXISTS idx_blog_feedback_slug ON blog_feedback(blog_slug);
 CREATE INDEX IF NOT EXISTS idx_ff_bot_ip ON ff_bot_interactions(user_ip);
 CREATE INDEX IF NOT EXISTS idx_ff_bot_uid ON ff_bot_interactions(ff_uid);
+CREATE INDEX IF NOT EXISTS idx_usage_logs_ip ON usage_logs(ip);
+CREATE INDEX IF NOT EXISTS idx_usage_logs_date ON usage_logs(used_at);
 
 -- ================================================
 -- ROW LEVEL SECURITY (RLS) POLICIES
@@ -137,7 +158,9 @@ ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE chat_sessions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE chat_messages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_feedback ENABLE ROW LEVEL SECURITY;
+ALTER TABLE blog_feedback ENABLE ROW LEVEL SECURITY;
 ALTER TABLE ff_bot_interactions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE usage_logs ENABLE ROW LEVEL SECURITY;
 
 -- Service role has full access to everything
 CREATE POLICY "Service role full access analytics_sessions" ON analytics_sessions FOR ALL USING (auth.role() = 'service_role');
@@ -147,7 +170,9 @@ CREATE POLICY "Service role full access user_profiles" ON user_profiles FOR ALL 
 CREATE POLICY "Service role full access chat_sessions" ON chat_sessions FOR ALL USING (auth.role() = 'service_role');
 CREATE POLICY "Service role full access chat_messages" ON chat_messages FOR ALL USING (auth.role() = 'service_role');
 CREATE POLICY "Service role full access user_feedback" ON user_feedback FOR ALL USING (auth.role() = 'service_role');
+CREATE POLICY "Service role full access blog_feedback" ON blog_feedback FOR ALL USING (auth.role() = 'service_role');
 CREATE POLICY "Service role full access ff_bot_interactions" ON ff_bot_interactions FOR ALL USING (auth.role() = 'service_role');
+CREATE POLICY "Service role full access usage_logs" ON usage_logs FOR ALL USING (auth.role() = 'service_role');
 
 -- Public can insert their own data (backend will use service key)
 CREATE POLICY "Public insert analytics_sessions" ON analytics_sessions FOR INSERT WITH CHECK (true);
@@ -157,4 +182,6 @@ CREATE POLICY "Public insert user_profiles" ON user_profiles FOR INSERT WITH CHE
 CREATE POLICY "Public insert chat_sessions" ON chat_sessions FOR INSERT WITH CHECK (true);
 CREATE POLICY "Public insert chat_messages" ON chat_messages FOR INSERT WITH CHECK (true);
 CREATE POLICY "Public insert user_feedback" ON user_feedback FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public insert blog_feedback" ON blog_feedback FOR INSERT WITH CHECK (true);
 CREATE POLICY "Public insert ff_bot_interactions" ON ff_bot_interactions FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public insert usage_logs" ON usage_logs FOR INSERT WITH CHECK (true);

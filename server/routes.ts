@@ -40,9 +40,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Seed blog posts on startup
   await seedBlogPosts();
   
-  // Register analytics and chatbot routes
+  // Register analytics, chatbot and feedback routes
   registerAnalyticsRoutes(app);
   registerChatbotRoutes(app);
+  registerFeedbackRoutes(app);
   
   // Admin endpoint to initialize Supabase tables
   app.post("/api/admin/init-supabase", async (req, res) => {
@@ -193,13 +194,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Get user IP (handle both direct and proxied requests)
+      // Get user IP and agent
       const userIP = req.headers['x-forwarded-for'] || 
                      req.headers['x-real-ip'] || 
                      req.socket.remoteAddress || 
                      'unknown';
       
       const ipString = Array.isArray(userIP) ? userIP[0] : userIP.toString();
+      const userAgent = req.headers['user-agent'] || 'unknown';
 
       // Check if user has already used the tool today
       const today = new Date();
@@ -248,6 +250,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
           console.error('Error logging usage:', insertError);
         }
 
+        // Log complete interaction details
+        const { error: interactionError } = await supabase
+          .from('ff_bot_interactions')
+          .insert([{
+            user_ip: ipString,
+            ff_uid: uid,
+            ff_region: region,
+            player_name: apiData.response.PlayerNickname,
+            player_level: apiData.response.PlayerLevel,
+            likes_before: apiData.response.LikesbeforeCommand,
+            likes_added: apiData.response.LikesGivenByAPI,
+            likes_after: apiData.response.LikesafterCommand,
+            success: true,
+            error_message: null,
+            user_agent: userAgent,
+            created_at: new Date().toISOString()
+          }]);
+
+        if (interactionError) {
+          console.error('Error logging interaction:', interactionError);
+        }
+
         return res.json({
           success: true,
           player: apiData.response.PlayerNickname,
@@ -258,6 +282,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
           likesAfter: apiData.response.LikesafterCommand,
         });
       } else {
+        // Log failed interaction
+        const { error: interactionError } = await supabase
+          .from('ff_bot_interactions')
+          .insert([{
+            user_ip: ipString,
+            ff_uid: uid,
+            ff_region: region,
+            player_name: null,
+            player_level: null,
+            likes_before: null,
+            likes_added: 0,
+            likes_after: null,
+            success: false,
+            error_message: apiData.message || "Unable to add likes",
+            user_agent: userAgent,
+            created_at: new Date().toISOString()
+          }]);
+
+        if (interactionError) {
+          console.error('Error logging failed interaction:', interactionError);
+        }
+
         return res.json({
           success: false,
           message: apiData.message || "Unable to add likes at this time"
@@ -265,6 +311,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
     } catch (error) {
       console.error('Error processing request:', error);
+      
+      // Log error interaction
+      const userIP = req.headers['x-forwarded-for'] || 
+                     req.headers['x-real-ip'] || 
+                     req.socket.remoteAddress || 
+                     'unknown';
+      const ipString = Array.isArray(userIP) ? userIP[0] : userIP.toString();
+      const userAgent = req.headers['user-agent'] || 'unknown';
+      
+      if (supabase) {
+        await supabase
+          .from('ff_bot_interactions')
+          .insert([{
+            user_ip: ipString,
+            ff_uid: req.body.uid || 'unknown',
+            ff_region: req.body.region || 'unknown',
+            success: false,
+            error_message: error instanceof Error ? error.message : 'Internal server error',
+            user_agent: userAgent,
+            created_at: new Date().toISOString()
+          }]);
+      }
+      
       return res.status(500).json({ 
         success: false, 
         message: "Internal server error" 

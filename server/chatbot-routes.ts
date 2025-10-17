@@ -1,3 +1,4 @@
+
 import type { Express, Request } from "express";
 import { supabase } from './supabase-client';
 
@@ -9,6 +10,7 @@ function getClientIP(req: Request): string {
 
 export function registerChatbotRoutes(app: Express) {
   
+  // Save or update user profile
   app.post("/api/chat/profile", async (req, res) => {
     try {
       const { userId, name, age, gender, additionalInfo } = req.body;
@@ -65,10 +67,12 @@ export function registerChatbotRoutes(app: Express) {
     }
   });
 
+  // Start new chat session
   app.post("/api/chat/session/start", async (req, res) => {
     try {
       const { userId, sessionId } = req.body;
 
+      // Close any active sessions for this user
       await supabase
         .from('chat_sessions')
         .update({ is_active: false, ended_at: new Date().toISOString() })
@@ -96,6 +100,7 @@ export function registerChatbotRoutes(app: Express) {
     }
   });
 
+  // Save chat message
   app.post("/api/chat/message", async (req, res) => {
     try {
       const { sessionId, messageId, senderType, messageText, metadata } = req.body;
@@ -117,6 +122,7 @@ export function registerChatbotRoutes(app: Express) {
 
       if (error) throw error;
 
+      // Update message count
       const { data: session } = await supabase
         .from('chat_sessions')
         .select('message_count')
@@ -137,6 +143,7 @@ export function registerChatbotRoutes(app: Express) {
     }
   });
 
+  // Get chat history
   app.get("/api/chat/history/:sessionId", async (req, res) => {
     try {
       const { sessionId } = req.params;
@@ -158,6 +165,7 @@ export function registerChatbotRoutes(app: Express) {
     }
   });
 
+  // Get user profile
   app.get("/api/chat/profile/:userId", async (req, res) => {
     try {
       const { userId } = req.params;
@@ -177,6 +185,7 @@ export function registerChatbotRoutes(app: Express) {
     }
   });
 
+  // Get user sessions
   app.get("/api/chat/sessions/:userId", async (req, res) => {
     try {
       const { userId } = req.params;

@@ -1,3 +1,4 @@
+
 import type { Express, Request } from "express";
 import { supabase } from './supabase-client';
 
@@ -9,6 +10,7 @@ function getClientIP(req: Request): string {
 
 export function registerFeedbackRoutes(app: Express) {
   
+  // Submit general feedback (for pages and tools)
   app.post("/api/feedback", async (req, res) => {
     try {
       const { pageName, toolName, rating, feedbackText } = req.body;
@@ -45,6 +47,7 @@ export function registerFeedbackRoutes(app: Express) {
     }
   });
 
+  // Get feedback stats for a specific page/tool
   app.get("/api/feedback/stats/:pageName", async (req, res) => {
     try {
       const { pageName } = req.params;
