@@ -262,14 +262,6 @@ export const SEO_CONFIG = {
     type: 'website' as const,
   },
   portfolio: {
-
-  googleAdsCloud: {
-    title: 'Google Ads & Google Cloud 2025: Complete Digital Marketing & Cloud Computing Guide',
-    description: 'Master Google Ads and Google Cloud in 2025! Complete guide to PPC advertising, cloud computing, AI integration, keyword bidding, scalable infrastructure, and how to grow your business with Google\'s powerful platforms.',
-    keywords: 'Google Ads, Google Cloud, Google Ads 2025, Google Cloud Platform, GCP, digital marketing, PPC advertising, cloud computing, AI in cloud, machine learning, keyword bidding, ad targeting, cloud infrastructure, scalable apps, Vertex AI, BigQuery, Cloud Run, Google advertising, NS GAMMiNG, nsgamming.xyz',
-    type: 'article' as const,
-  },
-
     title: 'Portfolio - Nishant Sarkar Projects & Work',
     description: 'Explore projects and work by Nishant Sarkar (Naboraj Sarkar). Web development, gaming tools, content creation, and more. See the innovative solutions and creative projects.',
     keywords: 'Nishant Sarkar portfolio, Naboraj Sarkar projects, NS GAMMING projects, web development portfolio, gaming tools, developer portfolio, coding projects, React projects, JavaScript portfolio',
