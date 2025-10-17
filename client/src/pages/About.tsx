@@ -2,10 +2,50 @@
 import HeroSection from "../components/HeroSection";
 import AdSenseAd from "../components/AdSenseAd";
 import { Heart, GraduationCap, Users, Sparkles, Zap, Code, Trophy } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function About() {
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
+
+  // Live counter animation for investment values
+  const [cryptoValue, setCryptoValue] = useState(30000);
+  const [digitalGoldValue, setDigitalGoldValue] = useState(180000);
+  const [stockValue, setStockValue] = useState(80000);
+
+  useEffect(() => {
+    // Crypto counter - fluctuates between $29,800 - $30,200
+    const cryptoInterval = setInterval(() => {
+      setCryptoValue(prev => {
+        const change = (Math.random() - 0.5) * 60; // ±$30 change
+        const newValue = prev + change;
+        return Math.max(29800, Math.min(30200, newValue));
+      });
+    }, 4000); // Update every 4 seconds
+
+    // Digital Gold counter - fluctuates between ₹179,000 - ₹181,000
+    const goldInterval = setInterval(() => {
+      setDigitalGoldValue(prev => {
+        const change = (Math.random() - 0.5) * 300; // ±₹150 change
+        const newValue = prev + change;
+        return Math.max(179000, Math.min(181000, newValue));
+      });
+    }, 5000); // Update every 5 seconds
+
+    // Stock counter - fluctuates between ₹79,000 - ₹81,000
+    const stockInterval = setInterval(() => {
+      setStockValue(prev => {
+        const change = (Math.random() - 0.5) * 300; // ±₹150 change
+        const newValue = prev + change;
+        return Math.max(79000, Math.min(81000, newValue));
+      });
+    }, 4500); // Update every 4.5 seconds
+
+    return () => {
+      clearInterval(cryptoInterval);
+      clearInterval(goldInterval);
+      clearInterval(stockInterval);
+    };
+  }, []);
 
   const skills = [
     { name: "React", description: "JavaScript library for building user interfaces.", icon: "⚛️", color: "from-blue-500/20 to-cyan-500/20" },
@@ -142,28 +182,35 @@ export default function About() {
                 <div className="bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-xl p-6 border-2 border-yellow-500/30 hover:border-yellow-500/60 transition-all duration-300 hover:scale-105 group/card">
                   <div className="text-4xl mb-3 group-hover/card:animate-bounce">💎</div>
                   <h3 className="font-bold text-xl mb-2 text-yellow-600 dark:text-yellow-400">Cryptocurrency</h3>
-                  <p className="text-2xl font-bold mb-2">$30,000+</p>
+                  <p className="text-2xl font-bold mb-2 transition-all duration-500">
+                    ${cryptoValue.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}+
+                  </p>
                   <p className="text-sm text-muted-foreground">Invested in Bitcoin, Ethereum, and promising altcoins</p>
                 </div>
                 
                 <div className="bg-gradient-to-br from-amber-500/20 to-yellow-500/20 rounded-xl p-6 border-2 border-amber-500/30 hover:border-amber-500/60 transition-all duration-300 hover:scale-105 group/card">
                   <div className="text-4xl mb-3 group-hover/card:animate-bounce">🪙</div>
                   <h3 className="font-bold text-xl mb-2 text-amber-600 dark:text-amber-400">Digital Gold</h3>
-                  <p className="text-2xl font-bold mb-2">₹1,80,000</p>
+                  <p className="text-2xl font-bold mb-2 transition-all duration-500">
+                    ₹{digitalGoldValue.toLocaleString('en-IN', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+                  </p>
                   <p className="text-sm text-muted-foreground">Building wealth through digital precious metals</p>
                 </div>
                 
                 <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-xl p-6 border-2 border-green-500/30 hover:border-green-500/60 transition-all duration-300 hover:scale-105 group/card">
                   <div className="text-4xl mb-3 group-hover/card:animate-bounce">📈</div>
                   <h3 className="font-bold text-xl mb-2 text-green-600 dark:text-green-400">Stock Market</h3>
-                  <p className="text-2xl font-bold mb-2">₹80,000+</p>
+                  <p className="text-2xl font-bold mb-2 transition-all duration-500">
+                    ₹{stockValue.toLocaleString('en-IN', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}+
+                  </p>
                   <p className="text-sm text-muted-foreground">Growing equity portfolio with dividend stocks</p>
                 </div>
               </div>
               
               <div className="mt-6 p-4 bg-primary/10 rounded-lg border border-primary/20">
                 <p className="text-center text-foreground">
-                  <span className="font-bold text-primary">Total Portfolio Value:</span> $30,000+ USD + ₹2,60,000 INR across crypto, digital gold, and stocks 🚀
+                  <span className="font-bold text-primary">Total Portfolio Value:</span> 
+                  <span className="transition-all duration-500"> ${cryptoValue.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}+ USD + ₹{(digitalGoldValue + stockValue).toLocaleString('en-IN', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} INR</span> across crypto, digital gold, and stocks 🚀
                 </p>
                 <p className="text-center text-sm text-muted-foreground mt-2">
                   Young investor building wealth through smart diversification and long-term strategy
