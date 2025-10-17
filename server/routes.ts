@@ -439,37 +439,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Remove old duplicate endpoint - blog feedback is now handled in feedback-routes.ts
-  /*
-  app.post("/api/blog/:slug/feedback", async (req, res) => {
-    try {
-      if (!supabase) {
-        console.warn('Supabase not configured - feedback will not be saved');
-        return res.status(503).json({ 
-          success: false, 
-          message: "Database service temporarily unavailable" 
-        });
-      }
-
-      const { slug } = req.params;
-      const { rating, feedback } = req.body;
-
-      */
-
   // Blog feedback is now handled in feedback-routes.ts with proper schema mapping
-      }
-
-      tings;
-
-      res.json({ 
-        averageRating: Math.round(averageRating * 10) / 10, 
-        totalRatings 
-      });
-    } catch (error) {
-      console.error('Error fetching feedback stats:', error);
-      res.json({ averageRating: 0, totalRatings: 0 });
-    }
-  });
 
   // Blog endpoints
   app.get("/api/blog", async (req, res) => {
