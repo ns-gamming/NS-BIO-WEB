@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { GeminiChatbot } from "./components/GeminiChatbot";
+import CookieConsentBanner from "./components/CookieConsentBanner";
 import Navigation from "./components/Navigation";
 import ParticleBackground from "./components/ParticleBackground";
 import TimeGreeting from "./components/TimeGreeting";
@@ -161,6 +162,7 @@ Keep coding, keep creating! 🚀
             <BackButton />
             <EasterEggs />
             <GeminiChatbot />
+            <CookieConsentBanner />
             <Footer />
             <Toaster />
           </div>
