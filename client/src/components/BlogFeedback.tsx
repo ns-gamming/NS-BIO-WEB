@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -44,10 +43,10 @@ export default function BlogFeedback({ slug }: BlogFeedbackProps) {
 
     setIsSubmitting(true);
     try {
-      const response = await fetch(`/api/blog/${slug}/feedback`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ rating, feedback: feedback.trim() || null })
+      const response = await fetch(`/api/blog-feedback`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ slug, rating, feedback: feedback.trim() || null }),
       });
 
       if (!response.ok) {
@@ -98,7 +97,7 @@ export default function BlogFeedback({ slug }: BlogFeedbackProps) {
   return (
     <div className="border-t border-gray-200 dark:border-gray-800 pt-8 mt-8">
       <h3 className="text-2xl font-bold mb-4 dark:text-white">Rate This Article</h3>
-      
+
       {stats.totalRatings > 0 && (
         <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
           <div className="flex items-center gap-2">
