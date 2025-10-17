@@ -1,0 +1,78 @@
+
+[
+  {
+    "q": "What is Google Ads and how does it work?",
+    "a": "Google Ads is Google's online advertising platform that operates on a pay-per-click (PPC) model. When users search on Google, an instant auction determines which ads appear based on bid amount, quality score, and ad rank. Advertisers only pay when users click their ads.",
+    "source": "What is Google Ads? section"
+  },
+  {
+    "q": "What are the main types of Google Ads campaigns?",
+    "a": "The main types include: Search Ads (text ads on Google search), Display Ads (banner ads on millions of websites), Video Ads (YouTube advertising), Shopping Ads (product listings for e-commerce), App Promotion Ads (drive app installs), and Performance Max Campaigns (AI-powered cross-channel campaigns).",
+    "source": "Types of Google Ads Campaigns section"
+  },
+  {
+    "q": "What is Google Cloud Platform?",
+    "a": "Google Cloud Platform (GCP) is Google's suite of cloud computing services running on the same infrastructure that powers Google Search, YouTube, and Gmail. It provides computing power, storage, databases, machine learning, networking, and development tools for building, deploying, and scaling applications.",
+    "source": "What is Google Cloud Platform section"
+  },
+  {
+    "q": "What are the core Google Cloud services?",
+    "a": "Core services include: Compute Engine (virtual machines), App Engine (serverless platform), Cloud Functions (event-driven functions), Kubernetes Engine (container orchestration), Cloud Run (managed containers), Cloud Storage (object storage), Cloud SQL (managed databases), and BigQuery (data warehouse).",
+    "source": "Core Google Cloud Services section"
+  },
+  {
+    "q": "How much does Google Ads cost?",
+    "a": "Google Ads uses a pay-per-click model, so costs vary by industry and keywords. Average ROI is $8 for every $1 spent (800% return). You set your own budget and maximum cost-per-click. Smart bidding AI helps optimize spending for best results.",
+    "source": "Keyword Strategy & Bidding section"
+  },
+  {
+    "q": "What AI services does Google Cloud offer?",
+    "a": "Google Cloud offers Vertex AI (unified ML platform), Natural Language API (text analysis), Vision API (image recognition), Translation API (neural machine translation), Speech-to-Text, Text-to-Speech, and BigQuery ML for analytics-driven machine learning.",
+    "source": "AI & Machine Learning Services section"
+  },
+  {
+    "q": "How do Google Ads and Google Cloud work together?",
+    "a": "They create powerful synergy through data-driven advertising (storing customer data in BigQuery and syncing to Google Ads), marketing automation (processing ad data with Cloud Functions), scalable ad tech infrastructure, and e-commerce integration (connecting product catalogs to Shopping Ads).",
+    "source": "How Google Ads & Google Cloud Work Together section"
+  },
+  {
+    "q": "What is the average ROI for Google Ads?",
+    "a": "The average ROI for Google Ads is $8 for every $1 spent, which equals an 800% return on investment. However, this varies by industry, targeting, and campaign optimization. Proper keyword research, ad copy, and landing page optimization are crucial for maximizing ROI.",
+    "source": "Google Ads Statistics & Trends 2025 section"
+  },
+  {
+    "q": "Is Google Cloud good for startups?",
+    "a": "Yes, Google Cloud is excellent for startups. It offers $300 in free credits, pay-as-you-go pricing, automatic scaling from zero to millions of users, managed services that reduce operational overhead, and the same infrastructure that powers Google's own products. Perfect for bootstrapped startups.",
+    "source": "Use Cases: Who Benefits section"
+  },
+  {
+    "q": "What are the best practices for Google Ads optimization?",
+    "a": "Key practices include: starting with Search campaigns, thorough keyword research, compelling ad copy with clear CTAs, optimized fast-loading landing pages, using ad extensions, implementing conversion tracking, A/B testing everything, setting realistic budgets, monitoring quality scores, and using negative keywords to prevent wasted spend.",
+    "source": "Tips & Best Practices section"
+  },
+  {
+    "q": "How secure is Google Cloud?",
+    "a": "Google Cloud is highly secure with built-in DDoS protection, Cloud Armor WAF, encryption at rest and in transit, Identity & Access Management (IAM) for fine-grained control, compliance certifications (ISO, SOC, HIPAA), and the same security infrastructure that protects Google's own services.",
+    "source": "Networking & Security section"
+  },
+  {
+    "q": "Can I use Google Cloud for machine learning without coding?",
+    "a": "Yes! Google Cloud's Vertex AI offers AutoML, which allows you to build custom machine learning models without writing code. You can also use pre-trained models for vision, language, and video analysis. Perfect for non-technical users who want AI capabilities.",
+    "source": "AI & Machine Learning Services section"
+  },
+  {
+    "q": "What's the difference between Google Ads and traditional advertising?",
+    "a": "Google Ads is performance-based (pay only for results), highly targeted (reach specific audiences), measurable (track every click and conversion), flexible budgets (start with any amount), real-time optimization (adjust campaigns instantly), and provides detailed analytics—unlike traditional advertising which is broad, expensive, and hard to measure.",
+    "source": "How Google Ads Works section"
+  },
+  {
+    "q": "How does Google Cloud pricing work?",
+    "a": "Google Cloud uses pay-as-you-go pricing—you only pay for resources you actually use. There are no upfront costs or termination fees. You get $300 in free credits to start, and many services have free tiers. Committed use discounts and sustained use discounts automatically reduce costs for long-running workloads.",
+    "source": "Google Cloud Best Practices section"
+  },
+  {
+    "q": "What industries benefit most from Google Ads?",
+    "a": "E-commerce, local businesses (restaurants, services), B2B companies, SaaS startups, education/courses, healthcare providers, real estate, travel/hospitality, and professional services all see excellent ROI from Google Ads due to high search intent and precise targeting capabilities.",
+    "source": "Use Cases: Who Benefits section"
+  }
+]
