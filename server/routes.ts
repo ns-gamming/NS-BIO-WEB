@@ -5,6 +5,8 @@ import { createClient } from '@supabase/supabase-js';
 import { insertBlogPostSchema, insertPollSchema } from "@shared/schema";
 import { GoogleGenAI } from "@google/genai";
 import { comprehensiveBlogPosts } from "./blog-seed-data";
+import { registerAnalyticsRoutes } from "./analytics-routes";
+import { registerChatbotRoutes } from "./chatbot-routes";
 
 const supabase = process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_KEY
   ? createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY)
@@ -36,6 +38,11 @@ async function seedBlogPosts() {
 export async function registerRoutes(app: Express): Promise<Server> {
   // Seed blog posts on startup
   await seedBlogPosts();
+  
+  // Register analytics and chatbot routes
+  registerAnalyticsRoutes(app);
+  registerChatbotRoutes(app);
+  
   // Gemini Chat API endpoint
   app.post("/api/chat", async (req, res) => {
     try {
