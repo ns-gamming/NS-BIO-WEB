@@ -43,6 +43,98 @@ export async function registerRoutes(app: Express): Promise<Server> {
   registerAnalyticsRoutes(app);
   registerChatbotRoutes(app);
   
+  // Admin endpoint to initialize Supabase tables
+  app.post("/api/admin/init-supabase", async (req, res) => {
+    try {
+      if (!supabase) {
+        return res.status(503).json({ error: "Supabase not configured" });
+      }
+
+      const queries = [
+        `CREATE TABLE IF NOT EXISTS analytics_sessions (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          session_id VARCHAR(255) UNIQUE NOT NULL,
+          ip_address VARCHAR(100) NOT NULL,
+          user_agent TEXT,
+          device_info JSONB,
+          started_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+          ended_at TIMESTAMP WITH TIME ZONE,
+          is_active BOOLEAN DEFAULT true
+        );`,
+        `CREATE TABLE IF NOT EXISTS page_views (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          session_id VARCHAR(255),
+          page_url TEXT NOT NULL,
+          page_title TEXT,
+          referrer TEXT,
+          viewed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+          time_spent INTEGER DEFAULT 0
+        );`,
+        `CREATE TABLE IF NOT EXISTS user_events (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          session_id VARCHAR(255),
+          event_type VARCHAR(50) NOT NULL,
+          element_id TEXT,
+          element_text TEXT,
+          element_tag TEXT,
+          page_url TEXT NOT NULL,
+          timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+          metadata JSONB
+        );`,
+        `CREATE TABLE IF NOT EXISTS user_profiles (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          user_id VARCHAR(255) UNIQUE NOT NULL,
+          name TEXT NOT NULL,
+          age INTEGER,
+          gender VARCHAR(20),
+          ip_address VARCHAR(100),
+          additional_info JSONB,
+          created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+          updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+        );`,
+        `CREATE TABLE IF NOT EXISTS chat_sessions (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          session_id VARCHAR(255) UNIQUE NOT NULL,
+          user_id VARCHAR(255),
+          started_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+          ended_at TIMESTAMP WITH TIME ZONE,
+          is_active BOOLEAN DEFAULT true,
+          message_count INTEGER DEFAULT 0
+        );`,
+        `CREATE TABLE IF NOT EXISTS chat_messages (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          message_id VARCHAR(255) UNIQUE NOT NULL,
+          session_id VARCHAR(255),
+          sender_type VARCHAR(20) NOT NULL CHECK (sender_type IN ('user', 'assistant')),
+          message_text TEXT NOT NULL,
+          ip_address VARCHAR(100),
+          timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+          metadata JSONB
+        );`
+      ];
+
+      const results = [];
+      for (const query of queries) {
+        try {
+          const { error } = await supabase.rpc('exec_sql', { sql_query: query });
+          results.push({ query: query.substring(0, 50) + '...', success: !error, error: error?.message });
+        } catch (err) {
+          results.push({ query: query.substring(0, 50) + '...', success: false, error: 'execution failed' });
+        }
+      }
+
+      res.json({ 
+        success: true, 
+        message: "Tables initialization attempted",
+        results,
+        note: "If this fails, please run the SQL in supabase-schema.sql manually in your Supabase SQL editor"
+      });
+    } catch (error: any) {
+      console.error('Error initializing tables:', error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+  
   // Gemini Chat API endpoint
   app.post("/api/chat", async (req, res) => {
     try {
