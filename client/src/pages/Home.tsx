@@ -10,9 +10,9 @@ export default function Home() {
   return (
     <>
       <SEO 
-        title="NS GAMMING - Nishant Sarkar (Naboraj Sarkar) | Free Fire Tools Hub, Gaming & Full-Stack Development"
-        description="Welcome to NS GAMMING! Official website by Nishant Sarkar aka Naboraj Sarkar from Siliguri, West Bengal. Get premium free Free Fire tools including advanced sensitivity calculator (max 200 with DPI), stylish name generator with fancy fonts, UID creator, FF Bots Hub (free likes, profile booster), play browser games, read gaming & coding blogs, explore web development portfolio ($32K+ crypto, ₹1.8L+ digital gold investor), and join the NS Gamming Family (1.3K+ Discord, 15K+ Telegram, 8K+ YouTube). Your ultimate destination for gaming excellence and tech innovation in India!"
-        keywords="NS GAMMING, Nishant Sarkar, Naboraj Sarkar, Nishant, Naboraj, NS, NS Gamming Family, NS TEAM, NS GROUP, Free Fire tools India 2025, FF sensitivity calculator max 200 DPI, Free Fire name generator stylish fonts symbols, FF UID generator, FF Bots Hub free likes, Free Fire profile booster India, gaming utilities tools, coding projects portfolio, YouTube gaming channel India, developer portfolio Siliguri, Free Fire likes bot safe, Free Fire utilities mobile, gaming content creator India, web developer full stack India, React TypeScript developer, Python Java C++ programmer, crypto investor India, digital gold investment, NS Gamming community Discord Telegram, Free Fire tips tricks 2025, gaming tutorials Hindi English"
+        title="NS GAMMING - Naboraj Sarkar (Nishant) | Free Fire Tools, Gaming & Coding"
+        description="Welcome to NS GAMMING! I'm Naboraj Sarkar (Nishant), a developer and gamer creating free Free Fire tools, gaming utilities, coding projects, and content. Explore FF Bots Hub, games, blogs, and more!"
+        keywords="NS GAMMING, Naboraj Sarkar, Nishant Sarkar, NishantB, Naboraj, Free Fire tools, FF Bots, Gaming utilities, Coding projects, YouTube gaming, Developer portfolio, Free Fire likes bot, Free Fire utilities, Gaming content creator, Web developer India"
         ogImage={_1000016408}
         canonicalUrl="/"
       />

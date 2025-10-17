@@ -15,9 +15,9 @@ interface SEOProps {
 
 const DEFAULT_SEO = {
   siteName: 'NS GAMMING',
-  defaultTitle: 'NS GAMMING - Nishant Sarkar (Naboraj Sarkar) | Gaming, Coding & Content Creation Hub',
-  defaultDescription: 'Official website of NS GAMMING by Nishant Sarkar (Naboraj Sarkar) from Siliguri, West Bengal. Get Free Fire tools, advanced sensitivity calculator (max 200), stylish name generator, coding tutorials, gaming guides, tech content, and join the NS Gamming Family. Premium web development, YouTube content creation, and community building.',
-  defaultKeywords: 'NS GAMMING, Nishant Sarkar, Naboraj Sarkar, Nishant, Naboraj, NS, NS Gamming Family, NS TEAM, NS GROUP, Free Fire tools India, Free Fire sensitivity calculator max 200, Free Fire name generator stylish, gaming tutorials Hindi, coding tutorials, web development portfolio, tech blog India, content creator Siliguri, West Bengal gaming, YouTube NS GAMMING, Free Fire likes bot, Free Fire UID generator, gaming tips Free Fire, programming tutorials JavaScript Python React, web developer India, NS Gamming community, gaming channel India',
+  defaultTitle: 'NS GAMMING - Nishant Sarkar | Gaming, Coding & Content Creation',
+  defaultDescription: 'Official website of NS GAMMING by Nishant Sarkar (Naboraj Sarkar). Free Fire tools, coding tutorials, gaming guides, and tech content. Best Free Fire sensitivity settings, name generators, and more!',
+  defaultKeywords: 'NS GAMMING, Nishant Sarkar, Naboraj Sarkar, Nishant, Naboraj, NS, NS TEAM, NS GROUP, Free Fire tools, Free Fire sensitivity, Free Fire name generator, gaming tutorials, coding tutorials, web development, tech blog, content creator, Siliguri, West Bengal, India, YouTube NS GAMMING, Free Fire likes bot, Free Fire UID generator, gaming tips, programming tutorials, JavaScript tutorials, React tutorials, Python tutorials',
   defaultImage: 'https://nsgamming.xyz/og-image.png',
   siteUrl: 'https://nsgamming.xyz',
   twitterHandle: '@NSGAMMING699',
@@ -38,10 +38,10 @@ export function SEO({
   const [location] = useLocation();
 
   useEffect(() => {
-    const fullTitle = title
-      ? `${title} | ${DEFAULT_SEO.siteName}`
+    const fullTitle = title 
+      ? `${title} | ${DEFAULT_SEO.siteName}` 
       : DEFAULT_SEO.defaultTitle;
-
+    
     const metaDescription = description || DEFAULT_SEO.defaultDescription;
     const metaKeywords = keywords || DEFAULT_SEO.defaultKeywords;
     const metaImage = image || DEFAULT_SEO.defaultImage;
@@ -112,21 +112,6 @@ export function SEO({
     setMetaTag('apple-mobile-web-app-status-bar-style', 'black-translucent');
     setMetaTag('apple-mobile-web-app-title', DEFAULT_SEO.siteName);
 
-    // Additional SEO tags for better ranking
-    setMetaTag('copyright', `${new Date().getFullYear()} ${DEFAULT_SEO.siteName}`);
-    setMetaTag('category', 'Gaming, Web Development, Content Creation');
-    setMetaTag('coverage', 'Worldwide');
-    setMetaTag('identifier-URL', DEFAULT_SEO.siteUrl);
-    setMetaTag('owner', metaAuthor);
-    setMetaTag('reply-to', 'nsgamming699@gmail.com');
-    setMetaTag('subject', 'Gaming Tools, Coding Tutorials, Content Creation');
-    setMetaTag('summary', metaDescription);
-    setMetaTag('topic', 'Gaming, Technology, Web Development');
-    setMetaTag('abstract', metaDescription);
-    setMetaTag('page-topic', keywords || DEFAULT_SEO.defaultKeywords);
-    setMetaTag('audience', 'Gamers, Developers, Content Creators, Students');
-    setMetaTag('geography', 'Siliguri, West Bengal, India');
-    
     // Google Site Verification (you'll need to add your actual verification code)
     // setMetaTag('google-site-verification', 'YOUR_GOOGLE_VERIFICATION_CODE');
 
