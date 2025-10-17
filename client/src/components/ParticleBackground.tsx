@@ -50,27 +50,10 @@ export default function ParticleBackground() {
   }, [createParticle, handleMouseMove, particlesEnabled]);
 
   return (
-    <>
-      <div 
-        ref={containerRef}
-        className="particles fixed top-0 left-0 w-full h-full pointer-events-none z-[1]"
-        data-testid="particle-background"
-      />
-      
-      <Button
-        onClick={() => setParticlesEnabled(!particlesEnabled)}
-        variant="outline"
-        size="icon"
-        className="fixed bottom-6 right-24 z-50 pointer-events-auto bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm border-2 border-cyan-500/30 hover:border-cyan-500 transition-all duration-300 shadow-lg hover:shadow-cyan-500/20"
-        data-testid="button-toggle-particles"
-        title={particlesEnabled ? "Disable Particles" : "Enable Particles"}
-      >
-        {particlesEnabled ? (
-          <Sparkles className="h-5 w-5 text-cyan-500 animate-pulse" />
-        ) : (
-          <SparklesIcon className="h-5 w-5 text-gray-400" />
-        )}
-      </Button>
-    </>
+    <div 
+      ref={containerRef}
+      className="particles fixed top-0 left-0 w-full h-full pointer-events-none z-[1]"
+      data-testid="particle-background"
+    />
   );
 }
