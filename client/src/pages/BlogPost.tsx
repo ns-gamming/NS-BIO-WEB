@@ -9,6 +9,7 @@ import { useLiveViewCounter } from '@/hooks/useLiveViewCounter';
 import { useState, useEffect, useMemo } from 'react';
 import { getBlogPostBySlug } from '@/data/blogPosts';
 import AdSenseAd from '@/components/AdSenseAd';
+import ArticleQA from '@/components/ArticleQA';
 import { motion } from 'framer-motion';
 
 export default function BlogPost() {
@@ -205,7 +206,7 @@ export default function BlogPost() {
                 .replace(/\*\*(.+?)\*\*/g, '<strong class="font-bold text-gray-900 dark:text-white">$1</strong>')
                 .replace(/\*(.+?)\*/g, '<em class="italic">$1</em>')
                 .replace(/- (.+)/g, '<li class="ml-6 mb-2">$1</li>')
-                .replace(/(<li.*<\/li>)/s, '<ul class="list-disc mb-4">$1</ul>')
+                .replace(/(<li[\s\S]*<\/li>)/g, '<ul class="list-disc mb-4">$1</ul>')
                 .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto mb-4"><code class="text-sm">$2</code></pre>')
             }}
           />
@@ -303,6 +304,9 @@ export default function BlogPost() {
             </Button>
           </div>
         </div>
+
+        {/* Article Q&A */}
+        {params?.slug && <ArticleQA slug={params.slug} />}
 
         {/* AdSense Ad */}
         <motion.div 

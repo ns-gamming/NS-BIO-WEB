@@ -1,0 +1,42 @@
+[
+  {
+    "q": "What is the main strategy for climbing BR ranked?",
+    "a": "The main strategy involves perfect landing choices (mid-tier loot zones like Mars Electric or Mill), efficient looting (prioritize AR + armor in first 60 seconds), smart rotation timing (move at 60% zone closure), and endgame positioning (secure center circle with high ground).",
+    "source": "Perfect Your Landing Strategy & Zone Rotation Mastery sections"
+  },
+  {
+    "q": "What's the best sensitivity for ranked mode?",
+    "a": "Sensitivity depends on your device. Medium phones (400 DPI) should use General: 85, Red Dot: 75, Scope 2x: 70. Adjust based on playstyle - rushers add +10, snipers reduce scope sensitivity by -10.",
+    "source": "Not directly covered - see sensitivity article"
+  },
+  {
+    "q": "How should I prioritize looting?",
+    "a": "First 60 seconds: secure any AR/SMG with 60 bullets, level 2 vest and helmet. Next 2 minutes: get preferred weapon combo (AR + Sniper or AR + Shotgun). Remaining time: upgrade to level 3 gear, stock medical supplies (minimum 2 medkits and 2 gloo walls), gather grenades.",
+    "source": "Loot Efficiency Masterclass section"
+  },
+  {
+    "q": "When should I rotate to the next zone?",
+    "a": "Start moving when the zone is at 60% closure, not when fully closed. This gives time to choose optimal paths avoiding open areas, secure vehicles if needed, pre-position in strong compounds, and avoid getting sandwiched between zone and enemies.",
+    "source": "Zone Rotation Mastery section"
+  },
+  {
+    "q": "What are the key combat fundamentals?",
+    "a": "Pre-aim corners when entering buildings, use headglitch spots on high ground, strafe while shooting (A-D-A-D pattern), don't peek same angle twice, and practice one-tap headshots as they can cut time-to-kill in half.",
+    "source": "Combat Fundamentals That Win Fights section"
+  },
+  {
+    "q": "How many gloo walls should I carry for endgame?",
+    "a": "Keep 4-6 gloo walls for final zone. They're more valuable than ammunition in final circles. Always carry minimum 2 gloo walls as baseline throughout the match.",
+    "source": "Endgame Tactics for Top 10 section"
+  },
+  {
+    "q": "What's the best weapon combination?",
+    "a": "Current meta favors AR + Sniper or AR + Shotgun. MP40 and AK47 are still dominant. M1887 one-shot potential makes it deadly in final circles.",
+    "source": "Loot Efficiency Masterclass section"
+  },
+  {
+    "q": "Should I hot drop in ranked?",
+    "a": "Hot drops like Clock Tower and Peak give early kills and quick points but are extremely high-risk. For consistent ranked climbing, consider mid-tier loot zones like Mars Electric, Rim Nam Village, or Mill where you can gear up safely while securing 2-3 early-game kills.",
+    "source": "Perfect Your Landing Strategy section"
+  }
+]

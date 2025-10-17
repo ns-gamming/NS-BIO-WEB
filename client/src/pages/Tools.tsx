@@ -13,7 +13,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { 
   Copy, Sparkles, Shield, Gamepad2, Wand2, QrCode, Download, Upload,
-  ImageDown, Volume2, ClipboardCopy, Mic, MicOff, Wrench, Zap, Star, Smartphone
+  ImageDown, Volume2, ClipboardCopy, Mic, MicOff, Wrench, Zap, Star, Smartphone,
+  Crosshair, Target, Type, UserPlus
 } from 'lucide-react';
 import QRCode from 'qrcode';
 
@@ -385,7 +386,7 @@ const PasswordGenerator = () => {
   const [includeNumbers, setIncludeNumbers] = useState(true);
   const [includeSymbols, setIncludeSymbols] = useState(true);
   const [password, setPassword] = useState('');
-  const { toast } = useToast();
+  const { toast} = useToast();
 
   const generatePassword = () => {
     let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -452,6 +453,209 @@ const PasswordGenerator = () => {
           <span className="font-mono text-base sm:text-lg break-all dark:text-white animate-textShine flex-1" data-testid="text-generated-password">{password}</span>
           <Button variant="ghost" size="sm" onClick={copyToClipboard} data-testid="button-copy-password" className="dark:hover:bg-gray-700 hover:scale-125 transition-all duration-300 shrink-0">
             <Copy className="h-4 w-4 hover:animate-wiggle" />
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// NEW Free Fire Tools
+const WeaponStatsLookup = () => {
+  const [selectedWeapon, setSelectedWeapon] = useState('');
+  const { toast } = useToast();
+
+  const weaponStats = {
+    'AK': { damage: 61, range: 75, accuracy: 54, fireRate: 56, reload: 41, magazine: 30 },
+    'M1014': { damage: 94, range: 25, accuracy: 12, fireRate: 54, reload: 48, magazine: 6 },
+    'AWM': { damage: 90, range: 91, accuracy: 90, fireRate: 27, reload: 43, magazine: 5 },
+    'MP40': { damage: 48, range: 22, accuracy: 59, fireRate: 83, reload: 48, magazine: 20 },
+    'SCAR': { damage: 53, range: 60, accuracy: 53, fireRate: 61, reload: 42, magazine: 30 },
+    'Groza': { damage: 61, range: 79, accuracy: 62, fireRate: 58, reload: 42, magazine: 30 },
+  };
+
+  const stats = selectedWeapon ? weaponStats[selectedWeapon as keyof typeof weaponStats] : null;
+
+  return (
+    <div className="space-y-4 animate-fadeUp">
+      <div className="space-y-2 animate-zoomIn" style={{ animationDelay: '0.1s' }}>
+        <Label className="text-base sm:text-lg font-semibold flex items-center gap-2">
+          <Crosshair className="w-5 h-5 text-red-500" />
+          Select Weapon
+        </Label>
+        <Select value={selectedWeapon} onValueChange={setSelectedWeapon}>
+          <SelectTrigger className="dark:bg-gray-800 dark:text-white" data-testid="select-weapon">
+            <SelectValue placeholder="Choose a weapon..." />
+          </SelectTrigger>
+          <SelectContent className="dark:bg-gray-800 dark:text-white">
+            {Object.keys(weaponStats).map(weapon => (
+              <SelectItem key={weapon} value={weapon}>{weapon}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {stats && (
+        <div className="space-y-3 p-4 rounded-lg bg-gradient-to-r from-red-500/10 to-orange-500/10 dark:from-red-500/20 dark:to-orange-500/20 border border-red-500/20 dark:border-red-500/40 animate-bounceIn">
+          <h3 className="font-bold text-xl text-red-600 dark:text-red-400 mb-4">{selectedWeapon} Stats</h3>
+          {Object.entries(stats).map(([key, value], idx) => (
+            <div key={key} className="flex justify-between items-center animate-slideInFromLeft" style={{ animationDelay: `${idx * 0.1}s` }} data-testid={`stat-${key}`}>
+              <span className="dark:text-gray-300 capitalize">{key}:</span>
+              <div className="flex items-center gap-2 flex-1 max-w-xs ml-4">
+                <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-red-500 to-orange-500 transition-all duration-500"
+                    style={{ width: `${value}%` }}
+                  />
+                </div>
+                <span className="font-bold text-red-600 dark:text-red-400 min-w-[3ch]">{value}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const DropSimulator = () => {
+  const [dropLocation, setDropLocation] = useState('');
+  const { toast } = useToast();
+
+  const locations = [
+    { name: 'Clock Tower', loot: 'High', risk: 'Very High', players: '8-12' },
+    { name: 'Peak', loot: 'High', risk: 'Very High', players: '6-10' },
+    { name: 'Mars Electric', loot: 'Medium', risk: 'Medium', players: '4-6' },
+    { name: 'Mill', loot: 'Medium', risk: 'Low', players: '2-4' },
+    { name: 'Rim Nam Village', loot: 'Medium', risk: 'Medium', players: '3-5' },
+    { name: 'Shipyard', loot: 'High', risk: 'High', players: '5-8' },
+  ];
+
+  const simulateDrop = () => {
+    const randomLocation = locations[Math.floor(Math.random() * locations.length)];
+    setDropLocation(randomLocation.name);
+    toast({ title: "Drop Simulated!", description: `Landing at ${randomLocation.name}` });
+  };
+
+  const selectedLocation = locations.find(l => l.name === dropLocation);
+
+  return (
+    <div className="space-y-4 animate-fadeUp">
+      <Button onClick={simulateDrop} className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 hover:scale-105 transition-all" data-testid="button-simulate-drop">
+        <Target className="mr-2 h-4 w-4" />
+        Simulate Random Drop
+      </Button>
+
+      {selectedLocation && (
+        <div className="p-4 rounded-lg bg-gradient-to-r from-blue-500/10 to-cyan-500/10 dark:from-blue-500/20 dark:to-cyan-500/20 border border-blue-500/20 dark:border-blue-500/40 space-y-2 animate-bounceIn">
+          <h3 className="font-bold text-xl text-blue-600 dark:text-blue-400">{selectedLocation.name}</h3>
+          <div className="grid grid-cols-2 gap-2">
+            <div data-testid="drop-loot"><span className="text-gray-600 dark:text-gray-400">Loot:</span> <span className="font-semibold dark:text-white">{selectedLocation.loot}</span></div>
+            <div data-testid="drop-risk"><span className="text-gray-600 dark:text-gray-400">Risk:</span> <span className="font-semibold dark:text-white">{selectedLocation.risk}</span></div>
+            <div className="col-span-2" data-testid="drop-players"><span className="text-gray-600 dark:text-gray-400">Expected Players:</span> <span className="font-semibold dark:text-white">{selectedLocation.players}</span></div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// NEW Utility Tools
+const TextFormatter = () => {
+  const [text, setText] = useState('');
+  const [formatted, setFormatted] = useState('');
+  const [formatType, setFormatType] = useState('uppercase');
+  const { toast } = useToast();
+
+  const formatText = () => {
+    let result = text;
+    switch (formatType) {
+      case 'uppercase': result = text.toUpperCase(); break;
+      case 'lowercase': result = text.toLowerCase(); break;
+      case 'capitalize': result = text.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' '); break;
+      case 'reverse': result = text.split('').reverse().join(''); break;
+      case 'removeSpaces': result = text.replace(/\s+/g, ''); break;
+    }
+    setFormatted(result);
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(formatted);
+    toast({ title: "Copied!", description: "Formatted text copied" });
+  };
+
+  return (
+    <div className="space-y-4 animate-fadeUp">
+      <Textarea
+        placeholder="Enter text to format..."
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        className="dark:bg-gray-800 dark:text-white min-h-[100px]"
+        data-testid="input-text-formatter"
+      />
+
+      <Select value={formatType} onValueChange={setFormatType}>
+        <SelectTrigger className="dark:bg-gray-800 dark:text-white" data-testid="select-format-type">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent className="dark:bg-gray-800 dark:text-white">
+          <SelectItem value="uppercase">UPPERCASE</SelectItem>
+          <SelectItem value="lowercase">lowercase</SelectItem>
+          <SelectItem value="capitalize">Capitalize Each Word</SelectItem>
+          <SelectItem value="reverse">Reverse Text</SelectItem>
+          <SelectItem value="removeSpaces">Remove Spaces</SelectItem>
+        </SelectContent>
+      </Select>
+
+      <Button onClick={formatText} className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 hover:scale-105 transition-all" data-testid="button-format-text">
+        <Type className="mr-2 h-4 w-4" />
+        Format Text
+      </Button>
+
+      {formatted && (
+        <div className="flex items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-purple-500/10 to-pink-500/10 dark:from-purple-500/20 dark:to-pink-500/20 border border-purple-500/20 dark:border-purple-500/40 animate-bounceIn">
+          <span className="flex-1 dark:text-white break-all" data-testid="text-formatted-result">{formatted}</span>
+          <Button variant="ghost" size="sm" onClick={copyToClipboard} data-testid="button-copy-formatted">
+            <Copy className="h-4 w-4" />
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const RandomNicknameGenerator = () => {
+  const [nickname, setNickname] = useState('');
+  const { toast } = useToast();
+
+  const adjectives = ['Epic', 'Legendary', 'Pro', 'Shadow', 'Mystic', 'Elite', 'Alpha', 'Ultra', 'Supreme', 'Toxic'];
+  const nouns = ['Sniper', 'Warrior', 'Hunter', 'Phantom', 'Assassin', 'Legend', 'Beast', 'King', 'Dragon', 'Ninja'];
+  const numbers = () => Math.floor(Math.random() * 999) + 1;
+
+  const generateNickname = () => {
+    const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+    const noun = nouns[Math.floor(Math.random() * nouns.length)];
+    const num = numbers();
+    setNickname(`${adj}${noun}${num}`);
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(nickname);
+    toast({ title: "Copied!", description: "Nickname copied" });
+  };
+
+  return (
+    <div className="space-y-4 animate-fadeUp">
+      <Button onClick={generateNickname} className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 hover:scale-105 transition-all" data-testid="button-generate-nickname">
+        <UserPlus className="mr-2 h-4 w-4" />
+        Generate Random Nickname
+      </Button>
+
+      {nickname && (
+        <div className="flex items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-green-500/10 to-emerald-500/10 dark:from-green-500/20 dark:to-emerald-500/20 border border-green-500/20 dark:border-green-500/40 animate-bounceIn">
+          <span className="flex-1 text-xl font-bold dark:text-white" data-testid="text-generated-nickname">{nickname}</span>
+          <Button variant="ghost" size="sm" onClick={copyToClipboard} data-testid="button-copy-nickname">
+            <Copy className="h-4 w-4" />
           </Button>
         </div>
       )}
@@ -1011,7 +1215,7 @@ export default function Tools() {
           </Button>
 
           <Tabs defaultValue="ffname" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 gap-2 p-2 dark:bg-gray-800/50 backdrop-blur-xl mb-8 sm:mb-12 animate-fadeUp shadow-2xl hover:shadow-[0_0_50px_rgba(6,182,212,0.4)] transition-all duration-500 rounded-2xl border-2 border-gray-200 dark:border-gray-700" data-testid="tabs-fftools">
+            <TabsList className="grid w-full grid-cols-3 md:grid-cols-6 gap-2 p-2 dark:bg-gray-800/50 backdrop-blur-xl mb-8 sm:mb-12 animate-fadeUp shadow-2xl hover:shadow-[0_0_50px_rgba(6,182,212,0.4)] transition-all duration-500 rounded-2xl border-2 border-gray-200 dark:border-gray-700" data-testid="tabs-fftools">
               <TabsTrigger value="ffname" data-testid="tab-ffname" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/30 data-[state=active]:to-blue-500/30 data-[state=active]:shadow-[0_0_25px_rgba(6,182,212,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
                 <Sparkles className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                 <span className="hidden sm:inline">FF Name</span>
@@ -1030,6 +1234,16 @@ export default function Tools() {
                 <Shield className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                 <span className="hidden sm:inline">Password</span>
                 <span className="sm:hidden">Pass</span>
+              </TabsTrigger>
+              <TabsTrigger value="weapons" data-testid="tab-weapons" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500/30 data-[state=active]:to-orange-500/30 data-[state=active]:shadow-[0_0_25px_rgba(239,68,68,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
+                <Crosshair className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                <span className="hidden sm:inline">Weapons</span>
+                <span className="sm:hidden">Wpn</span>
+              </TabsTrigger>
+              <TabsTrigger value="drop" data-testid="tab-drop" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500/30 data-[state=active]:to-cyan-500/30 data-[state=active]:shadow-[0_0_25px_rgba(59,130,246,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
+                <Target className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                <span className="hidden sm:inline">Drop</span>
+                <span className="sm:hidden">Drop</span>
               </TabsTrigger>
             </TabsList>
 
@@ -1116,6 +1330,48 @@ export default function Tools() {
                 </CardContent>
               </Card>
             </TabsContent>
+
+            <TabsContent value="weapons" className="mt-8 sm:mt-12 animate-fadeUp">
+              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(239,68,68,0.4)] dark:hover:shadow-[0_0_40px_rgba(239,68,68,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-red-500/50 rounded-2xl">
+                <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 via-orange-500/5 to-red-500/10 animate-gradient-shift" />
+                <div className="absolute -inset-1 bg-gradient-to-r from-red-500/20 to-orange-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+                <CardHeader className="relative z-10">
+                  <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textBounceIn text-xl sm:text-2xl">
+                    <div className="p-2 bg-gradient-to-br from-red-500 to-orange-600 rounded-lg shadow-lg">
+                      <Crosshair className="h-6 w-6 text-white animate-pulse" />
+                    </div>
+                    FF Weapon Stats Lookup
+                  </CardTitle>
+                  <CardDescription className="dark:text-gray-400 animate-textFadeSlide text-sm sm:text-base" style={{ animationDelay: '0.1s' }}>
+                    View detailed weapon statistics and compare performance 🎯
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="relative z-10">
+                  <WeaponStatsLookup />
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="drop" className="mt-8 sm:mt-12 animate-fadeUp">
+              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(59,130,246,0.4)] dark:hover:shadow-[0_0_40px_rgba(59,130,246,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-blue-500/50 rounded-2xl">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-cyan-500/5 to-blue-500/10 animate-gradient-shift" />
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+                <CardHeader className="relative z-10">
+                  <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textBounceIn text-xl sm:text-2xl">
+                    <div className="p-2 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg shadow-lg">
+                      <Target className="h-6 w-6 text-white animate-spin-slow" />
+                    </div>
+                    Drop Location Simulator
+                  </CardTitle>
+                  <CardDescription className="dark:text-gray-400 animate-textFadeSlide text-sm sm:text-base" style={{ animationDelay: '0.1s' }}>
+                    Simulate random drop locations with loot and risk analysis 📍
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="relative z-10">
+                  <DropSimulator />
+                </CardContent>
+              </Card>
+            </TabsContent>
           </Tabs>
 
           <div className="mt-12 animate-fadeUp">
@@ -1152,7 +1408,7 @@ export default function Tools() {
         </Button>
 
         <Tabs defaultValue="image" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 gap-2 p-2 dark:bg-gray-800/50 backdrop-blur-xl mb-8 sm:mb-12 animate-fadeUp shadow-2xl hover:shadow-[0_0_50px_rgba(168,85,247,0.4)] transition-all duration-500 rounded-2xl border-2 border-gray-200 dark:border-gray-700" data-testid="tabs-utility">
+          <TabsList className="grid w-full grid-cols-3 md:grid-cols-6 gap-2 p-2 dark:bg-gray-800/50 backdrop-blur-xl mb-8 sm:mb-12 animate-fadeUp shadow-2xl hover:shadow-[0_0_50px_rgba(168,85,247,0.4)] transition-all duration-500 rounded-2xl border-2 border-gray-200 dark:border-gray-700" data-testid="tabs-utility">
             <TabsTrigger value="image" data-testid="tab-image" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/30 data-[state=active]:to-blue-500/30 data-[state=active]:shadow-[0_0_25px_rgba(6,182,212,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
               <ImageDown className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
               <span className="hidden sm:inline">Image</span>
@@ -1171,6 +1427,16 @@ export default function Tools() {
               <ClipboardCopy className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
               <span className="hidden sm:inline">Clipboard</span>
               <span className="sm:hidden">Clip</span>
+            </TabsTrigger>
+            <TabsTrigger value="text-formatter" data-testid="tab-text-formatter" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/30 data-[state=active]:to-pink-500/30 data-[state=active]:shadow-[0_0_25px_rgba(168,85,247,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
+              <Type className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+              <span className="hidden sm:inline">Text</span>
+              <span className="sm:hidden">Txt</span>
+            </TabsTrigger>
+            <TabsTrigger value="nickname" data-testid="tab-nickname" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/30 data-[state=active]:to-emerald-500/30 data-[state=active]:shadow-[0_0_25px_rgba(34,197,94,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
+              <UserPlus className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+              <span className="hidden sm:inline">Nick</span>
+              <span className="sm:hidden">Nick</span>
             </TabsTrigger>
           </TabsList>
 
@@ -1254,6 +1520,48 @@ export default function Tools() {
               </CardHeader>
               <CardContent className="relative z-10">
                 <ClipboardManager />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="text-formatter" className="mt-8 sm:mt-12 animate-fadeUp">
+            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(168,85,247,0.4)] dark:hover:shadow-[0_0_40px_rgba(168,85,247,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-purple-500/50 rounded-2xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-purple-500/10 animate-gradient-shift" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-purple-500/20 to-pink-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+              <CardHeader className="relative z-10">
+                <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textShine text-xl sm:text-2xl">
+                  <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg shadow-lg">
+                    <Type className="h-6 w-6 text-white animate-pulse" />
+                  </div>
+                  Text Formatter
+                </CardTitle>
+                <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-sm sm:text-base">
+                  Transform text with various formatting options ✍️
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="relative z-10">
+                <TextFormatter />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="nickname" className="mt-8 sm:mt-12 animate-fadeUp">
+            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(34,197,94,0.4)] dark:hover:shadow-[0_0_40px_rgba(34,197,94,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-green-500/50 rounded-2xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-emerald-500/5 to-green-500/10 animate-gradient-shift" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+              <CardHeader className="relative z-10">
+                <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textShine text-xl sm:text-2xl">
+                  <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg shadow-lg">
+                    <UserPlus className="h-6 w-6 text-white animate-bounce-slow" />
+                  </div>
+                  Random Nickname Generator
+                </CardTitle>
+                <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-sm sm:text-base">
+                  Generate unique gaming nicknames instantly 🎮
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="relative z-10">
+                <RandomNicknameGenerator />
               </CardContent>
             </Card>
           </TabsContent>

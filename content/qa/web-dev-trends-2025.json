@@ -1,0 +1,32 @@
+[
+  {
+    "q": "What are the most important web development trends in 2025?",
+    "a": "Key trends include AI-powered development tools (GitHub Copilot, ChatGPT), modern frameworks (Next.js 15, Remix, Astro, SolidJS), TypeScript for type safety, Tailwind CSS for styling, React Server Components, and edge functions for global deployment.",
+    "source": "AI-Powered Development & Modern Frameworks sections"
+  },
+  {
+    "q": "Should I learn TypeScript?",
+    "a": "Yes, absolutely. Type safety is no longer optional. TypeScript prevents bugs, improves developer experience, and makes codebases maintainable. It's considered an essential skill for 2025.",
+    "source": "Essential Skills for 2025 section"
+  },
+  {
+    "q": "What frameworks should I focus on?",
+    "a": "Next.js 15 (server components, edge runtime), Remix (progressive enhancement), Astro (content sites with island architecture), and SolidJS (reactive primitives without virtual DOM). Each serves different use cases.",
+    "source": "Modern Frameworks section"
+  },
+  {
+    "q": "What are Core Web Vitals?",
+    "a": "Core Web Vitals are ranking factors for SEO: LCP (Largest Contentful Paint < 2.5s), FID (First Input Delay < 100ms), and CLS (Cumulative Layout Shift < 0.1). They measure user experience and affect search rankings.",
+    "source": "Performance Optimization section"
+  },
+  {
+    "q": "How do I optimize web performance?",
+    "a": "Use image optimization (next/image), code splitting and lazy loading, service workers for offline support, critical CSS inlining, and font optimization with subsetting.",
+    "source": "Optimization Techniques subsection"
+  },
+  {
+    "q": "Is Web3 important to learn?",
+    "a": "While not mainstream yet, understanding blockchain basics and smart contracts will set you apart. Learn wallet integration (MetaMask, WalletConnect), smart contract interaction (ethers.js, web3.js), and decentralized storage (IPFS, Arweave).",
+    "source": "Web3 Integration section"
+  }
+]

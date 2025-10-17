@@ -1,0 +1,32 @@
+[
+  {
+    "q": "What equipment do I need to start content creation?",
+    "a": "Budget setup ($300-500): Use your smartphone camera, Boya BY-M1 lavalier mic ($25), ring light ($40), and CapCut for editing (free). This provides everything needed to start creating quality content.",
+    "source": "Budget Setup section"
+  },
+  {
+    "q": "Should I invest in audio or camera first?",
+    "a": "Always invest in audio FIRST. People will forgive bad video quality but not bad audio. Clear, crisp audio keeps viewers engaged - fuzzy audio makes them leave. Get a good microphone before upgrading your camera.",
+    "source": "The Golden Rule: Audio is Key section"
+  },
+  {
+    "q": "What's a good mid-range setup?",
+    "a": "Mid-range ($1000-2000): Sony ZV-E10 or Canon M50 Mark II camera ($700-900), Rode VideoMic GO or Blue Yeti mic ($80-130), Godox SL-60W LED light ($150), and DaVinci Resolve (free) or Adobe Premiere Pro.",
+    "source": "Mid-Range Setup section"
+  },
+  {
+    "q": "What equipment do professional creators use?",
+    "a": "Professional setup ($3000+): Sony A7 IV or Canon R6 camera ($2,500), Shure SM7B mic with Cloudlifter ($550), Aputure 120D Mark II light ($650), and Adobe Creative Cloud Suite. This provides broadcast-quality results.",
+    "source": "Professional Setup section"
+  },
+  {
+    "q": "What accessories are essential?",
+    "a": "Must-haves: Tripod or gimbal for stabilization ($50-300), U3-rated SD cards for 4K ($20-50), external SSD for storage ($100-300), and green screen for visual effects ($50-150).",
+    "source": "Essential Accessories section"
+  },
+  {
+    "q": "What's the best starting strategy?",
+    "a": "Start with what you have (phone is enough), invest in audio first (lavalier or USB mic $25-130), add basic lighting (ring light $30-60), and upgrade camera last when content quality demands it.",
+    "source": "Starting Strategy section"
+  }
+]

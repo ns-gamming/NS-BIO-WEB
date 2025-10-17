@@ -1,0 +1,32 @@
+[
+  {
+    "q": "What sensitivity settings should I use for my device?",
+    "a": "For low-end devices (2GB RAM): General 55-65, Red Dot 45-55. For mid-range (4-6GB): General 65-75, Red Dot 55-65. For flagship (8GB+): General 75-85, Red Dot 65-75. Always keep scope sensitivity 10-15 points lower than general.",
+    "source": "Device-Based Recommendations section"
+  },
+  {
+    "q": "How do I find my perfect sensitivity?",
+    "a": "Start with baseline settings for your device category, play 5 training room sessions testing close/medium/long-range, adjust general sensitivity first as foundation, fine-tune scope sensitivities based on weapon preferences, test in real matches, then make micro-adjustments of ±2-3 points.",
+    "source": "The Testing Process section"
+  },
+  {
+    "q": "Why does sensitivity matter?",
+    "a": "Sensitivity directly affects aim accuracy, reaction time, and gameplay smoothness. Too high and you'll overshoot targets; too low and you can't track fast-moving enemies. Perfect sensitivity allows precise aim while maintaining quick 180-degree turns.",
+    "source": "Why Sensitivity Matters More Than You Think section"
+  },
+  {
+    "q": "Should aggressive players use different sensitivity?",
+    "a": "Yes. Aggressive rushers should add +10 to all baseline settings for faster camera movement. Sniper mains should reduce scope sensitivity by -10 for precision shots. Balanced players should use baseline recommendations.",
+    "source": "Play Style Adjustments section"
+  },
+  {
+    "q": "What do pro players use?",
+    "a": "Analysis of top 100 Heroic players shows: 73% use general sensitivity between 65-75, 89% keep scope sensitivity 10-15 points lower than general, 95% use AWM sensitivity at least 20 points lower than general, and all use free look matching or slightly higher than general.",
+    "source": "Pro Player Settings Analysis section"
+  },
+  {
+    "q": "How long should I stick with new settings?",
+    "a": "Stick with settings for at least 2 weeks before making major changes. Muscle memory takes time to develop. The best sensitivity is one you can use consistently.",
+    "source": "Conclusion section"
+  }
+]
