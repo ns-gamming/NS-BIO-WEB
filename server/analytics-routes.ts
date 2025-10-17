@@ -84,6 +84,7 @@ export function registerAnalyticsRoutes(app: Express) {
   app.post("/api/analytics/pageview", async (req, res) => {
     try {
       const { sessionId, pageUrl, pageTitle, referrer } = req.body;
+      const ipAddress = getClientIP(req);
 
       const { data, error } = await supabase
         .from('page_views')
@@ -92,8 +93,9 @@ export function registerAnalyticsRoutes(app: Express) {
           page_url: pageUrl,
           page_title: pageTitle,
           referrer: referrer || null,
+          ip_address: ipAddress,
           viewed_at: new Date().toISOString(),
-          time_spent: 0
+          time_spent_seconds: 0
         }])
         .select()
         .single();
@@ -110,6 +112,7 @@ export function registerAnalyticsRoutes(app: Express) {
   app.post("/api/analytics/event", async (req, res) => {
     try {
       const { sessionId, eventType, elementId, elementText, elementTag, pageUrl, metadata } = req.body;
+      const ipAddress = getClientIP(req);
 
       const { data, error } = await supabase
         .from('user_events')
@@ -120,7 +123,8 @@ export function registerAnalyticsRoutes(app: Express) {
           element_text: elementText || null,
           element_tag: elementTag || null,
           page_url: pageUrl,
-          timestamp: new Date().toISOString(),
+          ip_address: ipAddress,
+          occurred_at: new Date().toISOString(),
           metadata: metadata || {}
         }])
         .select()
@@ -165,7 +169,7 @@ export function registerAnalyticsRoutes(app: Express) {
 
       const { data, error } = await supabase
         .from('page_views')
-        .update({ time_spent: timeSpent })
+        .update({ time_spent_seconds: timeSpent })
         .eq('id', pageViewId)
         .select()
         .single();

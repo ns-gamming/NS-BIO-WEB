@@ -50,7 +50,7 @@ export function registerFeedbackRoutes(app: Express) {
   app.post("/api/blog/:slug/feedback", async (req, res) => {
     try {
       const { slug } = req.params;
-      const { rating, feedbackText } = req.body;
+      const { rating, feedback } = req.body;
       const ipAddress = getClientIP(req);
       const userAgent = req.headers['user-agent'] || 'unknown';
 
@@ -66,7 +66,7 @@ export function registerFeedbackRoutes(app: Express) {
         .insert([{
           blog_slug: slug,
           rating,
-          feedback_text: feedbackText || null,
+          feedback_text: feedback || null,
           user_ip: ipAddress,
           user_agent: userAgent,
           submitted_at: new Date().toISOString()
