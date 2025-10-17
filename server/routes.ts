@@ -7,6 +7,7 @@ import { GoogleGenAI } from "@google/genai";
 import { comprehensiveBlogPosts } from "./blog-seed-data";
 import { registerAnalyticsRoutes } from "./analytics-routes";
 import { registerChatbotRoutes } from "./chatbot-routes";
+import { registerFeedbackRoutes } from "./feedback-routes";
 
 const supabase = process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_KEY
   ? createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY)
