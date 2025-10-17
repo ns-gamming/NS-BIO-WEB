@@ -199,6 +199,91 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Blog feedback endpoints
+  app.post("/api/blog/:slug/feedback", async (req, res) => {
+    try {
+      if (!supabase) {
+        return res.status(503).json({ 
+          success: false, 
+          message: "Service temporarily unavailable" 
+        });
+      }
+
+      const { slug } = req.params;
+      const { rating, feedback } = req.body;
+
+      if (!rating || rating < 1 || rating > 5) {
+        return res.status(400).json({ 
+          success: false, 
+          message: "Rating must be between 1 and 5" 
+        });
+      }
+
+      const userIP = req.headers['x-forwarded-for'] || 
+                     req.headers['x-real-ip'] || 
+                     req.socket.remoteAddress || 
+                     'unknown';
+      const ipString = Array.isArray(userIP) ? userIP[0] : userIP.toString();
+
+      const { error } = await supabase
+        .from('blog_feedback')
+        .insert([{ 
+          blog_slug: slug,
+          rating,
+          feedback: feedback || null,
+          user_ip: ipString
+        }]);
+
+      if (error) {
+        console.error('Error saving feedback:', error);
+        return res.status(500).json({ 
+          success: false, 
+          message: "Failed to save feedback" 
+        });
+      }
+
+      res.json({ success: true, message: "Feedback submitted successfully" });
+    } catch (error) {
+      console.error('Error processing feedback:', error);
+      res.status(500).json({ success: false, message: "Internal server error" });
+    }
+  });
+
+  app.get("/api/blog/:slug/feedback-stats", async (req, res) => {
+    try {
+      if (!supabase) {
+        return res.json({ averageRating: 0, totalRatings: 0 });
+      }
+
+      const { slug } = req.params;
+
+      const { data, error } = await supabase
+        .from('blog_feedback')
+        .select('rating')
+        .eq('blog_slug', slug);
+
+      if (error) {
+        console.error('Error fetching feedback stats:', error);
+        return res.json({ averageRating: 0, totalRatings: 0 });
+      }
+
+      if (!data || data.length === 0) {
+        return res.json({ averageRating: 0, totalRatings: 0 });
+      }
+
+      const totalRatings = data.length;
+      const averageRating = data.reduce((sum, item) => sum + item.rating, 0) / totalRatings;
+
+      res.json({ 
+        averageRating: Math.round(averageRating * 10) / 10, 
+        totalRatings 
+      });
+    } catch (error) {
+      console.error('Error fetching feedback stats:', error);
+      res.json({ averageRating: 0, totalRatings: 0 });
+    }
+  });
+
   // Blog endpoints
   app.get("/api/blog", async (req, res) => {
     try {

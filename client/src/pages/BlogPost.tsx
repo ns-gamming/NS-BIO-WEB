@@ -10,6 +10,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { getBlogPostBySlug } from '@/data/blogPosts';
 import AdSenseAd from '@/components/AdSenseAd';
 import ArticleQA from '@/components/ArticleQA';
+import BlogFeedback from '@/components/BlogFeedback';
 import { motion } from 'framer-motion';
 
 export default function BlogPost() {
@@ -381,6 +382,9 @@ export default function BlogPost() {
 
         {/* Article Q&A */}
         {params?.slug && <ArticleQA slug={params.slug} />}
+
+        {/* Blog Feedback */}
+        {params?.slug && <BlogFeedback slug={params.slug} />}
 
         {/* AdSense Ad */}
         <motion.div 
