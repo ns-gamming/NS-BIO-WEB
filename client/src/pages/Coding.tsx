@@ -3,6 +3,7 @@ import HeroSection from "../components/HeroSection";
 import AdSenseAd from "../components/AdSenseAd";
 import { Link } from "wouter";
 import { Code, Terminal, Globe, Smartphone, Database, Cloud, Sparkles, Zap, Heart } from "lucide-react";
+import { SEO, SEO_CONFIG } from "../components/SEO";
 
 export default function Coding() {
   const techStack = [
@@ -45,11 +46,18 @@ export default function Coding() {
   ];
 
   return (
-    <div className="pt-16 min-h-screen">
-      <HeroSection 
-        title="💻 Coding Journey"
-        subtitle="Building the future, one line at a time — every bug is a lesson, every feature is a victory!"
+    <>
+      <SEO 
+        title={SEO_CONFIG.coding.title}
+        description={SEO_CONFIG.coding.description}
+        keywords={SEO_CONFIG.coding.keywords}
+        type={SEO_CONFIG.coding.type}
       />
+      <div className="pt-16 min-h-screen">
+        <HeroSection 
+          title="💻 Coding Journey"
+          subtitle="Building the future, one line at a time — every bug is a lesson, every feature is a victory!"
+        />
       
       <div className="container mx-auto px-4 sm:px-6 pb-20">
         <div className="max-w-6xl mx-auto">
@@ -234,6 +242,7 @@ export default function Coding() {
       </div>
       
       <AdSenseAd />
-    </div>
+      </div>
+    </>
   );
 }

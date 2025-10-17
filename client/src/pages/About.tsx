@@ -1,4 +1,3 @@
-
 import HeroSection from "../components/HeroSection";
 import AdSenseAd from "../components/AdSenseAd";
 import { Heart, GraduationCap, Users, Sparkles, Zap, Code, Trophy } from "lucide-react";
@@ -89,7 +88,7 @@ export default function About() {
             {/* Animated Border Gradient */}
             <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient"></div>
             <div className="absolute inset-[2px] bg-background/95 dark:bg-background/95 rounded-2xl"></div>
-            
+
             <div className="relative z-10">
               <h2 className="text-3xl font-bold text-primary mb-6 flex items-center gap-3 animate-slideRight">
                 <Sparkles className="w-8 h-8 animate-spin-slow" />
@@ -123,7 +122,7 @@ export default function About() {
             <div className="space-y-8 relative">
               {/* Vertical Timeline Line */}
               <div className="absolute left-6 top-0 bottom-0 w-1 bg-gradient-to-b from-primary via-accent to-primary animate-shimmer hidden sm:block"></div>
-              
+
               <div className="glass rounded-lg p-6 hover:scale-105 transition-all duration-500 hover:shadow-xl hover:shadow-primary/30 animate-slideInFromLeft group relative overflow-hidden" data-testid="milestone-1">
                 <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <div className="flex items-start gap-4 relative z-10">
@@ -137,7 +136,7 @@ export default function About() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="glass rounded-lg p-6 hover:scale-105 transition-all duration-500 hover:shadow-xl hover:shadow-accent/30 animate-slideInFromRight group relative overflow-hidden" data-testid="milestone-2" style={{ animationDelay: '0.1s' }}>
                 <div className="absolute inset-0 bg-gradient-to-l from-accent/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <div className="flex items-start gap-4 relative z-10">
@@ -151,7 +150,7 @@ export default function About() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="glass rounded-lg p-6 hover:scale-105 transition-all duration-500 hover:shadow-xl hover:shadow-primary/30 animate-slideInFromLeft group relative overflow-hidden" data-testid="milestone-3" style={{ animationDelay: '0.2s' }}>
                 <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <div className="flex items-start gap-4 relative z-10">
@@ -172,7 +171,7 @@ export default function About() {
           <div className="glass rounded-2xl p-8 mb-12 animate-fadeUp hover:scale-[1.02] transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20 relative overflow-hidden group" data-testid="financial-achievements">
             <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-yellow-500/10 to-green-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient"></div>
             <div className="absolute inset-[2px] bg-background/95 dark:bg-background/95 rounded-2xl"></div>
-            
+
             <div className="relative z-10">
               <h2 className="text-3xl font-bold text-primary mb-6 flex items-center gap-3 animate-slideRight">
                 <Trophy className="w-8 h-8 animate-spin-slow" />
@@ -187,7 +186,7 @@ export default function About() {
                   </p>
                   <p className="text-sm text-muted-foreground">Invested in Bitcoin, Ethereum, and promising altcoins</p>
                 </div>
-                
+
                 <div className="bg-gradient-to-br from-amber-500/20 to-yellow-500/20 rounded-xl p-6 border-2 border-amber-500/30 hover:border-amber-500/60 transition-all duration-300 hover:scale-105 group/card">
                   <div className="text-4xl mb-3 group-hover/card:animate-bounce">🪙</div>
                   <h3 className="font-bold text-xl mb-2 text-amber-600 dark:text-amber-400">Digital Gold</h3>
@@ -196,7 +195,7 @@ export default function About() {
                   </p>
                   <p className="text-sm text-muted-foreground">Building wealth through digital precious metals</p>
                 </div>
-                
+
                 <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-xl p-6 border-2 border-green-500/30 hover:border-green-500/60 transition-all duration-300 hover:scale-105 group/card">
                   <div className="text-4xl mb-3 group-hover/card:animate-bounce">📈</div>
                   <h3 className="font-bold text-xl mb-2 text-green-600 dark:text-green-400">Stock Market</h3>
@@ -206,7 +205,7 @@ export default function About() {
                   <p className="text-sm text-muted-foreground">Growing equity portfolio with dividend stocks</p>
                 </div>
               </div>
-              
+
               <div className="mt-6 p-4 bg-primary/10 rounded-lg border border-primary/20">
                 <p className="text-center text-foreground">
                   <span className="font-bold text-primary">Total Portfolio Value:</span> 
@@ -265,12 +264,12 @@ export default function About() {
                 >
                   {/* Animated Background Gradient */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${skill.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient`}></div>
-                  
+
                   {/* Ripple Effect on Hover */}
                   {hoveredSkill === skill.name && (
                     <div className="absolute inset-0 rounded-2xl border-2 border-primary/50 animate-ripple"></div>
                   )}
-                  
+
                   {/* Content */}
                   <div className="relative z-10">
                     <div className="text-3xl sm:text-4xl mb-2 sm:mb-3 group-hover:scale-125 transition-transform duration-300 animate-bounce-slow">
@@ -283,7 +282,7 @@ export default function About() {
                       {skill.description}
                     </p>
                   </div>
-                  
+
                   {/* Sparkle Effect */}
                   <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <Sparkles className="w-4 h-4 text-primary animate-spin-slow" />
@@ -296,6 +295,7 @@ export default function About() {
       </div>
 
       <AdSenseAd />
-    </div>
+      </div>
+    </>
   );
 }
