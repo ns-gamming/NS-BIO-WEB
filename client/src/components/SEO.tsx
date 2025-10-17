@@ -112,6 +112,21 @@ export function SEO({
     setMetaTag('apple-mobile-web-app-status-bar-style', 'black-translucent');
     setMetaTag('apple-mobile-web-app-title', DEFAULT_SEO.siteName);
 
+    // Additional SEO tags for better ranking
+    setMetaTag('copyright', `${new Date().getFullYear()} ${DEFAULT_SEO.siteName}`);
+    setMetaTag('category', 'Gaming, Web Development, Content Creation');
+    setMetaTag('coverage', 'Worldwide');
+    setMetaTag('identifier-URL', DEFAULT_SEO.siteUrl);
+    setMetaTag('owner', metaAuthor);
+    setMetaTag('reply-to', 'nsgamming699@gmail.com');
+    setMetaTag('subject', 'Gaming Tools, Coding Tutorials, Content Creation');
+    setMetaTag('summary', metaDescription);
+    setMetaTag('topic', 'Gaming, Technology, Web Development');
+    setMetaTag('abstract', metaDescription);
+    setMetaTag('page-topic', keywords || DEFAULT_SEO.defaultKeywords);
+    setMetaTag('audience', 'Gamers, Developers, Content Creators, Students');
+    setMetaTag('geography', 'Siliguri, West Bengal, India');
+    
     // Google Site Verification (you'll need to add your actual verification code)
     // setMetaTag('google-site-verification', 'YOUR_GOOGLE_VERIFICATION_CODE');
 
