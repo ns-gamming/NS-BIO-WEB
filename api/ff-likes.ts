@@ -53,29 +53,48 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     
     const ipString = Array.isArray(userIP) ? userIP[0] : userIP.toString();
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    // Check if user is VIP (by IP or FF UID)
+    const { data: vipUser, error: vipError } = await supabase
+      .from('vip_users')
+      .select('*')
+      .or(`ip_address.eq.${ipString},ff_uid.eq.${uid}`)
+      .eq('is_active', true)
+      .or(`expires_at.is.null,expires_at.gt.${new Date().toISOString()}`)
+      .single();
 
-    const { data: existingUsage, error: checkError } = await supabase
-      .from('usage_logs')
-      .select('id')
-      .eq('ip', ipString)
-      .gte('used_at', today.toISOString())
-      .limit(1);
-
-    if (checkError) {
-      console.error('Error checking usage:', checkError);
-      return res.status(500).json({ 
-        success: false, 
-        message: "Database connection error. Please try again later." 
-      });
+    if (vipError && vipError.code !== 'PGRST116') {
+      console.error('Error checking VIP status:', vipError);
     }
 
-    if (existingUsage && existingUsage.length > 0) {
-      return res.status(429).json({ 
-        success: false, 
-        message: "You've already used your free daily like. To get unlimited likes, contact @Nishantsarkar10k on Telegram to buy VIP access." 
-      });
+    // If user is VIP with unlimited likes, skip rate limiting
+    const isVIP = vipUser && vipUser.unlimited_likes && vipUser.is_active;
+
+    // Check if user has already used the tool today (only if not VIP)
+    if (!isVIP) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const { data: existingUsage, error: checkError } = await supabase
+        .from('usage_logs')
+        .select('id')
+        .eq('ip', ipString)
+        .gte('used_at', today.toISOString())
+        .limit(1);
+
+      if (checkError) {
+        console.error('Error checking usage:', checkError);
+        return res.status(500).json({ 
+          success: false, 
+          message: "Database connection error. Please try again later." 
+        });
+      }
+
+      if (existingUsage && existingUsage.length > 0) {
+        return res.status(429).json({ 
+          success: false, 
+          message: "You've already used your free daily like. To get unlimited likes, contact @Nishantsarkar10k on Telegram to buy VIP access." 
+        });
+      }
     }
 
     const apiUrl = `https://likes.api.freefireofficial.com/api/${region}/${uid}?key=testkey12`;

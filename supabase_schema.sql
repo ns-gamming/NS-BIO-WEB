@@ -39,6 +39,7 @@ DROP TABLE IF EXISTS blog_posts CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS usage_logs CASCADE;
 DROP TABLE IF EXISTS ff_bot_interactions CASCADE;
+DROP TABLE IF EXISTS vip_users CASCADE;
 
 -- ============================================================================
 -- USERS & AUTHENTICATION
@@ -491,6 +492,26 @@ CREATE TABLE usage_logs (
     used_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- VIP Users table for unlimited access
+CREATE TABLE vip_users (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    ip_address VARCHAR(100) UNIQUE,
+    ff_uid VARCHAR(20),
+    telegram_username VARCHAR(255),
+    phone_number VARCHAR(20),
+    email VARCHAR(255),
+    vip_type VARCHAR(50) DEFAULT 'standard',
+    unlimited_likes BOOLEAN DEFAULT TRUE,
+    unlimited_tools BOOLEAN DEFAULT TRUE,
+    expires_at TIMESTAMP WITH TIME ZONE,
+    is_active BOOLEAN DEFAULT TRUE,
+    added_by VARCHAR(255),
+    notes TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    metadata JSONB DEFAULT '{}'::jsonb
+);
+
 -- ============================================================================
 -- INDEXES FOR PERFORMANCE
 -- ============================================================================
@@ -587,6 +608,13 @@ CREATE INDEX idx_ff_bot_uid ON ff_bot_interactions(ff_uid);
 CREATE INDEX idx_usage_logs_ip ON usage_logs(ip);
 CREATE INDEX idx_usage_logs_date ON usage_logs(used_at);
 
+-- VIP Users indexes
+CREATE INDEX idx_vip_users_ip ON vip_users(ip_address);
+CREATE INDEX idx_vip_users_ff_uid ON vip_users(ff_uid);
+CREATE INDEX idx_vip_users_active ON vip_users(is_active) WHERE is_active = TRUE;
+CREATE INDEX idx_vip_users_telegram ON vip_users(telegram_username);
+CREATE INDEX idx_vip_users_expires ON vip_users(expires_at);
+
 -- ============================================================================
 -- ROW LEVEL SECURITY (RLS) POLICIES
 -- ============================================================================
@@ -617,6 +645,7 @@ ALTER TABLE polls ENABLE ROW LEVEL SECURITY;
 ALTER TABLE visitor_stats ENABLE ROW LEVEL SECURITY;
 ALTER TABLE ff_bot_interactions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE usage_logs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE vip_users ENABLE ROW LEVEL SECURITY;
 
 -- Service role has full access to everything (backend uses service key)
 CREATE POLICY "Service role full access users" ON users FOR ALL USING (auth.role() = 'service_role');
@@ -644,6 +673,7 @@ CREATE POLICY "Service role full access polls" ON polls FOR ALL USING (auth.role
 CREATE POLICY "Service role full access visitor_stats" ON visitor_stats FOR ALL USING (auth.role() = 'service_role');
 CREATE POLICY "Service role full access ff_bot_interactions" ON ff_bot_interactions FOR ALL USING (auth.role() = 'service_role');
 CREATE POLICY "Service role full access usage_logs" ON usage_logs FOR ALL USING (auth.role() = 'service_role');
+CREATE POLICY "Service role full access vip_users" ON vip_users FOR ALL USING (auth.role() = 'service_role');
 
 -- Public can insert their own data (backend will use service key, but allow public insert for direct tracking)
 CREATE POLICY "Public insert analytics_sessions" ON analytics_sessions FOR INSERT WITH CHECK (true);
@@ -736,6 +766,9 @@ CREATE TRIGGER update_blog_posts_updated_at BEFORE UPDATE ON blog_posts
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 CREATE TRIGGER update_feature_requests_updated_at BEFORE UPDATE ON feature_requests
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_vip_users_updated_at BEFORE UPDATE ON vip_users
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 -- ============================================================================
