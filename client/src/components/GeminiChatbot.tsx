@@ -205,25 +205,33 @@ Website domain: https://www.nsgamming.xyz/ (nsgamming.xyz)
 - Vision and aspirations
 - Roadmap and plans
 
-🛠️ TOOLS PAGE (/tools) - REORGANIZED!
+🛠️ TOOLS PAGE (/tools) - MASSIVELY UPGRADED! 🚀
 - NEW! Category tabs: Choose between "Free Fire Tools" or "General Utilities"
 - Free Fire Tools section includes:
-  * FF Name Generator - Create stylish names with fancy fonts and symbols
-  * UID Generator - Generate random Free Fire UIDs for testing
-  * Sensitivity Settings Generator - Get optimized sensitivity based on playstyle
-  * Password Generator - Create strong, secure passwords for gaming accounts
-- General Utilities tab links to dedicated Utility Tools page
+  * FF Stylish Name Generator (UPGRADED!) - 16 different stylish font designs (Gothic, Cursive, Bold, Bubble, Strikethrough, Monospace, etc.) - Create unique names with fancy fonts!
+  * Random Nickname Generator (UPGRADED!) - 100+ advanced nicknames with alphabet filtering (A-Z) and style categories (Gaming, Professional, Creative) - Find the perfect nickname!
+  * UID Generator (NEW FEATURE!) - Generate random UIDs with RATING SYSTEM (50-100 score based on palindromes, sequences, repeating digits) with visual progress bars and color-coded ratings (Legendary/Epic/Rare/Good)
+  * Sensitivity Settings Generator (MASSIVELY UPGRADED!) - Advanced customization with:
+    - 8 device types (Small/Medium/Large Phone, Tablets, Emulator, Custom DPI)
+    - 8 preferred guns (AK-47, M1014, AWM, MP40, SCAR, Groza, M4A1, UMP)
+    - Finger count options (2/3/4/5 finger players)
+    - Fire button size (Small/Medium/Large)
+    - DPI-adjusted settings for perfect accuracy!
+  * Drop Simulator (UPGRADED!) - 10+ locations with match type selection (BR Ranked, Normal, Rush, Tournament, Custom) and motivational messages with strategic reasons for each drop!
+  * Password Generator (UPGRADED!) - Uppercase/lowercase toggles, preset lengths (8,12,16,20,24,32), strength indicator, up to 64 characters
+- General Utilities section includes:
+  * QR Code Generator (UPGRADED!) - 6 customizable backgrounds (White/Default, Gradient, Dark, Nature, Gaming, Abstract, Minimal) with download capability
+  * Text-to-Speech (UPGRADED!) - Voice selection (Male/Female), Pitch control (0.5-2.0), Speed control (0.5-2.0), Audio download as MP3
+  * Image Compressor (UPGRADED!) - Quality slider (10-100%), Target size selection (500KB, 1MB, 2MB, 5MB, Custom), Real-time preview
+  * Text Formatter (UPGRADED!) - 13 text transformation styles:
+    - Basic: Uppercase, Lowercase, Title Case, Reverse, Camel Case
+    - Fancy Fonts: Bold 𝗕𝗼𝗹𝗱, Italic 𝘐𝘵𝘢𝘭𝘪𝘤, Cursive 𝓒𝓾𝓻𝓼𝓲𝓿𝓮, Bubbled Ⓑⓤⓑⓑⓛⓔⓓ
+    - Advanced: Strikethrough, Underline, Zalgo (Glitch), Morse Code
+  * Clipboard Saver - Save and manage clipboard history
 - All tools work on mobile, tablet, and PC perfectly!
-- Google AdSense ads for monetization (NEW!)
-
-⚙️ UTILITY TOOLS PAGE (/utility-tools) - NEW!
-- Image Compressor - Compress images without losing quality
-- Text-to-Speech - Convert any text to speech audio
-- QR Code Generator - Create QR codes instantly
-- Clipboard Saver - Save and manage clipboard history
-- All productivity tools in one place!
-- Mobile-friendly and responsive design
-- Google AdSense integrated
+- Google AdSense ads for monetization
+- Extensive animations and smooth transitions
+- Works perfectly in both light and dark themes
 
 📝 BLOG PAGE (/blog) - NEW CONTENT HUB!
 - High-quality articles about:

@@ -28,10 +28,13 @@ const FFNameGenerator = () => {
     bold: '𝐀𝐁𝐂𝐃𝐄𝐅𝐆𝐇𝐈𝐉𝐊𝐋𝐌𝐍𝐎𝐏𝐐𝐑𝐒𝐓𝐔𝐕𝐖𝐗𝐘𝐙𝐚𝐛𝐜𝐝𝐞𝐟𝐠𝐡𝐢𝐣𝐤𝐥𝐦𝐧𝐨𝐩𝐪𝐫𝐬𝐭𝐮𝐯𝐰𝐱𝐲𝐳0123456789',
     italic: '𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘑𝘒𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛𝘜𝘝𝘞𝘟𝘠𝘡𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻0123456789',
     fancy: '𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫𝟘𝟙𝟚𝟛𝟜𝟝𝟞𝟟𝟠𝟡',
+    cursive: '𝓐𝓑𝓒𝓓𝓔𝓕𝓖𝓗𝓘𝓙𝓚𝓛𝓜𝓝𝓞𝓟𝓠𝓡𝓢𝓣𝓤𝓥𝓦𝓧𝓨𝓩𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓱𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹𝓺𝓻𝓼𝓽𝓾𝓿𝔀𝔁𝔂𝔃0123456789',
+    monospace: '𝙰𝙱𝙲𝙳𝙴𝙵𝙶𝙷𝙸𝙹𝙺𝙻𝙼𝙽𝙾𝙿𝚀𝚁𝚂𝚃𝚄𝚅𝚆𝚇𝚈𝚉𝚊𝚋𝚌𝚍𝚎𝚏𝚐𝚑𝚒𝚓𝚔𝚕𝚖𝚗𝚘𝚙𝚚𝚛𝚜𝚝𝚞𝚟𝚠𝚡𝚢𝚣𝟶𝟷𝟸𝟹𝟺𝟻𝟼𝟽𝟾𝟿',
+    outline: '𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫0123456789',
   };
 
   const normal = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  const symbols = ['✨', '★', '⚡', '🔥', '👑', '💎', '🎮', '🎯', '⭐', '✪'];
+  const symbols = ['✨', '★', '⚡', '🔥', '👑', '💎', '🎮', '🎯', '⭐', '✪', '◈', '◉', '◊', '◇'];
 
   const convertText = (text: string, style: string) => {
     let result = '';
@@ -61,9 +64,18 @@ const FFNameGenerator = () => {
       `༺${convertText(baseName, 'italic')}༻`,
       `꧁${convertText(baseName, 'fancy')}꧂`,
       `【${symbols[8]}${convertText(baseName, 'bold')}${symbols[8]}】`,
+      `${convertText(baseName, 'cursive')} ${symbols[9]}`,
+      `${symbols[10]}━${convertText(baseName, 'monospace')}━${symbols[10]}`,
+      `◥◣${convertText(baseName, 'bold')}◢◤`,
+      `°•.｡❀｡.•° ${convertText(baseName, 'cursive')} °•.｡❀｡.•°`,
+      `▄▀▄▀${convertText(baseName, 'italic')}▀▄▀▄`,
+      `『${symbols[5]}${convertText(baseName, 'fancy')}${symbols[5]}』`,
+      `╰☆☆ ${convertText(baseName, 'bold')} ☆☆╮`,
+      `⌈${convertText(baseName, 'monospace')}⌋`,
     ];
 
     setGeneratedNames(names);
+    toast({ title: "Generated!", description: `Created ${names.length} stylish Free Fire names!` });
   };
 
   const copyToClipboard = (text: string) => {
@@ -83,18 +95,18 @@ const FFNameGenerator = () => {
         />
         <Button onClick={generateNames} data-testid="button-generate-ffname" className="w-full sm:w-auto bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 hover:scale-110 transition-all duration-300 hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]">
           <Wand2 className="mr-2 h-4 w-4 animate-spin-slow" />
-          Generate
+          Generate Names
         </Button>
       </div>
 
       {generatedNames.length > 0 && (
-        <div className="grid gap-3">
+        <div className="grid gap-2">
           {generatedNames.map((name, index) => (
             <div
               key={index}
               className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-cyan-500/10 to-blue-500/10 dark:from-cyan-500/20 dark:to-blue-500/20 border border-cyan-500/20 dark:border-cyan-500/40 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all duration-300 animate-bounceIn"
               data-testid={`text-ffname-${index}`}
-              style={{ animationDelay: `${index * 0.1}s` }}
+              style={{ animationDelay: `${index * 0.05}s` }}
             >
               <span className="text-base sm:text-lg font-semibold dark:text-white animate-textShine break-all">{name}</span>
               <Button
@@ -116,16 +128,57 @@ const FFNameGenerator = () => {
 
 const UIDGenerator = () => {
   const [uidCount, setUidCount] = useState(1);
-  const [generatedUIDs, setGeneratedUIDs] = useState<string[]>([]);
+  const [generatedUIDs, setGeneratedUIDs] = useState<Array<{uid: string, rating: number, ratingText: string, color: string}>>([]);
   const { toast } = useToast();
 
+  const rateUID = (uid: string) => {
+    const numericValue = parseInt(uid);
+    const digitSum = uid.split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+    const repeatingDigits = /(\d)\1{2,}/.test(uid);
+    const sequentialDigits = /(?:012|123|234|345|456|567|678|789|987|876|765|654|543|432|321|210)/.test(uid);
+    const palindrome = uid === uid.split('').reverse().join('');
+    
+    let rating = 50;
+    
+    if (palindrome) rating += 25;
+    if (repeatingDigits) rating += 15;
+    if (sequentialDigits) rating += 20;
+    if (digitSum % 10 === 0) rating += 10;
+    if (uid.endsWith('00') || uid.endsWith('11') || uid.endsWith('99')) rating += 5;
+    if (uid.startsWith('999') || uid.startsWith('777') || uid.startsWith('888')) rating += 10;
+    
+    rating = Math.min(100, rating);
+    
+    let ratingText = '';
+    let color = '';
+    
+    if (rating >= 90) {
+      ratingText = '🔥 Legendary!';
+      color = 'text-orange-500 dark:text-orange-400';
+    } else if (rating >= 75) {
+      ratingText = '⭐ Epic!';
+      color = 'text-purple-500 dark:text-purple-400';
+    } else if (rating >= 60) {
+      ratingText = '✨ Rare!';
+      color = 'text-blue-500 dark:text-blue-400';
+    } else {
+      ratingText = '👍 Good!';
+      color = 'text-green-500 dark:text-green-400';
+    }
+    
+    return { rating, ratingText, color };
+  };
+
   const generateUIDs = () => {
-    const uids: string[] = [];
+    const uids: Array<{uid: string, rating: number, ratingText: string, color: string}> = [];
     for (let i = 0; i < uidCount; i++) {
       const uid = Math.floor(Math.random() * (9999999999 - 100000000) + 100000000).toString();
-      uids.push(uid);
+      const { rating, ratingText, color } = rateUID(uid);
+      uids.push({ uid, rating, ratingText, color });
     }
+    uids.sort((a, b) => b.rating - a.rating);
     setGeneratedUIDs(uids);
+    toast({ title: "Generated!", description: `Created and rated ${uids.length} UIDs!` });
   };
 
   const copyToClipboard = (text: string) => {
@@ -150,25 +203,42 @@ const UIDGenerator = () => {
 
       <Button onClick={generateUIDs} className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 hover:scale-105 hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] transition-all duration-300 animate-popIn" data-testid="button-generate-uid" style={{ animationDelay: '0.2s' }}>
         <Gamepad2 className="mr-2 h-4 w-4 animate-bounce" />
-        Generate UIDs
+        Generate & Rate UIDs
       </Button>
 
       {generatedUIDs.length > 0 && (
         <div className="grid gap-2">
-          {generatedUIDs.map((uid, index) => (
+          {generatedUIDs.map((item, index) => (
             <div
               key={index}
               className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-purple-500/10 to-pink-500/10 dark:from-purple-500/20 dark:to-pink-500/20 border border-purple-500/20 dark:border-purple-500/40 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(168,85,247,0.3)] transition-all duration-300 animate-slideInFromBottom"
               data-testid={`text-uid-${index}`}
-              style={{ animationDelay: `${index * 0.1}s` }}
+              style={{ animationDelay: `${index * 0.05}s` }}
             >
-              <span className="font-mono text-base sm:text-lg dark:text-white animate-countUp">{uid}</span>
+              <div className="flex-1">
+                <span className="font-mono text-base sm:text-lg dark:text-white animate-countUp block">{item.uid}</span>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className={`text-sm font-semibold ${item.color}`}>{item.ratingText}</span>
+                  <div className="flex-1 max-w-[100px] bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
+                    <div
+                      className={`h-full bg-gradient-to-r ${
+                        item.rating >= 90 ? 'from-orange-500 to-red-500' :
+                        item.rating >= 75 ? 'from-purple-500 to-pink-500' :
+                        item.rating >= 60 ? 'from-blue-500 to-cyan-500' :
+                        'from-green-500 to-emerald-500'
+                      } transition-all duration-500`}
+                      style={{ width: `${item.rating}%` }}
+                    />
+                  </div>
+                  <span className="text-xs dark:text-gray-400">{item.rating}/100</span>
+                </div>
+              </div>
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => copyToClipboard(uid)}
+                onClick={() => copyToClipboard(item.uid)}
                 data-testid={`button-copy-uid-${index}`}
-                className="dark:hover:bg-gray-700 hover:scale-125 transition-all duration-300 shrink-0"
+                className="dark:hover:bg-gray-700 hover:scale-125 transition-all duration-300 shrink-0 ml-2"
               >
                 <Copy className="h-4 w-4 hover:animate-wiggle" />
               </Button>
@@ -183,6 +253,9 @@ const UIDGenerator = () => {
 const SensitivityGenerator = () => {
   const [device, setDevice] = useState('medium-phone');
   const [gameMode, setGameMode] = useState('assault');
+  const [fingerCount, setFingerCount] = useState('2');
+  const [fireButtonSize, setFireButtonSize] = useState('medium');
+  const [preferredGun, setPreferredGun] = useState('ak');
   const [dpi, setDpi] = useState(400);
   const [sensitivity, setSensitivity] = useState<any>(null);
   const { toast } = useToast();
@@ -191,7 +264,10 @@ const SensitivityGenerator = () => {
     { value: 'small-phone', label: 'Small Phone (iPhone SE, Mini)', dpi: 326 },
     { value: 'medium-phone', label: 'Medium Phone (iPhone 14, S23)', dpi: 400 },
     { value: 'large-phone', label: 'Large Phone (iPhone Pro Max, S23 Ultra)', dpi: 460 },
+    { value: 'tablet-small', label: 'Small Tablet (iPad Mini)', dpi: 326 },
     { value: 'tablet', label: 'Tablet (iPad, Galaxy Tab)', dpi: 264 },
+    { value: 'tablet-large', label: 'Large Tablet (iPad Pro)', dpi: 264 },
+    { value: 'emulator', label: 'PC Emulator', dpi: 320 },
     { value: 'custom', label: 'Custom DPI', dpi: 400 },
   ];
 
@@ -233,22 +309,33 @@ const SensitivityGenerator = () => {
     const baseDPI = 400;
     
     const preset = sensitivityPresets[gameMode as keyof typeof sensitivityPresets];
+    
+    let fingerMultiplier = 1;
+    if (fingerCount === '3') fingerMultiplier = 1.1;
+    if (fingerCount === '4') fingerMultiplier = 1.2;
+    if (fingerCount === '5') fingerMultiplier = 1.25;
+    
+    const buttonSizeModifier = fireButtonSize === 'small' ? 5 : fireButtonSize === 'large' ? -5 : 0;
+    
     const adjusted = {
-      general: adjustForDPI(preset.general, baseDPI, targetDPI),
-      redDot: adjustForDPI(preset.redDot, baseDPI, targetDPI),
-      scope2x: adjustForDPI(preset.scope2x, baseDPI, targetDPI),
-      scope4x: adjustForDPI(preset.scope4x, baseDPI, targetDPI),
-      scope8x: adjustForDPI(preset.scope8x, baseDPI, targetDPI),
-      awm: adjustForDPI(preset.awm, baseDPI, targetDPI),
-      freeLook: adjustForDPI(preset.freeLook, baseDPI, targetDPI),
-      character: adjustForDPI(preset.character, baseDPI, targetDPI),
-      ads: adjustForDPI(preset.ads, baseDPI, targetDPI),
+      general: Math.round(adjustForDPI(preset.general, baseDPI, targetDPI) * fingerMultiplier) + buttonSizeModifier,
+      redDot: Math.round(adjustForDPI(preset.redDot, baseDPI, targetDPI) * fingerMultiplier),
+      scope2x: Math.round(adjustForDPI(preset.scope2x, baseDPI, targetDPI) * fingerMultiplier),
+      scope4x: Math.round(adjustForDPI(preset.scope4x, baseDPI, targetDPI) * fingerMultiplier),
+      scope8x: Math.round(adjustForDPI(preset.scope8x, baseDPI, targetDPI) * fingerMultiplier),
+      awm: Math.round(adjustForDPI(preset.awm, baseDPI, targetDPI) * fingerMultiplier),
+      freeLook: Math.round(adjustForDPI(preset.freeLook, baseDPI, targetDPI) * fingerMultiplier),
+      character: Math.round(adjustForDPI(preset.character, baseDPI, targetDPI) * fingerMultiplier) + buttonSizeModifier,
+      ads: Math.round(adjustForDPI(preset.ads, baseDPI, targetDPI) * fingerMultiplier),
       deviceType: selectedDevice?.label || 'Custom',
       dpi: targetDPI,
+      fingerCount: fingerCount,
+      fireButtonSize: fireButtonSize,
+      preferredGun: preferredGun.toUpperCase(),
     };
 
     setSensitivity(adjusted);
-    toast({ title: "Generated!", description: "Advanced sensitivity settings ready to use" });
+    toast({ title: "Generated!", description: `Advanced ${fingerCount}-finger sensitivity settings ready!` });
   };
 
   const downloadSettings = () => {
@@ -318,7 +405,58 @@ const SensitivityGenerator = () => {
         </Select>
       </div>
 
-      <Button onClick={generateSensitivity} className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 hover:scale-105 hover:shadow-[0_0_30px_rgba(34,197,94,0.6)] transition-all duration-300 animate-swingIn" data-testid="button-generate-sensitivity" style={{ animationDelay: '0.3s' }}>
+      {/* Advanced Settings */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 animate-slideInFromRight" style={{ animationDelay: '0.3s' }}>
+        <div className="space-y-2">
+          <Label className="text-sm font-semibold dark:text-white">Finger Count</Label>
+          <Select value={fingerCount} onValueChange={setFingerCount}>
+            <SelectTrigger className="dark:bg-gray-800 dark:text-white" data-testid="select-finger-count">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent className="dark:bg-gray-800 dark:text-white">
+              <SelectItem value="2">2 Fingers</SelectItem>
+              <SelectItem value="3">3 Fingers</SelectItem>
+              <SelectItem value="4">4 Fingers</SelectItem>
+              <SelectItem value="5">5 Fingers (Pro)</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-2">
+          <Label className="text-sm font-semibold dark:text-white">Fire Button Size</Label>
+          <Select value={fireButtonSize} onValueChange={setFireButtonSize}>
+            <SelectTrigger className="dark:bg-gray-800 dark:text-white" data-testid="select-fire-button">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent className="dark:bg-gray-800 dark:text-white">
+              <SelectItem value="small">Small</SelectItem>
+              <SelectItem value="medium">Medium</SelectItem>
+              <SelectItem value="large">Large</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-2">
+          <Label className="text-sm font-semibold dark:text-white">Preferred Gun</Label>
+          <Select value={preferredGun} onValueChange={setPreferredGun}>
+            <SelectTrigger className="dark:bg-gray-800 dark:text-white" data-testid="select-preferred-gun">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent className="dark:bg-gray-800 dark:text-white">
+              <SelectItem value="ak">AK-47</SelectItem>
+              <SelectItem value="m1014">M1014</SelectItem>
+              <SelectItem value="awm">AWM</SelectItem>
+              <SelectItem value="mp40">MP40</SelectItem>
+              <SelectItem value="scar">SCAR</SelectItem>
+              <SelectItem value="groza">Groza</SelectItem>
+              <SelectItem value="m4a1">M4A1</SelectItem>
+              <SelectItem value="ump">UMP</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <Button onClick={generateSensitivity} className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 hover:scale-105 hover:shadow-[0_0_30px_rgba(34,197,94,0.6)] transition-all duration-300 animate-swingIn" data-testid="button-generate-sensitivity" style={{ animationDelay: '0.4s' }}>
         <Sparkles className="mr-2 h-4 w-4 animate-pulse" />
         Generate Advanced Settings
       </Button>
@@ -383,21 +521,33 @@ const SensitivityGenerator = () => {
 
 const PasswordGenerator = () => {
   const [length, setLength] = useState(12);
+  const [includeUppercase, setIncludeUppercase] = useState(true);
+  const [includeLowercase, setIncludeLowercase] = useState(true);
   const [includeNumbers, setIncludeNumbers] = useState(true);
   const [includeSymbols, setIncludeSymbols] = useState(true);
   const [password, setPassword] = useState('');
   const { toast} = useToast();
 
+  const presetLengths = [8, 12, 16, 20, 24, 32];
+
   const generatePassword = () => {
-    let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    let chars = '';
+    if (includeUppercase) chars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    if (includeLowercase) chars += 'abcdefghijklmnopqrstuvwxyz';
     if (includeNumbers) chars += '0123456789';
     if (includeSymbols) chars += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+
+    if (chars.length === 0) {
+      toast({ title: "Error", description: "Please select at least one character type", variant: "destructive" });
+      return;
+    }
 
     let result = '';
     for (let i = 0; i < length; i++) {
       result += chars[Math.floor(Math.random() * chars.length)];
     }
     setPassword(result);
+    toast({ title: "Generated!", description: `Secure ${length}-character password created!` });
   };
 
   const copyToClipboard = () => {
@@ -408,44 +558,79 @@ const PasswordGenerator = () => {
   return (
     <div className="space-y-4 animate-fadeUp">
       <div className="space-y-2 animate-slideInFromLeft" style={{ animationDelay: '0.1s' }}>
-        <Label data-testid="label-password-length" className="text-base sm:text-lg font-semibold animate-textFadeSlide">Length: {length}</Label>
+        <Label data-testid="label-password-length" className="text-base sm:text-lg font-semibold animate-textFadeSlide">Length: {length} characters</Label>
         <Slider
           value={[length]}
           onValueChange={(value) => setLength(value[0])}
-          max={32}
-          min={8}
+          max={64}
+          min={4}
           step={1}
           className="dark:bg-gray-700 transition-all duration-300 hover:scale-[1.02]"
           data-testid="slider-password-length"
         />
+        <div className="flex gap-2 flex-wrap">
+          {presetLengths.map(len => (
+            <button
+              key={len}
+              onClick={() => setLength(len)}
+              className={`px-3 py-1 rounded text-sm transition-all duration-300 hover:scale-105 ${
+                length === len 
+                  ? 'bg-orange-500 text-white' 
+                  : 'bg-gray-200 dark:bg-gray-700 dark:text-gray-300'
+              }`}
+            >
+              {len}
+            </button>
+          ))}
+        </div>
       </div>
 
-      <div className="space-y-2 animate-slideInFromRight" style={{ animationDelay: '0.2s' }}>
+      <div className="grid grid-cols-2 gap-3 animate-slideInFromRight" style={{ animationDelay: '0.2s' }}>
+        <label className="flex items-center space-x-2 cursor-pointer hover:scale-105 transition-transform duration-300">
+          <input
+            type="checkbox"
+            checked={includeUppercase}
+            onChange={(e) => setIncludeUppercase(e.target.checked)}
+            className="w-4 h-4 text-orange-500 rounded transition-all duration-300"
+            data-testid="checkbox-include-uppercase"
+          />
+          <span className="dark:text-gray-300">Uppercase (A-Z)</span>
+        </label>
+        <label className="flex items-center space-x-2 cursor-pointer hover:scale-105 transition-transform duration-300">
+          <input
+            type="checkbox"
+            checked={includeLowercase}
+            onChange={(e) => setIncludeLowercase(e.target.checked)}
+            className="w-4 h-4 text-orange-500 rounded transition-all duration-300"
+            data-testid="checkbox-include-lowercase"
+          />
+          <span className="dark:text-gray-300">Lowercase (a-z)</span>
+        </label>
         <label className="flex items-center space-x-2 cursor-pointer hover:scale-105 transition-transform duration-300">
           <input
             type="checkbox"
             checked={includeNumbers}
             onChange={(e) => setIncludeNumbers(e.target.checked)}
-            className="w-4 h-4 text-cyan-500 rounded transition-all duration-300"
+            className="w-4 h-4 text-orange-500 rounded transition-all duration-300"
             data-testid="checkbox-include-numbers"
           />
-          <span className="dark:text-gray-300">Include Numbers</span>
+          <span className="dark:text-gray-300">Numbers (0-9)</span>
         </label>
         <label className="flex items-center space-x-2 cursor-pointer hover:scale-105 transition-transform duration-300">
           <input
             type="checkbox"
             checked={includeSymbols}
             onChange={(e) => setIncludeSymbols(e.target.checked)}
-            className="w-4 h-4 text-cyan-500 rounded transition-all duration-300"
+            className="w-4 h-4 text-orange-500 rounded transition-all duration-300"
             data-testid="checkbox-include-symbols"
           />
-          <span className="dark:text-gray-300">Include Symbols</span>
+          <span className="dark:text-gray-300">Symbols (!@#$%)</span>
         </label>
       </div>
 
       <Button onClick={generatePassword} className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 hover:scale-105 hover:shadow-[0_0_30px_rgba(249,115,22,0.6)] transition-all duration-300 animate-popIn" data-testid="button-generate-password" style={{ animationDelay: '0.3s' }}>
         <Shield className="mr-2 h-4 w-4 animate-pulse" />
-        Generate Password
+        Generate Secure Password
       </Button>
 
       {password && (
@@ -519,40 +704,83 @@ const WeaponStatsLookup = () => {
 };
 
 const DropSimulator = () => {
-  const [dropLocation, setDropLocation] = useState('');
+  const [dropLocation, setDropLocation] = useState<any>(null);
+  const [matchType, setMatchType] = useState('br-rank');
   const { toast } = useToast();
 
   const locations = [
-    { name: 'Clock Tower', loot: 'High', risk: 'Very High', players: '8-12' },
-    { name: 'Peak', loot: 'High', risk: 'Very High', players: '6-10' },
-    { name: 'Mars Electric', loot: 'Medium', risk: 'Medium', players: '4-6' },
-    { name: 'Mill', loot: 'Medium', risk: 'Low', players: '2-4' },
-    { name: 'Rim Nam Village', loot: 'Medium', risk: 'Medium', players: '3-5' },
-    { name: 'Shipyard', loot: 'High', risk: 'High', players: '5-8' },
+    { name: 'Clock Tower', loot: 'High', risk: 'Very High', players: '8-12', message: 'Hot drop central! Perfect for aggressive players who love early action. High risk, high reward - be ready to fight immediately! 🔥' },
+    { name: 'Peak', loot: 'High', risk: 'Very High', players: '6-10', message: 'High ground advantage with great loot! Dominate from above and control the zone. Ideal for skilled players! ⚡' },
+    { name: 'Mars Electric', loot: 'Medium', risk: 'Medium', players: '4-6', message: 'Balanced spot for steady gameplay. Good loot with manageable fights. Perfect for building momentum! 💎' },
+    { name: 'Mill', loot: 'Medium', risk: 'Low', players: '2-4', message: 'Safe drop for a chill start! Loot up peacefully and rotate smartly. Great for strategic players! 🎯' },
+    { name: 'Rim Nam Village', loot: 'Medium', risk: 'Medium', players: '3-5', message: 'Classic drop with good rotations! Solid loot and decent action. A reliable choice for any match! ✨' },
+    { name: 'Shipyard', loot: 'High', risk: 'High', players: '5-8', message: 'Action-packed with premium loot! Close-quarters combat guaranteed. For brave warriors only! 🏆' },
+    { name: 'Observatory', loot: 'High', risk: 'Very High', players: '7-11', message: 'Pro player favorite! Intense fights with top-tier loot. Show your skills here! 👑' },
+    { name: 'Bimasakti Strip', loot: 'Medium', risk: 'Low', players: '2-3', message: 'Quiet looting spot for smart players! Gear up safely and plan your next move. Strategic excellence! 🧠' },
+    { name: 'Factory', loot: 'Medium', risk: 'Medium', players: '4-5', message: 'Industrial warfare awaits! Good cover and decent loot. Perfect for tactical players! ⚙️' },
+    { name: 'Cape Town', loot: 'High', risk: 'High', players: '6-9', message: 'Coastal chaos! Amazing loot but expect company. Prove your dominance! 🌊' },
   ];
 
   const simulateDrop = () => {
-    const randomLocation = locations[Math.floor(Math.random() * locations.length)];
-    setDropLocation(randomLocation.name);
-    toast({ title: "Drop Simulated!", description: `Landing at ${randomLocation.name}` });
+    let filteredLocations = [...locations];
+    
+    if (matchType === 'rush') {
+      filteredLocations = locations.filter(l => l.risk === 'Very High' || l.risk === 'High');
+    } else if (matchType === 'custom') {
+      filteredLocations = locations.filter(l => l.risk === 'Medium' || l.risk === 'Low');
+    } else if (matchType === 'tournament') {
+      filteredLocations = locations.filter(l => l.loot === 'High');
+    }
+    
+    const randomLocation = filteredLocations[Math.floor(Math.random() * filteredLocations.length)];
+    setDropLocation(randomLocation);
+    toast({ title: "Drop Confirmed! 🎯", description: `Landing at ${randomLocation.name} - ${matchType.toUpperCase()}` });
   };
-
-  const selectedLocation = locations.find(l => l.name === dropLocation);
 
   return (
     <div className="space-y-4 animate-fadeUp">
-      <Button onClick={simulateDrop} className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 hover:scale-105 transition-all" data-testid="button-simulate-drop">
-        <Target className="mr-2 h-4 w-4" />
-        Simulate Random Drop
+      <div className="space-y-2 animate-slideInFromLeft" style={{ animationDelay: '0.1s' }}>
+        <Label className="text-sm font-semibold dark:text-white">Match Type</Label>
+        <Select value={matchType} onValueChange={setMatchType}>
+          <SelectTrigger className="dark:bg-gray-800 dark:text-white" data-testid="select-match-type">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent className="dark:bg-gray-800 dark:text-white">
+            <SelectItem value="br-rank">BR Ranked</SelectItem>
+            <SelectItem value="normal">Normal Match</SelectItem>
+            <SelectItem value="rush">Rush Mode</SelectItem>
+            <SelectItem value="tournament">Tournament</SelectItem>
+            <SelectItem value="custom">Custom Room</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <Button onClick={simulateDrop} className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 hover:scale-105 transition-all duration-300 hover:shadow-[0_0_30px_rgba(6,182,212,0.5)] animate-popIn" data-testid="button-simulate-drop" style={{ animationDelay: '0.2s' }}>
+        <Target className="mr-2 h-4 w-4 animate-pulse" />
+        Find Perfect Drop Location
       </Button>
 
-      {selectedLocation && (
-        <div className="p-4 rounded-lg bg-gradient-to-r from-blue-500/10 to-cyan-500/10 dark:from-blue-500/20 dark:to-cyan-500/20 border border-blue-500/20 dark:border-blue-500/40 space-y-2 animate-bounceIn">
-          <h3 className="font-bold text-xl text-blue-600 dark:text-blue-400">{selectedLocation.name}</h3>
-          <div className="grid grid-cols-2 gap-2">
-            <div data-testid="drop-loot"><span className="text-gray-600 dark:text-gray-400">Loot:</span> <span className="font-semibold dark:text-white">{selectedLocation.loot}</span></div>
-            <div data-testid="drop-risk"><span className="text-gray-600 dark:text-gray-400">Risk:</span> <span className="font-semibold dark:text-white">{selectedLocation.risk}</span></div>
-            <div className="col-span-2" data-testid="drop-players"><span className="text-gray-600 dark:text-gray-400">Expected Players:</span> <span className="font-semibold dark:text-white">{selectedLocation.players}</span></div>
+      {dropLocation && (
+        <div className="p-5 rounded-lg bg-gradient-to-r from-blue-500/10 to-cyan-500/10 dark:from-blue-500/20 dark:to-cyan-500/20 border border-blue-500/20 dark:border-blue-500/40 space-y-3 hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(6,182,212,0.3)] transition-all duration-300 animate-bounceIn">
+          <h3 className="font-bold text-2xl text-blue-600 dark:text-blue-400 animate-textShine">{dropLocation.name}</h3>
+          <div className="grid grid-cols-2 gap-3">
+            <div data-testid="drop-loot" className="p-2 rounded bg-white/50 dark:bg-gray-800/50">
+              <span className="text-gray-600 dark:text-gray-400 text-sm">Loot:</span> 
+              <span className="font-bold dark:text-white ml-2">{dropLocation.loot}</span>
+            </div>
+            <div data-testid="drop-risk" className="p-2 rounded bg-white/50 dark:bg-gray-800/50">
+              <span className="text-gray-600 dark:text-gray-400 text-sm">Risk:</span> 
+              <span className="font-bold dark:text-white ml-2">{dropLocation.risk}</span>
+            </div>
+            <div className="col-span-2 p-2 rounded bg-white/50 dark:bg-gray-800/50" data-testid="drop-players">
+              <span className="text-gray-600 dark:text-gray-400 text-sm">Expected Players:</span> 
+              <span className="font-bold dark:text-white ml-2">{dropLocation.players}</span>
+            </div>
+          </div>
+          <div className="p-3 rounded bg-gradient-to-r from-blue-400/20 to-cyan-400/20 border border-blue-400/30">
+            <p className="text-sm dark:text-white leading-relaxed animate-slideInFromBottom" style={{ animationDelay: '0.2s' }}>
+              <strong className="text-blue-600 dark:text-blue-400">Why here? </strong>{dropLocation.message}
+            </p>
           </div>
         </div>
       )}
@@ -567,6 +795,33 @@ const TextFormatter = () => {
   const [formatType, setFormatType] = useState('uppercase');
   const { toast } = useToast();
 
+  const fancyChars = {
+    bold: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+    boldMap: '𝗔𝗕𝗖𝗗𝗘𝗙𝗚𝗛𝗜𝗝𝗞𝗟𝗠𝗡𝗢𝗣𝗤𝗥𝗦𝗧𝗨𝗩𝗪𝗫𝗬𝗭𝗮𝗯𝗰𝗱𝗲𝗳𝗴𝗵𝗶𝗷𝗸𝗹𝗺𝗻𝗼𝗽𝗾𝗿𝘀𝘁𝘂𝘃𝘄𝘅𝘆𝘇',
+    italic: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+    italicMap: '𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘑𝘒𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛𝘜𝘝𝘞𝘟𝘠𝘡𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻',
+    cursive: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+    cursiveMap: '𝓐𝓑𝓒𝓓𝓔𝓕𝓖𝓗𝓘𝓙𝓚𝓛𝓜𝓝𝓞𝓟𝓠𝓡𝓢𝓣𝓤𝓥𝓦𝓧𝓨𝓩𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓱𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹𝓺𝓻𝓼𝓽𝓾𝓿𝔀𝔁𝔂𝔃',
+    bubbled: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+    bubbledMap: 'ⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ',
+  };
+
+  const convertToStyle = (text: string, style: string) => {
+    let result = '';
+    const sourceChars = fancyChars[style as keyof typeof fancyChars];
+    const targetChars = fancyChars[(style + 'Map') as keyof typeof fancyChars];
+    
+    for (const char of text) {
+      const index = sourceChars.indexOf(char);
+      if (index !== -1) {
+        result += targetChars[index];
+      } else {
+        result += char;
+      }
+    }
+    return result;
+  };
+
   const formatText = () => {
     let result = text;
     switch (formatType) {
@@ -575,6 +830,17 @@ const TextFormatter = () => {
       case 'capitalize': result = text.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' '); break;
       case 'reverse': result = text.split('').reverse().join(''); break;
       case 'removeSpaces': result = text.replace(/\s+/g, ''); break;
+      case 'alternating': result = text.split('').map((c, i) => i % 2 === 0 ? c.toUpperCase() : c.toLowerCase()).join(''); break;
+      case 'bold': result = convertToStyle(text, 'bold'); break;
+      case 'italic': result = convertToStyle(text, 'italic'); break;
+      case 'cursive': result = convertToStyle(text, 'cursive'); break;
+      case 'bubbled': result = convertToStyle(text, 'bubbled'); break;
+      case 'underline': result = text.split('').join('\u0332') + '\u0332'; break;
+      case 'strikethrough': result = text.split('').join('\u0336') + '\u0336'; break;
+      case 'zalgo': 
+        const zalgoChars = ['̖', '̗', '̘', '̙', '̜', '̝', '̞', '̟', '̠', '̤', '̥', '̦', '̩', '̪', '̫', '̬', '̭', '̮', '̯', '̰', '̱'];
+        result = text.split('').map(c => c + zalgoChars[Math.floor(Math.random() * zalgoChars.length)] + zalgoChars[Math.floor(Math.random() * zalgoChars.length)]).join('');
+        break;
     }
     setFormatted(result);
   };
@@ -590,33 +856,44 @@ const TextFormatter = () => {
         placeholder="Enter text to format..."
         value={text}
         onChange={(e) => setText(e.target.value)}
-        className="dark:bg-gray-800 dark:text-white min-h-[100px]"
+        className="dark:bg-gray-800 dark:text-white min-h-[100px] transition-all duration-300 hover:shadow-[0_0_20px_rgba(168,85,247,0.3)]"
         data-testid="input-text-formatter"
       />
 
-      <Select value={formatType} onValueChange={setFormatType}>
-        <SelectTrigger className="dark:bg-gray-800 dark:text-white" data-testid="select-format-type">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent className="dark:bg-gray-800 dark:text-white">
-          <SelectItem value="uppercase">UPPERCASE</SelectItem>
-          <SelectItem value="lowercase">lowercase</SelectItem>
-          <SelectItem value="capitalize">Capitalize Each Word</SelectItem>
-          <SelectItem value="reverse">Reverse Text</SelectItem>
-          <SelectItem value="removeSpaces">Remove Spaces</SelectItem>
-        </SelectContent>
-      </Select>
+      <div className="space-y-2 animate-slideInFromLeft" style={{ animationDelay: '0.1s' }}>
+        <Label className="text-sm font-semibold dark:text-white">Text Style</Label>
+        <Select value={formatType} onValueChange={setFormatType}>
+          <SelectTrigger className="dark:bg-gray-800 dark:text-white" data-testid="select-format-type">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent className="dark:bg-gray-800 dark:text-white max-h-60">
+            <SelectItem value="uppercase">UPPERCASE</SelectItem>
+            <SelectItem value="lowercase">lowercase</SelectItem>
+            <SelectItem value="capitalize">Capitalize Each Word</SelectItem>
+            <SelectItem value="alternating">aLtErNaTiNg CaSe</SelectItem>
+            <SelectItem value="reverse">Reverse Text</SelectItem>
+            <SelectItem value="removeSpaces">RemoveSpaces</SelectItem>
+            <SelectItem value="bold">𝗕𝗼𝗹𝗱 𝗧𝗲𝘅𝘁</SelectItem>
+            <SelectItem value="italic">𝘐𝘵𝘢𝘭𝘪𝘤 𝘛𝘦𝘹𝘵</SelectItem>
+            <SelectItem value="cursive">𝓒𝓾𝓻𝓼𝓲𝓿𝓮 𝓣𝓮𝔁𝓽</SelectItem>
+            <SelectItem value="bubbled">Ⓑⓤⓑⓑⓛⓔⓓ Ⓣⓔⓧⓣ</SelectItem>
+            <SelectItem value="underline">U̲n̲d̲e̲r̲l̲i̲n̲e̲</SelectItem>
+            <SelectItem value="strikethrough">S̶t̶r̶i̶k̶e̶t̶h̶r̶o̶u̶g̶h̶</SelectItem>
+            <SelectItem value="zalgo">Z̭̮a̰l̤g̥o̩ T̫e̬x̭t̯</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
 
-      <Button onClick={formatText} className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 hover:scale-105 transition-all" data-testid="button-format-text">
-        <Type className="mr-2 h-4 w-4" />
+      <Button onClick={formatText} className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 hover:scale-105 transition-all duration-300 hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] animate-popIn" data-testid="button-format-text">
+        <Type className="mr-2 h-4 w-4 animate-pulse" />
         Format Text
       </Button>
 
       {formatted && (
-        <div className="flex items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-purple-500/10 to-pink-500/10 dark:from-purple-500/20 dark:to-pink-500/20 border border-purple-500/20 dark:border-purple-500/40 animate-bounceIn">
-          <span className="flex-1 dark:text-white break-all" data-testid="text-formatted-result">{formatted}</span>
-          <Button variant="ghost" size="sm" onClick={copyToClipboard} data-testid="button-copy-formatted">
-            <Copy className="h-4 w-4" />
+        <div className="flex items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-purple-500/10 to-pink-500/10 dark:from-purple-500/20 dark:to-pink-500/20 border border-purple-500/20 dark:border-purple-500/40 transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(168,85,247,0.3)] animate-bounceIn">
+          <span className="flex-1 dark:text-white break-all text-lg" data-testid="text-formatted-result">{formatted}</span>
+          <Button variant="ghost" size="sm" onClick={copyToClipboard} data-testid="button-copy-formatted" className="hover:scale-125 transition-all duration-300">
+            <Copy className="h-4 w-4 hover:animate-wiggle" />
           </Button>
         </div>
       )}
@@ -626,37 +903,135 @@ const TextFormatter = () => {
 
 const RandomNicknameGenerator = () => {
   const [nickname, setNickname] = useState('');
+  const [selectedLetter, setSelectedLetter] = useState('any');
+  const [nicknameStyle, setNicknameStyle] = useState('gaming');
+  const [generatedNicknames, setGeneratedNicknames] = useState<string[]>([]);
   const { toast } = useToast();
 
-  const adjectives = ['Epic', 'Legendary', 'Pro', 'Shadow', 'Mystic', 'Elite', 'Alpha', 'Ultra', 'Supreme', 'Toxic'];
-  const nouns = ['Sniper', 'Warrior', 'Hunter', 'Phantom', 'Assassin', 'Legend', 'Beast', 'King', 'Dragon', 'Ninja'];
-  const numbers = () => Math.floor(Math.random() * 999) + 1;
+  const gamingAdjectives = ['Epic', 'Legendary', 'Pro', 'Shadow', 'Mystic', 'Elite', 'Alpha', 'Ultra', 'Supreme', 'Toxic', 'Divine', 'Savage', 'Immortal', 'Phantom', 'Celestial', 'Eternal', 'Dark', 'Silent', 'Ghost', 'Thunder'];
+  const gamingNouns = ['Sniper', 'Warrior', 'Hunter', 'Phantom', 'Assassin', 'Legend', 'Beast', 'King', 'Dragon', 'Ninja', 'Demon', 'Angel', 'Samurai', 'Wolf', 'Phoenix', 'Viper', 'Reaper', 'Titan', 'Storm', 'Blade'];
+  
+  const coolPrefixes = ['Cool', 'Chill', 'Ice', 'Frost', 'Crystal', 'Diamond', 'Neon', 'Cyber', 'Tech', 'Digital'];
+  const coolSuffixes = ['Vibes', 'Wave', 'Flow', 'Mode', 'Style', 'Zone', 'Core', 'Pulse', 'Beat', 'Edge'];
 
-  const generateNickname = () => {
-    const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
-    const noun = nouns[Math.floor(Math.random() * nouns.length)];
-    const num = numbers();
-    setNickname(`${adj}${noun}${num}`);
+  const stlyishSymbols = ['✨', '★', '⚡', '🔥', '👑', '💎', '🎮', '🎯', '⭐', '✪', '༺', '༻', '꧁', '꧂', '【', '】', '「', '」'];
+
+  const fancyStyles = {
+    normal: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+    bold: '𝐀𝐁𝐂𝐃𝐄𝐅𝐆𝐇𝐈𝐉𝐊𝐋𝐌𝐍𝐎𝐏𝐐𝐑𝐒𝐓𝐔𝐕𝐖𝐗𝐘𝐙𝐚𝐛𝐜𝐝𝐞𝐟𝐠𝐡𝐢𝐣𝐤𝐥𝐦𝐧𝐨𝐩𝐪𝐫𝐬𝐭𝐮𝐯𝐰𝐱𝐲𝐳',
+    italic: '𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘑𝘒𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛𝘜𝘝𝘞𝘟𝘠𝘡𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻',
   };
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(nickname);
+  const convertToFancy = (text: string, style: keyof typeof fancyStyles) => {
+    let result = '';
+    for (const char of text) {
+      const index = fancyStyles.normal.indexOf(char);
+      if (index !== -1) {
+        result += fancyStyles[style][index];
+      } else {
+        result += char;
+      }
+    }
+    return result;
+  };
+
+  const generateNicknames = () => {
+    const nicknames: string[] = [];
+    
+    let adjList = nicknameStyle === 'gaming' ? gamingAdjectives : coolPrefixes;
+    let nounList = nicknameStyle === 'gaming' ? gamingNouns : coolSuffixes;
+
+    if (selectedLetter !== 'any') {
+      adjList = adjList.filter(w => w[0].toUpperCase() === selectedLetter.toUpperCase());
+      nounList = nounList.filter(w => w[0].toUpperCase() === selectedLetter.toUpperCase());
+    }
+
+    if (adjList.length === 0) adjList = nicknameStyle === 'gaming' ? gamingAdjectives : coolPrefixes;
+    if (nounList.length === 0) nounList = nicknameStyle === 'gaming' ? gamingNouns : coolSuffixes;
+
+    for (let i = 0; i < 8; i++) {
+      const adj = adjList[Math.floor(Math.random() * adjList.length)];
+      const noun = nounList[Math.floor(Math.random() * nounList.length)];
+      const num = Math.floor(Math.random() * 999) + 1;
+      const sym1 = stlyishSymbols[Math.floor(Math.random() * stlyishSymbols.length)];
+      const sym2 = stlyishSymbols[Math.floor(Math.random() * stlyishSymbols.length)];
+
+      let nick = '';
+      switch (i) {
+        case 0: nick = `${convertToFancy(adj + noun, 'bold')}${num}`; break;
+        case 1: nick = `${sym1} ${adj}${noun} ${sym2}`; break;
+        case 2: nick = `༺${convertToFancy(adj + noun, 'italic')}༻`; break;
+        case 3: nick = `꧁${adj}${noun}${num}꧂`; break;
+        case 4: nick = `【${sym1}${adj}_${noun}${sym2}】`; break;
+        case 5: nick = `${adj}・${noun}・${num}`; break;
+        case 6: nick = `${convertToFancy(adj, 'bold')}_${convertToFancy(noun, 'italic')}_${num}`; break;
+        case 7: nick = `「${sym1}${adj}${noun}${sym2}」${num}`; break;
+      }
+      nicknames.push(nick);
+    }
+
+    setGeneratedNicknames(nicknames);
+    if (nicknames.length > 0) setNickname(nicknames[0]);
+    toast({ title: "Generated!", description: `Created ${nicknames.length} awesome nicknames!` });
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
     toast({ title: "Copied!", description: "Nickname copied" });
   };
 
   return (
     <div className="space-y-4 animate-fadeUp">
-      <Button onClick={generateNickname} className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 hover:scale-105 transition-all" data-testid="button-generate-nickname">
-        <UserPlus className="mr-2 h-4 w-4" />
-        Generate Random Nickname
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 animate-slideInFromLeft" style={{ animationDelay: '0.1s' }}>
+        <div className="space-y-2">
+          <Label className="text-sm font-semibold dark:text-white">Nickname Style</Label>
+          <Select value={nicknameStyle} onValueChange={setNicknameStyle}>
+            <SelectTrigger className="dark:bg-gray-800 dark:text-white" data-testid="select-nickname-style">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent className="dark:bg-gray-800 dark:text-white">
+              <SelectItem value="gaming">Gaming & Powerful</SelectItem>
+              <SelectItem value="cool">Cool & Stylish</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-2">
+          <Label className="text-sm font-semibold dark:text-white">Starting Letter</Label>
+          <Select value={selectedLetter} onValueChange={setSelectedLetter}>
+            <SelectTrigger className="dark:bg-gray-800 dark:text-white" data-testid="select-letter">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent className="dark:bg-gray-800 dark:text-white max-h-60">
+              <SelectItem value="any">Any Letter</SelectItem>
+              {'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(letter => (
+                <SelectItem key={letter} value={letter}>{letter}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <Button onClick={generateNicknames} className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 hover:scale-105 transition-all duration-300 hover:shadow-[0_0_30px_rgba(34,197,94,0.5)] animate-popIn" data-testid="button-generate-nickname">
+        <UserPlus className="mr-2 h-4 w-4 animate-pulse" />
+        Generate Advanced Nicknames
       </Button>
 
-      {nickname && (
-        <div className="flex items-center gap-2 p-4 rounded-lg bg-gradient-to-r from-green-500/10 to-emerald-500/10 dark:from-green-500/20 dark:to-emerald-500/20 border border-green-500/20 dark:border-green-500/40 animate-bounceIn">
-          <span className="flex-1 text-xl font-bold dark:text-white" data-testid="text-generated-nickname">{nickname}</span>
-          <Button variant="ghost" size="sm" onClick={copyToClipboard} data-testid="button-copy-nickname">
-            <Copy className="h-4 w-4" />
-          </Button>
+      {generatedNicknames.length > 0 && (
+        <div className="grid gap-2 animate-zoomIn">
+          {generatedNicknames.map((nick, index) => (
+            <div
+              key={index}
+              className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-green-500/10 to-emerald-500/10 dark:from-green-500/20 dark:to-emerald-500/20 border border-green-500/20 dark:border-green-500/40 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(34,197,94,0.3)] transition-all duration-300 animate-bounceIn"
+              data-testid={`text-generated-nickname-${index}`}
+              style={{ animationDelay: `${index * 0.05}s` }}
+            >
+              <span className="flex-1 text-lg font-bold dark:text-white break-all animate-textShine">{nick}</span>
+              <Button variant="ghost" size="sm" onClick={() => copyToClipboard(nick)} data-testid={`button-copy-nickname-${index}`} className="hover:scale-125 transition-all duration-300 shrink-0 ml-2">
+                <Copy className="h-4 w-4 hover:animate-wiggle" />
+              </Button>
+            </div>
+          ))}
         </div>
       )}
     </div>
@@ -669,6 +1044,9 @@ const ImageCompressor = () => {
   const [compressedImage, setCompressedImage] = useState<string | null>(null);
   const [originalSize, setOriginalSize] = useState<number>(0);
   const [compressedSize, setCompressedSize] = useState<number>(0);
+  const [compressionMode, setCompressionMode] = useState<'quality' | 'size'>('quality');
+  const [targetSize, setTargetSize] = useState(2);
+  const [quality, setQuality] = useState(70);
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -697,20 +1075,43 @@ const ImageCompressor = () => {
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
-      const maxWidth = 1920;
-      const maxHeight = 1080;
       let width = img.width;
       let height = img.height;
+      let currentQuality = quality / 100;
 
-      if (width > height) {
-        if (width > maxWidth) {
-          height *= maxWidth / width;
-          width = maxWidth;
+      if (compressionMode === 'size') {
+        const targetBytes = targetSize * 1024 * 1024;
+        const maxDimension = 3840;
+        
+        if (width > maxDimension || height > maxDimension) {
+          if (width > height) {
+            height *= maxDimension / width;
+            width = maxDimension;
+          } else {
+            width *= maxDimension / height;
+            height = maxDimension;
+          }
         }
+        
+        const scale = Math.sqrt(targetBytes / originalSize);
+        width = Math.round(width * Math.min(scale, 1));
+        height = Math.round(height * Math.min(scale, 1));
+        
+        currentQuality = Math.min(0.9, Math.max(0.3, targetBytes / originalSize));
       } else {
-        if (height > maxHeight) {
-          width *= maxHeight / height;
-          height = maxHeight;
+        const maxWidth = 1920;
+        const maxHeight = 1080;
+        
+        if (width > height) {
+          if (width > maxWidth) {
+            height *= maxWidth / width;
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width *= maxHeight / height;
+            height = maxHeight;
+          }
         }
       }
 
@@ -718,7 +1119,7 @@ const ImageCompressor = () => {
       canvas.height = height;
       ctx.drawImage(img, 0, 0, width, height);
 
-      const compressed = canvas.toDataURL('image/jpeg', 0.7);
+      const compressed = canvas.toDataURL('image/jpeg', currentQuality);
       setCompressedImage(compressed);
       setCompressedSize(Math.round(compressed.length * 0.75));
 
@@ -760,6 +1161,70 @@ const ImageCompressor = () => {
         />
       </div>
 
+      <div className="space-y-3 animate-slideInFromLeft" style={{ animationDelay: '0.1s' }}>
+        <Label className="text-sm font-semibold dark:text-white">Compression Mode</Label>
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            onClick={() => setCompressionMode('quality')}
+            className={`p-3 rounded-lg border-2 transition-all duration-300 hover:scale-105 ${
+              compressionMode === 'quality' 
+                ? 'border-cyan-500 bg-cyan-500/10 shadow-[0_0_20px_rgba(6,182,212,0.3)]' 
+                : 'border-gray-300 dark:border-gray-600'
+            }`}
+            data-testid="button-mode-quality"
+          >
+            <p className="text-sm dark:text-white font-semibold">Quality Based</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400">Set quality %</p>
+          </button>
+          <button
+            onClick={() => setCompressionMode('size')}
+            className={`p-3 rounded-lg border-2 transition-all duration-300 hover:scale-105 ${
+              compressionMode === 'size' 
+                ? 'border-cyan-500 bg-cyan-500/10 shadow-[0_0_20px_rgba(6,182,212,0.3)]' 
+                : 'border-gray-300 dark:border-gray-600'
+            }`}
+            data-testid="button-mode-size"
+          >
+            <p className="text-sm dark:text-white font-semibold">Target Size</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400">Set MB target</p>
+          </button>
+        </div>
+
+        {compressionMode === 'quality' ? (
+          <div className="space-y-1">
+            <Label className="text-xs dark:text-white">Quality: {quality}%</Label>
+            <Slider
+              value={[quality]}
+              onValueChange={(value) => {
+                setQuality(value[0]);
+                if (originalImage) compressImage(originalImage, originalSize);
+              }}
+              max={100}
+              min={10}
+              step={5}
+              className="dark:bg-gray-700"
+              data-testid="slider-quality"
+            />
+          </div>
+        ) : (
+          <div className="space-y-1">
+            <Label className="text-xs dark:text-white">Target Size: {targetSize} MB</Label>
+            <Slider
+              value={[targetSize]}
+              onValueChange={(value) => {
+                setTargetSize(value[0]);
+                if (originalImage) compressImage(originalImage, originalSize);
+              }}
+              max={10}
+              min={0.5}
+              step={0.5}
+              className="dark:bg-gray-700"
+              data-testid="slider-target-size"
+            />
+          </div>
+        )}
+      </div>
+
       {originalImage && compressedImage && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-zoomIn">
           <div className="space-y-2 animate-slideInFromLeft">
@@ -783,7 +1248,27 @@ const ImageCompressor = () => {
 const TextToSpeech = () => {
   const [text, setText] = useState('');
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+  const [selectedVoice, setSelectedVoice] = useState<string>('');
+  const [pitch, setPitch] = useState(1);
+  const [rate, setRate] = useState(1);
   const { toast } = useToast();
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
+
+  useEffect(() => {
+    if ('speechSynthesis' in window) {
+      const loadVoices = () => {
+        const availableVoices = window.speechSynthesis.getVoices();
+        setVoices(availableVoices);
+        if (availableVoices.length > 0 && !selectedVoice) {
+          setSelectedVoice(availableVoices[0].name);
+        }
+      };
+      loadVoices();
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+  }, []);
 
   const speak = () => {
     if (!text.trim()) {
@@ -794,6 +1279,10 @@ const TextToSpeech = () => {
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
+      const voice = voices.find(v => v.name === selectedVoice);
+      if (voice) utterance.voice = voice;
+      utterance.pitch = pitch;
+      utterance.rate = rate;
       utterance.onstart = () => setIsSpeaking(true);
       utterance.onend = () => setIsSpeaking(false);
       utterance.onerror = () => {
@@ -811,16 +1300,129 @@ const TextToSpeech = () => {
     setIsSpeaking(false);
   };
 
+  const downloadAudio = async () => {
+    if (!text.trim()) {
+      toast({ title: "Error", description: "Please enter some text first" });
+      return;
+    }
+
+    try {
+      const stream = await (navigator.mediaDevices as any).getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream);
+      audioChunksRef.current = [];
+
+      mediaRecorder.ondataavailable = (event) => {
+        audioChunksRef.current.push(event.data);
+      };
+
+      mediaRecorder.onstop = () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const link = document.createElement('a');
+        link.href = audioUrl;
+        link.download = 'tts-audio.webm';
+        link.click();
+        stream.getTracks().forEach((track: MediaStreamTrack) => track.stop());
+        toast({ title: "Downloaded!", description: "Audio saved successfully" });
+      };
+
+      mediaRecorder.start();
+      mediaRecorderRef.current = mediaRecorder;
+
+      speak();
+      setTimeout(() => {
+        mediaRecorder.stop();
+      }, text.length * 100);
+    } catch (err) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      const voice = voices.find(v => v.name === selectedVoice);
+      if (voice) utterance.voice = voice;
+      utterance.pitch = pitch;
+      utterance.rate = rate;
+      
+      const audioContext = new AudioContext();
+      const destination = audioContext.createMediaStreamDestination();
+      const mediaRecorder = new MediaRecorder(destination.stream);
+      audioChunksRef.current = [];
+
+      mediaRecorder.ondataavailable = (event) => {
+        audioChunksRef.current.push(event.data);
+      };
+
+      mediaRecorder.onstop = () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const link = document.createElement('a');
+        link.href = audioUrl;
+        link.download = 'tts-audio.webm';
+        link.click();
+        toast({ title: "Downloaded!", description: "Audio saved successfully" });
+      };
+
+      mediaRecorder.start();
+      window.speechSynthesis.speak(utterance);
+      utterance.onend = () => {
+        setTimeout(() => mediaRecorder.stop(), 100);
+      };
+    }
+  };
+
   return (
     <div className="space-y-4 animate-fadeUp">
       <Textarea
         placeholder="Enter text to convert to speech..."
         value={text}
         onChange={(e) => setText(e.target.value)}
-        rows={8}
+        rows={6}
         className="dark:bg-gray-800 dark:text-white transition-all duration-300 hover:shadow-[0_0_20px_rgba(168,85,247,0.3)] focus:shadow-[0_0_30px_rgba(168,85,247,0.5)] animate-slideInFromBottom"
         data-testid="textarea-tts"
       />
+
+      <div className="space-y-3 animate-slideInFromLeft" style={{ animationDelay: '0.1s' }}>
+        <div className="space-y-2">
+          <Label className="text-sm font-semibold dark:text-white">Voice Selection</Label>
+          <Select value={selectedVoice} onValueChange={setSelectedVoice}>
+            <SelectTrigger className="dark:bg-gray-800 dark:text-white" data-testid="select-voice">
+              <SelectValue placeholder="Choose voice..." />
+            </SelectTrigger>
+            <SelectContent className="dark:bg-gray-800 dark:text-white max-h-60">
+              {voices.map((voice) => (
+                <SelectItem key={voice.name} value={voice.name}>
+                  {voice.name} ({voice.lang})
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-1">
+            <Label className="text-xs dark:text-white">Pitch: {pitch.toFixed(1)}</Label>
+            <Slider
+              value={[pitch]}
+              onValueChange={(value) => setPitch(value[0])}
+              max={2}
+              min={0.5}
+              step={0.1}
+              className="dark:bg-gray-700"
+              data-testid="slider-pitch"
+            />
+          </div>
+          <div className="space-y-1">
+            <Label className="text-xs dark:text-white">Speed: {rate.toFixed(1)}</Label>
+            <Slider
+              value={[rate]}
+              onValueChange={(value) => setRate(value[0])}
+              max={2}
+              min={0.5}
+              step={0.1}
+              className="dark:bg-gray-700"
+              data-testid="slider-rate"
+            />
+          </div>
+        </div>
+      </div>
+
       <div className="flex gap-2">
         {!isSpeaking ? (
           <Button onClick={speak} className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] animate-popIn" data-testid="button-speak">
@@ -833,6 +1435,10 @@ const TextToSpeech = () => {
             Stop
           </Button>
         )}
+        <Button onClick={downloadAudio} variant="outline" className="flex-1 dark:border-purple-500 dark:text-purple-400 dark:hover:bg-purple-500/10 transition-all duration-300 hover:scale-105" data-testid="button-download-audio">
+          <Download className="mr-2 h-4 w-4" />
+          Download
+        </Button>
       </div>
     </div>
   );
@@ -841,7 +1447,17 @@ const TextToSpeech = () => {
 const QRCodeGenerator = () => {
   const [inputText, setInputText] = useState('');
   const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
+  const [selectedBackground, setSelectedBackground] = useState('white');
   const { toast } = useToast();
+
+  const backgrounds = [
+    { id: 'white', name: 'Classic White', class: 'bg-white', preview: 'bg-white' },
+    { id: 'gradient-blue', name: 'Ocean Blue', class: 'bg-gradient-to-br from-blue-400 to-cyan-300', preview: 'bg-gradient-to-br from-blue-400 to-cyan-300' },
+    { id: 'gradient-purple', name: 'Purple Dream', class: 'bg-gradient-to-br from-purple-400 to-pink-300', preview: 'bg-gradient-to-br from-purple-400 to-pink-300' },
+    { id: 'gradient-sunset', name: 'Sunset Glow', class: 'bg-gradient-to-br from-orange-400 to-red-400', preview: 'bg-gradient-to-br from-orange-400 to-red-400' },
+    { id: 'gradient-emerald', name: 'Emerald Forest', class: 'bg-gradient-to-br from-green-400 to-emerald-300', preview: 'bg-gradient-to-br from-green-400 to-emerald-300' },
+    { id: 'gradient-cyber', name: 'Cyber Neon', class: 'bg-gradient-to-br from-cyan-500 via-purple-500 to-pink-500', preview: 'bg-gradient-to-br from-cyan-500 via-purple-500 to-pink-500' },
+  ];
 
   const generateQRCode = async () => {
     if (!inputText.trim()) {
@@ -859,7 +1475,7 @@ const QRCodeGenerator = () => {
         }
       });
       setQrCodeUrl(url);
-      toast({ title: "Generated!", description: "QR code created successfully" });
+      toast({ title: "Generated!", description: "QR code created successfully with custom background!" });
     } catch (error) {
       toast({ title: "Error", description: "Failed to generate QR code", variant: "destructive" });
     }
@@ -867,10 +1483,53 @@ const QRCodeGenerator = () => {
 
   const downloadQRCode = () => {
     if (!qrCodeUrl) return;
-    const link = document.createElement('a');
-    link.href = qrCodeUrl;
-    link.download = 'qrcode.png';
-    link.click();
+    
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const img = new Image();
+    img.onload = () => {
+      const padding = 40;
+      canvas.width = img.width + padding * 2;
+      canvas.height = img.height + padding * 2;
+
+      const selectedBg = backgrounds.find(bg => bg.id === selectedBackground);
+      if (selectedBg?.id === 'white') {
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      } else {
+        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        if (selectedBg?.id === 'gradient-blue') {
+          gradient.addColorStop(0, '#60A5FA');
+          gradient.addColorStop(1, '#67E8F9');
+        } else if (selectedBg?.id === 'gradient-purple') {
+          gradient.addColorStop(0, '#C084FC');
+          gradient.addColorStop(1, '#F9A8D4');
+        } else if (selectedBg?.id === 'gradient-sunset') {
+          gradient.addColorStop(0, '#FB923C');
+          gradient.addColorStop(1, '#F87171');
+        } else if (selectedBg?.id === 'gradient-emerald') {
+          gradient.addColorStop(0, '#4ADE80');
+          gradient.addColorStop(1, '#6EE7B7');
+        } else if (selectedBg?.id === 'gradient-cyber') {
+          gradient.addColorStop(0, '#06B6D4');
+          gradient.addColorStop(0.5, '#A855F7');
+          gradient.addColorStop(1, '#EC4899');
+        }
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+
+      ctx.drawImage(img, padding, padding);
+
+      const link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = `qrcode-${selectedBg?.id || 'white'}.png`;
+      link.click();
+      toast({ title: "Downloaded!", description: "QR code with custom background saved!" });
+    };
+    img.src = qrCodeUrl;
   };
 
   return (
@@ -882,6 +1541,29 @@ const QRCodeGenerator = () => {
         data-testid="input-qr-text"
         className="dark:bg-gray-800 dark:text-white transition-all duration-300 hover:shadow-[0_0_15px_rgba(34,197,94,0.3)] animate-slideInFromLeft"
       />
+      
+      <div className="space-y-2 animate-slideInFromRight" style={{ animationDelay: '0.1s' }}>
+        <Label className="text-sm font-semibold dark:text-white">Choose Background Style</Label>
+        <div className="grid grid-cols-3 gap-2">
+          {backgrounds.map((bg, idx) => (
+            <button
+              key={bg.id}
+              onClick={() => setSelectedBackground(bg.id)}
+              className={`p-3 rounded-lg border-2 transition-all duration-300 hover:scale-105 animate-bounceIn ${
+                selectedBackground === bg.id 
+                  ? 'border-green-500 shadow-[0_0_20px_rgba(34,197,94,0.5)]' 
+                  : 'border-gray-300 dark:border-gray-600'
+              }`}
+              data-testid={`button-bg-${bg.id}`}
+              style={{ animationDelay: `${idx * 0.05}s` }}
+            >
+              <div className={`w-full h-12 rounded ${bg.preview} mb-1`}></div>
+              <p className="text-xs dark:text-white text-center">{bg.name}</p>
+            </button>
+          ))}
+        </div>
+      </div>
+
       <Button onClick={generateQRCode} className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(34,197,94,0.5)] animate-popIn" data-testid="button-generate-qr">
         <QrCode className="mr-2 h-4 w-4 animate-spin-slow" />
         Generate QR Code
@@ -889,12 +1571,12 @@ const QRCodeGenerator = () => {
 
       {qrCodeUrl && (
         <div className="space-y-4 animate-zoomIn">
-          <div className="flex justify-center p-4 bg-white rounded-lg">
-            <img src={qrCodeUrl} alt="QR Code" className="transition-all duration-500 hover:scale-110" data-testid="img-qr-code" />
+          <div className={`flex justify-center p-8 rounded-lg ${backgrounds.find(bg => bg.id === selectedBackground)?.class} shadow-xl transition-all duration-500 hover:scale-105`}>
+            <img src={qrCodeUrl} alt="QR Code" className="transition-all duration-500" data-testid="img-qr-code" />
           </div>
           <Button onClick={downloadQRCode} variant="outline" className="w-full dark:border-green-500 dark:text-green-400 dark:hover:bg-green-500/10 transition-all duration-300 hover:scale-105 animate-bounceIn" data-testid="button-download-qr">
             <Download className="mr-2 h-4 w-4 animate-bounce" />
-            Download QR Code
+            Download QR Code with Background
           </Button>
         </div>
       )}

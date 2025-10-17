@@ -139,7 +139,7 @@ const Footer = () => {
               className="text-muted-foreground dark:text-muted-foreground hover:text-primary dark:hover:text-primary transition-colors hover:scale-105 inline-block"
               data-testid="footer-email"
             >
-              📧 Email: nsgamming69@gmail.com
+              📧 Email: nishant.ns.business@gmail.com
             </a>
             <a 
               href="https://wa.me/918900653250" 
