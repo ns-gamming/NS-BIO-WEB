@@ -465,8 +465,9 @@ export function GeminiChatbot() {
     const pageUrl = window.location.href;
 
     try {
+      // Try to save message to database, but don't block if it fails
       const userMessageId = `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      await fetch("/api/chat/message", {
+      fetch("/api/chat/message", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -476,7 +477,10 @@ export function GeminiChatbot() {
           messageText: userMessage.content,
           metadata: { pageUrl }
         }),
-      }).catch(err => console.error("Error saving user message:", err));
+      }).catch(err => {
+        // Silent fail - database is optional
+        console.log("Database unavailable, continuing without saving");
+      });
 
       const blogPosts = getAllBlogPosts();
       const blogPostsInfo = blogPosts.map(post => 
@@ -526,8 +530,9 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
 
       setMessages((prev) => [...prev, assistantMessage]);
 
+      // Try to save assistant message, but don't block if it fails
       const assistantMessageId = `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      await fetch("/api/chat/message", {
+      fetch("/api/chat/message", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -541,7 +546,10 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
             userMessageId
           }
         }),
-      }).catch(err => console.error("Error saving assistant message:", err));
+      }).catch(err => {
+        // Silent fail - database is optional
+        console.log("Database unavailable, continuing without saving");
+      });
 
     } catch (error) {
       console.error("Error sending message:", error);
@@ -552,8 +560,9 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
       };
       setMessages((prev) => [...prev, errorMessage]);
       
+      // Try to save error message, but don't block if it fails
       const errorMessageId = `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      await fetch("/api/chat/message", {
+      fetch("/api/chat/message", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -567,7 +576,10 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
             errorType: "api_failure"
           }
         }),
-      }).catch(err => console.error("Error saving error message:", err));
+      }).catch(err => {
+        // Silent fail - database is optional
+        console.log("Database unavailable, continuing without saving");
+      });
     } finally {
       setIsLoading(false);
     }

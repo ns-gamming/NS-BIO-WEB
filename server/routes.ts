@@ -148,25 +148,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Messages array is required" });
       }
 
+      // Get API key from environment (Replit Secrets)
+      const apiKey = process.env.GEMINI_API_KEY;
+      
+      if (!apiKey) {
+        console.error('GEMINI_API_KEY not found in environment variables');
+        return res.status(500).json({ 
+          error: "AI service not configured. Please add GEMINI_API_KEY to Replit Secrets." 
+        });
+      }
+
+      // Use the new Google Generative AI SDK
+      const { GoogleGenerativeAI } = await import('@google/generative-ai');
+      const genAI = new GoogleGenerativeAI(apiKey);
+      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
+
       // Convert messages to Gemini format
       const contents = messages.map((msg: { role: string; content: string }) => ({
         role: msg.role === "user" ? "user" : "model",
         parts: [{ text: msg.content }]
       }));
 
-      const response = await genAI.models.generateContent({
-        model: "gemini-2.0-flash-exp",
+      const result = await model.generateContent({
         contents: contents,
       });
 
-      const text = response.text || "I apologize, but I couldn't generate a response. Please try again!";
+      const response = await result.response;
+      const text = response.text() || "I apologize, but I couldn't generate a response. Please try again!";
 
       res.json({ message: text });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Gemini API error:', error);
-      res.status(500).json({ 
-        error: "Failed to generate response. Please try again!" 
-      });
+      
+      // Provide helpful error messages
+      let errorMessage = "Failed to generate response. Please try again!";
+      if (error.message?.includes('API key')) {
+        errorMessage = "AI API key is invalid. Please check Replit Secrets.";
+      } else if (error.message?.includes('quota')) {
+        errorMessage = "AI service quota exceeded. Please try again later.";
+      }
+      
+      res.status(500).json({ error: errorMessage });
     }
   });
   // Free Fire Likes API proxy endpoint
