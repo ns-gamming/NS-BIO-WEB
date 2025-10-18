@@ -186,7 +186,7 @@ BEGIN
   IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='ai_chat_messages' AND column_name='ip_address') THEN
     ALTER TABLE ai_chat_messages ADD COLUMN ip_address VARCHAR(100);
   END IF;
-  
+
   IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='ai_chat_messages' AND column_name='user_agent') THEN
     ALTER TABLE ai_chat_messages ADD COLUMN user_agent TEXT;
   END IF;
@@ -199,7 +199,7 @@ BEGIN
   IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='ai_chat_sessions' AND column_name='ip_address') THEN
     ALTER TABLE ai_chat_sessions ADD COLUMN ip_address VARCHAR(100);
   END IF;
-  
+
   IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='ai_chat_sessions' AND column_name='user_agent') THEN
     ALTER TABLE ai_chat_sessions ADD COLUMN user_agent TEXT;
   END IF;
