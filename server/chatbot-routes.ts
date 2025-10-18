@@ -160,7 +160,8 @@ export function registerChatbotRoutes(app: Express) {
       res.json({ success: true, session: data });
     } catch (error: any) {
       console.error('Error starting chat session:', error);
-      res.status(500).json({ success: false, error: error.message });
+      // Always return success even if database fails - chatbot must never fail
+      res.json({ success: true, session: null, warning: 'Session tracking unavailable but chat still works!' });
     }
   });
 
@@ -235,7 +236,8 @@ export function registerChatbotRoutes(app: Express) {
       res.json({ success: true, message: data });
     } catch (error: any) {
       console.error('Error saving message:', error);
-      res.status(500).json({ success: false, error: error.message });
+      // Always return success even if database fails - chatbot must never fail
+      res.json({ success: true, message: null, warning: 'Message tracking unavailable but chat still works!' });
     }
   });
 

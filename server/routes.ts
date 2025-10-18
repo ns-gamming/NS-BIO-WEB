@@ -158,10 +158,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Use the new Google Generative AI SDK
+      // Use the new Google Generative AI SDK with FREE tier model
       const { GoogleGenerativeAI } = await import('@google/generative-ai');
       const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
       // Convert messages to Gemini format
       const contents = messages.map((msg: { role: string; content: string }) => ({
