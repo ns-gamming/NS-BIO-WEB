@@ -627,6 +627,68 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
       setIsOpen(true);
       // When opening, position chat where the button was
       setChatPosition(buttonPosition);
+      
+      // Start a chat session with comprehensive tracking
+      const sessionId = localStorage.getItem("analytics_session_id") || `chat_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      const userId = localStorage.getItem("chat_user_id") || `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      
+      // Save user ID for future use
+      if (!localStorage.getItem("chat_user_id")) {
+        localStorage.setItem("chat_user_id", userId);
+      }
+      
+      // Collect device and browser info
+      const getBrowser = () => {
+        const ua = navigator.userAgent;
+        if (ua.includes('Firefox')) return 'Firefox';
+        if (ua.includes('Edg')) return 'Edge';
+        if (ua.includes('Chrome')) return 'Chrome';
+        if (ua.includes('Safari')) return 'Safari';
+        return 'Unknown';
+      };
+      
+      const getOS = () => {
+        const ua = navigator.userAgent;
+        if (ua.includes('Win')) return 'Windows';
+        if (ua.includes('Mac')) return 'macOS';
+        if (ua.includes('Linux')) return 'Linux';
+        if (ua.includes('Android')) return 'Android';
+        if (ua.includes('iOS')) return 'iOS';
+        return 'Unknown';
+      };
+      
+      const getDeviceType = () => {
+        if (/mobile/i.test(navigator.userAgent)) return 'mobile';
+        if (/tablet/i.test(navigator.userAgent)) return 'tablet';
+        return 'desktop';
+      };
+      
+      const deviceInfo = {
+        userAgent: navigator.userAgent,
+        screen: { width: window.screen.width, height: window.screen.height },
+        viewport: { width: window.innerWidth, height: window.innerHeight },
+        platform: navigator.platform,
+        language: navigator.language,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        cookieEnabled: navigator.cookieEnabled,
+        onLine: navigator.onLine
+      };
+      
+      // Try to start session, but don't block if it fails
+      fetch("/api/chat/session/start", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId,
+          sessionId,
+          deviceInfo,
+          browser: getBrowser(),
+          os: getOS(),
+          deviceType: getDeviceType()
+        }),
+      }).catch(err => {
+        console.log("Session tracking unavailable, continuing without tracking");
+      });
     }
   };
 
