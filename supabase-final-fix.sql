@@ -5,17 +5,17 @@
 -- ============================================================================
 
 -- ============================================================================
--- STEP 1: DISABLE RLS ON UNRESTRICTED TABLES
+-- STEP 1: DISABLE RLS ON UNRESTRICTED TABLES (TABLES ONLY, NOT VIEWS)
 -- ============================================================================
 
 ALTER TABLE ai_chat_messages DISABLE ROW LEVEL SECURITY;
 ALTER TABLE ai_chat_sessions DISABLE ROW LEVEL SECURITY;
-ALTER TABLE ai_chat_statistics DISABLE ROW LEVEL SECURITY;
+-- ai_chat_statistics is a VIEW, not a table - skip it
 ALTER TABLE comprehensive_users DISABLE ROW LEVEL SECURITY;
-ALTER TABLE daily_active_users DISABLE ROW LEVEL SECURITY;
+-- daily_active_users is a VIEW, not a table - skip it
 ALTER TABLE poll_votes DISABLE ROW LEVEL SECURITY;
-ALTER TABLE popular_pages DISABLE ROW LEVEL SECURITY;
-ALTER TABLE user_activity_by_ip DISABLE ROW LEVEL SECURITY;
+-- popular_pages is a VIEW, not a table - skip it
+-- user_activity_by_ip is a VIEW, not a table - skip it
 ALTER TABLE user_preferences DISABLE ROW LEVEL SECURITY;
 
 -- ============================================================================
@@ -26,7 +26,7 @@ DROP POLICY IF EXISTS "Service role full access ai_chat_messages" ON ai_chat_mes
 DROP POLICY IF EXISTS "Public insert ai_chat_messages" ON ai_chat_messages;
 DROP POLICY IF EXISTS "Service role full access ai_chat_sessions" ON ai_chat_sessions;
 DROP POLICY IF EXISTS "Public insert ai_chat_sessions" ON ai_chat_sessions;
-DROP POLICY IF EXISTS "Service role full access ai_chat_statistics" ON ai_chat_statistics;
+-- ai_chat_statistics is a view - no policies to drop
 DROP POLICY IF EXISTS "Service role full access comprehensive_users" ON comprehensive_users;
 DROP POLICY IF EXISTS "Public insert comprehensive_users" ON comprehensive_users;
 DROP POLICY IF EXISTS "Service role full access poll_votes" ON poll_votes;
@@ -82,6 +82,38 @@ BEGIN
   ) THEN
     ALTER TABLE user_profiles ADD COLUMN user_agent TEXT;
   END IF;
+
+  -- Add ip_address to ai_user_context if missing
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_name = 'ai_user_context' AND column_name = 'ip_address'
+  ) THEN
+    ALTER TABLE ai_user_context ADD COLUMN ip_address VARCHAR(100);
+  END IF;
+
+  -- Add ip_address to comprehensive_users if missing
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_name = 'comprehensive_users' AND column_name = 'ip_address'
+  ) THEN
+    ALTER TABLE comprehensive_users ADD COLUMN ip_address VARCHAR(100);
+  END IF;
+
+  -- Add ip_address to poll_votes if missing
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_name = 'poll_votes' AND column_name = 'ip_address'
+  ) THEN
+    ALTER TABLE poll_votes ADD COLUMN ip_address VARCHAR(100);
+  END IF;
+
+  -- Add ip_address to user_preferences if missing
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_name = 'user_preferences' AND column_name = 'ip_address'
+  ) THEN
+    ALTER TABLE user_preferences ADD COLUMN ip_address VARCHAR(100);
+  END IF;
 END $$;
 
 -- ============================================================================
@@ -117,12 +149,12 @@ CREATE INDEX IF NOT EXISTS idx_user_preferences_ip ON user_preferences(ip_addres
 -- Grant all operations on unrestricted tables
 GRANT ALL ON ai_chat_messages TO anon, authenticated;
 GRANT ALL ON ai_chat_sessions TO anon, authenticated;
-GRANT ALL ON ai_chat_statistics TO anon, authenticated;
 GRANT ALL ON comprehensive_users TO anon, authenticated;
 GRANT ALL ON poll_votes TO anon, authenticated;
 GRANT ALL ON user_preferences TO anon, authenticated;
 
--- Grant select on views
+-- Grant select on views (views don't need RLS, but users need SELECT permission)
+GRANT SELECT ON ai_chat_statistics TO anon, authenticated;
 GRANT SELECT ON daily_active_users TO anon, authenticated;
 GRANT SELECT ON popular_pages TO anon, authenticated;
 GRANT SELECT ON user_activity_by_ip TO anon, authenticated;
@@ -208,13 +240,15 @@ BEGIN
     RAISE NOTICE '📊 UNRESTRICTED TABLES (RLS DISABLED):';
     RAISE NOTICE '   - ai_chat_messages';
     RAISE NOTICE '   - ai_chat_sessions';
-    RAISE NOTICE '   - ai_chat_statistics';
     RAISE NOTICE '   - comprehensive_users';
-    RAISE NOTICE '   - daily_active_users';
     RAISE NOTICE '   - poll_votes';
+    RAISE NOTICE '   - user_preferences';
+    RAISE NOTICE '';
+    RAISE NOTICE '📊 UNRESTRICTED VIEWS (NO RLS NEEDED):';
+    RAISE NOTICE '   - ai_chat_statistics';
+    RAISE NOTICE '   - daily_active_users';
     RAISE NOTICE '   - popular_pages';
     RAISE NOTICE '   - user_activity_by_ip';
-    RAISE NOTICE '   - user_preferences';
     RAISE NOTICE '';
     RAISE NOTICE '🔍 IP TRACKING ENABLED ON:';
     RAISE NOTICE '   - All chat messages (ai_chat_messages.ip_address)';
@@ -222,6 +256,7 @@ BEGIN
     RAISE NOTICE '   - User profiles (user_profiles.ip_address)';
     RAISE NOTICE '   - User context (ai_user_context.ip_address)';
     RAISE NOTICE '   - Poll votes (poll_votes.ip_address)';
+    RAISE NOTICE '   - User preferences (user_preferences.ip_address)';
     RAISE NOTICE '';
     RAISE NOTICE '📈 NEW VIEWS CREATED:';
     RAISE NOTICE '   - ai_chat_activity_by_ip (chat activity per IP)';
