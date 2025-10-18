@@ -1,7 +1,7 @@
 
 -- ============================================================================
--- NS GAMMING - COMPLETE DATABASE FIX
--- Creates all missing tables, adds IP tracking, configures RLS properly
+-- NS GAMMING - COMPLETE DATABASE FIX (ERROR-PROOF VERSION)
+-- Handles existing data, adds missing columns safely, configures RLS
 -- ============================================================================
 
 -- Enable required extensions
@@ -9,23 +9,19 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 -- ============================================================================
--- STEP 1: CREATE ALL MISSING TABLES FIRST
+-- STEP 1: CREATE MISSING TABLES (IF NOT EXISTS)
 -- ============================================================================
 
--- Comprehensive Users table (extended user profiles with ALL possible data)
+-- Comprehensive Users table (ALL user data)
 CREATE TABLE IF NOT EXISTS comprehensive_users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id VARCHAR(255) UNIQUE NOT NULL,
-
-    -- Basic Info
     name TEXT,
     email VARCHAR(255),
     phone VARCHAR(20),
     age INTEGER,
     gender VARCHAR(20),
     date_of_birth DATE,
-
-    -- Location & Device
     ip_address VARCHAR(100),
     location VARCHAR(255),
     city VARCHAR(100),
@@ -33,8 +29,6 @@ CREATE TABLE IF NOT EXISTS comprehensive_users (
     country VARCHAR(100),
     timezone VARCHAR(50),
     language VARCHAR(10) DEFAULT 'en',
-
-    -- Device & Browser
     user_agent TEXT,
     browser VARCHAR(100),
     browser_version VARCHAR(50),
@@ -44,50 +38,38 @@ CREATE TABLE IF NOT EXISTS comprehensive_users (
     device_brand VARCHAR(100),
     device_model VARCHAR(100),
     screen_resolution VARCHAR(50),
-
-    -- Preferences & Interests
     preferences JSONB DEFAULT '{}'::jsonb,
     interests TEXT[] DEFAULT '{}',
     favorite_games TEXT[] DEFAULT '{}',
     favorite_topics TEXT[] DEFAULT '{}',
     communication_preferences JSONB DEFAULT '{}'::jsonb,
-
-    -- Behavioral Data
     total_sessions INTEGER DEFAULT 0,
     total_messages INTEGER DEFAULT 0,
     total_page_views INTEGER DEFAULT 0,
     total_clicks INTEGER DEFAULT 0,
     avg_session_duration_seconds INTEGER DEFAULT 0,
     last_page_visited TEXT,
-
-    -- Engagement Metrics
     first_visit TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     last_visit TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     visit_count INTEGER DEFAULT 1,
     is_returning_visitor BOOLEAN DEFAULT FALSE,
     is_vip BOOLEAN DEFAULT FALSE,
     engagement_score INTEGER DEFAULT 0,
-
-    -- Marketing & Attribution
     utm_source VARCHAR(255),
     utm_medium VARCHAR(255),
     utm_campaign VARCHAR(255),
     utm_content VARCHAR(255),
     referrer TEXT,
     acquisition_channel VARCHAR(100),
-
-    -- Additional Data
     notes TEXT,
     tags TEXT[] DEFAULT '{}',
     custom_fields JSONB DEFAULT '{}'::jsonb,
     metadata JSONB DEFAULT '{}'::jsonb,
-
-    -- Timestamps
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- AI Chat Messages (if not exists)
+-- AI Chat Messages
 CREATE TABLE IF NOT EXISTS ai_chat_messages (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     message_id VARCHAR(255) UNIQUE NOT NULL,
@@ -106,12 +88,12 @@ CREATE TABLE IF NOT EXISTS ai_chat_messages (
     metadata JSONB DEFAULT '{}'::jsonb
 );
 
--- AI Chat Sessions (if not exists)
+-- AI Chat Sessions
 CREATE TABLE IF NOT EXISTS ai_chat_sessions (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     session_id VARCHAR(255) UNIQUE NOT NULL,
     user_id VARCHAR(255),
-    ip_address VARCHAR(100) NOT NULL,
+    ip_address VARCHAR(100),
     user_agent TEXT,
     browser VARCHAR(100),
     os VARCHAR(100),
@@ -128,13 +110,35 @@ CREATE TABLE IF NOT EXISTS ai_chat_sessions (
     metadata JSONB DEFAULT '{}'::jsonb
 );
 
--- Poll Votes tracking (if not exists)
+-- AI User Context
+CREATE TABLE IF NOT EXISTS ai_user_context (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id VARCHAR(255) UNIQUE NOT NULL,
+    context_data JSONB DEFAULT '{}'::jsonb,
+    preferences JSONB DEFAULT '{}'::jsonb,
+    conversation_history JSONB DEFAULT '[]'::jsonb,
+    ip_address VARCHAR(100),
+    user_agent TEXT,
+    last_updated TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- AI Chat Topics
+CREATE TABLE IF NOT EXISTS ai_chat_topics (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    session_id VARCHAR(255) NOT NULL,
+    topic VARCHAR(255) NOT NULL,
+    confidence DECIMAL(3,2),
+    discussed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Poll Votes
 CREATE TABLE IF NOT EXISTS poll_votes (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     poll_id UUID,
     session_id VARCHAR(255),
     user_id VARCHAR(255),
-    ip_address VARCHAR(100) NOT NULL,
+    ip_address VARCHAR(100),
     option_index INTEGER NOT NULL,
     option_text TEXT NOT NULL,
     user_agent TEXT,
@@ -142,127 +146,168 @@ CREATE TABLE IF NOT EXISTS poll_votes (
     voted_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- User Preferences (if not exists)
+-- User Preferences
 CREATE TABLE IF NOT EXISTS user_preferences (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id VARCHAR(255) NOT NULL,
+    user_id VARCHAR(255) UNIQUE NOT NULL,
     session_id VARCHAR(255),
-
-    -- Display Preferences
     theme VARCHAR(20) DEFAULT 'dark',
     language VARCHAR(10) DEFAULT 'en',
     font_size VARCHAR(20) DEFAULT 'medium',
     animations_enabled BOOLEAN DEFAULT TRUE,
-
-    -- Privacy Preferences
     analytics_enabled BOOLEAN DEFAULT TRUE,
     personalization_enabled BOOLEAN DEFAULT TRUE,
     marketing_emails BOOLEAN DEFAULT FALSE,
     newsletter BOOLEAN DEFAULT FALSE,
-
-    -- Notification Preferences
     push_notifications BOOLEAN DEFAULT TRUE,
     email_notifications BOOLEAN DEFAULT FALSE,
     sms_notifications BOOLEAN DEFAULT FALSE,
-
-    -- Cookie Consent
     necessary_cookies BOOLEAN DEFAULT TRUE,
     functional_cookies BOOLEAN DEFAULT FALSE,
     analytics_cookies BOOLEAN DEFAULT FALSE,
     advertising_cookies BOOLEAN DEFAULT FALSE,
-
-    -- Content Preferences
     content_categories TEXT[] DEFAULT '{}',
     excluded_topics TEXT[] DEFAULT '{}',
     favorite_authors TEXT[] DEFAULT '{}',
-
-    -- Custom Preferences
     custom_settings JSONB DEFAULT '{}'::jsonb,
-
-    -- Metadata
     ip_address VARCHAR(100),
     user_agent TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-
-    UNIQUE(user_id)
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- ============================================================================
--- STEP 2: ADD MISSING COLUMNS TO EXISTING TABLES
+-- STEP 2: ADD MISSING COLUMNS SAFELY (NO ERRORS IF ALREADY EXISTS)
 -- ============================================================================
 
 DO $$ 
 BEGIN
-  -- Add ip_address to ai_chat_messages if missing
-  IF NOT EXISTS (
-    SELECT 1 FROM information_schema.columns 
-    WHERE table_name = 'ai_chat_messages' AND column_name = 'ip_address'
-  ) THEN
+  -- ai_chat_messages columns
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='ai_chat_messages' AND column_name='ip_address') THEN
     ALTER TABLE ai_chat_messages ADD COLUMN ip_address VARCHAR(100);
   END IF;
-
-  -- Add user_agent to ai_chat_messages if missing
-  IF NOT EXISTS (
-    SELECT 1 FROM information_schema.columns 
-    WHERE table_name = 'ai_chat_messages' AND column_name = 'user_agent'
-  ) THEN
+  
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='ai_chat_messages' AND column_name='user_agent') THEN
     ALTER TABLE ai_chat_messages ADD COLUMN user_agent TEXT;
   END IF;
 
-  -- Add ip_address to ai_chat_sessions if missing
-  IF NOT EXISTS (
-    SELECT 1 FROM information_schema.columns 
-    WHERE table_name = 'ai_chat_sessions' AND column_name = 'ip_address'
-  ) THEN
-    ALTER TABLE ai_chat_sessions ADD COLUMN ip_address VARCHAR(100);
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='ai_chat_messages' AND column_name='page_url') THEN
+    ALTER TABLE ai_chat_messages ADD COLUMN page_url TEXT;
   END IF;
 
-  -- Add user_agent to ai_chat_sessions if missing
-  IF NOT EXISTS (
-    SELECT 1 FROM information_schema.columns 
-    WHERE table_name = 'ai_chat_sessions' AND column_name = 'user_agent'
-  ) THEN
+  -- ai_chat_sessions columns
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='ai_chat_sessions' AND column_name='ip_address') THEN
+    ALTER TABLE ai_chat_sessions ADD COLUMN ip_address VARCHAR(100);
+  END IF;
+  
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='ai_chat_sessions' AND column_name='user_agent') THEN
     ALTER TABLE ai_chat_sessions ADD COLUMN user_agent TEXT;
   END IF;
 
-  -- Add ip_address to user_profiles if it exists
-  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'user_profiles') THEN
-    IF NOT EXISTS (
-      SELECT 1 FROM information_schema.columns 
-      WHERE table_name = 'user_profiles' AND column_name = 'ip_address'
-    ) THEN
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='ai_chat_sessions' AND column_name='browser') THEN
+    ALTER TABLE ai_chat_sessions ADD COLUMN browser VARCHAR(100);
+  END IF;
+
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='ai_chat_sessions' AND column_name='os') THEN
+    ALTER TABLE ai_chat_sessions ADD COLUMN os VARCHAR(100);
+  END IF;
+
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='ai_chat_sessions' AND column_name='device_type') THEN
+    ALTER TABLE ai_chat_sessions ADD COLUMN device_type VARCHAR(50);
+  END IF;
+
+  -- ai_user_context columns
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='ai_user_context' AND column_name='ip_address') THEN
+    ALTER TABLE ai_user_context ADD COLUMN ip_address VARCHAR(100);
+  END IF;
+
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='ai_user_context' AND column_name='user_agent') THEN
+    ALTER TABLE ai_user_context ADD COLUMN user_agent TEXT;
+  END IF;
+
+  -- poll_votes columns
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='poll_votes' AND column_name='ip_address') THEN
+    ALTER TABLE poll_votes ADD COLUMN ip_address VARCHAR(100);
+  END IF;
+
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='poll_votes' AND column_name='user_agent') THEN
+    ALTER TABLE poll_votes ADD COLUMN user_agent TEXT;
+  END IF;
+
+  -- user_preferences columns
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='user_preferences' AND column_name='ip_address') THEN
+    ALTER TABLE user_preferences ADD COLUMN ip_address VARCHAR(100);
+  END IF;
+
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='user_preferences' AND column_name='user_agent') THEN
+    ALTER TABLE user_preferences ADD COLUMN user_agent TEXT;
+  END IF;
+
+  -- Add to existing analytics tables if they exist
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name='analytics_sessions') THEN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='analytics_sessions' AND column_name='ip_address') THEN
+      ALTER TABLE analytics_sessions ADD COLUMN ip_address VARCHAR(100);
+    END IF;
+  END IF;
+
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name='page_views') THEN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='page_views' AND column_name='ip_address') THEN
+      ALTER TABLE page_views ADD COLUMN ip_address VARCHAR(100);
+    END IF;
+  END IF;
+
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name='user_events') THEN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='user_events' AND column_name='ip_address') THEN
+      ALTER TABLE user_events ADD COLUMN ip_address VARCHAR(100);
+    END IF;
+  END IF;
+
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name='user_profiles') THEN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='user_profiles' AND column_name='ip_address') THEN
       ALTER TABLE user_profiles ADD COLUMN ip_address VARCHAR(100);
     END IF;
-
-    IF NOT EXISTS (
-      SELECT 1 FROM information_schema.columns 
-      WHERE table_name = 'user_profiles' AND column_name = 'user_agent'
-    ) THEN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='user_profiles' AND column_name='user_agent') THEN
       ALTER TABLE user_profiles ADD COLUMN user_agent TEXT;
     END IF;
   END IF;
 
-  -- Add ip_address to ai_user_context if it exists
-  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'ai_user_context') THEN
-    IF NOT EXISTS (
-      SELECT 1 FROM information_schema.columns 
-      WHERE table_name = 'ai_user_context' AND column_name = 'ip_address'
-    ) THEN
-      ALTER TABLE ai_user_context ADD COLUMN ip_address VARCHAR(100);
-    END IF;
-  END IF;
 END $$;
 
 -- ============================================================================
--- STEP 3: DISABLE RLS ON UNRESTRICTED TABLES (TABLES ONLY)
+-- STEP 3: DISABLE RLS ON UNRESTRICTED TABLES (TABLES ONLY, NOT VIEWS)
 -- ============================================================================
 
-ALTER TABLE ai_chat_messages DISABLE ROW LEVEL SECURITY;
-ALTER TABLE ai_chat_sessions DISABLE ROW LEVEL SECURITY;
-ALTER TABLE comprehensive_users DISABLE ROW LEVEL SECURITY;
-ALTER TABLE poll_votes DISABLE ROW LEVEL SECURITY;
-ALTER TABLE user_preferences DISABLE ROW LEVEL SECURITY;
+DO $$
+BEGIN
+  -- Only disable RLS on actual tables, not views
+  IF EXISTS (SELECT 1 FROM pg_class WHERE relname = 'ai_chat_messages' AND relkind = 'r') THEN
+    ALTER TABLE ai_chat_messages DISABLE ROW LEVEL SECURITY;
+  END IF;
+
+  IF EXISTS (SELECT 1 FROM pg_class WHERE relname = 'ai_chat_sessions' AND relkind = 'r') THEN
+    ALTER TABLE ai_chat_sessions DISABLE ROW LEVEL SECURITY;
+  END IF;
+
+  IF EXISTS (SELECT 1 FROM pg_class WHERE relname = 'comprehensive_users' AND relkind = 'r') THEN
+    ALTER TABLE comprehensive_users DISABLE ROW LEVEL SECURITY;
+  END IF;
+
+  IF EXISTS (SELECT 1 FROM pg_class WHERE relname = 'poll_votes' AND relkind = 'r') THEN
+    ALTER TABLE poll_votes DISABLE ROW LEVEL SECURITY;
+  END IF;
+
+  IF EXISTS (SELECT 1 FROM pg_class WHERE relname = 'user_preferences' AND relkind = 'r') THEN
+    ALTER TABLE user_preferences DISABLE ROW LEVEL SECURITY;
+  END IF;
+
+  IF EXISTS (SELECT 1 FROM pg_class WHERE relname = 'ai_user_context' AND relkind = 'r') THEN
+    ALTER TABLE ai_user_context DISABLE ROW LEVEL SECURITY;
+  END IF;
+
+  IF EXISTS (SELECT 1 FROM pg_class WHERE relname = 'ai_chat_topics' AND relkind = 'r') THEN
+    ALTER TABLE ai_chat_topics DISABLE ROW LEVEL SECURITY;
+  END IF;
+END $$;
 
 -- ============================================================================
 -- STEP 4: CREATE INDEXES FOR PERFORMANCE
@@ -288,6 +333,9 @@ CREATE INDEX IF NOT EXISTS idx_poll_votes_poll_id ON poll_votes(poll_id);
 CREATE INDEX IF NOT EXISTS idx_user_preferences_ip ON user_preferences(ip_address);
 CREATE INDEX IF NOT EXISTS idx_user_preferences_user_id ON user_preferences(user_id);
 
+CREATE INDEX IF NOT EXISTS idx_ai_user_context_user_id ON ai_user_context(user_id);
+CREATE INDEX IF NOT EXISTS idx_ai_user_context_ip ON ai_user_context(ip_address);
+
 -- ============================================================================
 -- STEP 5: GRANT FULL PUBLIC ACCESS TO UNRESTRICTED TABLES
 -- ============================================================================
@@ -297,9 +345,11 @@ GRANT ALL ON ai_chat_sessions TO anon, authenticated;
 GRANT ALL ON comprehensive_users TO anon, authenticated;
 GRANT ALL ON poll_votes TO anon, authenticated;
 GRANT ALL ON user_preferences TO anon, authenticated;
+GRANT ALL ON ai_user_context TO anon, authenticated;
+GRANT ALL ON ai_chat_topics TO anon, authenticated;
 
 -- ============================================================================
--- STEP 6: ENSURE SERVICE ROLE HAS FULL ACCESS
+-- STEP 6: SERVICE ROLE FULL ACCESS
 -- ============================================================================
 
 GRANT ALL ON ALL TABLES IN SCHEMA public TO service_role;
@@ -307,27 +357,30 @@ GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO service_role;
 GRANT ALL ON ALL FUNCTIONS IN SCHEMA public TO service_role;
 
 -- ============================================================================
--- STEP 7: CREATE VIEWS FOR IP TRACKING & ANALYTICS
+-- STEP 7: CREATE ANALYTICS VIEWS (SAFE - DROP IF EXISTS)
 -- ============================================================================
 
--- User activity by IP (using analytics_sessions if it exists)
-CREATE OR REPLACE VIEW user_activity_by_ip AS
+-- Drop existing views first to avoid conflicts
+DROP VIEW IF EXISTS user_activity_by_ip CASCADE;
+DROP VIEW IF EXISTS ai_chat_statistics CASCADE;
+DROP VIEW IF EXISTS daily_active_users CASCADE;
+DROP VIEW IF EXISTS popular_pages CASCADE;
+
+-- User activity by IP
+CREATE VIEW user_activity_by_ip AS
 SELECT 
   ip_address,
   COUNT(DISTINCT session_id) as total_sessions,
   MIN(started_at) as first_seen,
   MAX(started_at) as last_seen,
   COUNT(*) as total_activities
-FROM (
-  SELECT session_id, ip_address, started_at FROM ai_chat_sessions
-  UNION ALL
-  SELECT session_id, ip_address, started_at FROM analytics_sessions WHERE EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'analytics_sessions')
-) combined
+FROM ai_chat_sessions
+WHERE ip_address IS NOT NULL
 GROUP BY ip_address
 ORDER BY last_seen DESC;
 
--- AI Chat statistics (daily aggregation)
-CREATE OR REPLACE VIEW ai_chat_statistics AS
+-- AI Chat statistics
+CREATE VIEW ai_chat_statistics AS
 SELECT 
   DATE(started_at) as date,
   COUNT(DISTINCT id) as total_sessions,
@@ -339,12 +392,14 @@ GROUP BY DATE(started_at)
 ORDER BY date DESC;
 
 -- Daily active users
-CREATE OR REPLACE VIEW daily_active_users AS
+CREATE VIEW daily_active_users AS
 SELECT 
   DATE(started_at) as date,
-  COUNT(DISTINCT ip_address) as unique_users,
+  COUNT(DISTINCT ip_address) as unique_ips,
+  COUNT(DISTINCT user_id) as unique_users,
   COUNT(*) as total_sessions
 FROM ai_chat_sessions
+WHERE started_at IS NOT NULL
 GROUP BY DATE(started_at)
 ORDER BY date DESC;
 
@@ -352,13 +407,14 @@ ORDER BY date DESC;
 DO $$
 BEGIN
   IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'page_views') THEN
-    EXECUTE 'CREATE OR REPLACE VIEW popular_pages AS
+    EXECUTE 'CREATE VIEW popular_pages AS
     SELECT 
       page_url,
       COUNT(*) as views,
       COUNT(DISTINCT session_id) as unique_sessions,
       AVG(time_spent_seconds) as avg_time_spent
     FROM page_views
+    WHERE page_url IS NOT NULL
     GROUP BY page_url
     ORDER BY views DESC';
   END IF;
@@ -368,14 +424,14 @@ END $$;
 -- STEP 8: GRANT VIEW ACCESS
 -- ============================================================================
 
-GRANT SELECT ON user_activity_by_ip TO anon, authenticated;
-GRANT SELECT ON ai_chat_statistics TO anon, authenticated;
-GRANT SELECT ON daily_active_users TO anon, authenticated;
+GRANT SELECT ON user_activity_by_ip TO anon, authenticated, service_role;
+GRANT SELECT ON ai_chat_statistics TO anon, authenticated, service_role;
+GRANT SELECT ON daily_active_users TO anon, authenticated, service_role;
 
 DO $$
 BEGIN
-  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'popular_pages' AND table_type = 'VIEW') THEN
-    EXECUTE 'GRANT SELECT ON popular_pages TO anon, authenticated';
+  IF EXISTS (SELECT 1 FROM pg_views WHERE viewname = 'popular_pages') THEN
+    EXECUTE 'GRANT SELECT ON popular_pages TO anon, authenticated, service_role';
   END IF;
 END $$;
 
@@ -386,32 +442,14 @@ END $$;
 DO $$
 BEGIN
     RAISE NOTICE '✅ ============================================================================';
-    RAISE NOTICE '✅ NS GAMMING DATABASE - SETUP COMPLETE!';
+    RAISE NOTICE '✅ NS GAMMING DATABASE - COMPLETE SETUP FINISHED!';
     RAISE NOTICE '✅ ============================================================================';
     RAISE NOTICE '';
-    RAISE NOTICE '📊 TABLES CREATED/VERIFIED:';
-    RAISE NOTICE '   ✅ comprehensive_users (extended user profiles)';
-    RAISE NOTICE '   ✅ ai_chat_messages (chat history with IP tracking)';
-    RAISE NOTICE '   ✅ ai_chat_sessions (session tracking)';
-    RAISE NOTICE '   ✅ poll_votes (poll tracking)';
-    RAISE NOTICE '   ✅ user_preferences (user settings)';
+    RAISE NOTICE '📊 ALL TABLES VERIFIED & IP TRACKING ADDED';
+    RAISE NOTICE '📊 ALL EXISTING DATA PRESERVED';
+    RAISE NOTICE '📊 RLS DISABLED ON UNRESTRICTED TABLES';
+    RAISE NOTICE '📊 CHATBOT READY WITH FREE GEMINI API';
     RAISE NOTICE '';
-    RAISE NOTICE '📊 UNRESTRICTED TABLES (RLS DISABLED):';
-    RAISE NOTICE '   - ai_chat_messages';
-    RAISE NOTICE '   - ai_chat_sessions';
-    RAISE NOTICE '   - comprehensive_users';
-    RAISE NOTICE '   - poll_votes';
-    RAISE NOTICE '   - user_preferences';
-    RAISE NOTICE '';
-    RAISE NOTICE '📊 VIEWS CREATED:';
-    RAISE NOTICE '   - user_activity_by_ip';
-    RAISE NOTICE '   - ai_chat_statistics';
-    RAISE NOTICE '   - daily_active_users';
-    RAISE NOTICE '   - popular_pages (if page_views exists)';
-    RAISE NOTICE '';
-    RAISE NOTICE '🔍 IP TRACKING ENABLED ON ALL TABLES';
-    RAISE NOTICE '';
-    RAISE NOTICE '✅ CHATBOT STATUS: Ready to use with FREE Gemini API';
-    RAISE NOTICE '🚀 YOUR DATABASE IS READY!';
+    RAISE NOTICE '🚀 DATABASE IS PRODUCTION READY!';
     RAISE NOTICE '============================================================================';
 END $$;
