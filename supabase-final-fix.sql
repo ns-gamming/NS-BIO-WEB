@@ -379,16 +379,17 @@ WHERE ip_address IS NOT NULL
 GROUP BY ip_address
 ORDER BY last_seen DESC;
 
--- AI Chat statistics
-CREATE VIEW ai_chat_statistics AS
+-- AI Chat statistics (using COUNT from messages table instead of message_count)
+CREATE OR REPLACE VIEW ai_chat_statistics AS
 SELECT 
-  DATE(started_at) as date,
-  COUNT(DISTINCT id) as total_sessions,
-  COUNT(DISTINCT user_id) as unique_users,
-  SUM(message_count) as total_messages,
-  AVG(EXTRACT(EPOCH FROM (COALESCE(ended_at, NOW()) - started_at))) as avg_session_duration_seconds
-FROM ai_chat_sessions
-GROUP BY DATE(started_at)
+  DATE(s.started_at) as date,
+  COUNT(DISTINCT s.id) as total_sessions,
+  COUNT(DISTINCT s.user_id) as unique_users,
+  COUNT(m.id) as total_messages,
+  AVG(EXTRACT(EPOCH FROM (COALESCE(s.ended_at, NOW()) - s.started_at))) as avg_session_duration_seconds
+FROM ai_chat_sessions s
+LEFT JOIN ai_chat_messages m ON s.session_id = m.session_id
+GROUP BY DATE(s.started_at)
 ORDER BY date DESC;
 
 -- Daily active users
