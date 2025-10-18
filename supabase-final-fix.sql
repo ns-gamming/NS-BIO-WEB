@@ -16,7 +16,7 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 CREATE TABLE IF NOT EXISTS comprehensive_users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id VARCHAR(255) UNIQUE NOT NULL,
-    
+
     -- Basic Info
     name TEXT,
     email VARCHAR(255),
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS comprehensive_users (
     age INTEGER,
     gender VARCHAR(20),
     date_of_birth DATE,
-    
+
     -- Location & Device
     ip_address VARCHAR(100),
     location VARCHAR(255),
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS comprehensive_users (
     country VARCHAR(100),
     timezone VARCHAR(50),
     language VARCHAR(10) DEFAULT 'en',
-    
+
     -- Device & Browser
     user_agent TEXT,
     browser VARCHAR(100),
@@ -44,14 +44,14 @@ CREATE TABLE IF NOT EXISTS comprehensive_users (
     device_brand VARCHAR(100),
     device_model VARCHAR(100),
     screen_resolution VARCHAR(50),
-    
+
     -- Preferences & Interests
     preferences JSONB DEFAULT '{}'::jsonb,
     interests TEXT[] DEFAULT '{}',
     favorite_games TEXT[] DEFAULT '{}',
     favorite_topics TEXT[] DEFAULT '{}',
     communication_preferences JSONB DEFAULT '{}'::jsonb,
-    
+
     -- Behavioral Data
     total_sessions INTEGER DEFAULT 0,
     total_messages INTEGER DEFAULT 0,
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS comprehensive_users (
     total_clicks INTEGER DEFAULT 0,
     avg_session_duration_seconds INTEGER DEFAULT 0,
     last_page_visited TEXT,
-    
+
     -- Engagement Metrics
     first_visit TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     last_visit TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS comprehensive_users (
     is_returning_visitor BOOLEAN DEFAULT FALSE,
     is_vip BOOLEAN DEFAULT FALSE,
     engagement_score INTEGER DEFAULT 0,
-    
+
     -- Marketing & Attribution
     utm_source VARCHAR(255),
     utm_medium VARCHAR(255),
@@ -75,13 +75,13 @@ CREATE TABLE IF NOT EXISTS comprehensive_users (
     utm_content VARCHAR(255),
     referrer TEXT,
     acquisition_channel VARCHAR(100),
-    
+
     -- Additional Data
     notes TEXT,
     tags TEXT[] DEFAULT '{}',
     custom_fields JSONB DEFAULT '{}'::jsonb,
     metadata JSONB DEFAULT '{}'::jsonb,
-    
+
     -- Timestamps
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
@@ -147,44 +147,44 @@ CREATE TABLE IF NOT EXISTS user_preferences (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id VARCHAR(255) NOT NULL,
     session_id VARCHAR(255),
-    
+
     -- Display Preferences
     theme VARCHAR(20) DEFAULT 'dark',
     language VARCHAR(10) DEFAULT 'en',
     font_size VARCHAR(20) DEFAULT 'medium',
     animations_enabled BOOLEAN DEFAULT TRUE,
-    
+
     -- Privacy Preferences
     analytics_enabled BOOLEAN DEFAULT TRUE,
     personalization_enabled BOOLEAN DEFAULT TRUE,
     marketing_emails BOOLEAN DEFAULT FALSE,
     newsletter BOOLEAN DEFAULT FALSE,
-    
+
     -- Notification Preferences
     push_notifications BOOLEAN DEFAULT TRUE,
     email_notifications BOOLEAN DEFAULT FALSE,
     sms_notifications BOOLEAN DEFAULT FALSE,
-    
+
     -- Cookie Consent
     necessary_cookies BOOLEAN DEFAULT TRUE,
     functional_cookies BOOLEAN DEFAULT FALSE,
     analytics_cookies BOOLEAN DEFAULT FALSE,
     advertising_cookies BOOLEAN DEFAULT FALSE,
-    
+
     -- Content Preferences
     content_categories TEXT[] DEFAULT '{}',
     excluded_topics TEXT[] DEFAULT '{}',
     favorite_authors TEXT[] DEFAULT '{}',
-    
+
     -- Custom Preferences
     custom_settings JSONB DEFAULT '{}'::jsonb,
-    
+
     -- Metadata
     ip_address VARCHAR(100),
     user_agent TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    
+
     UNIQUE(user_id)
 );
 
