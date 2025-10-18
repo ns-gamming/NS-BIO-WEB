@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS comprehensive_users (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- AI Chat Messages
+-- AI Chat Messages (FIXED with message_text column)
 CREATE TABLE IF NOT EXISTS ai_chat_messages (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     message_id VARCHAR(255) UNIQUE NOT NULL,
@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS ai_chat_sessions (
 -- AI User Context
 CREATE TABLE IF NOT EXISTS ai_user_context (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id VARCHAR(255) UNIQUE NOT NULL,
+    user_id VARCHAR(255) NOT NULL,
     context_data JSONB DEFAULT '{}'::jsonb,
     preferences JSONB DEFAULT '{}'::jsonb,
     conversation_history JSONB DEFAULT '[]'::jsonb,
@@ -176,13 +176,45 @@ CREATE TABLE IF NOT EXISTS user_preferences (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- AI Chat Statistics
+CREATE TABLE IF NOT EXISTS ai_chat_statistics (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    date DATE NOT NULL UNIQUE,
+    total_sessions INTEGER DEFAULT 0,
+    total_messages INTEGER DEFAULT 0,
+    unique_users INTEGER DEFAULT 0,
+    avg_session_duration_seconds INTEGER DEFAULT 0,
+    avg_messages_per_session NUMERIC(10,2) DEFAULT 0,
+    top_topics JSONB DEFAULT '[]'::jsonb,
+    top_intents JSONB DEFAULT '[]'::jsonb,
+    sentiment_breakdown JSONB DEFAULT '{}'::jsonb,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- ============================================================================
 -- STEP 2: ADD MISSING COLUMNS SAFELY (NO ERRORS IF ALREADY EXISTS)
 -- ============================================================================
 
 DO $$ 
 BEGIN
-  -- ai_chat_messages columns
+  -- ai_chat_messages columns - CRITICAL FIX
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='ai_chat_messages' AND column_name='message_text') THEN
+    ALTER TABLE ai_chat_messages ADD COLUMN message_text TEXT NOT NULL DEFAULT '';
+  END IF;
+
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='ai_chat_messages' AND column_name='message_id') THEN
+    ALTER TABLE ai_chat_messages ADD COLUMN message_id VARCHAR(255) UNIQUE;
+  END IF;
+
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='ai_chat_messages' AND column_name='session_id') THEN
+    ALTER TABLE ai_chat_messages ADD COLUMN session_id VARCHAR(255);
+  END IF;
+
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='ai_chat_messages' AND column_name='sender_type') THEN
+    ALTER TABLE ai_chat_messages ADD COLUMN sender_type VARCHAR(20);
+  END IF;
+
   IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='ai_chat_messages' AND column_name='ip_address') THEN
     ALTER TABLE ai_chat_messages ADD COLUMN ip_address VARCHAR(100);
   END IF;
@@ -243,34 +275,6 @@ BEGIN
     ALTER TABLE user_preferences ADD COLUMN user_agent TEXT;
   END IF;
 
-  -- Add to existing analytics tables if they exist
-  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name='analytics_sessions') THEN
-    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='analytics_sessions' AND column_name='ip_address') THEN
-      ALTER TABLE analytics_sessions ADD COLUMN ip_address VARCHAR(100);
-    END IF;
-  END IF;
-
-  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name='page_views') THEN
-    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='page_views' AND column_name='ip_address') THEN
-      ALTER TABLE page_views ADD COLUMN ip_address VARCHAR(100);
-    END IF;
-  END IF;
-
-  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name='user_events') THEN
-    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='user_events' AND column_name='ip_address') THEN
-      ALTER TABLE user_events ADD COLUMN ip_address VARCHAR(100);
-    END IF;
-  END IF;
-
-  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name='user_profiles') THEN
-    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='user_profiles' AND column_name='ip_address') THEN
-      ALTER TABLE user_profiles ADD COLUMN ip_address VARCHAR(100);
-    END IF;
-    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='user_profiles' AND column_name='user_agent') THEN
-      ALTER TABLE user_profiles ADD COLUMN user_agent TEXT;
-    END IF;
-  END IF;
-
 END $$;
 
 -- ============================================================================
@@ -279,13 +283,25 @@ END $$;
 
 DO $$
 BEGIN
-  -- Only disable RLS on actual tables, not views
+  -- Disable RLS on unrestricted tables
   IF EXISTS (SELECT 1 FROM pg_class WHERE relname = 'ai_chat_messages' AND relkind = 'r') THEN
     ALTER TABLE ai_chat_messages DISABLE ROW LEVEL SECURITY;
   END IF;
 
   IF EXISTS (SELECT 1 FROM pg_class WHERE relname = 'ai_chat_sessions' AND relkind = 'r') THEN
     ALTER TABLE ai_chat_sessions DISABLE ROW LEVEL SECURITY;
+  END IF;
+
+  IF EXISTS (SELECT 1 FROM pg_class WHERE relname = 'ai_chat_statistics' AND relkind = 'r') THEN
+    ALTER TABLE ai_chat_statistics DISABLE ROW LEVEL SECURITY;
+  END IF;
+
+  IF EXISTS (SELECT 1 FROM pg_class WHERE relname = 'ai_chat_topics' AND relkind = 'r') THEN
+    ALTER TABLE ai_chat_topics DISABLE ROW LEVEL SECURITY;
+  END IF;
+
+  IF EXISTS (SELECT 1 FROM pg_class WHERE relname = 'ai_user_context' AND relkind = 'r') THEN
+    ALTER TABLE ai_user_context DISABLE ROW LEVEL SECURITY;
   END IF;
 
   IF EXISTS (SELECT 1 FROM pg_class WHERE relname = 'comprehensive_users' AND relkind = 'r') THEN
@@ -299,14 +315,6 @@ BEGIN
   IF EXISTS (SELECT 1 FROM pg_class WHERE relname = 'user_preferences' AND relkind = 'r') THEN
     ALTER TABLE user_preferences DISABLE ROW LEVEL SECURITY;
   END IF;
-
-  IF EXISTS (SELECT 1 FROM pg_class WHERE relname = 'ai_user_context' AND relkind = 'r') THEN
-    ALTER TABLE ai_user_context DISABLE ROW LEVEL SECURITY;
-  END IF;
-
-  IF EXISTS (SELECT 1 FROM pg_class WHERE relname = 'ai_chat_topics' AND relkind = 'r') THEN
-    ALTER TABLE ai_chat_topics DISABLE ROW LEVEL SECURITY;
-  END IF;
 END $$;
 
 -- ============================================================================
@@ -317,6 +325,7 @@ CREATE INDEX IF NOT EXISTS idx_ai_chat_messages_ip ON ai_chat_messages(ip_addres
 CREATE INDEX IF NOT EXISTS idx_ai_chat_messages_user_id ON ai_chat_messages(user_id);
 CREATE INDEX IF NOT EXISTS idx_ai_chat_messages_session_id ON ai_chat_messages(session_id);
 CREATE INDEX IF NOT EXISTS idx_ai_chat_messages_timestamp ON ai_chat_messages(timestamp DESC);
+CREATE INDEX IF NOT EXISTS idx_ai_chat_messages_message_id ON ai_chat_messages(message_id);
 
 CREATE INDEX IF NOT EXISTS idx_ai_chat_sessions_ip ON ai_chat_sessions(ip_address);
 CREATE INDEX IF NOT EXISTS idx_ai_chat_sessions_user_id ON ai_chat_sessions(user_id);
@@ -336,17 +345,20 @@ CREATE INDEX IF NOT EXISTS idx_user_preferences_user_id ON user_preferences(user
 CREATE INDEX IF NOT EXISTS idx_ai_user_context_user_id ON ai_user_context(user_id);
 CREATE INDEX IF NOT EXISTS idx_ai_user_context_ip ON ai_user_context(ip_address);
 
+CREATE INDEX IF NOT EXISTS idx_ai_chat_topics_session_id ON ai_chat_topics(session_id);
+
 -- ============================================================================
 -- STEP 5: GRANT FULL PUBLIC ACCESS TO UNRESTRICTED TABLES
 -- ============================================================================
 
 GRANT ALL ON ai_chat_messages TO anon, authenticated;
 GRANT ALL ON ai_chat_sessions TO anon, authenticated;
+GRANT ALL ON ai_chat_statistics TO anon, authenticated;
+GRANT ALL ON ai_chat_topics TO anon, authenticated;
+GRANT ALL ON ai_user_context TO anon, authenticated;
 GRANT ALL ON comprehensive_users TO anon, authenticated;
 GRANT ALL ON poll_votes TO anon, authenticated;
 GRANT ALL ON user_preferences TO anon, authenticated;
-GRANT ALL ON ai_user_context TO anon, authenticated;
-GRANT ALL ON ai_chat_topics TO anon, authenticated;
 
 -- ============================================================================
 -- STEP 6: SERVICE ROLE FULL ACCESS
@@ -360,11 +372,9 @@ GRANT ALL ON ALL FUNCTIONS IN SCHEMA public TO service_role;
 -- STEP 7: CREATE ANALYTICS VIEWS (SAFE - DROP IF EXISTS)
 -- ============================================================================
 
--- Drop existing views first to avoid conflicts
 DROP VIEW IF EXISTS user_activity_by_ip CASCADE;
-DROP VIEW IF EXISTS ai_chat_statistics CASCADE;
+DROP VIEW IF EXISTS ai_chat_statistics_view CASCADE;
 DROP VIEW IF EXISTS daily_active_users CASCADE;
-DROP VIEW IF EXISTS popular_pages CASCADE;
 
 -- User activity by IP
 CREATE VIEW user_activity_by_ip AS
@@ -379,8 +389,8 @@ WHERE ip_address IS NOT NULL
 GROUP BY ip_address
 ORDER BY last_seen DESC;
 
--- AI Chat statistics (using COUNT from messages table instead of message_count)
-CREATE OR REPLACE VIEW ai_chat_statistics AS
+-- AI Chat statistics view (using proper JOIN)
+CREATE VIEW ai_chat_statistics_view AS
 SELECT 
   DATE(s.started_at) as date,
   COUNT(DISTINCT s.id) as total_sessions,
@@ -404,37 +414,13 @@ WHERE started_at IS NOT NULL
 GROUP BY DATE(started_at)
 ORDER BY date DESC;
 
--- Popular pages (if page_views exists)
-DO $$
-BEGIN
-  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'page_views') THEN
-    EXECUTE 'CREATE VIEW popular_pages AS
-    SELECT 
-      page_url,
-      COUNT(*) as views,
-      COUNT(DISTINCT session_id) as unique_sessions,
-      AVG(time_spent_seconds) as avg_time_spent
-    FROM page_views
-    WHERE page_url IS NOT NULL
-    GROUP BY page_url
-    ORDER BY views DESC';
-  END IF;
-END $$;
-
 -- ============================================================================
 -- STEP 8: GRANT VIEW ACCESS
 -- ============================================================================
 
 GRANT SELECT ON user_activity_by_ip TO anon, authenticated, service_role;
-GRANT SELECT ON ai_chat_statistics TO anon, authenticated, service_role;
+GRANT SELECT ON ai_chat_statistics_view TO anon, authenticated, service_role;
 GRANT SELECT ON daily_active_users TO anon, authenticated, service_role;
-
-DO $$
-BEGIN
-  IF EXISTS (SELECT 1 FROM pg_views WHERE viewname = 'popular_pages') THEN
-    EXECUTE 'GRANT SELECT ON popular_pages TO anon, authenticated, service_role';
-  END IF;
-END $$;
 
 -- ============================================================================
 -- COMPLETION MESSAGE
@@ -446,6 +432,7 @@ BEGIN
     RAISE NOTICE '✅ NS GAMMING DATABASE - COMPLETE SETUP FINISHED!';
     RAISE NOTICE '✅ ============================================================================';
     RAISE NOTICE '';
+    RAISE NOTICE '📊 CRITICAL FIX: message_text column added to ai_chat_messages';
     RAISE NOTICE '📊 ALL TABLES VERIFIED & IP TRACKING ADDED';
     RAISE NOTICE '📊 ALL EXISTING DATA PRESERVED';
     RAISE NOTICE '📊 RLS DISABLED ON UNRESTRICTED TABLES';
