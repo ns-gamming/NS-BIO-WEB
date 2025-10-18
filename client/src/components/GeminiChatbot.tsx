@@ -464,6 +464,33 @@ export function GeminiChatbot() {
     const sessionId = localStorage.getItem("analytics_session_id") || "unknown";
     const pageUrl = window.location.href;
 
+    // Collect comprehensive user data
+    const userData = {
+      sessionId,
+      pageUrl,
+      pageTitle: document.title,
+      referrer: document.referrer || 'direct',
+      userAgent: navigator.userAgent,
+      language: navigator.language,
+      languages: navigator.languages || [navigator.language],
+      platform: navigator.platform,
+      cookieEnabled: navigator.cookieEnabled,
+      onLine: navigator.onLine,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      screen: {
+        width: window.screen.width,
+        height: window.screen.height,
+        availWidth: window.screen.availWidth,
+        availHeight: window.screen.availHeight,
+        colorDepth: window.screen.colorDepth
+      },
+      viewport: {
+        width: window.innerWidth,
+        height: window.innerHeight
+      },
+      timestamp: new Date().toISOString()
+    };
+
     try {
       // Try to save message to database, but don't block if it fails
       const userMessageId = `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
@@ -475,7 +502,10 @@ export function GeminiChatbot() {
           messageId: userMessageId,
           senderType: "user",
           messageText: userMessage.content,
-          metadata: { pageUrl }
+          metadata: { 
+            ...userData,
+            messageType: 'user_input'
+          }
         }),
       }).catch(err => {
         // Silent fail - database is optional
