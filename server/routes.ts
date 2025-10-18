@@ -158,31 +158,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Use the CORRECT Google Generative AI SDK (works with free tier)
-      const { GoogleGenerativeAI } = await import('@google/generative-ai');
-      const genAI = new GoogleGenerativeAI(apiKey);
-      
-      // Use gemini-1.5-flash - CONFIRMED FREE MODEL
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      // Use Google GenAI SDK - SAME AS YOUR WORKING PYTHON CODE
+      const { GoogleGenAI } = await import('@google/genai');
+      const client = new GoogleGenAI({ apiKey });
 
-      // Build conversation history for context
-      const conversationHistory = messages.map((msg: any) => ({
-        role: msg.role === 'user' ? 'user' : 'model',
-        parts: [{ text: msg.content }]
-      }));
+      // Get the last user message
+      const lastMessage = messages[messages.length - 1];
+      const prompt = lastMessage.content;
 
-      // Generate response
-      const chat = model.startChat({
-        history: conversationHistory.slice(0, -1),
-        generationConfig: {
-          maxOutputTokens: 1000,
-        },
+      // Generate content using the SAME model as your Python test
+      const response = await client.models.generateContent({
+        model: "gemini-2.0-flash-exp",  // Using the working model
+        contents: prompt
       });
 
-      const lastMessage = messages[messages.length - 1];
-      const result = await chat.sendMessage(lastMessage.content);
-      const response = await result.response;
-      const text = response.text() || "I apologize, but I couldn't generate a response. Please try again!";
+      const text = response.text || "I apologize, but I couldn't generate a response. Please try again!";
 
       res.json({ message: text });
     } catch (error: any) {
