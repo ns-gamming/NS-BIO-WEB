@@ -131,9 +131,7 @@ export function registerChatbotRoutes(app: Express) {
           device_type: deviceType || 'desktop',
           device_info: deviceInfo || {},
           started_at: now,
-          is_active: true,
-          message_count: 0,
-          topics_discussed: []
+          is_active: true
         }])
         .select()
         .single();
@@ -190,9 +188,6 @@ export function registerChatbotRoutes(app: Express) {
           user_agent: userAgent,
           page_url: pageUrl,
           timestamp: now,
-          sentiment: sentiment || null,
-          intent: intent || null,
-          entities: entities || [],
           metadata: metadata || {}
         }])
         .select()
@@ -200,19 +195,7 @@ export function registerChatbotRoutes(app: Express) {
 
       if (error) throw error;
 
-      // Update message count in session
-      const { data: session } = await supabase
-        .from('ai_chat_sessions')
-        .select('message_count')
-        .eq('session_id', sessionId)
-        .single();
-
-      if (session) {
-        await supabase
-          .from('ai_chat_sessions')
-          .update({ message_count: (session.message_count || 0) + 1 })
-          .eq('session_id', sessionId);
-      }
+      // Message count tracking removed - column doesn't exist in current schema
 
       // Update user profile message count
       if (userId) {

@@ -139,7 +139,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  // Gemini Chat API endpoint
+  // Gemini Chat API endpoint - Using FREE Google GenAI SDK
   app.post("/api/chat", async (req, res) => {
     try {
       const { messages } = req.body;
@@ -158,23 +158,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Use the new Google Generative AI SDK with FREE tier model
-      const { GoogleGenerativeAI } = await import('@google/generative-ai');
-      const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      // Use Google GenAI SDK - FREE tier compatible
+      const { GoogleGenAI } = await import('@google/genai');
+      const client = new GoogleGenAI({ apiKey });
 
-      // Convert messages to Gemini format
-      const contents = messages.map((msg: { role: string; content: string }) => ({
-        role: msg.role === "user" ? "user" : "model",
-        parts: [{ text: msg.content }]
-      }));
+      // Get the last user message
+      const lastMessage = messages[messages.length - 1];
+      const prompt = lastMessage.content;
 
-      const result = await model.generateContent({
-        contents: contents,
+      // Generate content using FREE model
+      const response = await client.models.generateContent({
+        model: "gemini-2.0-flash-exp",
+        contents: prompt
       });
 
-      const response = await result.response;
-      const text = response.text() || "I apologize, but I couldn't generate a response. Please try again!";
+      const text = response.text || "I apologize, but I couldn't generate a response. Please try again!";
 
       res.json({ message: text });
     } catch (error: any) {
@@ -182,10 +180,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Provide helpful error messages
       let errorMessage = "Failed to generate response. Please try again!";
-      if (error.message?.includes('API key')) {
+      if (error.message?.includes('API key') || error.message?.includes('API_KEY')) {
         errorMessage = "AI API key is invalid. Please check Replit Secrets.";
-      } else if (error.message?.includes('quota')) {
+      } else if (error.message?.includes('quota') || error.message?.includes('RESOURCE_EXHAUSTED')) {
         errorMessage = "AI service quota exceeded. Please try again later.";
+      } else if (error.message?.includes('not found')) {
+        errorMessage = "AI model unavailable. Using fallback...";
       }
       
       res.status(500).json({ error: errorMessage });
