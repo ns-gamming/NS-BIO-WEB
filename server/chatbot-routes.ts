@@ -141,20 +141,21 @@ export function registerChatbotRoutes(app: Express) {
       if (error) throw error;
 
       // Update user profile session count
-      await supabase.rpc('increment', {
-        table_name: 'user_profiles',
-        column_name: 'total_sessions',
-        row_id: userId
-      }).catch(() => {
-        // Fallback if function doesn't exist
-        supabase
+      const { data: profileData } = await supabase
+        .from('user_profiles')
+        .select('total_sessions')
+        .eq('user_id', userId)
+        .single();
+      
+      if (profileData) {
+        await supabase
           .from('user_profiles')
           .update({ 
-            total_sessions: supabase.raw('total_sessions + 1'),
+            total_sessions: (profileData.total_sessions || 0) + 1,
             last_interaction: now 
           })
           .eq('user_id', userId);
-      });
+      }
 
       res.json({ success: true, session: data });
     } catch (error: any) {
@@ -214,13 +215,21 @@ export function registerChatbotRoutes(app: Express) {
 
       // Update user profile message count
       if (userId) {
-        await supabase
+        const { data: profileData } = await supabase
           .from('user_profiles')
-          .update({ 
-            total_messages: supabase.raw('total_messages + 1'),
-            last_interaction: now 
-          })
-          .eq('user_id', userId);
+          .select('total_messages')
+          .eq('user_id', userId)
+          .single();
+        
+        if (profileData) {
+          await supabase
+            .from('user_profiles')
+            .update({ 
+              total_messages: (profileData.total_messages || 0) + 1,
+              last_interaction: now 
+            })
+            .eq('user_id', userId);
+        }
       }
 
       res.json({ success: true, message: data });
@@ -264,12 +273,20 @@ export function registerChatbotRoutes(app: Express) {
 
       // Update session topics
       const topicList = topics.map(t => t.topic);
-      await supabase
+      const { data: sessionData } = await supabase
         .from('ai_chat_sessions')
-        .update({ 
-          topics_discussed: supabase.raw(`topics_discussed || '${JSON.stringify(topicList)}'::jsonb`)
-        })
-        .eq('session_id', sessionId);
+        .select('topics_discussed')
+        .eq('session_id', sessionId)
+        .single();
+      
+      if (sessionData) {
+        const existingTopics = sessionData.topics_discussed || [];
+        const updatedTopics = [...existingTopics, ...topicList];
+        await supabase
+          .from('ai_chat_sessions')
+          .update({ topics_discussed: updatedTopics })
+          .eq('session_id', sessionId);
+      }
 
       res.json({ success: true, topics: data });
     } catch (error: any) {
@@ -337,14 +354,15 @@ export function registerChatbotRoutes(app: Express) {
 
       // Update access count and last accessed
       if (data && data.length > 0) {
-        const contextIds = data.map(c => c.id);
-        await supabase
-          .from('ai_user_context')
-          .update({ 
-            access_count: supabase.raw('access_count + 1'),
-            last_accessed: new Date().toISOString()
-          })
-          .in('id', contextIds);
+        for (const context of data) {
+          await supabase
+            .from('ai_user_context')
+            .update({ 
+              access_count: (context.access_count || 0) + 1,
+              last_accessed: new Date().toISOString()
+            })
+            .eq('id', context.id);
+        }
       }
 
       res.json({ success: true, context: data || [] });
