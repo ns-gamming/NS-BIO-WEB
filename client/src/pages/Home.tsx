@@ -126,128 +126,143 @@ export default function Home() {
           </Link>
         </div>
 
-        {/* Tools Access Section - Enhanced */}
+        {/* Unified Tools Access Section - Ultra Enhanced */}
         <div className="max-w-6xl mx-auto mb-12">
           <h3 className="text-3xl sm:text-4xl font-orbitron font-bold mb-10 text-center bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-glow">
-            🛠️ Free Tools & Utilities
+            🛠️ Free Tools & Utilities Hub
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            {/* FF Tools Card - Enhanced */}
-            <Link 
-              href="/tools" 
-              className="glass rounded-2xl p-6 sm:p-8 hover:scale-105 transition-all duration-500 border-2 border-orange-500/30 hover:border-orange-500/60 hover:shadow-[0_0_40px_rgba(249,115,22,0.6)] group cursor-pointer relative overflow-hidden animate-bounceIn"
-              data-testid="tools-ff-card"
-              style={{ animationDelay: '0.3s' }}
-            >
-              {/* Animated Background Gradient */}
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-red-500/10 to-orange-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient-shift" />
+          
+          {/* Single Unified Card */}
+          <Link 
+            href="/tools" 
+            className="glass rounded-3xl p-8 sm:p-10 hover:scale-[1.02] transition-all duration-700 border-2 border-primary/30 hover:border-primary/60 hover:shadow-[0_0_60px_rgba(6,182,212,0.7)] group cursor-pointer relative overflow-hidden animate-bounceIn block"
+            data-testid="tools-unified-card"
+            style={{ animationDelay: '0.3s' }}
+          >
+            {/* Animated Background Gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 via-primary/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 animate-gradient-shift" />
 
-              {/* Glowing Border Effect */}
-              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse-neon" style={{ background: 'linear-gradient(45deg, transparent 40%, rgba(249,115,22,0.3) 50%, transparent 60%)', backgroundSize: '200% 200%' }} />
+            {/* Glowing Border Effect */}
+            <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 animate-pulse-neon" style={{ background: 'linear-gradient(45deg, transparent 30%, rgba(249,115,22,0.3) 40%, rgba(6,182,212,0.3) 60%, transparent 70%)', backgroundSize: '300% 300%' }} />
 
-              {/* Animated Particles */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                <div className="absolute top-5 left-5 w-2 h-2 bg-orange-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(249,115,22,0.8)]"></div>
-                <div className="absolute top-10 right-10 w-2 h-2 bg-red-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(220,38,38,0.8)]" style={{ animationDelay: '0.3s' }}></div>
-                <div className="absolute bottom-5 left-10 w-1.5 h-1.5 bg-orange-300 rounded-full animate-bounce" style={{ animationDelay: '0.6s' }}></div>
-                <div className="absolute bottom-10 right-5 w-1.5 h-1.5 bg-red-300 rounded-full animate-bounce" style={{ animationDelay: '0.9s' }}></div>
-              </div>
+            {/* Enhanced Animated Particles */}
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+              <div className="absolute top-8 left-8 w-2.5 h-2.5 bg-orange-400 rounded-full animate-pulse shadow-[0_0_15px_rgba(249,115,22,0.9)]"></div>
+              <div className="absolute top-16 right-16 w-2.5 h-2.5 bg-cyan-400 rounded-full animate-pulse shadow-[0_0_15px_rgba(6,182,212,0.9)]" style={{ animationDelay: '0.2s' }}></div>
+              <div className="absolute top-1/3 left-1/4 w-2 h-2 bg-purple-400 rounded-full animate-pulse shadow-[0_0_12px_rgba(168,85,247,0.8)]" style={{ animationDelay: '0.4s' }}></div>
+              <div className="absolute bottom-12 left-12 w-2 h-2 bg-pink-400 rounded-full animate-bounce shadow-[0_0_12px_rgba(236,72,153,0.8)]" style={{ animationDelay: '0.6s' }}></div>
+              <div className="absolute bottom-16 right-20 w-2 h-2 bg-blue-400 rounded-full animate-bounce shadow-[0_0_12px_rgba(59,130,246,0.8)]" style={{ animationDelay: '0.8s' }}></div>
+              <div className="absolute top-1/2 right-1/3 w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse" style={{ animationDelay: '0.3s' }}></div>
+              <div className="absolute bottom-1/3 left-1/3 w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+            </div>
 
-              <div className="relative z-10">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4">
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center group-hover:rotate-12 group-hover:scale-110 transition-all duration-500 shadow-lg group-hover:shadow-[0_0_20px_rgba(249,115,22,0.6)]">
-                    <i className="fas fa-fire text-2xl sm:text-3xl text-white animate-pulse"></i>
+            <div className="relative z-10">
+              {/* Header Section */}
+              <div className="flex flex-col items-center text-center mb-8">
+                <div className="flex gap-4 mb-6">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-orange-500 via-red-500 to-pink-600 rounded-2xl flex items-center justify-center group-hover:rotate-12 group-hover:scale-110 transition-all duration-500 shadow-xl group-hover:shadow-[0_0_30px_rgba(249,115,22,0.8)]">
+                    <i className="fas fa-fire text-3xl sm:text-4xl text-white animate-pulse"></i>
                   </div>
-                  <div className="flex-1">
-                    <h4 className="text-xl sm:text-2xl font-bold text-foreground group-hover:text-orange-500 transition-colors mb-1">
-                      Free Fire Tools
-                    </h4>
-                    <p className="text-xs sm:text-sm text-muted-foreground group-hover:text-orange-400 transition-colors">Advanced gaming utilities</p>
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-cyan-500 via-blue-500 to-purple-600 rounded-2xl flex items-center justify-center group-hover:rotate-[-12deg] group-hover:scale-110 transition-all duration-500 shadow-xl group-hover:shadow-[0_0_30px_rgba(6,182,212,0.8)]">
+                    <i className="fas fa-tools text-3xl sm:text-4xl text-white animate-pulse"></i>
                   </div>
                 </div>
-                <p className="text-sm sm:text-base text-foreground mb-4 group-hover:text-orange-50 dark:group-hover:text-orange-100 transition-colors leading-relaxed">
-                  Stylish Name Generator, UID Creator, Advanced Sensitivity Settings (Max 200 with DPI), and Secure Password Generator!
+                <h4 className="text-2xl sm:text-3xl font-bold text-foreground group-hover:bg-gradient-to-r group-hover:from-orange-500 group-hover:via-primary group-hover:to-purple-500 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-500 mb-3">
+                  Complete Tools & Utilities Suite
+                </h4>
+                <p className="text-sm sm:text-base text-muted-foreground group-hover:text-primary/80 transition-colors max-w-3xl">
+                  Everything you need in one place - Free Fire gaming tools, productivity utilities, and advanced features!
                 </p>
-                
-                {/* Feature Tags */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="px-3 py-1 bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/40 rounded-full text-xs font-bold text-orange-700 dark:text-orange-300 transform group-hover:scale-110 transition-all duration-300">
-                    Device Optimized
-                  </span>
-                  <span className="px-3 py-1 bg-gradient-to-r from-red-500/20 to-pink-500/20 border border-red-500/40 rounded-full text-xs font-bold text-red-700 dark:text-red-300 transform group-hover:scale-110 transition-all duration-300" style={{ transitionDelay: '0.05s' }}>
-                    Max 200 Sens
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between pt-3 border-t border-orange-500/20">
-                  <span className="text-base sm:text-lg font-bold text-orange-500 group-hover:translate-x-2 transition-transform">
-                    Explore FF Tools →
-                  </span>
-                  <i className="fas fa-gamepad text-xl text-orange-500 animate-pulse"></i>
-                </div>
-              </div>
-            </Link>
-
-            {/* Utility Tools Card - Enhanced */}
-            <Link 
-              href="/tools" 
-              className="glass rounded-2xl p-6 sm:p-8 hover:scale-105 transition-all duration-500 border-2 border-primary/30 hover:border-primary/60 hover:shadow-[0_0_40px_rgba(6,182,212,0.6)] group cursor-pointer relative overflow-hidden animate-bounceIn"
-              data-testid="tools-utility-card"
-              style={{ animationDelay: '0.4s' }}
-              onClick={(e) => {
-                e.preventDefault();
-                window.location.href = '/tools';
-              }}
-            >
-              {/* Animated Background Gradient */}
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-cyan-500/10 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient-shift" />
-
-              {/* Glowing Border Effect */}
-              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse-neon" style={{ background: 'linear-gradient(45deg, transparent 40%, rgba(6,182,212,0.3) 50%, transparent 60%)', backgroundSize: '200% 200%' }} />
-
-              {/* Animated Particles */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                <div className="absolute top-5 left-5 w-2 h-2 bg-cyan-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(6,182,212,0.8)]"></div>
-                <div className="absolute top-10 right-10 w-2 h-2 bg-blue-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(37,99,235,0.8)]" style={{ animationDelay: '0.3s' }}></div>
-                <div className="absolute bottom-5 left-10 w-1.5 h-1.5 bg-cyan-300 rounded-full animate-bounce" style={{ animationDelay: '0.6s' }}></div>
-                <div className="absolute bottom-10 right-5 w-1.5 h-1.5 bg-blue-300 rounded-full animate-bounce" style={{ animationDelay: '0.9s' }}></div>
               </div>
 
-              <div className="relative z-10">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4">
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-primary to-cyan-600 rounded-xl flex items-center justify-center group-hover:rotate-12 group-hover:scale-110 transition-all duration-500 shadow-lg group-hover:shadow-[0_0_20px_rgba(6,182,212,0.6)]">
-                    <i className="fas fa-tools text-2xl sm:text-3xl text-white animate-pulse"></i>
+              {/* Two Column Feature Grid */}
+              <div className="grid md:grid-cols-2 gap-6 mb-6">
+                {/* Free Fire Tools Column */}
+                <div className="p-5 rounded-2xl bg-gradient-to-br from-orange-500/10 to-red-500/10 border border-orange-500/30 group-hover:border-orange-500/50 transition-all duration-500">
+                  <div className="flex items-center gap-3 mb-4">
+                    <i className="fas fa-gamepad text-2xl text-orange-500"></i>
+                    <h5 className="text-lg font-bold text-orange-600 dark:text-orange-400">Free Fire Tools</h5>
                   </div>
-                  <div className="flex-1">
-                    <h4 className="text-xl sm:text-2xl font-bold text-foreground group-hover:text-primary transition-colors mb-1">
-                      Productivity Tools
-                    </h4>
-                    <p className="text-xs sm:text-sm text-muted-foreground group-hover:text-cyan-400 transition-colors">Essential utilities</p>
+                  <ul className="space-y-2 text-sm text-foreground">
+                    <li className="flex items-center gap-2">
+                      <i className="fas fa-check-circle text-orange-500 text-xs"></i>
+                      <span>Stylish Name Generator (16+ fonts)</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <i className="fas fa-check-circle text-orange-500 text-xs"></i>
+                      <span>UID Generator with Rating System</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <i className="fas fa-check-circle text-orange-500 text-xs"></i>
+                      <span>Advanced Sensitivity (Max 200 DPI)</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <i className="fas fa-check-circle text-orange-500 text-xs"></i>
+                      <span>Weapon Stats & Drop Simulator</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <i className="fas fa-check-circle text-orange-500 text-xs"></i>
+                      <span>Secure Password Generator</span>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Productivity Tools Column */}
+                <div className="p-5 rounded-2xl bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 group-hover:border-cyan-500/50 transition-all duration-500">
+                  <div className="flex items-center gap-3 mb-4">
+                    <i className="fas fa-wrench text-2xl text-cyan-500"></i>
+                    <h5 className="text-lg font-bold text-cyan-600 dark:text-cyan-400">Productivity Utilities</h5>
                   </div>
-                </div>
-                <p className="text-sm sm:text-base text-foreground mb-4 group-hover:text-cyan-50 dark:group-hover:text-cyan-100 transition-colors leading-relaxed">
-                  Image Compressor, Text-to-Speech Converter, QR Code Generator, and Clipboard Manager - all in one place!
-                </p>
-
-                {/* Feature Tags */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="px-3 py-1 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/40 rounded-full text-xs font-bold text-cyan-700 dark:text-cyan-300 transform group-hover:scale-110 transition-all duration-300">
-                    Fast & Easy
-                  </span>
-                  <span className="px-3 py-1 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/40 rounded-full text-xs font-bold text-blue-700 dark:text-blue-300 transform group-hover:scale-110 transition-all duration-300" style={{ transitionDelay: '0.05s' }}>
-                    Free Forever
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between pt-3 border-t border-primary/20">
-                  <span className="text-base sm:text-lg font-bold text-primary group-hover:translate-x-2 transition-transform">
-                    Explore Utilities →
-                  </span>
-                  <i className="fas fa-wrench text-xl text-primary animate-pulse"></i>
+                  <ul className="space-y-2 text-sm text-foreground">
+                    <li className="flex items-center gap-2">
+                      <i className="fas fa-check-circle text-cyan-500 text-xs"></i>
+                      <span>Advanced Image Compressor</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <i className="fas fa-check-circle text-cyan-500 text-xs"></i>
+                      <span>Text-to-Speech Converter</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <i className="fas fa-check-circle text-cyan-500 text-xs"></i>
+                      <span>QR Code Generator</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <i className="fas fa-check-circle text-cyan-500 text-xs"></i>
+                      <span>Clipboard Manager</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <i className="fas fa-check-circle text-cyan-500 text-xs"></i>
+                      <span>Text Formatter & Nickname Gen</span>
+                    </li>
+                  </ul>
                 </div>
               </div>
-            </Link>
-          </div>
+
+              {/* Feature Tags - Updated */}
+              <div className="flex flex-wrap gap-2 mb-6 justify-center">
+                <span className="px-4 py-2 bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/40 rounded-full text-xs font-bold text-orange-700 dark:text-orange-300 transform group-hover:scale-110 transition-all duration-300 shadow-md">
+                  Gaming Optimized
+                </span>
+                <span className="px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/40 rounded-full text-xs font-bold text-cyan-700 dark:text-cyan-300 transform group-hover:scale-110 transition-all duration-300 shadow-md" style={{ transitionDelay: '0.05s' }}>
+                  Fast & Easy
+                </span>
+                <span className="px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/40 rounded-full text-xs font-bold text-purple-700 dark:text-purple-300 transform group-hover:scale-110 transition-all duration-300 shadow-md" style={{ transitionDelay: '0.1s' }}>
+                  Free Forever
+                </span>
+                <span className="px-4 py-2 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/40 rounded-full text-xs font-bold text-green-700 dark:text-green-300 transform group-hover:scale-110 transition-all duration-300 shadow-md" style={{ transitionDelay: '0.15s' }}>
+                  No Signup Required
+                </span>
+              </div>
+
+              {/* CTA Footer */}
+              <div className="flex items-center justify-center pt-6 border-t border-primary/20">
+                <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-orange-500 via-primary to-purple-500 bg-clip-text text-transparent group-hover:scale-110 group-hover:translate-x-2 transition-all duration-300 flex items-center gap-3">
+                  Explore All Tools 
+                  <i className="fas fa-arrow-right animate-bounce"></i>
+                </span>
+              </div>
+            </div>
+          </Link>
         </div>
 
         {/* Featured YouTube */}
