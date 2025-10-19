@@ -148,8 +148,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { messages } = req.body;
 
-      if (!messages || !Array.isArray(messages)) {
-        return res.status(400).json({ error: "Messages array is required" });
+      // Always return 200 to keep chat session alive - never break the chat!
+      if (!messages || !Array.isArray(messages) || messages.length === 0) {
+        return res.json({ 
+          message: "Oops! I didn't catch that! 🤔 Could you try saying that again? I'm here to help with games, tools, and anything NS GAMMING! ✨" 
+        });
       }
 
       // Get API key from environment
