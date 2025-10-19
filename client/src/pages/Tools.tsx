@@ -15,7 +15,7 @@ import { useToast } from '@/hooks/use-toast';
 import { 
   Copy, Sparkles, Shield, Gamepad2, Wand2, QrCode, Download, Upload,
   ImageDown, Volume2, ClipboardCopy, Mic, MicOff, Wrench, Zap, Star, Smartphone,
-  Crosshair, Target, Type, UserPlus
+  Crosshair, Target, Type, UserPlus, Video
 } from 'lucide-react';
 import QRCode from 'qrcode';
 
@@ -138,21 +138,21 @@ const UIDGenerator = () => {
     const repeatingDigits = /(\d)\1{2,}/.test(uid);
     const sequentialDigits = /(?:012|123|234|345|456|567|678|789|987|876|765|654|543|432|321|210)/.test(uid);
     const palindrome = uid === uid.split('').reverse().join('');
-    
+
     let rating = 50;
-    
+
     if (palindrome) rating += 25;
     if (repeatingDigits) rating += 15;
     if (sequentialDigits) rating += 20;
     if (digitSum % 10 === 0) rating += 10;
     if (uid.endsWith('00') || uid.endsWith('11') || uid.endsWith('99')) rating += 5;
     if (uid.startsWith('999') || uid.startsWith('777') || uid.startsWith('888')) rating += 10;
-    
+
     rating = Math.min(100, rating);
-    
+
     let ratingText = '';
     let color = '';
-    
+
     if (rating >= 90) {
       ratingText = '🔥 Legendary!';
       color = 'text-orange-500 dark:text-orange-400';
@@ -166,7 +166,7 @@ const UIDGenerator = () => {
       ratingText = '👍 Good!';
       color = 'text-green-500 dark:text-green-400';
     }
-    
+
     return { rating, ratingText, color };
   };
 
@@ -308,16 +308,16 @@ const SensitivityGenerator = () => {
     const selectedDevice = deviceOptions.find(d => d.value === device);
     const targetDPI = selectedDevice?.value === 'custom' ? dpi : (selectedDevice?.dpi || 400);
     const baseDPI = 400;
-    
+
     const preset = sensitivityPresets[gameMode as keyof typeof sensitivityPresets];
-    
+
     let fingerMultiplier = 1;
     if (fingerCount === '3') fingerMultiplier = 1.1;
     if (fingerCount === '4') fingerMultiplier = 1.2;
     if (fingerCount === '5') fingerMultiplier = 1.25;
-    
+
     const buttonSizeModifier = fireButtonSize === 'small' ? 5 : fireButtonSize === 'large' ? -5 : 0;
-    
+
     const adjusted = {
       general: Math.round(adjustForDPI(preset.general, baseDPI, targetDPI) * fingerMultiplier) + buttonSizeModifier,
       redDot: Math.round(adjustForDPI(preset.redDot, baseDPI, targetDPI) * fingerMultiplier),
@@ -469,7 +469,7 @@ const SensitivityGenerator = () => {
               <p className="text-sm font-semibold text-green-600 dark:text-green-400">Device: {sensitivity.deviceType}</p>
               <p className="text-xs text-gray-600 dark:text-gray-400">DPI: {sensitivity.dpi} | Max Sens: 200</p>
             </div>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="flex justify-between animate-slideInFromLeft p-2 rounded bg-white/50 dark:bg-gray-800/50" data-testid="text-general-sensitivity" style={{ animationDelay: '0.1s' }}>
                 <span className="dark:text-gray-300 text-sm sm:text-base">General:</span>
@@ -724,7 +724,7 @@ const DropSimulator = () => {
 
   const simulateDrop = () => {
     let filteredLocations = [...locations];
-    
+
     if (matchType === 'rush') {
       filteredLocations = locations.filter(l => l.risk === 'Very High' || l.risk === 'High');
     } else if (matchType === 'custom') {
@@ -732,7 +732,7 @@ const DropSimulator = () => {
     } else if (matchType === 'tournament') {
       filteredLocations = locations.filter(l => l.loot === 'High');
     }
-    
+
     const randomLocation = filteredLocations[Math.floor(Math.random() * filteredLocations.length)];
     setDropLocation(randomLocation);
     toast({ title: "Drop Confirmed! 🎯", description: `Landing at ${randomLocation.name} - ${matchType.toUpperCase()}` });
@@ -800,9 +800,9 @@ const TextFormatter = () => {
     bold: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
     boldMap: '𝗔𝗕𝗖𝗗𝗘𝗙𝗚𝗛𝗜𝗝𝗞𝗟𝗠𝗡𝗢𝗣𝗤𝗥𝗦𝗧𝗨𝗩𝗪𝗫𝗬𝗭𝗮𝗯𝗰𝗱𝗲𝗳𝗴𝗵𝗶𝗷𝗸𝗹𝗺𝗻𝗼𝗽𝗾𝗿𝘀𝘁𝘂𝘃𝘄𝘅𝘆𝘇',
     italic: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
-    italicMap: '𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘑𝘒𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛𝘜𝘝𝘞𝘟𝘠𝘡𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻',
+    italicMap: '𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘑𝘒𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛U𝘝𝘞𝘟𝘠𝘡𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻',
     cursive: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
-    cursiveMap: '𝓐𝓑𝓒𝓓𝓔𝓕𝓖𝓗𝓘𝓙𝓚𝓛𝓜𝓝𝓞𝓟𝓠𝓡𝓢𝓣𝓤𝓥𝓦𝓧𝓨𝓩𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓱𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹𝓺𝓻𝓼𝓽𝓾𝓿𝔀𝔁𝔂𝔃',
+    cursiveMap: '𝓐𝓑𝓒𝓓𝓔𝓕𝓖𝓗𝓘𝓙𝓚𝓛𝓜𝓝𝓞𝓟𝓠𝓡𝓢𝓣 U𝓥𝓦𝓧𝓨𝓩𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓱𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹𝓺𝓻𝓼𝓽𝓾𝓿𝔀𝔁𝔂𝔃',
     bubbled: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
     bubbledMap: 'ⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ',
   };
@@ -811,7 +811,7 @@ const TextFormatter = () => {
     let result = '';
     const sourceChars = fancyChars[style as keyof typeof fancyChars];
     const targetChars = fancyChars[(style + 'Map') as keyof typeof fancyChars];
-    
+
     for (const char of text) {
       const index = sourceChars.indexOf(char);
       if (index !== -1) {
@@ -911,7 +911,7 @@ const RandomNicknameGenerator = () => {
 
   const gamingAdjectives = ['Epic', 'Legendary', 'Pro', 'Shadow', 'Mystic', 'Elite', 'Alpha', 'Ultra', 'Supreme', 'Toxic', 'Divine', 'Savage', 'Immortal', 'Phantom', 'Celestial', 'Eternal', 'Dark', 'Silent', 'Ghost', 'Thunder'];
   const gamingNouns = ['Sniper', 'Warrior', 'Hunter', 'Phantom', 'Assassin', 'Legend', 'Beast', 'King', 'Dragon', 'Ninja', 'Demon', 'Angel', 'Samurai', 'Wolf', 'Phoenix', 'Viper', 'Reaper', 'Titan', 'Storm', 'Blade'];
-  
+
   const coolPrefixes = ['Cool', 'Chill', 'Ice', 'Frost', 'Crystal', 'Diamond', 'Neon', 'Cyber', 'Tech', 'Digital'];
   const coolSuffixes = ['Vibes', 'Wave', 'Flow', 'Mode', 'Style', 'Zone', 'Core', 'Pulse', 'Beat', 'Edge'];
 
@@ -920,7 +920,7 @@ const RandomNicknameGenerator = () => {
   const fancyStyles = {
     normal: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
     bold: '𝐀𝐁𝐂𝐃𝐄𝐅𝐆𝐇𝐈𝐉𝐊𝐋𝐌𝐍𝐎𝐏𝐐𝐑𝐒𝐓𝐔𝐕𝐖𝐗𝐘𝐙𝐚𝐛𝐜𝐝𝐞𝐟𝐠𝐡𝐢𝐣𝐤𝐥𝐦𝐧𝐨𝐩𝐪𝐫𝐬𝐭𝐮𝐯𝐰𝐱𝐲𝐳',
-    italic: '𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘑𝘒𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛𝘜𝘝𝘞𝘟𝘠𝘡𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻',
+    italic: '𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘑𝘒𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛U𝘝𝘞𝘟𝘠𝘡𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻',
   };
 
   const convertToFancy = (text: string, style: keyof typeof fancyStyles) => {
@@ -938,7 +938,7 @@ const RandomNicknameGenerator = () => {
 
   const generateNicknames = () => {
     const nicknames: string[] = [];
-    
+
     let adjList = nicknameStyle === 'gaming' ? gamingAdjectives : coolPrefixes;
     let nounList = nicknameStyle === 'gaming' ? gamingNouns : coolSuffixes;
 
@@ -1083,7 +1083,7 @@ const ImageCompressor = () => {
       if (compressionMode === 'size') {
         const targetBytes = targetSize * 1024 * 1024;
         const maxDimension = 3840;
-        
+
         if (width > maxDimension || height > maxDimension) {
           if (width > height) {
             height *= maxDimension / width;
@@ -1093,16 +1093,16 @@ const ImageCompressor = () => {
             height = maxDimension;
           }
         }
-        
+
         const scale = Math.sqrt(targetBytes / originalSize);
         width = Math.round(width * Math.min(scale, 1));
         height = Math.round(height * Math.min(scale, 1));
-        
+
         currentQuality = Math.min(0.9, Math.max(0.3, targetBytes / originalSize));
       } else {
         const maxWidth = 1920;
         const maxHeight = 1080;
-        
+
         if (width > height) {
           if (width > maxWidth) {
             height *= maxWidth / width;
@@ -1340,7 +1340,7 @@ const TextToSpeech = () => {
       if (voice) utterance.voice = voice;
       utterance.pitch = pitch;
       utterance.rate = rate;
-      
+
       const audioContext = new AudioContext();
       const destination = audioContext.createMediaStreamDestination();
       const mediaRecorder = new MediaRecorder(destination.stream);
@@ -1484,7 +1484,7 @@ const QRCodeGenerator = () => {
 
   const downloadQRCode = () => {
     if (!qrCodeUrl) return;
-    
+
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -1542,7 +1542,7 @@ const QRCodeGenerator = () => {
         data-testid="input-qr-text"
         className="dark:bg-gray-800 dark:text-white transition-all duration-300 hover:shadow-[0_0_15px_rgba(34,197,94,0.3)] animate-slideInFromLeft"
       />
-      
+
       <div className="space-y-2 animate-slideInFromRight" style={{ animationDelay: '0.1s' }}>
         <Label className="text-sm font-semibold dark:text-white">Choose Background Style</Label>
         <div className="grid grid-cols-3 gap-2">
@@ -1682,6 +1682,119 @@ const ClipboardManager = () => {
     </div>
   );
 };
+
+// Video Downloader Component
+const VideoDownloader = () => {
+  const [platform, setPlatform] = useState('youtube');
+  const [url, setUrl] = useState('');
+  const [downloading, setDownloading] = useState(false);
+  const { toast } = useToast();
+
+  const handleDownload = async () => {
+    if (!url.trim()) {
+      toast({ title: "Error", description: "Please enter a URL" });
+      return;
+    }
+
+    setDownloading(true);
+    toast({ title: "Initiating Download...", description: `Fetching data from ${platform}...` });
+
+    try {
+      const response = await fetch('/api/download', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ platform, url }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
+      // The backend should ideally return a downloadable file or a URL to it.
+      // For now, we'll assume it returns a success message and instruct the user.
+      toast({
+        title: "Download Ready!",
+        description: "Check the link provided by the server or your downloads folder.",
+        action: data.downloadUrl ? (
+          <Button variant="outline" size="sm" onClick={() => window.open(data.downloadUrl, '_blank')}>
+            Download Now
+          </Button>
+        ) : null,
+      });
+
+    } catch (error: any) {
+      toast({ title: "Download Failed", description: error.message, variant: "destructive" });
+    } finally {
+      setDownloading(false);
+    }
+  };
+
+  return (
+    <div className="space-y-4 animate-fadeUp">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="space-y-2">
+          <Label className="text-sm font-semibold dark:text-white">Platform</Label>
+          <Select value={platform} onValueChange={setPlatform}>
+            <SelectTrigger className="dark:bg-gray-800 dark:text-white" data-testid="select-platform">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent className="dark:bg-gray-800 dark:text-white">
+              <SelectItem value="youtube">YouTube</SelectItem>
+              <SelectItem value="instagram">Instagram</SelectItem>
+              <SelectItem value="tiktok">TikTok</SelectItem>
+              <SelectItem value="facebook">Facebook</SelectItem>
+              <SelectItem value="twitter">Twitter/X</SelectItem>
+              <SelectItem value="pinterest">Pinterest</SelectItem>
+              <SelectItem value="reddit">Reddit</SelectItem>
+              <SelectItem value="snapchat">Snapchat</SelectItem>
+              {/* Add more platforms as supported */}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="space-y-2">
+          <Label className="text-sm font-semibold dark:text-white">Video URL</Label>
+          <Input 
+            placeholder="Paste video URL here..." 
+            value={url} 
+            onChange={(e) => setUrl(e.target.value)} 
+            className="dark:bg-gray-800 dark:text-white"
+            data-testid="input-video-url"
+          />
+        </div>
+      </div>
+
+      <Button 
+        onClick={handleDownload} 
+        disabled={downloading}
+        className="w-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:scale-100 animate-popIn" 
+        data-testid="button-download-video"
+      >
+        {downloading ? (
+          <>
+            <svg className="mr-2 h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 8l2-2.709z"></path>
+            </svg>
+            Downloading...
+          </>
+        ) : (
+          <>
+            <Download className="mr-2 h-4 w-4 animate-bounce" />
+            Download Video
+          </>
+        )}
+      </Button>
+    </div>
+  );
+};
+
 
 // Main Tools Page Component
 export default function Tools() {
@@ -1898,35 +2011,40 @@ export default function Tools() {
           </Button>
 
           <Tabs defaultValue="ffname" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 md:grid-cols-6 gap-2 p-2 dark:bg-gray-800/50 backdrop-blur-xl mb-8 sm:mb-12 animate-fadeUp shadow-2xl hover:shadow-[0_0_50px_rgba(6,182,212,0.4)] transition-all duration-500 rounded-2xl border-2 border-gray-200 dark:border-gray-700" data-testid="tabs-fftools">
-              <TabsTrigger value="ffname" data-testid="tab-ffname" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/30 data-[state=active]:to-blue-500/30 data-[state=active]:shadow-[0_0_25px_rgba(6,182,212,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
-                <Sparkles className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 mb-8 p-2 bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10 dark:from-cyan-500/20 dark:via-blue-500/20 dark:to-purple-500/20 backdrop-blur-xl border-2 border-cyan-500/30 dark:border-cyan-500/50 rounded-2xl shadow-2xl animate-slideInFromBottom" data-testid="tabs-ff-tools">
+              <TabsTrigger value="name" className="text-xs sm:text-sm font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/30 data-[state=active]:to-blue-500/30 data-[state=active]:shadow-[0_0_25px_rgba(6,182,212,0.5)] rounded-xl py-3" data-testid="tab-ffname">
+                <Wand2 className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                 <span className="hidden sm:inline">FF Name</span>
                 <span className="sm:hidden">Name</span>
               </TabsTrigger>
-              <TabsTrigger value="uid" data-testid="tab-uid" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/30 data-[state=active]:to-pink-500/30 data-[state=active]:shadow-[0_0_25px_rgba(168,85,247,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
-                <Gamepad2 className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+              <TabsTrigger value="uid" className="text-xs sm:text-sm font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/30 data-[state=active]:to-pink-500/30 data-[state=active]:shadow-[0_0_25px_rgba(168,85,247,0.5)] rounded-xl py-3" data-testid="tab-uid">
+                <Gamepad2 className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                 <span>UID</span>
               </TabsTrigger>
-              <TabsTrigger value="sensitivity" data-testid="tab-sensitivity" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/30 data-[state=active]:to-emerald-500/30 data-[state=active]:shadow-[0_0_25px_rgba(34,197,94,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
-                <Zap className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+              <TabsTrigger value="sensitivity" className="text-xs sm:text-sm font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/30 data-[state=active]:to-emerald-500/30 data-[state=active]:shadow-[0_0_25px_rgba(34,197,94,0.5)] rounded-xl py-3" data-testid="tab-sensitivity">
+                <Zap className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                 <span className="hidden sm:inline">Sensitivity</span>
                 <span className="sm:hidden">Sens</span>
               </TabsTrigger>
-              <TabsTrigger value="password" data-testid="tab-password" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500/30 data-[state=active]:to-red-500/30 data-[state=active]:shadow-[0_0_25px_rgba(249,115,22,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
-                <Shield className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+              <TabsTrigger value="password" className="text-xs sm:text-sm font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500/30 data-[state=active]:to-red-500/30 data-[state=active]:shadow-[0_0_25px_rgba(249,115,22,0.5)] rounded-xl py-3" data-testid="tab-password">
+                <Shield className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                 <span className="hidden sm:inline">Password</span>
                 <span className="sm:hidden">Pass</span>
               </TabsTrigger>
-              <TabsTrigger value="weapons" data-testid="tab-weapons" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500/30 data-[state=active]:to-orange-500/30 data-[state=active]:shadow-[0_0_25px_rgba(239,68,68,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
-                <Crosshair className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+              <TabsTrigger value="weapons" className="text-xs sm:text-sm font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500/30 data-[state=active]:to-orange-500/30 data-[state=active]:shadow-[0_0_25px_rgba(239,68,68,0.5)] rounded-xl py-3" data-testid="tab-weapons">
+                <Crosshair className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                 <span className="hidden sm:inline">Weapons</span>
                 <span className="sm:hidden">Wpn</span>
               </TabsTrigger>
-              <TabsTrigger value="drop" data-testid="tab-drop" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500/30 data-[state=active]:to-cyan-500/30 data-[state=active]:shadow-[0_0_25px_rgba(59,130,246,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
-                <Target className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+              <TabsTrigger value="drop" className="text-xs sm:text-sm font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500/30 data-[state=active]:to-cyan-500/30 data-[state=active]:shadow-[0_0_25px_rgba(6,182,212,0.5)] rounded-xl py-3" data-testid="tab-drop">
+                <Target className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                 <span className="hidden sm:inline">Drop</span>
                 <span className="sm:hidden">Drop</span>
+              </TabsTrigger>
+              <TabsTrigger value="downloads" className="text-xs sm:text-sm font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500/30 data-[state=active]:to-pink-500/30 data-[state=active]:shadow-[0_0_25px_rgba(239,68,68,0.5)] rounded-xl py-3" data-testid="tab-downloads">
+                <Video className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                <span className="hidden sm:inline">Downloads</span>
+                <span className="sm:hidden">DL</span>
               </TabsTrigger>
             </TabsList>
 
@@ -2055,6 +2173,26 @@ export default function Tools() {
                 </CardContent>
               </Card>
             </TabsContent>
+
+            <TabsContent value="downloads" className="mt-0">
+              <Card className="dark:bg-gray-900/50 dark:border-gray-800 backdrop-blur-xl border-2 rounded-3xl overflow-hidden animate-swingIn">
+                <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 via-pink-500/5 to-red-500/5 opacity-50"></div>
+                <CardHeader className="relative z-10">
+                  <CardTitle className="flex items-center gap-3 dark:text-white text-2xl sm:text-3xl animate-textBounceIn">
+                    <div className="p-3 bg-gradient-to-br from-red-500 to-pink-600 rounded-2xl shadow-xl hover:scale-110 transition-transform">
+                      <Video className="h-7 w-7 text-white animate-pulse" />
+                    </div>
+                    Video Downloader - All Platforms
+                  </CardTitle>
+                  <CardDescription className="dark:text-gray-400 text-base sm:text-lg animate-fadeInLeft">
+                    Download videos from YouTube, Instagram, TikTok, Facebook & more! 📥🎬
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="relative z-10">
+                  <VideoDownloader />
+                </CardContent>
+              </Card>
+            </TabsContent>
           </Tabs>
 
           <div className="mt-12 animate-fadeUp">
@@ -2096,7 +2234,7 @@ export default function Tools() {
         </Button>
 
         <Tabs defaultValue="image" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 md:grid-cols-6 gap-2 p-2 dark:bg-gray-800/50 backdrop-blur-xl mb-8 sm:mb-12 animate-fadeUp shadow-2xl hover:shadow-[0_0_50px_rgba(168,85,247,0.4)] transition-all duration-500 rounded-2xl border-2 border-gray-200 dark:border-gray-700" data-testid="tabs-utility">
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 p-2 dark:bg-gray-800/50 backdrop-blur-xl mb-8 sm:mb-12 animate-fadeUp shadow-2xl hover:shadow-[0_0_50px_rgba(168,85,247,0.4)] transition-all duration-500 rounded-2xl border-2 border-gray-200 dark:border-gray-700" data-testid="tabs-utility">
             <TabsTrigger value="image" data-testid="tab-image" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/30 data-[state=active]:to-blue-500/30 data-[state=active]:shadow-[0_0_25px_rgba(6,182,212,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
               <ImageDown className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
               <span className="hidden sm:inline">Image</span>

@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from "react";
 import { MessageCircle, X, Send, Loader2, Move } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
@@ -123,7 +122,7 @@ Website domain: https://www.nsgamming.xyz/ (nsgamming.xyz)
 - Main landing page with Nishant's introduction
 - Hero section with profile
 - Quick access cards for FF Tools and Utility Tools (NEW!)
-- Mini highlights section (Coding, Content, Community, Gaming)
+- Mini highlights section (Coding, Community, Gaming)
 - Featured YouTube section
 - Quick links to all major sections
 - "Building My Empire" section
@@ -208,7 +207,7 @@ Website domain: https://www.nsgamming.xyz/ (nsgamming.xyz)
 🛠️ TOOLS PAGE (/tools) - MASSIVELY UPGRADED! 🚀
 - NEW! Category tabs: Choose between "Free Fire Tools", "General Utilities", or "Downloads"
 - Free Fire Tools section includes:
-  * FF Stylish Name Generator (UPGRADED!) - 16 different stylish font designs (Gothic, Cursive, Bold, Bubble, Strikethrough, Monospace, etc.) - Create unique names with fancy fonts!
+  * FF Stylish Name Generator (UPGRADED!) - 16 different stylish font designs (Gothic, Cursive, Bold, Strikethrough, Monospace, etc.) - Create unique names with fancy fonts!
   * Random Nickname Generator (UPGRADED!) - 100+ advanced nicknames with alphabet filtering (A-Z) and style categories (Gaming, Professional, Creative) - Find the perfect nickname!
   * UID Generator (NEW FEATURE!) - Generate random UIDs with RATING SYSTEM (50-100 score based on palindromes, sequences, repeating digits) with visual progress bars and color-coded ratings (Legendary/Epic/Rare/Good)
   * Sensitivity Settings Generator (MASSIVELY UPGRADED!) - Advanced customization with:
@@ -313,7 +312,7 @@ export function GeminiChatbot() {
   const [chatPosition, setChatPosition] = useState<Position>({ x: 0, y: 0 });
   const [buttonPosition, setButtonPosition] = useState<Position>({ x: 0, y: 0 });
   const [dragOffset, setDragOffset] = useState<Position>({ x: 0, y: 0 });
-  
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatboxRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -375,32 +374,32 @@ export function GeminiChatbot() {
     const handleMouseMove = (e: MouseEvent) => {
       if (!isDragging) return;
       e.preventDefault();
-      
+
       if (isOpen && chatboxRef.current) {
         const chatWidth = chatboxRef.current.offsetWidth;
         const chatHeight = chatboxRef.current.offsetHeight;
         const maxX = window.innerWidth - chatWidth;
         const maxY = window.innerHeight - chatHeight;
-        
+
         let newX = e.clientX - dragOffset.x;
         let newY = e.clientY - dragOffset.y;
-        
+
         newX = Math.max(0, Math.min(newX, maxX));
         newY = Math.max(0, Math.min(newY, maxY));
-        
+
         setChatPosition({ x: newX, y: newY });
       } else if (!isOpen && buttonRef.current) {
         const buttonWidth = buttonRef.current.offsetWidth;
         const buttonHeight = buttonRef.current.offsetHeight;
         const maxX = window.innerWidth - buttonWidth;
         const maxY = window.innerHeight - buttonHeight;
-        
+
         let newX = e.clientX - dragOffset.x;
         let newY = e.clientY - dragOffset.y;
-        
+
         newX = Math.max(0, Math.min(newX, maxX));
         newY = Math.max(0, Math.min(newY, maxY));
-        
+
         setButtonPosition({ x: newX, y: newY });
       }
     };
@@ -408,34 +407,34 @@ export function GeminiChatbot() {
     const handleTouchMove = (e: TouchEvent) => {
       if (!isDragging) return;
       e.preventDefault();
-      
+
       const touch = e.touches[0];
-      
+
       if (isOpen && chatboxRef.current) {
         const chatWidth = chatboxRef.current.offsetWidth;
         const chatHeight = chatboxRef.current.offsetHeight;
         const maxX = window.innerWidth - chatWidth;
         const maxY = window.innerHeight - chatHeight;
-        
+
         let newX = touch.clientX - dragOffset.x;
         let newY = touch.clientY - dragOffset.y;
-        
+
         newX = Math.max(0, Math.min(newX, maxX));
         newY = Math.max(0, Math.min(newY, maxY));
-        
+
         setChatPosition({ x: newX, y: newY });
       } else if (!isOpen && buttonRef.current) {
         const buttonWidth = buttonRef.current.offsetWidth;
         const buttonHeight = buttonRef.current.offsetHeight;
         const maxX = window.innerWidth - buttonWidth;
         const maxY = window.innerHeight - buttonHeight;
-        
+
         let newX = touch.clientX - dragOffset.x;
         let newY = touch.clientY - dragOffset.y;
-        
+
         newX = Math.max(0, Math.min(newX, maxX));
         newY = Math.max(0, Math.min(newY, maxY));
-        
+
         setButtonPosition({ x: newX, y: newY });
       }
     };
@@ -600,7 +599,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
         content: randomError,
       };
       setMessages((prev) => [...prev, errorMessage]);
-      
+
       // Try to save error message, but don't block if it fails
       const errorMessageId = `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
       fetch("/api/chat/message", {
@@ -638,16 +637,16 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
       setIsOpen(true);
       // When opening, position chat where the button was
       setChatPosition(buttonPosition);
-      
+
       // Start a chat session with comprehensive tracking
       const sessionId = localStorage.getItem("analytics_session_id") || `chat_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
       const userId = localStorage.getItem("chat_user_id") || `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      
+
       // Save user ID for future use
       if (!localStorage.getItem("chat_user_id")) {
         localStorage.setItem("chat_user_id", userId);
       }
-      
+
       // Collect device and browser info
       const getBrowser = () => {
         const ua = navigator.userAgent;
@@ -657,7 +656,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
         if (ua.includes('Safari')) return 'Safari';
         return 'Unknown';
       };
-      
+
       const getOS = () => {
         const ua = navigator.userAgent;
         if (ua.includes('Win')) return 'Windows';
@@ -667,13 +666,13 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
         if (ua.includes('iOS')) return 'iOS';
         return 'Unknown';
       };
-      
+
       const getDeviceType = () => {
         if (/mobile/i.test(navigator.userAgent)) return 'mobile';
         if (/tablet/i.test(navigator.userAgent)) return 'tablet';
         return 'desktop';
       };
-      
+
       const deviceInfo = {
         userAgent: navigator.userAgent,
         screen: { width: window.screen.width, height: window.screen.height },
@@ -684,7 +683,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
         cookieEnabled: navigator.cookieEnabled,
         onLine: navigator.onLine
       };
-      
+
       // Try to start session, but don't block if it fails
       fetch("/api/chat/session/start", {
         method: "POST",
@@ -730,7 +729,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
   const getChatStyle = () => {
     if (chatPosition.x === 0 && chatPosition.y === 0) {
       const isMobile = window.innerWidth < 640;
-      
+
       return {
         bottom: '6rem',
         [isMobile ? 'left' : 'right']: '1rem',
@@ -738,16 +737,16 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
         top: 'auto'
       };
     }
-    
+
     if (chatboxRef.current) {
       const chatWidth = chatboxRef.current.offsetWidth;
       const chatHeight = chatboxRef.current.offsetHeight;
       const maxX = Math.max(0, window.innerWidth - chatWidth);
       const maxY = Math.max(0, window.innerHeight - chatHeight);
-      
+
       const correctedX = Math.max(0, Math.min(chatPosition.x, maxX));
       const correctedY = Math.max(0, Math.min(chatPosition.y, maxY));
-      
+
       return {
         left: `${correctedX}px`,
         top: `${correctedY}px`,
@@ -755,7 +754,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
         right: 'auto'
       };
     }
-    
+
     return {
       left: `${chatPosition.x}px`,
       top: `${chatPosition.y}px`,
@@ -768,7 +767,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
     <>
       {/* Hide scroll to top button when chatbot is open */}
       <style>{isOpen ? '[data-testid="scroll-to-top"] { display: none !important; }' : ''}</style>
-      
+
       {!isOpen && (
         <button
           ref={buttonRef}

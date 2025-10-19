@@ -69,10 +69,10 @@ CREATE TABLE IF NOT EXISTS comprehensive_users (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- AI Chat Messages (FIXED with message_text column)
+-- AI Chat Messages (COMPLETE with all required columns)
 CREATE TABLE IF NOT EXISTS ai_chat_messages (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    message_id VARCHAR(255) UNIQUE NOT NULL,
+    message_id VARCHAR(255) UNIQUE,
     session_id VARCHAR(255) NOT NULL,
     user_id VARCHAR(255),
     sender_type VARCHAR(20) NOT NULL CHECK (sender_type IN ('user', 'assistant', 'system')),
@@ -85,7 +85,8 @@ CREATE TABLE IF NOT EXISTS ai_chat_messages (
     sentiment VARCHAR(50),
     intent VARCHAR(100),
     entities JSONB DEFAULT '[]'::jsonb,
-    metadata JSONB DEFAULT '{}'::jsonb
+    metadata JSONB DEFAULT '{}'::jsonb,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- AI Chat Sessions
