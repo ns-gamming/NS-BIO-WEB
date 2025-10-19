@@ -1734,27 +1734,26 @@ const PlatformDownloadCard = ({ platform, name, icon, color, delay }: { platform
   };
 
   return (
-    <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(239,68,68,0.4)] dark:hover:shadow-[0_0_40px_rgba(239,68,68,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-red-500/50 rounded-2xl animate-bounceIn z-30" style={{ animationDelay: `${delay}s` }}>
-      <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 via-pink-500/5 to-red-500/10 animate-gradient-shift" />
-      <div className="absolute -inset-1 bg-gradient-to-r from-red-500/20 to-pink-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+    <Card className="dark:bg-gray-900/95 dark:border-gray-800 hover:shadow-lg transition-all duration-300 relative overflow-hidden border-2 rounded-xl animate-bounceIn" style={{ animationDelay: `${delay}s` }}>
+      <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 via-transparent to-pink-500/5" />
       
-      <CardHeader className="relative z-10">
-        <CardTitle className="flex items-center gap-3 dark:text-white text-xl">
-          <div className={`p-3 bg-gradient-to-br ${color} rounded-xl shadow-lg text-2xl`}>
+      <CardHeader className="relative z-10 pb-3">
+        <CardTitle className="flex items-center gap-2 dark:text-white text-lg">
+          <div className={`p-2 bg-gradient-to-br ${color} rounded-lg shadow-md text-xl`}>
             {icon}
           </div>
-          {name}
+          <span className="truncate">{name}</span>
         </CardTitle>
       </CardHeader>
       
-      <CardContent className="relative z-10 space-y-4">
+      <CardContent className="relative z-10 space-y-3 pt-0">
         <div className="space-y-2">
-          <Label className="text-sm font-semibold dark:text-white">Video URL</Label>
+          <Label className="text-xs font-semibold dark:text-white">Video URL</Label>
           <Input 
-            placeholder={`Paste ${name} URL here...`}
+            placeholder={`Paste ${name} URL...`}
             value={url} 
             onChange={(e) => setUrl(e.target.value)} 
-            className="dark:bg-gray-800 dark:text-white transition-all duration-300 hover:shadow-[0_0_15px_rgba(239,68,68,0.3)]"
+            className="dark:bg-gray-800 dark:text-white text-sm h-9"
             data-testid={`input-${platform}-url`}
           />
         </div>
@@ -1762,7 +1761,7 @@ const PlatformDownloadCard = ({ platform, name, icon, color, delay }: { platform
         <Button 
           onClick={handleDownload} 
           disabled={downloading}
-          className={`w-full bg-gradient-to-r ${color} hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:scale-100`}
+          className={`w-full bg-gradient-to-r ${color} text-sm h-9 transition-all duration-300 disabled:opacity-50`}
           data-testid={`button-download-${platform}`}
         >
           {downloading ? (
@@ -1775,8 +1774,8 @@ const PlatformDownloadCard = ({ platform, name, icon, color, delay }: { platform
             </>
           ) : (
             <>
-              <Download className="mr-2 h-4 w-4 animate-bounce" />
-              Download from {name}
+              <Download className="mr-2 h-4 w-4" />
+              Download
             </>
           )}
         </Button>
@@ -1790,8 +1789,8 @@ const PlatformDownloadCard = ({ platform, name, icon, color, delay }: { platform
 export default function Tools() {
   const [selectedCategory, setSelectedCategory] = useState<'ff-tools' | 'utilities' | 'downloads' | null>(null);
   
-  // Add padding and z-index to prevent floating menu overlap
-  const categoryContainerClass = "pb-24 sm:pb-32 relative z-10";
+  // Add proper padding and spacing to prevent any overlapping
+  const categoryContainerClass = "pb-32 md:pb-40 relative z-10 mb-20";
 
   // Category Selection Screen
   if (!selectedCategory) {
@@ -1810,7 +1809,7 @@ export default function Tools() {
         />
 
         <div className="container mx-auto px-4 py-12 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 max-w-6xl mx-auto perspective-1000">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto px-4 mb-20">
             {/* FF Tools Card */}
             <div
               className="group relative cursor-pointer transform transition-all duration-700 hover:scale-105 animate-fadeUp"
@@ -2082,41 +2081,36 @@ export default function Tools() {
           </Button>
 
           <div className={categoryContainerClass}>
-          <Tabs defaultValue="ffname" className="w-full relative z-20">
-            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 mb-8 p-2 bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10 dark:from-cyan-500/20 dark:via-blue-500/20 dark:to-purple-500/20 backdrop-blur-xl border-2 border-cyan-500/30 dark:border-cyan-500/50 rounded-2xl shadow-2xl animate-slideInFromBottom relative z-20" data-testid="tabs-ff-tools">
-              <TabsTrigger value="ffname" className="text-xs sm:text-sm font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/30 data-[state=active]:to-blue-500/30 data-[state=active]:shadow-[0_0_25px_rgba(6,182,212,0.5)] rounded-xl py-3" data-testid="tab-ffname">
-                <Wand2 className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                <span className="hidden sm:inline">FF Name</span>
-                <span className="sm:hidden">Name</span>
+          <Tabs defaultValue="ffname" className="w-full relative z-10 mb-20">
+            <TabsList className="flex flex-wrap justify-center gap-2 mb-8 p-3 bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10 dark:from-cyan-500/20 dark:via-blue-500/20 dark:to-purple-500/20 backdrop-blur-xl border-2 border-cyan-500/30 dark:border-cyan-500/50 rounded-2xl shadow-xl animate-slideInFromBottom relative z-10" data-testid="tabs-ff-tools">
+              <TabsTrigger value="ffname" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/40 data-[state=active]:to-blue-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-cyan-500/50" data-testid="tab-ffname">
+                <Wand2 className="h-4 w-4" />
+                <span className="whitespace-nowrap">FF Name</span>
               </TabsTrigger>
-              <TabsTrigger value="uid" className="text-xs sm:text-sm font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/30 data-[state=active]:to-pink-500/30 data-[state=active]:shadow-[0_0_25px_rgba(168,85,247,0.5)] rounded-xl py-3" data-testid="tab-uid">
-                <Gamepad2 className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                <span>UID</span>
+              <TabsTrigger value="uid" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/40 data-[state=active]:to-pink-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-purple-500/50" data-testid="tab-uid">
+                <Gamepad2 className="h-4 w-4" />
+                <span className="whitespace-nowrap">UID Gen</span>
               </TabsTrigger>
-              <TabsTrigger value="sensitivity" className="text-xs sm:text-sm font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/30 data-[state=active]:to-emerald-500/30 data-[state=active]:shadow-[0_0_25px_rgba(34,197,94,0.5)] rounded-xl py-3" data-testid="tab-sensitivity">
-                <Zap className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                <span className="hidden sm:inline">Sensitivity</span>
-                <span className="sm:hidden">Sens</span>
+              <TabsTrigger value="sensitivity" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/40 data-[state=active]:to-emerald-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-green-500/50" data-testid="tab-sensitivity">
+                <Zap className="h-4 w-4" />
+                <span className="whitespace-nowrap">Sensitivity</span>
               </TabsTrigger>
-              <TabsTrigger value="password" className="text-xs sm:text-sm font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500/30 data-[state=active]:to-red-500/30 data-[state=active]:shadow-[0_0_25px_rgba(249,115,22,0.5)] rounded-xl py-3" data-testid="tab-password">
-                <Shield className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                <span className="hidden sm:inline">Password</span>
-                <span className="sm:hidden">Pass</span>
+              <TabsTrigger value="password" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500/40 data-[state=active]:to-red-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-orange-500/50" data-testid="tab-password">
+                <Shield className="h-4 w-4" />
+                <span className="whitespace-nowrap">Password</span>
               </TabsTrigger>
-              <TabsTrigger value="weapons" className="text-xs sm:text-sm font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500/30 data-[state=active]:to-orange-500/30 data-[state=active]:shadow-[0_0_25px_rgba(239,68,68,0.5)] rounded-xl py-3" data-testid="tab-weapons">
-                <Crosshair className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                <span className="hidden sm:inline">Weapons</span>
-                <span className="sm:hidden">Wpn</span>
+              <TabsTrigger value="weapons" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500/40 data-[state=active]:to-orange-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-red-500/50" data-testid="tab-weapons">
+                <Crosshair className="h-4 w-4" />
+                <span className="whitespace-nowrap">Weapons</span>
               </TabsTrigger>
-              <TabsTrigger value="drop" className="text-xs sm:text-sm font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500/30 data-[state=active]:to-cyan-500/30 data-[state=active]:shadow-[0_0_25px_rgba(6,182,212,0.5)] rounded-xl py-3" data-testid="tab-drop">
-                <Target className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                <span className="hidden sm:inline">Drop</span>
-                <span className="sm:hidden">Drop</span>
+              <TabsTrigger value="drop" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500/40 data-[state=active]:to-cyan-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-blue-500/50" data-testid="tab-drop">
+                <Target className="h-4 w-4" />
+                <span className="whitespace-nowrap">Drop Sim</span>
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="ffname" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
-              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(6,182,212,0.4)] dark:hover:shadow-[0_0_40px_rgba(6,182,212,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-cyan-500/50 rounded-2xl z-30">
+            <TabsContent value="ffname" className="mt-6 animate-fadeUp relative z-10 mb-10">
+              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-lg transition-all duration-300 relative overflow-hidden border-2 rounded-xl">
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/5 to-cyan-500/10 animate-gradient-shift" />
                 <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
                 <CardHeader className="relative z-10 pb-4">
@@ -2283,36 +2277,31 @@ export default function Tools() {
         </Button>
 
         <div className={categoryContainerClass}>
-          <Tabs defaultValue="image" className="w-full relative z-20">
-            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 p-2 dark:bg-gray-800/50 backdrop-blur-xl mb-8 sm:mb-12 animate-fadeUp shadow-2xl hover:shadow-[0_0_50px_rgba(168,85,247,0.4)] transition-all duration-500 rounded-2xl border-2 border-gray-200 dark:border-gray-700 relative z-20" data-testid="tabs-utility">
-            <TabsTrigger value="image" data-testid="tab-image" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/30 data-[state=active]:to-blue-500/30 data-[state=active]:shadow-[0_0_25px_rgba(6,182,212,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
-              <ImageDown className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-              <span className="hidden sm:inline">Image</span>
-              <span className="sm:hidden">Img</span>
+          <Tabs defaultValue="image" className="w-full relative z-10 mb-20">
+            <TabsList className="flex flex-wrap justify-center gap-2 p-3 dark:bg-gray-800/50 backdrop-blur-xl mb-8 animate-fadeUp shadow-xl rounded-2xl border-2 border-gray-200 dark:border-gray-700 relative z-10" data-testid="tabs-utility">
+            <TabsTrigger value="image" data-testid="tab-image" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/40 data-[state=active]:to-blue-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-cyan-500/50">
+              <ImageDown className="h-4 w-4" />
+              <span className="whitespace-nowrap">Image</span>
             </TabsTrigger>
-            <TabsTrigger value="tts" data-testid="tab-tts" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/30 data-[state=active]:to-pink-500/30 data-[state=active]:shadow-[0_0_25px_rgba(168,85,247,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
-              <Volume2 className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-              <span>TTS</span>
+            <TabsTrigger value="tts" data-testid="tab-tts" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/40 data-[state=active]:to-pink-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-purple-500/50">
+              <Volume2 className="h-4 w-4" />
+              <span className="whitespace-nowrap">TTS</span>
             </TabsTrigger>
-            <TabsTrigger value="qr" data-testid="tab-qr" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/30 data-[state=active]:to-emerald-500/30 data-[state=active]:shadow-[0_0_25px_rgba(34,197,94,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
-              <QrCode className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-              <span className="hidden sm:inline">QR Code</span>
-              <span className="sm:hidden">QR</span>
+            <TabsTrigger value="qr" data-testid="tab-qr" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/40 data-[state=active]:to-emerald-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-green-500/50">
+              <QrCode className="h-4 w-4" />
+              <span className="whitespace-nowrap">QR Code</span>
             </TabsTrigger>
-            <TabsTrigger value="clipboard" data-testid="tab-clipboard" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500/30 data-[state=active]:to-red-500/30 data-[state=active]:shadow-[0_0_25px_rgba(249,115,22,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
-              <ClipboardCopy className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-              <span className="hidden sm:inline">Clipboard</span>
-              <span className="sm:hidden">Clip</span>
+            <TabsTrigger value="clipboard" data-testid="tab-clipboard" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500/40 data-[state=active]:to-red-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-orange-500/50">
+              <ClipboardCopy className="h-4 w-4" />
+              <span className="whitespace-nowrap">Clipboard</span>
             </TabsTrigger>
-            <TabsTrigger value="text-formatter" data-testid="tab-text-formatter" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/30 data-[state=active]:to-pink-500/30 data-[state=active]:shadow-[0_0_25px_rgba(168,85,247,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
-              <Type className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-              <span className="hidden sm:inline">Text</span>
-              <span className="sm:hidden">Txt</span>
+            <TabsTrigger value="text-formatter" data-testid="tab-text-formatter" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/40 data-[state=active]:to-pink-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-purple-500/50">
+              <Type className="h-4 w-4" />
+              <span className="whitespace-nowrap">Formatter</span>
             </TabsTrigger>
-            <TabsTrigger value="nickname" data-testid="tab-nickname" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/30 data-[state=active]:to-emerald-500/30 data-[state=active]:shadow-[0_0_25px_rgba(34,197,94,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
-              <UserPlus className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-              <span className="hidden sm:inline">Nick</span>
-              <span className="sm:hidden">Nick</span>
+            <TabsTrigger value="nickname" data-testid="tab-nickname" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/40 data-[state=active]:to-emerald-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-green-500/50">
+              <UserPlus className="h-4 w-4" />
+              <span className="whitespace-nowrap">Nickname</span>
             </TabsTrigger>
           </TabsList>
 
@@ -2483,7 +2472,7 @@ export default function Tools() {
           </Button>
 
           <div className={categoryContainerClass}>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-30">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 px-4 relative z-10">
               {[
                 { platform: 'youtube', name: 'YouTube', icon: '🎬', color: 'from-red-500 to-red-600' },
                 { platform: 'instagram', name: 'Instagram', icon: '📸', color: 'from-pink-500 to-purple-600' },
