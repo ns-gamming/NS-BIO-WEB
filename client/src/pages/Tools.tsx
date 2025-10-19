@@ -27,9 +27,9 @@ const FFNameGenerator = () => {
 
   const fancyStyles = {
     bold: '𝐀𝐁𝐂𝐃𝐄𝐅𝐆𝐇𝐈𝐉𝐊𝐋𝐌𝐍𝐎𝐏𝐐𝐑𝐒𝐓𝐔𝐕𝐖𝐗𝐘𝐙𝐚𝐛𝐜𝐝𝐞𝐟𝐠𝐡𝐢𝐣𝐤𝐥𝐦𝐧𝐨𝐩𝐪𝐫𝐬𝐭𝐮𝐯𝐰𝐱𝐲𝐳0123456789',
-    italic: '𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘑𝘒𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛𝘜𝘝𝘞𝘟𝘠𝘡𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻0123456789',
+    italic: '𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘑𝘒𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛 U𝘝𝘞𝘟𝘠𝘡𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻0123456789',
     fancy: '𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫𝟘𝟙𝟚𝟛𝟜𝟝𝟞𝟟𝟠𝟡',
-    cursive: '𝓐𝓑𝓒𝓓𝓔𝓕𝓖𝓗𝓘𝓙𝓚𝓛𝓜𝓝𝓞𝓟𝓠𝓡𝓢𝓣𝓤𝓥𝓦𝓧𝓨𝓩𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓱𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹𝓺𝓻𝓼𝓽𝓾𝓿𝔀𝔁𝔂𝔃0123456789',
+    cursive: '𝓐𝓑𝓒𝓓𝓔𝓕𝓖𝓗𝓘𝓙𝓚𝓛𝓜𝓝𝓞𝓟𝓠𝓡𝓢𝓣 U𝓥𝓦𝓧𝓨𝓩𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓱𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹𝓺𝓻𝓼𝓽𝓾𝓿𝔀𝔁𝔂𝔃0123456789',
     monospace: '𝙰𝙱𝙲𝙳𝙴𝙵𝙶𝙷𝙸𝙹𝙺𝙻𝙼𝙽𝙾𝙿𝚀𝚁𝚂𝚃𝚄𝚅𝚆𝚇𝚈𝚉𝚊𝚋𝚌𝚍𝚎𝚏𝚐𝚑𝚒𝚓𝚔𝚕𝚖𝚗𝚘𝚙𝚚𝚛𝚜𝚝𝚞𝚟𝚠𝚡𝚢𝚣𝟶𝟷𝟸𝟹𝟺𝟻𝟼𝟽𝟾𝟿',
     outline: '𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫0123456789',
   };
@@ -802,7 +802,7 @@ const TextFormatter = () => {
     italic: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
     italicMap: '𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘑𝘒𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛U𝘝𝘞𝘟𝘠𝘡𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻',
     cursive: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
-    cursiveMap: '𝓐𝓑𝓒𝓓𝓔𝓕𝓖𝓗𝓘𝓙𝓚𝓛𝓜𝓝𝓞𝓟𝓠𝓡𝓢𝓣 U𝓥𝓦𝓧𝓨𝓩𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓱𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹𝓺𝓻𝓼𝓽𝓾𝓿𝔀𝔁𝔂𝔃',
+    cursiveMap: '𝓐𝓑𝓒𝓓𝓔𝓕𝓖𝓗𝓘𝓙K𝓛𝓜𝓝𝓞𝓟𝓠𝓡𝓢𝓣 U𝓥𝓦𝓧𝓨𝓩𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓱𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹𝓺𝓻𝓼𝓽𝓾𝓿𝔀𝔁𝔂𝔃',
     bubbled: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
     bubbledMap: 'ⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ',
   };
@@ -1798,7 +1798,7 @@ const VideoDownloader = () => {
 
 // Main Tools Page Component
 export default function Tools() {
-  const [selectedCategory, setSelectedCategory] = useState<'ff-tools' | 'utilities' | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<'ff-tools' | 'utilities' | 'downloads' | null>(null);
 
   // Category Selection Screen
   if (!selectedCategory) {
@@ -1969,6 +1969,84 @@ export default function Tools() {
                   <div className="relative">
                     <Star className="w-7 h-7 sm:w-8 sm:h-8 text-purple-500 animate-spin-slow" />
                     <div className="absolute inset-0 bg-purple-500/60 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Downloads Category Card */}
+            <div
+              className="group relative cursor-pointer transform transition-all duration-700 hover:scale-105 animate-fadeUp"
+              onClick={() => setSelectedCategory('downloads')}
+              data-testid="card-category-downloads"
+              style={{ animationDelay: '0.6s' }}
+            >
+              {/* Gradient Border Effect with Animation */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-red-500 via-pink-500 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-3xl blur-md animate-gradient-shift"></div>
+
+              {/* Glow Effect on Hover */}
+              <div className="absolute -inset-2 bg-gradient-to-r from-red-500/50 to-pink-500/50 opacity-0 group-hover:opacity-30 blur-3xl rounded-3xl transition-opacity duration-700"></div>
+
+              {/* Card Content with 3D Transform */}
+              <div className="relative bg-white dark:bg-gray-900 backdrop-blur-xl border-2 border-gray-200 dark:border-gray-800 group-hover:border-red-500/60 dark:group-hover:border-red-500/80 rounded-3xl p-8 sm:p-10 transition-all duration-500 shadow-2xl group-hover:shadow-[0_30px_100px_rgba(239,68,68,0.4)] dark:group-hover:shadow-[0_30px_100px_rgba(239,68,68,0.6)]" style={{ transform: 'translateZ(20px)' }}>
+
+                {/* Animated Background Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 via-pink-500/5 to-red-500/5 dark:from-red-500/10 dark:via-pink-500/10 dark:to-red-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
+
+                {/* Enhanced Animated Particles with More Elements */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                  <div className="absolute top-10 left-10 w-2 h-2 bg-red-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.8)]"></div>
+                  <div className="absolute top-20 right-20 w-2 h-2 bg-pink-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(236,72,153,0.8)]" style={{ animationDelay: '0.3s' }}></div>
+                  <div className="absolute bottom-10 left-20 w-2 h-2 bg-red-300 rounded-full animate-pulse shadow-[0_0_10px_rgba(252,165,165,0.8)]" style={{ animationDelay: '0.6s' }}></div>
+                  <div className="absolute bottom-20 right-10 w-2 h-2 bg-pink-300 rounded-full animate-pulse shadow-[0_0_10px_rgba(249,168,212,0.8)]" style={{ animationDelay: '0.9s' }}></div>
+                  <div className="absolute top-1/2 left-1/3 w-1.5 h-1.5 bg-red-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 bg-pink-500 rounded-full animate-bounce" style={{ animationDelay: '0.5s' }}></div>
+                  <div className="absolute bottom-1/3 left-1/2 w-1.5 h-1.5 bg-red-400 rounded-full animate-bounce" style={{ animationDelay: '0.8s' }}></div>
+                </div>
+
+                {/* Icon Container with Enhanced 3D Effect */}
+                <div className="relative mb-8">
+                  <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl bg-gradient-to-br from-red-500 via-orange-500 to-pink-600 flex items-center justify-center shadow-2xl group-hover:shadow-[0_0_80px_rgba(239,68,68,1)] transform group-hover:scale-125 group-hover:rotate-12 transition-all duration-700 animate-pulse-slow" style={{ transformStyle: 'preserve-3d', transform: 'translateZ(30px)' }}>
+                    <Download className="w-14 h-14 sm:w-16 sm:h-16 text-white animate-pulse group-hover:animate-wiggle" />
+                  </div>
+                  <div className="absolute inset-0 bg-red-500/60 dark:bg-red-500/80 rounded-3xl blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 animate-pulse"></div>
+                  <div className="absolute -inset-2 bg-gradient-to-r from-red-400 to-pink-500 rounded-3xl opacity-0 group-hover:opacity-20 blur-2xl transition-opacity duration-700"></div>
+                </div>
+
+                {/* Title */}
+                <h3 className="relative text-3xl sm:text-4xl font-orbitron font-bold mb-4 bg-gradient-to-r from-red-600 to-pink-600 dark:from-red-400 dark:to-pink-400 bg-clip-text text-transparent group-hover:scale-105 transform transition-transform duration-300">
+                  Video Downloads 📥
+                </h3>
+
+                {/* Description */}
+                <p className="relative text-base sm:text-lg text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                  Download videos from various platforms like YouTube, TikTok, Instagram and more!
+                </p>
+
+                {/* Feature Pills */}
+                <div className="relative flex flex-wrap gap-2 mb-8">
+                  <span className="px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 dark:from-cyan-500/30 dark:to-blue-500/30 border border-cyan-500/40 dark:border-cyan-500/50 rounded-full text-xs sm:text-sm font-bold text-cyan-700 dark:text-cyan-300 transform group-hover:scale-110 transition-all duration-300 shadow-md">
+                    YouTube
+                  </span>
+                  <span className="px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 dark:from-purple-500/30 dark:to-pink-500/30 border border-purple-500/40 dark:border-purple-500/50 rounded-full text-xs sm:text-sm font-bold text-purple-700 dark:text-purple-300 transform group-hover:scale-110 transition-all duration-300 shadow-md" style={{ transitionDelay: '0.05s' }}>
+                    TikTok
+                  </span>
+                  <span className="px-4 py-2 bg-gradient-to-r from-green-500/20 to-emerald-500/20 dark:from-green-500/30 dark:to-emerald-500/30 border border-green-500/40 dark:border-green-500/50 rounded-full text-xs sm:text-sm font-bold text-green-700 dark:text-green-300 transform group-hover:scale-110 transition-all duration-300 shadow-md" style={{ transitionDelay: '0.1s' }}>
+                    Instagram
+                  </span>
+                  <span className="px-4 py-2 bg-gradient-to-r from-orange-500/20 to-red-500/20 dark:from-orange-500/30 dark:to-red-500/30 border border-orange-500/40 dark:border-orange-500/50 rounded-full text-xs sm:text-sm font-bold text-orange-700 dark:text-orange-300 transform group-hover:scale-110 transition-all duration-300 shadow-md" style={{ transitionDelay: '0.15s' }}>
+                    Facebook
+                  </span>
+                </div>
+
+                {/* CTA */}
+                <div className="relative flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-800">
+                  <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-red-600 to-pink-600 dark:from-red-400 dark:to-pink-400 bg-clip-text text-transparent group-hover:translate-x-2 transition-transform duration-300">
+                    Download Now →
+                  </span>
+                  <div className="relative">
+                    <Download className="w-7 h-7 sm:w-8 sm:h-8 text-red-500 animate-bounce" />
+                    <div className="absolute inset-0 bg-red-500/60 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
                 </div>
               </div>
