@@ -11,6 +11,10 @@ export function registerFeedbackRoutes(app: Express) {
 
   // Submit page/tool feedback
   app.post("/api/feedback", async (req, res) => {
+    if (!supabase) {
+      return res.json({ success: true, message: 'Feedback received (database unavailable)' });
+    }
+
     try {
       const { pageName, toolName, rating, feedbackText, sessionId } = req.body;
       const userIp = getClientIP(req);
@@ -52,6 +56,10 @@ export function registerFeedbackRoutes(app: Express) {
 
   // Submit blog feedback
   app.post("/api/blog/:slug/feedback", async (req, res) => {
+    if (!supabase) {
+      return res.json({ success: true, message: 'Feedback received (database unavailable)' });
+    }
+
     try {
       const { slug } = req.params;
       const { rating, feedback, sessionId } = req.body;
@@ -92,6 +100,10 @@ export function registerFeedbackRoutes(app: Express) {
 
   // Get feedback stats for a specific page/tool
   app.get("/api/feedback/stats/:pageName", async (req, res) => {
+    if (!supabase) {
+      return res.json({ averageRating: 0, totalFeedbacks: 0, ratings: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }, message: 'Database unavailable' });
+    }
+
     try {
       const { pageName } = req.params;
 
@@ -133,6 +145,10 @@ export function registerFeedbackRoutes(app: Express) {
 
   // Get feedback stats for a specific blog post
   app.get("/api/blog/:slug/feedback/stats", async (req, res) => {
+    if (!supabase) {
+      return res.json({ averageRating: 0, totalFeedbacks: 0, ratings: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }, message: 'Database unavailable' });
+    }
+
     try {
       const { slug } = req.params;
 

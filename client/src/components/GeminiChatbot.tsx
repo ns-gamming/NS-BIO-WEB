@@ -206,7 +206,7 @@ Website domain: https://www.nsgamming.xyz/ (nsgamming.xyz)
 - Roadmap and plans
 
 🛠️ TOOLS PAGE (/tools) - MASSIVELY UPGRADED! 🚀
-- NEW! Category tabs: Choose between "Free Fire Tools" or "General Utilities"
+- NEW! Category tabs: Choose between "Free Fire Tools", "General Utilities", or "Downloads"
 - Free Fire Tools section includes:
   * FF Stylish Name Generator (UPGRADED!) - 16 different stylish font designs (Gothic, Cursive, Bold, Bubble, Strikethrough, Monospace, etc.) - Create unique names with fancy fonts!
   * Random Nickname Generator (UPGRADED!) - 100+ advanced nicknames with alphabet filtering (A-Z) and style categories (Gaming, Professional, Creative) - Find the perfect nickname!
@@ -228,6 +228,17 @@ Website domain: https://www.nsgamming.xyz/ (nsgamming.xyz)
     - Fancy Fonts: Bold 𝗕𝗼𝗹𝗱, Italic 𝘐𝘵𝘢𝘭𝘪𝘤, Cursive 𝓒𝓾𝓻𝓼𝓲𝓿𝓮, Bubbled Ⓑⓤⓑⓑⓛⓔⓓ
     - Advanced: Strikethrough, Underline, Zalgo (Glitch), Morse Code
   * Clipboard Saver - Save and manage clipboard history
+- Downloads section includes (BRAND NEW! 2025):
+  * YouTube Video Downloader - Download videos from YouTube in various qualities
+  * Instagram Downloader - Save Instagram videos, reels, and stories
+  * TikTok Downloader - Download TikTok videos without watermark
+  * Facebook Video Downloader - Save Facebook videos easily
+  * Twitter/X Video Downloader - Download Twitter/X videos and GIFs
+  * Pinterest Video Downloader - Save Pinterest videos and pins
+  * Reddit Video Downloader - Download Reddit videos  
+  * Snapchat Video Downloader - Save Snapchat stories and videos
+  * Just paste the video URL and click download - Simple and fast!
+  * Works for all major social media platforms
 - All tools work on mobile, tablet, and PC perfectly!
 - Google AdSense ads for monetization
 - Extensive animations and smooth transitions

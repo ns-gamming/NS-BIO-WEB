@@ -281,12 +281,16 @@ export function registerChatbotRoutes(app: Express) {
 
   // Get user context/memory by IP or user ID
   app.get("/api/chat/context/:userId", async (req, res) => {
+    if (!supabase) {
+      return res.json({ success: true, context: [], message: 'Database unavailable' });
+    }
+
     try {
       const { userId } = req.params;
       const ipAddress = getClientIP(req);
 
       // Get context by user ID or IP
-      const { data, error } = await supabase
+      const { data, error} = await supabase
         .from('ai_user_context')
         .select('*')
         .or(`user_id.eq.${userId},ip_address.eq.${ipAddress}`)
@@ -317,6 +321,10 @@ export function registerChatbotRoutes(app: Express) {
 
   // Get chat history with full context
   app.get("/api/chat/history/:sessionId", async (req, res) => {
+    if (!supabase) {
+      return res.json({ success: true, messages: [], message: 'Database unavailable' });
+    }
+
     try {
       const { sessionId } = req.params;
       const limit = parseInt(req.query.limit as string) || 50;
@@ -339,6 +347,10 @@ export function registerChatbotRoutes(app: Express) {
 
   // Get user profile with all data
   app.get("/api/chat/profile/:userId", async (req, res) => {
+    if (!supabase) {
+      return res.json({ success: true, profile: null, message: 'Database unavailable' });
+    }
+
     try {
       const { userId } = req.params;
 
@@ -359,6 +371,10 @@ export function registerChatbotRoutes(app: Express) {
 
   // Get user sessions history
   app.get("/api/chat/sessions/:userId", async (req, res) => {
+    if (!supabase) {
+      return res.json({ success: true, sessions: [], message: 'Database unavailable' });
+    }
+
     try {
       const { userId } = req.params;
 
@@ -380,6 +396,10 @@ export function registerChatbotRoutes(app: Express) {
 
   // Get complete user activity by IP
   app.get("/api/chat/activity/ip/:ip", async (req, res) => {
+    if (!supabase) {
+      return res.json({ success: true, data: { profiles: [], sessions: [], messages: [], context: [] }, message: 'Database unavailable' });
+    }
+
     try {
       const { ip } = req.params;
 
@@ -407,6 +427,10 @@ export function registerChatbotRoutes(app: Express) {
 
   // End chat session
   app.post("/api/chat/session/end", async (req, res) => {
+    if (!supabase) {
+      return res.json({ success: true, session: null, message: 'Database unavailable' });
+    }
+
     try {
       const { sessionId, conversationSummary, userMood, sessionNotes } = req.body;
       const now = new Date().toISOString();
