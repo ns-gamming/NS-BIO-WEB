@@ -2456,7 +2456,7 @@ export default function Tools() {
     </div>
   );
   
-  // Downloads Category - NEW SECTION
+  // Downloads Category
   if (selectedCategory === 'downloads') {
     return (
       <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-500">
@@ -2510,4 +2510,206 @@ export default function Tools() {
       </div>
     );
   }
+
+  // Utilities Category
+  if (selectedCategory === 'utilities') {
+    return (
+      <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-500">
+        {/* Animated Background */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-20 right-10 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl animate-floatSlow"></div>
+          <div className="absolute bottom-20 left-20 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl animate-floatSlow" style={{ animationDelay: '1s' }}></div>
+        </div>
+
+        <HeroSection
+          title="🔧 Productivity Tools"
+          subtitle="Boost your productivity with these essential utilities!"
+        />
+
+        <div className="container mx-auto px-4 py-8 sm:py-12 relative z-10 max-w-6xl">
+          <Button 
+            onClick={() => setSelectedCategory(null)} 
+            variant="outline" 
+            className="mb-6 group transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(168,85,247,0.3)] dark:border-purple-500/50 dark:hover:bg-purple-500/10 animate-slideInFromLeft"
+            data-testid="button-back-category"
+          >
+            <Sparkles className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform" />
+            Back to Categories
+          </Button>
+
+          <div className={categoryContainerClass}>
+            <Tabs defaultValue="image" className="w-full relative z-20">
+              <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 p-2 dark:bg-gray-800/50 backdrop-blur-xl mb-8 sm:mb-12 animate-fadeUp shadow-2xl hover:shadow-[0_0_50px_rgba(168,85,247,0.4)] transition-all duration-500 rounded-2xl border-2 border-gray-200 dark:border-gray-700 relative z-20" data-testid="tabs-utility">
+                <TabsTrigger value="image" data-testid="tab-image" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/30 data-[state=active]:to-blue-500/30 data-[state=active]:shadow-[0_0_25px_rgba(6,182,212,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
+                  <ImageDown className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                  <span className="hidden sm:inline">Image</span>
+                  <span className="sm:hidden">Img</span>
+                </TabsTrigger>
+                <TabsTrigger value="tts" data-testid="tab-tts" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/30 data-[state=active]:to-pink-500/30 data-[state=active]:shadow-[0_0_25px_rgba(168,85,247,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
+                  <Volume2 className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                  <span>TTS</span>
+                </TabsTrigger>
+                <TabsTrigger value="qr" data-testid="tab-qr" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/30 data-[state=active]:to-emerald-500/30 data-[state=active]:shadow-[0_0_25px_rgba(34,197,94,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
+                  <QrCode className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                  <span className="hidden sm:inline">QR Code</span>
+                  <span className="sm:hidden">QR</span>
+                </TabsTrigger>
+                <TabsTrigger value="clipboard" data-testid="tab-clipboard" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500/30 data-[state=active]:to-red-500/30 data-[state=active]:shadow-[0_0_25px_rgba(249,115,22,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
+                  <ClipboardCopy className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                  <span className="hidden sm:inline">Clipboard</span>
+                  <span className="sm:hidden">Clip</span>
+                </TabsTrigger>
+                <TabsTrigger value="text-formatter" data-testid="tab-text-formatter" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/30 data-[state=active]:to-pink-500/30 data-[state=active]:shadow-[0_0_25px_rgba(168,85,247,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
+                  <Type className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                  <span className="hidden sm:inline">Text</span>
+                  <span className="sm:hidden">Txt</span>
+                </TabsTrigger>
+                <TabsTrigger value="nickname" data-testid="tab-nickname" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/30 data-[state=active]:to-emerald-500/30 data-[state=active]:shadow-[0_0_25px_rgba(34,197,94,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
+                  <UserPlus className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                  <span className="hidden sm:inline">Nick</span>
+                  <span className="sm:hidden">Nick</span>
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="image" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+                <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(6,182,212,0.4)] dark:hover:shadow-[0_0_40px_rgba(6,182,212,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-cyan-500/50 rounded-2xl z-30">
+                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/5 to-cyan-500/10 animate-gradient-shift" />
+                  <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+                  <CardHeader className="relative z-10">
+                    <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textShine text-xl sm:text-2xl">
+                      <div className="p-2 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg shadow-lg">
+                        <ImageDown className="h-6 w-6 text-white animate-bounce-slow" />
+                      </div>
+                      Image Compressor
+                    </CardTitle>
+                    <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-sm sm:text-base">
+                      Reduce image file size while maintaining quality 📸
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="relative z-10">
+                    <ImageCompressor />
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="tts" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+                <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(168,85,247,0.4)] dark:hover:shadow-[0_0_40px_rgba(168,85,247,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-purple-500/50 rounded-2xl z-30">
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-purple-500/10 animate-gradient-shift" />
+                  <div className="absolute -inset-1 bg-gradient-to-r from-purple-500/20 to-pink-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+                  <CardHeader className="relative z-10">
+                    <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textShine text-xl sm:text-2xl">
+                      <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg shadow-lg">
+                        <Volume2 className="h-6 w-6 text-white animate-pulse" />
+                      </div>
+                      Text-to-Speech
+                    </CardTitle>
+                    <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-sm sm:text-base">
+                      Convert any text to natural-sounding speech 🔊
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="relative z-10">
+                    <TextToSpeech />
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="qr" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+                <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(34,197,94,0.4)] dark:hover:shadow-[0_0_40px_rgba(34,197,94,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-green-500/50 rounded-2xl z-30">
+                  <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-emerald-500/5 to-green-500/10 animate-gradient-shift" />
+                  <div className="absolute -inset-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+                  <CardHeader className="relative z-10">
+                    <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textShine text-xl sm:text-2xl">
+                      <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg shadow-lg">
+                        <QrCode className="h-6 w-6 text-white animate-spin-slow" />
+                      </div>
+                      QR Code Generator
+                    </CardTitle>
+                    <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-sm sm:text-base">
+                      Generate QR codes for any text or URL instantly 📱
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="relative z-10">
+                    <QRCodeGenerator />
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="clipboard" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+                <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(249,115,22,0.4)] dark:hover:shadow-[0_0_40px_rgba(249,115,22,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-orange-500/50 rounded-2xl z-30">
+                  <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-red-500/5 to-orange-500/10 animate-gradient-shift" />
+                  <div className="absolute -inset-1 bg-gradient-to-r from-orange-500/20 to-red-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+                  <CardHeader className="relative z-10">
+                    <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textShine text-xl sm:text-2xl">
+                      <div className="p-2 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg shadow-lg">
+                        <ClipboardCopy className="h-6 w-6 text-white animate-wiggle" />
+                      </div>
+                      Clipboard Manager
+                    </CardTitle>
+                    <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-sm sm:text-base">
+                      Save and manage text snippets for quick access 📋
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="relative z-10">
+                    <ClipboardManager />
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="text-formatter" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+                <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(168,85,247,0.4)] dark:hover:shadow-[0_0_40px_rgba(168,85,247,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-purple-500/50 rounded-2xl z-30">
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-purple-500/10 animate-gradient-shift" />
+                  <div className="absolute -inset-1 bg-gradient-to-r from-purple-500/20 to-pink-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+                  <CardHeader className="relative z-10">
+                    <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textShine text-xl sm:text-2xl">
+                      <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg shadow-lg">
+                        <Type className="h-6 w-6 text-white animate-pulse" />
+                      </div>
+                      Text Formatter
+                    </CardTitle>
+                    <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-sm sm:text-base">
+                      Transform text with various formatting options ✍️
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="relative z-10">
+                    <TextFormatter />
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="nickname" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+                <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(34,197,94,0.4)] dark:hover:shadow-[0_0_40px_rgba(34,197,94,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-green-500/50 rounded-2xl z-30">
+                  <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-emerald-500/5 to-green-500/10 animate-gradient-shift" />
+                  <div className="absolute -inset-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+                  <CardHeader className="relative z-10">
+                    <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textShine text-xl sm:text-2xl">
+                      <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg shadow-lg">
+                        <UserPlus className="h-6 w-6 text-white animate-bounce-slow" />
+                      </div>
+                      Random Nickname Generator
+                    </CardTitle>
+                    <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-sm sm:text-base">
+                      Generate unique gaming nicknames instantly 🎮
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="relative z-10">
+                    <RandomNicknameGenerator />
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
+          </div>
+
+          <div className="mt-12 animate-fadeUp">
+            <AdSenseAd />
+          </div>
+
+          {/* Feedback Section */}
+          <div className="mt-12 animate-fadeUp" style={{ animationDelay: '0.6s' }}>
+            <PageFeedback pageName="Utility Tools" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 }
