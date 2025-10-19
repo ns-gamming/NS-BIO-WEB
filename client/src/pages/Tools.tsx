@@ -1734,7 +1734,7 @@ const PlatformDownloadCard = ({ platform, name, icon, color, delay }: { platform
   };
 
   return (
-    <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(239,68,68,0.4)] dark:hover:shadow-[0_0_40px_rgba(239,68,68,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-red-500/50 rounded-2xl animate-bounceIn" style={{ animationDelay: `${delay}s` }}>
+    <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(239,68,68,0.4)] dark:hover:shadow-[0_0_40px_rgba(239,68,68,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-red-500/50 rounded-2xl animate-bounceIn z-30" style={{ animationDelay: `${delay}s` }}>
       <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 via-pink-500/5 to-red-500/10 animate-gradient-shift" />
       <div className="absolute -inset-1 bg-gradient-to-r from-red-500/20 to-pink-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
       
@@ -1790,8 +1790,8 @@ const PlatformDownloadCard = ({ platform, name, icon, color, delay }: { platform
 export default function Tools() {
   const [selectedCategory, setSelectedCategory] = useState<'ff-tools' | 'utilities' | 'downloads' | null>(null);
   
-  // Add padding to prevent floating menu overlap
-  const categoryContainerClass = "pb-24 sm:pb-32";
+  // Add padding and z-index to prevent floating menu overlap
+  const categoryContainerClass = "pb-24 sm:pb-32 relative z-10";
 
   // Category Selection Screen
   if (!selectedCategory) {
@@ -2082,8 +2082,8 @@ export default function Tools() {
           </Button>
 
           <div className={categoryContainerClass}>
-          <Tabs defaultValue="ffname" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 mb-8 p-2 bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10 dark:from-cyan-500/20 dark:via-blue-500/20 dark:to-purple-500/20 backdrop-blur-xl border-2 border-cyan-500/30 dark:border-cyan-500/50 rounded-2xl shadow-2xl animate-slideInFromBottom" data-testid="tabs-ff-tools">
+          <Tabs defaultValue="ffname" className="w-full relative z-20">
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 mb-8 p-2 bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10 dark:from-cyan-500/20 dark:via-blue-500/20 dark:to-purple-500/20 backdrop-blur-xl border-2 border-cyan-500/30 dark:border-cyan-500/50 rounded-2xl shadow-2xl animate-slideInFromBottom relative z-20" data-testid="tabs-ff-tools">
               <TabsTrigger value="ffname" className="text-xs sm:text-sm font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/30 data-[state=active]:to-blue-500/30 data-[state=active]:shadow-[0_0_25px_rgba(6,182,212,0.5)] rounded-xl py-3" data-testid="tab-ffname">
                 <Wand2 className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                 <span className="hidden sm:inline">FF Name</span>
@@ -2115,8 +2115,8 @@ export default function Tools() {
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="ffname" className="mt-8 sm:mt-12 animate-fadeUp">
-              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(6,182,212,0.4)] dark:hover:shadow-[0_0_40px_rgba(6,182,212,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-cyan-500/50 rounded-2xl">
+            <TabsContent value="ffname" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(6,182,212,0.4)] dark:hover:shadow-[0_0_40px_rgba(6,182,212,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-cyan-500/50 rounded-2xl z-30">
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/5 to-cyan-500/10 animate-gradient-shift" />
                 <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
                 <CardHeader className="relative z-10 pb-4">
@@ -2136,8 +2136,8 @@ export default function Tools() {
               </Card>
             </TabsContent>
 
-            <TabsContent value="uid" className="mt-8 sm:mt-12 animate-fadeUp">
-              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(168,85,247,0.4)] dark:hover:shadow-[0_0_40px_rgba(168,85,247,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-purple-500/50 rounded-2xl">
+            <TabsContent value="uid" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(168,85,247,0.4)] dark:hover:shadow-[0_0_40px_rgba(168,85,247,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-purple-500/50 rounded-2xl z-30">
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-purple-500/10 animate-gradient-shift" />
                 <div className="absolute -inset-1 bg-gradient-to-r from-purple-500/20 to-pink-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
                 <CardHeader className="relative z-10">
@@ -2157,8 +2157,8 @@ export default function Tools() {
               </Card>
             </TabsContent>
 
-            <TabsContent value="sensitivity" className="mt-8 sm:mt-12 animate-fadeUp">
-              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(34,197,94,0.4)] dark:hover:shadow-[0_0_40px_rgba(34,197,94,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-green-500/50 rounded-2xl">
+            <TabsContent value="sensitivity" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(34,197,94,0.4)] dark:hover:shadow-[0_0_40px_rgba(34,197,94,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-green-500/50 rounded-2xl z-30">
                 <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-emerald-500/5 to-green-500/10 animate-gradient-shift" />
                 <div className="absolute -inset-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
                 <CardHeader className="relative z-10">
@@ -2178,8 +2178,8 @@ export default function Tools() {
               </Card>
             </TabsContent>
 
-            <TabsContent value="password" className="mt-8 sm:mt-12 animate-fadeUp">
-              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(249,115,22,0.4)] dark:hover:shadow-[0_0_40px_rgba(249,115,22,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-orange-500/50 rounded-2xl">
+            <TabsContent value="password" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(249,115,22,0.4)] dark:hover:shadow-[0_0_40px_rgba(249,115,22,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-orange-500/50 rounded-2xl z-30">
                 <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-red-500/5 to-orange-500/10 animate-gradient-shift" />
                 <div className="absolute -inset-1 bg-gradient-to-r from-orange-500/20 to-red-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
                 <CardHeader className="relative z-10">
@@ -2199,8 +2199,8 @@ export default function Tools() {
               </Card>
             </TabsContent>
 
-            <TabsContent value="weapons" className="mt-8 sm:mt-12 animate-fadeUp">
-              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(239,68,68,0.4)] dark:hover:shadow-[0_0_40px_rgba(239,68,68,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-red-500/50 rounded-2xl">
+            <TabsContent value="weapons" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(239,68,68,0.4)] dark:hover:shadow-[0_0_40px_rgba(239,68,68,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-red-500/50 rounded-2xl z-30">
                 <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 via-orange-500/5 to-red-500/10 animate-gradient-shift" />
                 <div className="absolute -inset-1 bg-gradient-to-r from-red-500/20 to-orange-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
                 <CardHeader className="relative z-10">
@@ -2220,8 +2220,8 @@ export default function Tools() {
               </Card>
             </TabsContent>
 
-            <TabsContent value="drop" className="mt-8 sm:mt-12 animate-fadeUp">
-              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(59,130,246,0.4)] dark:hover:shadow-[0_0_40px_rgba(59,130,246,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-blue-500/50 rounded-2xl">
+            <TabsContent value="drop" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(59,130,246,0.4)] dark:hover:shadow-[0_0_40px_rgba(59,130,246,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-blue-500/50 rounded-2xl z-30">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-cyan-500/5 to-blue-500/10 animate-gradient-shift" />
                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
                 <CardHeader className="relative z-10">
@@ -2283,8 +2283,8 @@ export default function Tools() {
         </Button>
 
         <div className={categoryContainerClass}>
-          <Tabs defaultValue="image" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 p-2 dark:bg-gray-800/50 backdrop-blur-xl mb-8 sm:mb-12 animate-fadeUp shadow-2xl hover:shadow-[0_0_50px_rgba(168,85,247,0.4)] transition-all duration-500 rounded-2xl border-2 border-gray-200 dark:border-gray-700" data-testid="tabs-utility">
+          <Tabs defaultValue="image" className="w-full relative z-20">
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 p-2 dark:bg-gray-800/50 backdrop-blur-xl mb-8 sm:mb-12 animate-fadeUp shadow-2xl hover:shadow-[0_0_50px_rgba(168,85,247,0.4)] transition-all duration-500 rounded-2xl border-2 border-gray-200 dark:border-gray-700 relative z-20" data-testid="tabs-utility">
             <TabsTrigger value="image" data-testid="tab-image" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/30 data-[state=active]:to-blue-500/30 data-[state=active]:shadow-[0_0_25px_rgba(6,182,212,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
               <ImageDown className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
               <span className="hidden sm:inline">Image</span>
@@ -2316,8 +2316,8 @@ export default function Tools() {
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="image" className="mt-8 sm:mt-12 animate-fadeUp">
-            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(6,182,212,0.4)] dark:hover:shadow-[0_0_40px_rgba(6,182,212,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-cyan-500/50 rounded-2xl">
+          <TabsContent value="image" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(6,182,212,0.4)] dark:hover:shadow-[0_0_40px_rgba(6,182,212,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-cyan-500/50 rounded-2xl z-30">
               <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/5 to-cyan-500/10 animate-gradient-shift" />
               <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
               <CardHeader className="relative z-10">
@@ -2337,8 +2337,8 @@ export default function Tools() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="tts" className="mt-8 sm:mt-12 animate-fadeUp">
-            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(168,85,247,0.4)] dark:hover:shadow-[0_0_40px_rgba(168,85,247,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-purple-500/50 rounded-2xl">
+          <TabsContent value="tts" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(168,85,247,0.4)] dark:hover:shadow-[0_0_40px_rgba(168,85,247,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-purple-500/50 rounded-2xl z-30">
               <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-purple-500/10 animate-gradient-shift" />
               <div className="absolute -inset-1 bg-gradient-to-r from-purple-500/20 to-pink-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
               <CardHeader className="relative z-10">
@@ -2358,8 +2358,8 @@ export default function Tools() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="qr" className="mt-8 sm:mt-12 animate-fadeUp">
-            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(34,197,94,0.4)] dark:hover:shadow-[0_0_40px_rgba(34,197,94,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-green-500/50 rounded-2xl">
+          <TabsContent value="qr" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(34,197,94,0.4)] dark:hover:shadow-[0_0_40px_rgba(34,197,94,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-green-500/50 rounded-2xl z-30">
               <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-emerald-500/5 to-green-500/10 animate-gradient-shift" />
               <div className="absolute -inset-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
               <CardHeader className="relative z-10">
@@ -2379,8 +2379,8 @@ export default function Tools() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="clipboard" className="mt-8 sm:mt-12 animate-fadeUp">
-            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(249,115,22,0.4)] dark:hover:shadow-[0_0_40px_rgba(249,115,22,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-orange-500/50 rounded-2xl">
+          <TabsContent value="clipboard" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(249,115,22,0.4)] dark:hover:shadow-[0_0_40px_rgba(249,115,22,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-orange-500/50 rounded-2xl z-30">
               <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-red-500/5 to-orange-500/10 animate-gradient-shift" />
               <div className="absolute -inset-1 bg-gradient-to-r from-orange-500/20 to-red-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
               <CardHeader className="relative z-10">
@@ -2400,8 +2400,8 @@ export default function Tools() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="text-formatter" className="mt-8 sm:mt-12 animate-fadeUp">
-            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(168,85,247,0.4)] dark:hover:shadow-[0_0_40px_rgba(168,85,247,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-purple-500/50 rounded-2xl">
+          <TabsContent value="text-formatter" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(168,85,247,0.4)] dark:hover:shadow-[0_0_40px_rgba(168,85,247,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-purple-500/50 rounded-2xl z-30">
               <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-purple-500/10 animate-gradient-shift" />
               <div className="absolute -inset-1 bg-gradient-to-r from-purple-500/20 to-pink-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
               <CardHeader className="relative z-10">
@@ -2421,8 +2421,8 @@ export default function Tools() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="nickname" className="mt-8 sm:mt-12 animate-fadeUp">
-            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(34,197,94,0.4)] dark:hover:shadow-[0_0_40px_rgba(34,197,94,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-green-500/50 rounded-2xl">
+          <TabsContent value="nickname" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(34,197,94,0.4)] dark:hover:shadow-[0_0_40px_rgba(34,197,94,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-green-500/50 rounded-2xl z-30">
               <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-emerald-500/5 to-green-500/10 animate-gradient-shift" />
               <div className="absolute -inset-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
               <CardHeader className="relative z-10">
@@ -2483,7 +2483,7 @@ export default function Tools() {
           </Button>
 
           <div className={categoryContainerClass}>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-30">
               {[
                 { platform: 'youtube', name: 'YouTube', icon: '🎬', color: 'from-red-500 to-red-600' },
                 { platform: 'instagram', name: 'Instagram', icon: '📸', color: 'from-pink-500 to-purple-600' },
