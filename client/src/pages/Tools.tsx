@@ -1683,9 +1683,8 @@ const ClipboardManager = () => {
   );
 };
 
-// Video Downloader Component
-const VideoDownloader = () => {
-  const [platform, setPlatform] = useState('youtube');
+// Platform Download Card Component
+const PlatformDownloadCard = ({ platform, name, icon, color, delay }: { platform: string; name: string; icon: string; color: string; delay: number }) => {
   const [url, setUrl] = useState('');
   const [downloading, setDownloading] = useState(false);
   const { toast } = useToast();
@@ -1697,7 +1696,7 @@ const VideoDownloader = () => {
     }
 
     setDownloading(true);
-    toast({ title: "Initiating Download...", description: `Fetching data from ${platform}...` });
+    toast({ title: "Initiating Download...", description: `Fetching data from ${name}...` });
 
     try {
       const response = await fetch('/api/download', {
@@ -1717,8 +1716,6 @@ const VideoDownloader = () => {
         throw new Error(data.error);
       }
 
-      // The backend should ideally return a downloadable file or a URL to it.
-      // For now, we'll assume it returns a success message and instruct the user.
       toast({
         title: "Download Ready!",
         description: "Check the link provided by the server or your downloads folder.",
@@ -1737,61 +1734,54 @@ const VideoDownloader = () => {
   };
 
   return (
-    <div className="space-y-4 animate-fadeUp">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <div className="space-y-2">
-          <Label className="text-sm font-semibold dark:text-white">Platform</Label>
-          <Select value={platform} onValueChange={setPlatform}>
-            <SelectTrigger className="dark:bg-gray-800 dark:text-white" data-testid="select-platform">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent className="dark:bg-gray-800 dark:text-white">
-              <SelectItem value="youtube">YouTube</SelectItem>
-              <SelectItem value="instagram">Instagram</SelectItem>
-              <SelectItem value="tiktok">TikTok</SelectItem>
-              <SelectItem value="facebook">Facebook</SelectItem>
-              <SelectItem value="twitter">Twitter/X</SelectItem>
-              <SelectItem value="pinterest">Pinterest</SelectItem>
-              <SelectItem value="reddit">Reddit</SelectItem>
-              <SelectItem value="snapchat">Snapchat</SelectItem>
-              {/* Add more platforms as supported */}
-            </SelectContent>
-          </Select>
-        </div>
+    <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(239,68,68,0.4)] dark:hover:shadow-[0_0_40px_rgba(239,68,68,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-red-500/50 rounded-2xl animate-bounceIn" style={{ animationDelay: `${delay}s` }}>
+      <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 via-pink-500/5 to-red-500/10 animate-gradient-shift" />
+      <div className="absolute -inset-1 bg-gradient-to-r from-red-500/20 to-pink-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+      
+      <CardHeader className="relative z-10">
+        <CardTitle className="flex items-center gap-3 dark:text-white text-xl">
+          <div className={`p-3 bg-gradient-to-br ${color} rounded-xl shadow-lg text-2xl`}>
+            {icon}
+          </div>
+          {name}
+        </CardTitle>
+      </CardHeader>
+      
+      <CardContent className="relative z-10 space-y-4">
         <div className="space-y-2">
           <Label className="text-sm font-semibold dark:text-white">Video URL</Label>
           <Input 
-            placeholder="Paste video URL here..." 
+            placeholder={`Paste ${name} URL here...`}
             value={url} 
             onChange={(e) => setUrl(e.target.value)} 
-            className="dark:bg-gray-800 dark:text-white"
-            data-testid="input-video-url"
+            className="dark:bg-gray-800 dark:text-white transition-all duration-300 hover:shadow-[0_0_15px_rgba(239,68,68,0.3)]"
+            data-testid={`input-${platform}-url`}
           />
         </div>
-      </div>
 
-      <Button 
-        onClick={handleDownload} 
-        disabled={downloading}
-        className="w-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:scale-100 animate-popIn" 
-        data-testid="button-download-video"
-      >
-        {downloading ? (
-          <>
-            <svg className="mr-2 h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 8l2-2.709z"></path>
-            </svg>
-            Downloading...
-          </>
-        ) : (
-          <>
-            <Download className="mr-2 h-4 w-4 animate-bounce" />
-            Download Video
-          </>
-        )}
-      </Button>
-    </div>
+        <Button 
+          onClick={handleDownload} 
+          disabled={downloading}
+          className={`w-full bg-gradient-to-r ${color} hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:scale-100`}
+          data-testid={`button-download-${platform}`}
+        >
+          {downloading ? (
+            <>
+              <svg className="mr-2 h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 8l2-2.709z"></path>
+              </svg>
+              Downloading...
+            </>
+          ) : (
+            <>
+              <Download className="mr-2 h-4 w-4 animate-bounce" />
+              Download from {name}
+            </>
+          )}
+        </Button>
+      </CardContent>
+    </Card>
   );
 };
 
@@ -1799,6 +1789,9 @@ const VideoDownloader = () => {
 // Main Tools Page Component
 export default function Tools() {
   const [selectedCategory, setSelectedCategory] = useState<'ff-tools' | 'utilities' | 'downloads' | null>(null);
+  
+  // Add padding to prevent floating menu overlap
+  const categoryContainerClass = "pb-24 sm:pb-32";
 
   // Category Selection Screen
   if (!selectedCategory) {
@@ -2088,9 +2081,10 @@ export default function Tools() {
             Back to Categories
           </Button>
 
+          <div className={categoryContainerClass}>
           <Tabs defaultValue="ffname" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 mb-8 p-2 bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10 dark:from-cyan-500/20 dark:via-blue-500/20 dark:to-purple-500/20 backdrop-blur-xl border-2 border-cyan-500/30 dark:border-cyan-500/50 rounded-2xl shadow-2xl animate-slideInFromBottom" data-testid="tabs-ff-tools">
-              <TabsTrigger value="name" className="text-xs sm:text-sm font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/30 data-[state=active]:to-blue-500/30 data-[state=active]:shadow-[0_0_25px_rgba(6,182,212,0.5)] rounded-xl py-3" data-testid="tab-ffname">
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 mb-8 p-2 bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10 dark:from-cyan-500/20 dark:via-blue-500/20 dark:to-purple-500/20 backdrop-blur-xl border-2 border-cyan-500/30 dark:border-cyan-500/50 rounded-2xl shadow-2xl animate-slideInFromBottom" data-testid="tabs-ff-tools">
+              <TabsTrigger value="ffname" className="text-xs sm:text-sm font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/30 data-[state=active]:to-blue-500/30 data-[state=active]:shadow-[0_0_25px_rgba(6,182,212,0.5)] rounded-xl py-3" data-testid="tab-ffname">
                 <Wand2 className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                 <span className="hidden sm:inline">FF Name</span>
                 <span className="sm:hidden">Name</span>
@@ -2118,11 +2112,6 @@ export default function Tools() {
                 <Target className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                 <span className="hidden sm:inline">Drop</span>
                 <span className="sm:hidden">Drop</span>
-              </TabsTrigger>
-              <TabsTrigger value="downloads" className="text-xs sm:text-sm font-semibold transition-all duration-500 hover:scale-110 data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500/30 data-[state=active]:to-pink-500/30 data-[state=active]:shadow-[0_0_25px_rgba(239,68,68,0.5)] rounded-xl py-3" data-testid="tab-downloads">
-                <Video className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                <span className="hidden sm:inline">Downloads</span>
-                <span className="sm:hidden">DL</span>
               </TabsTrigger>
             </TabsList>
 
@@ -2252,26 +2241,8 @@ export default function Tools() {
               </Card>
             </TabsContent>
 
-            <TabsContent value="downloads" className="mt-0">
-              <Card className="dark:bg-gray-900/50 dark:border-gray-800 backdrop-blur-xl border-2 rounded-3xl overflow-hidden animate-swingIn">
-                <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 via-pink-500/5 to-red-500/5 opacity-50"></div>
-                <CardHeader className="relative z-10">
-                  <CardTitle className="flex items-center gap-3 dark:text-white text-2xl sm:text-3xl animate-textBounceIn">
-                    <div className="p-3 bg-gradient-to-br from-red-500 to-pink-600 rounded-2xl shadow-xl hover:scale-110 transition-transform">
-                      <Video className="h-7 w-7 text-white animate-pulse" />
-                    </div>
-                    Video Downloader - All Platforms
-                  </CardTitle>
-                  <CardDescription className="dark:text-gray-400 text-base sm:text-lg animate-fadeInLeft">
-                    Download videos from YouTube, Instagram, TikTok, Facebook & more! 📥🎬
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="relative z-10">
-                  <VideoDownloader />
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
+            </Tabs>
+        </div>
 
           <div className="mt-12 animate-fadeUp">
             <AdSenseAd />
@@ -2311,8 +2282,9 @@ export default function Tools() {
           Back to Categories
         </Button>
 
-        <Tabs defaultValue="image" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 p-2 dark:bg-gray-800/50 backdrop-blur-xl mb-8 sm:mb-12 animate-fadeUp shadow-2xl hover:shadow-[0_0_50px_rgba(168,85,247,0.4)] transition-all duration-500 rounded-2xl border-2 border-gray-200 dark:border-gray-700" data-testid="tabs-utility">
+        <div className={categoryContainerClass}>
+          <Tabs defaultValue="image" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 p-2 dark:bg-gray-800/50 backdrop-blur-xl mb-8 sm:mb-12 animate-fadeUp shadow-2xl hover:shadow-[0_0_50px_rgba(168,85,247,0.4)] transition-all duration-500 rounded-2xl border-2 border-gray-200 dark:border-gray-700" data-testid="tabs-utility">
             <TabsTrigger value="image" data-testid="tab-image" className="text-xs sm:text-sm md:text-base font-semibold transition-all duration-500 hover:scale-105 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/30 data-[state=active]:to-blue-500/30 data-[state=active]:shadow-[0_0_25px_rgba(6,182,212,0.5)] rounded-xl py-2 sm:py-3 md:py-4 px-2 sm:px-4">
               <ImageDown className="mr-0 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
               <span className="hidden sm:inline">Image</span>
@@ -2469,7 +2441,8 @@ export default function Tools() {
               </CardContent>
             </Card>
           </TabsContent>
-        </Tabs>
+          </Tabs>
+        </div>
 
         <div className="mt-12 animate-fadeUp">
           <AdSenseAd />
@@ -2482,4 +2455,59 @@ export default function Tools() {
       </div>
     </div>
   );
+  
+  // Downloads Category - NEW SECTION
+  if (selectedCategory === 'downloads') {
+    return (
+      <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-500">
+        {/* Animated Background */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-red-500/10 rounded-full blur-3xl animate-floatSlow"></div>
+          <div className="absolute bottom-20 right-20 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl animate-floatSlow" style={{ animationDelay: '1s' }}></div>
+        </div>
+
+        <HeroSection
+          title="📥 Video Downloads"
+          subtitle="Download videos from all major platforms!"
+        />
+
+        <div className="container mx-auto px-4 py-8 sm:py-12 relative z-10 max-w-6xl">
+          <Button 
+            onClick={() => setSelectedCategory(null)} 
+            variant="outline" 
+            className="mb-6 group transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(239,68,68,0.3)] dark:border-red-500/50 dark:hover:bg-red-500/10 animate-slideInFromLeft"
+            data-testid="button-back-category"
+          >
+            <Download className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform" />
+            Back to Categories
+          </Button>
+
+          <div className={categoryContainerClass}>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                { platform: 'youtube', name: 'YouTube', icon: '🎬', color: 'from-red-500 to-red-600' },
+                { platform: 'instagram', name: 'Instagram', icon: '📸', color: 'from-pink-500 to-purple-600' },
+                { platform: 'tiktok', name: 'TikTok', icon: '🎵', color: 'from-black to-cyan-500' },
+                { platform: 'facebook', name: 'Facebook', icon: '👥', color: 'from-blue-500 to-blue-700' },
+                { platform: 'twitter', name: 'Twitter/X', icon: '🐦', color: 'from-sky-400 to-blue-600' },
+                { platform: 'pinterest', name: 'Pinterest', icon: '📌', color: 'from-red-600 to-red-800' },
+                { platform: 'reddit', name: 'Reddit', icon: '🤖', color: 'from-orange-500 to-red-600' },
+                { platform: 'snapchat', name: 'Snapchat', icon: '👻', color: 'from-yellow-400 to-yellow-600' },
+              ].map((item, idx) => (
+                <PlatformDownloadCard key={item.platform} {...item} delay={idx * 0.1} />
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-12 animate-fadeUp">
+            <AdSenseAd />
+          </div>
+
+          <div className="mt-12 animate-fadeUp" style={{ animationDelay: '0.6s' }}>
+            <PageFeedback pageName="Video Downloads" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
