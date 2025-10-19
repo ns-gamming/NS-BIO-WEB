@@ -15,7 +15,7 @@ import { useToast } from '@/hooks/use-toast';
 import { 
   Copy, Sparkles, Shield, Gamepad2, Wand2, QrCode, Download, Upload,
   ImageDown, Volume2, ClipboardCopy, Mic, MicOff, Wrench, Zap, Star, Smartphone,
-  Crosshair, Target, Type, UserPlus, Video
+  Crosshair, Target, Type, UserPlus, Video, Check
 } from 'lucide-react';
 import QRCode from 'qrcode';
 
@@ -1683,11 +1683,55 @@ const ClipboardManager = () => {
   );
 };
 
-// Platform Download Card Component
+// Platform Download Card Component - Enhanced Version
 const PlatformDownloadCard = ({ platform, name, icon, color, delay }: { platform: string; name: string; icon: string; color: string; delay: number }) => {
   const [url, setUrl] = useState('');
   const [downloading, setDownloading] = useState(false);
+  const [videoData, setVideoData] = useState<any>(null);
+  const [showPreview, setShowPreview] = useState(false);
   const { toast } = useToast();
+
+  const extractVideoId = (url: string) => {
+    if (platform === 'youtube') {
+      const patterns = [
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/,
+        /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/,
+      ];
+      for (const pattern of patterns) {
+        const match = url.match(pattern);
+        if (match) return match[1];
+      }
+    }
+    return null;
+  };
+
+  const getVideoTitle = (url: string) => {
+    const videoId = extractVideoId(url);
+    if (videoId && platform === 'youtube') {
+      return `YouTube Video - ${videoId}`;
+    }
+    return `${name} Video`;
+  };
+
+  const copyTitle = () => {
+    const title = getVideoTitle(url);
+    navigator.clipboard.writeText(title);
+    toast({ title: "Copied!", description: "Video title copied to clipboard" });
+  };
+
+  const copyUrl = () => {
+    navigator.clipboard.writeText(url);
+    toast({ title: "Copied!", description: "URL copied to clipboard" });
+  };
+
+  const handlePreview = () => {
+    const videoId = extractVideoId(url);
+    if (videoId && platform === 'youtube') {
+      setShowPreview(!showPreview);
+    } else {
+      toast({ title: "Preview unavailable", description: `Preview is currently only available for YouTube videos` });
+    }
+  };
 
   const handleDownload = async () => {
     if (!url.trim()) {
@@ -1716,14 +1760,12 @@ const PlatformDownloadCard = ({ platform, name, icon, color, delay }: { platform
         throw new Error(data.error);
       }
 
+      setVideoData(data);
+
       toast({
-        title: "Download Ready!",
-        description: "Check the link provided by the server or your downloads folder.",
-        action: data.downloadUrl ? (
-          <Button variant="outline" size="sm" onClick={() => window.open(data.downloadUrl, '_blank')}>
-            Download Now
-          </Button>
-        ) : null,
+        title: "Download Ready! 🎉",
+        description: "Click the download button below to save your video",
+        duration: 5000,
       });
 
     } catch (error: any) {
@@ -1733,52 +1775,158 @@ const PlatformDownloadCard = ({ platform, name, icon, color, delay }: { platform
     }
   };
 
+  const videoId = extractVideoId(url);
+
   return (
-    <Card className="dark:bg-gray-900/95 dark:border-gray-800 hover:shadow-lg transition-all duration-300 relative overflow-hidden border-2 rounded-xl animate-bounceIn" style={{ animationDelay: `${delay}s` }}>
+    <Card className="dark:bg-gray-900/95 dark:border-gray-800 hover:shadow-2xl transition-all duration-500 relative overflow-hidden border-2 rounded-2xl animate-bounceIn group" style={{ animationDelay: `${delay}s` }}>
+      {/* Animated gradient border */}
+      <div className="absolute -inset-1 bg-gradient-to-r from-red-500/20 via-pink-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 rounded-2xl" />
+      
+      {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 via-transparent to-pink-500/5" />
       
       <CardHeader className="relative z-10 pb-3">
-        <CardTitle className="flex items-center gap-2 dark:text-white text-lg">
-          <div className={`p-2 bg-gradient-to-br ${color} rounded-lg shadow-md text-xl`}>
+        <CardTitle className="flex items-center gap-3 dark:text-white text-lg">
+          <div className={`p-3 bg-gradient-to-br ${color} rounded-xl shadow-lg text-2xl transform group-hover:scale-110 transition-transform duration-300`}>
             {icon}
           </div>
-          <span className="truncate">{name}</span>
+          <div className="flex-1">
+            <span className="font-bold">{name}</span>
+            <p className="text-xs text-muted-foreground mt-0.5">Download videos in HD quality</p>
+          </div>
         </CardTitle>
       </CardHeader>
       
       <CardContent className="relative z-10 space-y-3 pt-0">
         <div className="space-y-2">
-          <Label className="text-xs font-semibold dark:text-white">Video URL</Label>
-          <Input 
-            placeholder={`Paste ${name} URL...`}
-            value={url} 
-            onChange={(e) => setUrl(e.target.value)} 
-            className="dark:bg-gray-800 dark:text-white text-sm h-9"
-            data-testid={`input-${platform}-url`}
-          />
+          <Label className="text-xs font-semibold dark:text-white flex items-center gap-2">
+            <Video className="w-3 h-3" />
+            Video URL
+          </Label>
+          <div className="relative">
+            <Input 
+              placeholder={`Paste ${name} URL here...`}
+              value={url} 
+              onChange={(e) => setUrl(e.target.value)} 
+              className="dark:bg-gray-800 dark:text-white text-sm h-10 pr-20 border-2 focus:border-primary transition-all"
+              data-testid={`input-${platform}-url`}
+            />
+            {url && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={copyUrl}
+                className="absolute right-1 top-1 h-8 px-2 hover:bg-primary/10"
+              >
+                <Copy className="h-3 w-3" />
+              </Button>
+            )}
+          </div>
         </div>
 
-        <Button 
-          onClick={handleDownload} 
-          disabled={downloading}
-          className={`w-full bg-gradient-to-r ${color} text-sm h-9 transition-all duration-300 disabled:opacity-50`}
-          data-testid={`button-download-${platform}`}
-        >
-          {downloading ? (
-            <>
-              <svg className="mr-2 h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 8l2-2.709z"></path>
-              </svg>
-              Downloading...
-            </>
-          ) : (
-            <>
+        {/* Action buttons */}
+        <div className="grid grid-cols-2 gap-2">
+          <Button 
+            onClick={handleDownload} 
+            disabled={downloading || !url.trim()}
+            className={`bg-gradient-to-r ${color} text-sm h-10 transition-all duration-300 disabled:opacity-50 hover:scale-105 shadow-lg`}
+            data-testid={`button-download-${platform}`}
+          >
+            {downloading ? (
+              <>
+                <svg className="mr-2 h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 8l2-2.709z"></path>
+                </svg>
+                Processing...
+              </>
+            ) : (
+              <>
+                <Download className="mr-2 h-4 w-4" />
+                Download
+              </>
+            )}
+          </Button>
+
+          <Button
+            variant="outline"
+            onClick={handlePreview}
+            disabled={!url.trim() || platform !== 'youtube'}
+            className="text-sm h-10 border-2 hover:border-primary transition-all duration-300 hover:scale-105"
+          >
+            <Video className="mr-2 h-4 w-4" />
+            Preview
+          </Button>
+        </div>
+
+        {/* Utility buttons */}
+        {url && (
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={copyTitle}
+              className="flex-1 text-xs border-2 hover:border-primary/50"
+            >
+              <ClipboardCopy className="mr-1 h-3 w-3" />
+              Copy Title
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setUrl('');
+                setVideoData(null);
+                setShowPreview(false);
+              }}
+              className="text-xs border-2 hover:border-red-500/50 hover:text-red-500"
+            >
+              Clear
+            </Button>
+          </div>
+        )}
+
+        {/* Video Preview */}
+        {showPreview && videoId && platform === 'youtube' && (
+          <div className="mt-4 rounded-lg overflow-hidden border-2 border-primary/30 animate-fadeUp">
+            <div className="aspect-video">
+              <iframe
+                width="100%"
+                height="100%"
+                src={`https://www.youtube.com/embed/${videoId}`}
+                title="Video Preview"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Download ready section */}
+        {videoData && videoData.downloadUrl && (
+          <div className="mt-4 p-4 rounded-lg bg-gradient-to-r from-green-500/10 to-emerald-500/10 border-2 border-green-500/30 animate-bounceIn">
+            <p className="text-sm font-semibold text-green-600 dark:text-green-400 mb-2 flex items-center gap-2">
+              <Check className="w-4 h-4" />
+              Ready to Download!
+            </p>
+            <Button
+              onClick={() => window.open(videoData.downloadUrl, '_blank')}
+              className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600"
+            >
               <Download className="mr-2 h-4 w-4" />
-              Download
-            </>
-          )}
-        </Button>
+              Open Download Page
+            </Button>
+          </div>
+        )}
+
+        {/* Platform info */}
+        <div className="mt-3 p-2 rounded bg-primary/5 border border-primary/10">
+          <p className="text-xs text-muted-foreground text-center">
+            {videoData?.instructions || `Paste a ${name} video URL above to get started`}
+          </p>
+        </div>
       </CardContent>
     </Card>
   );
@@ -2278,6 +2426,28 @@ export default function Tools() {
           </Button>
 
           <div className={categoryContainerClass}>
+            {/* Featured YouTube Downloader */}
+            <div className="mb-8 animate-fadeUp">
+              <Link href="/tools/youtube-downloader">
+                <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-2xl transition-all duration-500 cursor-pointer group border-2 hover:border-red-500/50">
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-4">
+                      <div className="p-4 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl shadow-lg text-4xl group-hover:scale-110 transition-transform">
+                        🎥
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-2xl font-bold mb-1">YouTube Downloader - Full Version</h3>
+                        <p className="text-muted-foreground">Enhanced experience with video preview, title copy, and more features</p>
+                      </div>
+                      <Button className="bg-gradient-to-r from-red-500 to-red-600 hover:scale-110 transition-transform">
+                        Open Full Page →
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-20">
               <PlatformDownloadCard 
                 platform="youtube" 

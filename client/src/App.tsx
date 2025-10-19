@@ -47,6 +47,7 @@ import FFInfoBot from "./pages/FFInfoBot";
 import FFSpamBot from "./pages/FFSpamBot";
 import FFVisitBot from "./pages/FFVisitBot";
 import Tools from "./pages/Tools";
+import YouTubeDownloader from "./pages/downloads/YouTubeDownloader";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import TermsConditions from "./pages/TermsConditions";
@@ -89,6 +90,7 @@ function Router() {
       <Route path="/games/breakout" component={Breakout} />
       <Route path="/games/connect4" component={ConnectFour} />
       <Route path="/tools" component={Tools} />
+      <Route path="/tools/youtube-downloader" component={YouTubeDownloader} />
       <Route path="/blog" component={Blog} />
       <Route path="/blog/:slug" component={BlogPost} />
       <Route path="/terms-conditions" component={TermsConditions} />
