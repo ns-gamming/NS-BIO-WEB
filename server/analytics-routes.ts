@@ -8,10 +8,15 @@ function getClientIP(req: Request): string {
 }
 
 export function registerAnalyticsRoutes(app: Express) {
-  
+
   // Check if session exists
   app.get("/api/analytics/session/:sessionId/check", async (req, res) => {
     try {
+      // If Supabase is not available, return success without tracking
+      if (!supabase) {
+        return res.json({ exists: false, message: 'Analytics unavailable' });
+      }
+
       const { sessionId } = req.params;
 
       const { data, error } = await supabase
@@ -31,6 +36,11 @@ export function registerAnalyticsRoutes(app: Express) {
 
   app.post("/api/analytics/session", async (req, res) => {
     try {
+      // If Supabase is not available, return success without tracking
+      if (!supabase) {
+        return res.json({ success: true, session: null, message: 'Analytics unavailable' });
+      }
+
       const { sessionId, deviceInfo } = req.body;
       const ipAddress = getClientIP(req);
       const userAgent = req.headers['user-agent'] || 'unknown';
@@ -83,6 +93,10 @@ export function registerAnalyticsRoutes(app: Express) {
 
   app.post("/api/analytics/pageview", async (req, res) => {
     try {
+      // If Supabase is not available, return success without tracking
+      if (!supabase) {
+        return res.json({ success: true, pageView: null, message: 'Analytics unavailable' });
+      }
       const { sessionId, pageUrl, pageTitle, referrer } = req.body;
       const ipAddress = getClientIP(req);
       const userAgent = req.headers['user-agent'] || 'unknown';
@@ -113,6 +127,10 @@ export function registerAnalyticsRoutes(app: Express) {
 
   app.post("/api/analytics/event", async (req, res) => {
     try {
+       // If Supabase is not available, return success without tracking
+      if (!supabase) {
+        return res.json({ success: true, event: null, message: 'Analytics unavailable' });
+      }
       const { sessionId, eventType, elementId, elementText, elementTag, pageUrl, metadata } = req.body;
       const ipAddress = getClientIP(req);
       const userAgent = req.headers['user-agent'] || 'unknown';
@@ -145,6 +163,10 @@ export function registerAnalyticsRoutes(app: Express) {
 
   app.patch("/api/analytics/session/:sessionId/end", async (req, res) => {
     try {
+       // If Supabase is not available, return success without tracking
+      if (!supabase) {
+        return res.json({ success: true, session: null, message: 'Analytics unavailable' });
+      }
       const { sessionId } = req.params;
 
       const { data, error } = await supabase
@@ -168,6 +190,10 @@ export function registerAnalyticsRoutes(app: Express) {
 
   app.patch("/api/analytics/pageview/:pageViewId/time", async (req, res) => {
     try {
+      // If Supabase is not available, return success without tracking
+      if (!supabase) {
+        return res.json({ success: true, pageView: null, message: 'Analytics unavailable' });
+      }
       const { pageViewId } = req.params;
       const { timeSpent } = req.body;
 
