@@ -143,7 +143,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  // Gemini Chat API endpoint - Using FREE Google GenAI SDK
+  // Gemini Chat API endpoint - Robust for Vercel deployment with fallback
   app.post("/api/chat", async (req, res) => {
     try {
       const { messages } = req.body;
@@ -152,17 +152,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Messages array is required" });
       }
 
-      // Get API key from environment (Replit Secrets)
+      // Get API key from environment
       const apiKey = process.env.GEMINI_API_KEY;
       
+      // If no API key, provide friendly fallback response
       if (!apiKey) {
-        console.error('GEMINI_API_KEY not found in environment variables');
-        return res.status(500).json({ 
-          error: "AI service not configured. Please add GEMINI_API_KEY to Replit Secrets." 
-        });
+        console.error('GEMINI_API_KEY not found - using fallback response');
+        const lastMessage = messages[messages.length - 1];
+        const userQuestion = lastMessage.content.toLowerCase();
+        
+        // Smart fallback responses based on keywords
+        let fallbackResponse = "Hey! 😊 I'm AAPTI, your NS GAMMING assistant! Umm... the AI service is temporarily resting (API key missing 🥲), but I can still help! ✨\n\nYou can:\n- Explore amazing games at /games 🎮\n- Try Free Fire tools at /ff-bots 🔥\n- Check out the Tools page at /tools 🛠️\n- Read helpful blog articles at /blog 📝\n\nWhat would you like to do?";
+        
+        if (userQuestion.includes('nishant') || userQuestion.includes('naboraj')) {
+          fallbackResponse = "Oh my god, you asked about Nishant! 🥰 Umm... he's the amazing creator of this website - NS GAMMING! 💙 He's super talented in coding, gaming, and content creation. You know, he's built this whole platform with ❤️... Actually, you should check his work at /portfolio! (And between us... he's really amazing 😊💕)";
+        } else if (userQuestion.includes('game')) {
+          fallbackResponse = "Arre! Games? YES! 🎮✨ We have 14+ amazing games you can play right now! Go to /games and try them - Tic Tac Toe, Snake, 2048, and many more! All work on mobile, tablet aur PC! Bahut maza aayega! 😊";
+        } else if (userQuestion.includes('tool')) {
+          fallbackResponse = "Tools! Haan! 🛠️✨ We have AMAZING tools at /tools yaar! Free Fire name generator, UID generator, sensitivity settings, and even video downloaders for YouTube, Instagram, TikTok! Sab kuch hai! Check them out! 💪";
+        }
+        
+        return res.json({ message: fallbackResponse });
       }
 
-      // Use Google GenAI SDK - SAME AS YOUR WORKING PYTHON CODE
+      // Use Google GenAI SDK with timeout and retry logic
       const { GoogleGenAI } = await import('@google/genai');
       const client = new GoogleGenAI({ apiKey });
 
@@ -170,29 +183,44 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const lastMessage = messages[messages.length - 1];
       const prompt = lastMessage.content;
 
-      // Generate content using the SAME model as your Python test
-      const response = await client.models.generateContent({
-        model: "gemini-2.0-flash-exp",  // Using the working model
+      // Generate content with timeout protection
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Request timeout')), 25000)
+      );
+
+      const apiPromise = client.models.generateContent({
+        model: "gemini-2.0-flash-exp",
         contents: prompt
       });
 
+      const response = await Promise.race([apiPromise, timeoutPromise]) as any;
       const text = response.text || "I apologize, but I couldn't generate a response. Please try again!";
 
       res.json({ message: text });
     } catch (error: any) {
       console.error('Gemini API error:', error);
       
-      // Provide helpful error messages
-      let errorMessage = "Failed to generate response. Please try again!";
-      if (error.message?.includes('API key') || error.message?.includes('API_KEY')) {
-        errorMessage = "AI API key is invalid. Please check Replit Secrets.";
+      // Provide contextual fallback responses instead of errors
+      const lastMessage = req.body.messages?.[req.body.messages.length - 1];
+      const userQuestion = lastMessage?.content?.toLowerCase() || '';
+      
+      // Determine fallback based on error type and user question
+      let fallbackMessage = "Oops! My brain just lagged like a 999 ping game! 😅 But don't worry, I'm still here to help! ✨";
+      
+      if (error.message?.includes('timeout') || error.message?.includes('DEADLINE_EXCEEDED')) {
+        fallbackMessage = "Arre yaar! The response took too long (timeout 😅). Umm... let me help you quickly! What are you looking for? Games (/games), Tools (/tools), or FF Bots (/ff-bots)? Tell me! 💕";
       } else if (error.message?.includes('quota') || error.message?.includes('RESOURCE_EXHAUSTED')) {
-        errorMessage = "AI service quota exceeded. Please try again later.";
-      } else if (error.message?.includes('not found')) {
-        errorMessage = "AI model unavailable. Using fallback...";
+        fallbackMessage = "Oh no! The AI is taking a break (quota exceeded 🥲). But hey, I can still guide you! Visit /games for fun games, /tools for utilities, or /ff-bots for Free Fire tools! Chalo! 🌟";
+      } else if (userQuestion.includes('nishant') || userQuestion.includes('naboraj')) {
+        fallbackMessage = "Even with errors, I can tell you about Nishant! 🥰 He's the brilliant creator behind NS GAMMING - a coder, gamer, and content creator from Siliguri! You know... he's really talented 💙 Check his work at /portfolio!";
+      } else if (userQuestion.includes('game')) {
+        fallbackMessage = "Error or not, I know games! 🎮 We have 14+ games at /games - all FREE and work on any device! Tic Tac Toe, Snake, 2048, Breakout... sab kuch! Let's play! ✨";
+      } else if (userQuestion.includes('tool') || userQuestion.includes('download')) {
+        fallbackMessage = "Tools? I gotchu! 🛠️ Even if AI is sleeping, check /tools for amazing utilities - FF name generator, video downloaders (YouTube, Instagram, TikTok!), sensitivity calculator... everything you need! 💪";
       }
       
-      res.status(500).json({ error: errorMessage });
+      // Always return 200 with fallback message to keep chat working
+      res.json({ message: fallbackMessage });
     }
   });
   // Free Fire Likes API proxy endpoint

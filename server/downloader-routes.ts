@@ -2,6 +2,124 @@ import type { Express } from "express";
 
 export function registerDownloaderRoutes(app: Express) {
   
+  // Unified download endpoint that routes to specific platform handlers
+  app.post("/api/download", async (req, res) => {
+    try {
+      const { platform, url } = req.body;
+
+      if (!platform || !url) {
+        return res.status(400).json({
+          success: false,
+          error: "Platform and URL are required"
+        });
+      }
+
+      // Validate URL for the specific platform
+      const platformValidation: Record<string, RegExp[]> = {
+        youtube: [/youtube\.com/, /youtu\.be/],
+        instagram: [/instagram\.com/],
+        tiktok: [/tiktok\.com/],
+        facebook: [/facebook\.com/, /fb\.watch/],
+        twitter: [/twitter\.com/, /x\.com/],
+        pinterest: [/pinterest\.com/],
+        snapchat: [/snapchat\.com/],
+        reddit: [/reddit\.com/]
+      };
+
+      const validPatterns = platformValidation[platform];
+      if (!validPatterns || !validPatterns.some(pattern => pattern.test(url))) {
+        return res.status(400).json({
+          success: false,
+          error: `Invalid ${platform} URL`
+        });
+      }
+
+      // Platform-specific download URLs and services
+      const downloadServices: Record<string, (url: string) => any> = {
+        youtube: (url: string) => {
+          const videoId = extractYouTubeID(url);
+          if (!videoId) {
+            throw new Error("Could not extract video ID");
+          }
+          return {
+            success: true,
+            platform: 'youtube',
+            videoId,
+            downloadUrl: `https://www.y2mate.com/youtube/${videoId}`,
+            message: 'Redirecting to download service...',
+            instructions: 'Click "Download Now" to get your video in various qualities!'
+          };
+        },
+        instagram: (url: string) => ({
+          success: true,
+          platform: 'instagram',
+          downloadUrl: `https://instadownloader.co/download?url=${encodeURIComponent(url)}`,
+          message: 'Redirecting to download service...',
+          instructions: 'The download service will let you save videos, reels, and stories!'
+        }),
+        tiktok: (url: string) => ({
+          success: true,
+          platform: 'tiktok',
+          downloadUrl: `https://snaptik.app/download?url=${encodeURIComponent(url)}`,
+          message: 'Redirecting to download service...',
+          instructions: 'Download TikTok videos without watermark!'
+        }),
+        facebook: (url: string) => ({
+          success: true,
+          platform: 'facebook',
+          downloadUrl: `https://fdown.net/download?url=${encodeURIComponent(url)}`,
+          message: 'Redirecting to download service...',
+          instructions: 'Download Facebook videos in HD quality!'
+        }),
+        twitter: (url: string) => ({
+          success: true,
+          platform: 'twitter',
+          downloadUrl: `https://twittervideodownloader.com/download?url=${encodeURIComponent(url)}`,
+          message: 'Redirecting to download service...',
+          instructions: 'Save Twitter/X videos and GIFs easily!'
+        }),
+        pinterest: (url: string) => ({
+          success: true,
+          platform: 'pinterest',
+          downloadUrl: `https://pinterestdownloader.com/download?url=${encodeURIComponent(url)}`,
+          message: 'Redirecting to download service...',
+          instructions: 'Download Pinterest videos and images!'
+        }),
+        snapchat: (url: string) => ({
+          success: true,
+          platform: 'snapchat',
+          downloadUrl: `https://snapdownloader.com/download?url=${encodeURIComponent(url)}`,
+          message: 'Redirecting to download service...',
+          instructions: 'Save Snapchat stories and videos!'
+        }),
+        reddit: (url: string) => ({
+          success: true,
+          platform: 'reddit',
+          downloadUrl: `https://redditdownloader.app/download?url=${encodeURIComponent(url)}`,
+          message: 'Redirecting to download service...',
+          instructions: 'Download Reddit videos with audio!'
+        })
+      };
+
+      const handler = downloadServices[platform];
+      if (!handler) {
+        return res.status(400).json({
+          success: false,
+          error: `Unsupported platform: ${platform}`
+        });
+      }
+
+      const result = handler(url);
+      res.json(result);
+    } catch (error: any) {
+      console.error('Download error:', error);
+      res.status(500).json({
+        success: false,
+        error: error.message || 'Failed to process download request'
+      });
+    }
+  });
+  
   // YouTube Downloader - Using free service
   app.post("/api/download/youtube", async (req, res) => {
     try {
