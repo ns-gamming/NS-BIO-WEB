@@ -2358,9 +2358,8 @@ export default function Tools() {
     );
   }
 
-  // Utilities Category
-  if (selectedCategory === 'utilities') {
-    return (
+  // Utilities Category - Return statement at the end
+  return (
     <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-500">
       {/* Animated Background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
