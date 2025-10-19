@@ -24,7 +24,7 @@ const DEFAULT_SEO = {
   author: 'Nishant Sarkar (Naboraj Sarkar)',
 };
 
-export default function SEO({
+export function SEO({
   title,
   description,
   keywords,
@@ -228,9 +228,6 @@ export default function SEO({
 
   return null;
 }
-
-// Export both default and named
-export { SEO };
 
 // Pre-defined SEO configurations for common pages
 export const SEO_CONFIG = {

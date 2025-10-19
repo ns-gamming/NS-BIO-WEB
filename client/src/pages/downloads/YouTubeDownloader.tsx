@@ -10,7 +10,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Download, Copy, Video, Check, ArrowLeft, ClipboardCopy } from 'lucide-react';
-import SEO from '@/components/SEO';
 
 export default function YouTubeDownloader() {
   const [url, setUrl] = useState('');
@@ -88,11 +87,6 @@ export default function YouTubeDownloader() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-500">
-      <SEO 
-        title="YouTube Video Downloader - Download YouTube Videos in HD Quality Free"
-        description="Download YouTube videos in high quality for free. Fast, easy, and no registration required. Support for 1080p, 720p, and 4K downloads with video preview."
-        keywords="youtube downloader, download youtube videos, youtube to mp4, youtube video download, free youtube downloader, hd youtube downloader"
-      />
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-20 left-10 w-72 h-72 bg-red-500/10 rounded-full blur-3xl animate-floatSlow"></div>
         <div className="absolute bottom-20 right-20 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl animate-floatSlow" style={{ animationDelay: '1s' }}></div>
@@ -105,12 +99,10 @@ export default function YouTubeDownloader() {
 
       <div className="container mx-auto px-4 py-8 sm:py-12 relative z-10 max-w-4xl">
         <Link href="/tools">
-          <a>
-            <Button variant="outline" className="mb-6 group transition-all duration-300 hover:scale-105">
-              <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-              Back to Tools
-            </Button>
-          </a>
+          <Button variant="outline" className="mb-6 group transition-all duration-300 hover:scale-105">
+            <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+            Back to Tools
+          </Button>
         </Link>
 
         <Card className="dark:bg-gray-900 dark:border-gray-800 border-2 rounded-2xl shadow-2xl overflow-hidden">
@@ -243,60 +235,6 @@ export default function YouTubeDownloader() {
                 <li>Choose your preferred quality and format</li>
                 <li>Enjoy your downloaded video!</li>
               </ol>
-            </div>
-
-            <div className="p-4 rounded-lg bg-blue-500/5 border border-blue-500/10">
-              <h3 className="font-semibold mb-3 text-blue-900 dark:text-blue-100">✨ Features & Benefits:</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-muted-foreground">
-                <div className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-green-600 dark:text-green-400 mt-0.5 shrink-0" />
-                  <span>Download in multiple qualities (4K, 1080p, 720p, 480p)</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-green-600 dark:text-green-400 mt-0.5 shrink-0" />
-                  <span>No registration or login required</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-green-600 dark:text-green-400 mt-0.5 shrink-0" />
-                  <span>100% free to use forever</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-green-600 dark:text-green-400 mt-0.5 shrink-0" />
-                  <span>Fast download speeds</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-green-600 dark:text-green-400 mt-0.5 shrink-0" />
-                  <span>Works on all devices (mobile, tablet, PC)</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-green-600 dark:text-green-400 mt-0.5 shrink-0" />
-                  <span>Video preview before download</span>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="dark:bg-gray-900 dark:border-gray-800 border-2 rounded-2xl shadow-xl overflow-hidden mb-8">
-          <CardHeader>
-            <CardTitle className="text-xl">Frequently Asked Questions</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <h4 className="font-semibold mb-1">Is it legal to download YouTube videos?</h4>
-              <p className="text-sm text-muted-foreground">Downloading YouTube videos for personal use is generally acceptable, but sharing or redistributing copyrighted content without permission is illegal. Always respect copyright laws.</p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-1">What video formats are supported?</h4>
-              <p className="text-sm text-muted-foreground">You can download videos in MP4, WebM, and other formats. Audio-only downloads in MP3 format are also available.</p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-1">Do I need to install any software?</h4>
-              <p className="text-sm text-muted-foreground">No! Our YouTube downloader is completely web-based. Just paste the URL and download directly from your browser.</p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-1">Can I download playlists?</h4>
-              <p className="text-sm text-muted-foreground">Currently, you need to download videos one at a time. Copy individual video URLs from the playlist.</p>
             </div>
           </CardContent>
         </Card>

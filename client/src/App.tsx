@@ -48,8 +48,6 @@ import FFSpamBot from "./pages/FFSpamBot";
 import FFVisitBot from "./pages/FFVisitBot";
 import Tools from "./pages/Tools";
 import YouTubeDownloader from "./pages/downloads/YouTubeDownloader";
-import InstagramDownloader from "./pages/downloads/InstagramDownloader";
-import TikTokDownloader from "./pages/downloads/TikTokDownloader";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import TermsConditions from "./pages/TermsConditions";
@@ -93,8 +91,6 @@ function Router() {
       <Route path="/games/connect4" component={ConnectFour} />
       <Route path="/tools" component={Tools} />
       <Route path="/tools/youtube-downloader" component={YouTubeDownloader} />
-      <Route path="/tools/instagram-downloader" component={InstagramDownloader} />
-      <Route path="/tools/tiktok-downloader" component={TikTokDownloader} />
       <Route path="/blog" component={Blog} />
       <Route path="/blog/:slug" component={BlogPost} />
       <Route path="/terms-conditions" component={TermsConditions} />
@@ -127,7 +123,7 @@ WhatsApp: https://wa.me/918900653250
 Keep coding, keep creating! 🚀
     `);
 
-    // Simulate loading for initial page load (helps for slow networks)
+    // Simulate loading for initial page load (helps with slow networks)
     const minLoadTime = setTimeout(() => {
       setIsLoading(false);
     }, 1500);

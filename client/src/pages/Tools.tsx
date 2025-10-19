@@ -29,8 +29,8 @@ const FFNameGenerator = () => {
     bold: '𝐀𝐁𝐂𝐃𝐄𝐅𝐆𝐇𝐈𝐉𝐊𝐋𝐌𝐍𝐎𝐏𝐐𝐑𝐒𝐓𝐔𝐕𝐖𝐗𝐘𝐙𝐚𝐛𝐜𝐝𝐞𝐟𝐠𝐡𝐢𝐣𝐤𝐥𝐦𝐧𝐨𝐩𝐪𝐫𝐬𝐭𝐮𝐯𝐰𝐱𝐲𝐳0123456789',
     italic: '𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘑𝘒𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛 U𝘝𝘞𝘟𝘠𝘡𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻0123456789',
     fancy: '𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫𝟘𝟙𝟚𝟛𝟜𝟝𝟞𝟟𝟠𝟡',
-    cursive: '𝓐𝓑𝓒𝓓𝓔𝓕𝓖𝓗𝓘𝓙Knowledge𝓚𝓛𝓜𝓝𝓞𝓟𝓠𝓡𝓢𝓣 U𝓥𝓦𝓧𝓨𝓩𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓱𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹𝓺𝓻𝓼𝓽𝓾𝓿𝔀𝔁𝔂𝔃0123456789',
-    monospace: '𝙰𝙱𝙲𝙳𝙴𝙵𝙶𝙷𝙸𝙹𝙺𝙻𝙼𝙽𝙾𝙿𝚀𝚁𝚂𝚃𝚄𝚅𝚆𝚇𝚈𝚉𝚊𝚋𝚌𝚍𝚎𝚏𝚐𝚑𝚒𝚓𝚔𝚕𝚖𝚗𝚘𝚙𝚚𝚛𝚜𝚝𝚞𝚟𝚠𝚡𝚢𝚣𝟶𝟷𝟸𝟹𝟺５𝟼𝟽𝟾𝟿',
+    cursive: '𝓐𝓑𝓒𝓓𝓔𝓕𝓖𝓗𝓘𝓙𝓚𝓛𝓜𝓝𝓞𝓟𝓠𝓡𝓢𝓣 U𝓥𝓦𝓧𝓨𝓩𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓱𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹𝓺𝓻𝓼𝓽𝓾𝓿𝔀𝔁𝔂𝔃0123456789',
+    monospace: '𝙰𝙱𝙲𝙳𝙴𝙵𝙶𝙷𝙸𝙹𝙺𝙻𝙼𝙽𝙾𝙿𝚀𝚁𝚂𝚃𝚄𝚅𝚆𝚇𝚈𝚉𝚊𝚋𝚌𝚍𝚎𝚏𝚐𝚑𝚒𝚓𝚔𝚕𝚖𝚗𝚘𝚙𝚚𝚛𝚜𝚝𝚞𝚟𝚠𝚡𝚢𝚣𝟶𝟷𝟸𝟹𝟺𝟻𝟼𝟽𝟾𝟿',
     outline: '𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫0123456789',
   };
 
@@ -798,7 +798,7 @@ const TextFormatter = () => {
 
   const fancyChars = {
     bold: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
-    boldMap: '𝗔𝗕𝗖𝗗𝗘𝗙𝗚𝗛𝗜𝗝𝗞𝗟𝗠𝗡𝗢𝗣𝗗𝗥𝗦𝗧𝗨𝗩𝗪𝗫𝗬𝗭𝗮𝗯𝗰𝗱𝗲𝗳𝗴𝗵𝗶𝗷𝗸𝗹𝗺𝗻𝗼𝗽𝗾𝗿𝘀𝘁𝘂𝘃𝘄𝘅𝘆𝘇',
+    boldMap: '𝗔𝗕𝗖𝗗𝗘𝗙𝗚𝗛𝗜𝗝𝗞𝗟𝗠𝗡𝗢𝗣𝗤𝗥𝗦𝗧𝗨𝗩𝗪𝗫𝗬𝗭𝗮𝗯𝗰𝗱𝗲𝗳𝗴𝗵𝗶𝗷𝗸𝗹𝗺𝗻𝗼𝗽𝗾𝗿𝘀𝘁𝘂𝘃𝘄𝘅𝘆𝘇',
     italic: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
     italicMap: '𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘑𝘒𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛U𝘝𝘞𝘟𝘠𝘡𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻',
     cursive: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
@@ -1684,7 +1684,7 @@ const ClipboardManager = () => {
 };
 
 // Platform Download Card Component - Enhanced Version
-const PlatformDownloadCard = ({ platform, name, icon, color, delay, hasPage, detailPageUrl }: { platform: string; name: string; icon: string; color: string; delay: number; hasPage?: boolean; detailPageUrl?: string }) => {
+const PlatformDownloadCard = ({ platform, name, icon, color, delay }: { platform: string; name: string; icon: string; color: string; delay: number }) => {
   const [url, setUrl] = useState('');
   const [downloading, setDownloading] = useState(false);
   const [videoData, setVideoData] = useState<any>(null);
@@ -1781,10 +1781,10 @@ const PlatformDownloadCard = ({ platform, name, icon, color, delay, hasPage, det
     <Card className="dark:bg-gray-900/95 dark:border-gray-800 hover:shadow-2xl transition-all duration-500 relative overflow-hidden border-2 rounded-2xl animate-bounceIn group" style={{ animationDelay: `${delay}s` }}>
       {/* Animated gradient border */}
       <div className="absolute -inset-1 bg-gradient-to-r from-red-500/20 via-pink-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 rounded-2xl" />
-
+      
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 via-transparent to-pink-500/5" />
-
+      
       <CardHeader className="relative z-10 pb-3">
         <CardTitle className="flex items-center gap-3 dark:text-white text-lg">
           <div className={`p-3 bg-gradient-to-br ${color} rounded-xl shadow-lg text-2xl transform group-hover:scale-110 transition-transform duration-300`}>
@@ -1796,7 +1796,7 @@ const PlatformDownloadCard = ({ platform, name, icon, color, delay, hasPage, det
           </div>
         </CardTitle>
       </CardHeader>
-
+      
       <CardContent className="relative z-10 space-y-3 pt-0">
         <div className="space-y-2">
           <Label className="text-xs font-semibold dark:text-white flex items-center gap-2">
@@ -1860,27 +1860,31 @@ const PlatformDownloadCard = ({ platform, name, icon, color, delay, hasPage, det
         </div>
 
         {/* Utility buttons */}
-        <div className="flex gap-2">
-          {hasPage && (
-            <Link href={detailPageUrl || "#"}>
-              <span className="px-2 py-1 bg-blue-500/20 border border-blue-500/40 rounded text-xs font-semibold text-blue-600 dark:text-blue-400 cursor-pointer hover:scale-105 transition-all duration-300">
-                Full Page Available
-              </span>
-            </Link>
-          )}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              setUrl('');
-              setVideoData(null);
-              setShowPreview(false);
-            }}
-            className="text-xs border-2 hover:border-red-500/50 hover:text-red-500 flex-1"
-          >
-            Clear
-          </Button>
-        </div>
+        {url && (
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={copyTitle}
+              className="flex-1 text-xs border-2 hover:border-primary/50"
+            >
+              <ClipboardCopy className="mr-1 h-3 w-3" />
+              Copy Title
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setUrl('');
+                setVideoData(null);
+                setShowPreview(false);
+              }}
+              className="text-xs border-2 hover:border-red-500/50 hover:text-red-500"
+            >
+              Clear
+            </Button>
+          </div>
+        )}
 
         {/* Video Preview */}
         {showPreview && videoId && platform === 'youtube' && (
@@ -1932,7 +1936,7 @@ const PlatformDownloadCard = ({ platform, name, icon, color, delay, hasPage, det
 // Main Tools Page Component
 export default function Tools() {
   const [selectedCategory, setSelectedCategory] = useState<'ff-tools' | 'utilities' | 'downloads' | null>(null);
-
+  
   // Add proper padding and spacing to prevent any overlapping
   const categoryContainerClass = "pb-32 md:pb-40 relative z-10 mb-20";
 
@@ -2157,7 +2161,7 @@ export default function Tools() {
 
                 {/* Description */}
                 <p className="relative text-base sm:text-lg text-gray-700 dark:text-gray-300 mb-8 leading-relaxed font-medium">
-                  Download videos from your favorite platforms!
+                  Download videos from various platforms like YouTube, TikTok, Instagram and more!
                 </p>
 
                 {/* Feature Pills */}
@@ -2191,194 +2195,197 @@ export default function Tools() {
           </div>
 
           {/* Ad Placement */}
-          <div className="mt-12 animate-fadeUp" style={{ animationDelay: '0.6s' }}>
+          <div className="mt-16 animate-fadeUp" style={{ animationDelay: '0.6s' }}>
             <AdSenseAd />
           </div>
         </div>
-      );
-    }
+      </div>
+    );
+  }
 
-    // Utilities Category - Return statement at the end
+  // FF Tools Category
+  if (selectedCategory === 'ff-tools') {
     return (
       <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-500">
         {/* Animated Background */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-20 right-10 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl animate-floatSlow"></div>
-          <div className="absolute bottom-20 left-20 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl animate-floatSlow" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-20 left-10 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl animate-floatSlow"></div>
+          <div className="absolute bottom-20 right-20 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl animate-floatSlow" style={{ animationDelay: '1s' }}></div>
         </div>
 
         <HeroSection
-          title="🔧 Productivity Tools"
-          subtitle="Boost your productivity with these essential utilities!"
+          title="🎮 Free Fire Tools"
+          subtitle="Level up your gaming with advanced tools!"
         />
 
         <div className="container mx-auto px-4 py-8 sm:py-12 relative z-10 max-w-6xl">
           <Button 
             onClick={() => setSelectedCategory(null)} 
             variant="outline" 
-            className="mb-6 group transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(168,85,247,0.3)] dark:border-purple-500/50 dark:hover:bg-purple-500/10 animate-slideInFromLeft"
+            className="mb-6 group transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)] dark:border-cyan-500/50 dark:hover:bg-cyan-500/10 animate-slideInFromLeft"
             data-testid="button-back-category"
           >
-            <Sparkles className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform" />
+            <Wrench className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform" />
             Back to Categories
           </Button>
 
           <div className={categoryContainerClass}>
-            <Tabs defaultValue="image" className="w-full relative z-10 mb-20">
-              <TabsList className="flex flex-wrap justify-center gap-2 p-3 dark:bg-gray-800/50 backdrop-blur-xl mb-8 animate-fadeUp shadow-xl rounded-2xl border-2 border-gray-200 dark:border-gray-700 relative z-10" data-testid="tabs-utility">
-              <TabsTrigger value="image" data-testid="tab-image" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/40 data-[state=active]:to-blue-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-cyan-500/50">
-                <ImageDown className="h-4 w-4" />
-                <span className="whitespace-nowrap">Image</span>
+          <Tabs defaultValue="ffname" className="w-full relative z-10 mb-20">
+            <TabsList className="flex flex-wrap justify-center gap-2 mb-8 p-3 bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10 dark:from-cyan-500/20 dark:via-blue-500/20 dark:to-purple-500/20 backdrop-blur-xl border-2 border-cyan-500/30 dark:border-cyan-500/50 rounded-2xl shadow-xl animate-slideInFromBottom relative z-10" data-testid="tabs-ff-tools">
+              <TabsTrigger value="ffname" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/40 data-[state=active]:to-blue-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-cyan-500/50" data-testid="tab-ffname">
+                <Wand2 className="h-4 w-4" />
+                <span className="whitespace-nowrap">FF Name</span>
               </TabsTrigger>
-              <TabsTrigger value="tts" data-testid="tab-tts" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/40 data-[state=active]:to-pink-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-purple-500/50">
-                <Volume2 className="h-4 w-4" />
-                <span className="whitespace-nowrap">TTS</span>
+              <TabsTrigger value="uid" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/40 data-[state=active]:to-pink-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-purple-500/50" data-testid="tab-uid">
+                <Gamepad2 className="h-4 w-4" />
+                <span className="whitespace-nowrap">UID Gen</span>
               </TabsTrigger>
-              <TabsTrigger value="qr" data-testid="tab-qr" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/40 data-[state=active]:to-emerald-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-green-500/50">
-                <QrCode className="h-4 w-4" />
-                <span className="whitespace-nowrap">QR Code</span>
+              <TabsTrigger value="sensitivity" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/40 data-[state=active]:to-emerald-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-green-500/50" data-testid="tab-sensitivity">
+                <Zap className="h-4 w-4" />
+                <span className="whitespace-nowrap">Sensitivity</span>
               </TabsTrigger>
-              <TabsTrigger value="clipboard" data-testid="tab-clipboard" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500/40 data-[state=active]:to-red-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-orange-500/50">
-                <ClipboardCopy className="h-4 w-4" />
-                <span className="whitespace-nowrap">Clipboard</span>
+              <TabsTrigger value="password" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500/40 data-[state=active]:to-red-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-orange-500/50" data-testid="tab-password">
+                <Shield className="h-4 w-4" />
+                <span className="whitespace-nowrap">Password</span>
               </TabsTrigger>
-              <TabsTrigger value="text-formatter" data-testid="tab-text-formatter" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/40 data-[state=active]:to-pink-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-purple-500/50">
-                <Type className="h-4 w-4" />
-                <span className="whitespace-nowrap">Formatter</span>
+              <TabsTrigger value="weapons" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500/40 data-[state=active]:to-orange-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-red-500/50" data-testid="tab-weapons">
+                <Crosshair className="h-4 w-4" />
+                <span className="whitespace-nowrap">Weapons</span>
               </TabsTrigger>
-              <TabsTrigger value="nickname" data-testid="tab-nickname" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/40 data-[state=active]:to-emerald-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-green-500/50">
-                <UserPlus className="h-4 w-4" />
-                <span className="whitespace-nowrap">Nickname</span>
+              <TabsTrigger value="drop" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500/40 data-[state=active]:to-cyan-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-blue-500/50" data-testid="tab-drop">
+                <Target className="h-4 w-4" />
+                <span className="whitespace-nowrap">Drop Sim</span>
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="image" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
-              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(6,182,212,0.4)] dark:hover:shadow-[0_0_40px_rgba(6,182,212,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-cyan-500/50 rounded-2xl z-30">
+            <TabsContent value="ffname" className="mt-6 animate-fadeUp relative z-10 mb-10">
+              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-lg transition-all duration-300 relative overflow-hidden border-2 rounded-xl">
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/5 to-cyan-500/10 animate-gradient-shift" />
                 <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
-                <CardHeader className="relative z-10">
-                  <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textShine text-xl sm:text-2xl">
+                <CardHeader className="relative z-10 pb-4">
+                  <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textBounceIn text-xl sm:text-2xl mb-2">
                     <div className="p-2 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg shadow-lg">
-                      <ImageDown className="h-6 w-6 text-white animate-bounce-slow" />
+                      <Sparkles className="h-6 w-6 text-white animate-pulse" />
                     </div>
-                    Image Compressor
+                    Free Fire Stylish Name Generator
                   </CardTitle>
-                  <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-sm sm:text-base">
-                    Reduce image file size while maintaining quality 📸
+                  <CardDescription className="dark:text-gray-400 animate-textFadeSlide text-sm sm:text-base" style={{ animationDelay: '0.1s' }}>
+                    Create unique, stylish names with fancy fonts and symbols ✨
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="relative z-10">
-                  <ImageCompressor />
+                <CardContent className="relative z-10 pt-2">
+                  <FFNameGenerator />
                 </CardContent>
               </Card>
             </TabsContent>
 
-            <TabsContent value="tts" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+            <TabsContent value="uid" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
               <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(168,85,247,0.4)] dark:hover:shadow-[0_0_40px_rgba(168,85,247,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-purple-500/50 rounded-2xl z-30">
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-purple-500/10 animate-gradient-shift" />
                 <div className="absolute -inset-1 bg-gradient-to-r from-purple-500/20 to-pink-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
                 <CardHeader className="relative z-10">
-                  <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textShine text-xl sm:text-2xl">
+                  <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textBounceIn text-xl sm:text-2xl">
                     <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg shadow-lg">
-                      <Volume2 className="h-6 w-6 text-white animate-pulse" />
+                      <Gamepad2 className="h-6 w-6 text-white animate-bounce" />
                     </div>
-                    Text-to-Speech
+                    Random UID Generator
                   </CardTitle>
-                  <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-sm sm:text-base">
-                    Convert any text to natural-sounding speech 🔊
+                  <CardDescription className="dark:text-gray-400 animate-textFadeSlide text-sm sm:text-base" style={{ animationDelay: '0.1s' }}>
+                    Generate random Free Fire UIDs for testing 🎮
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="relative z-10">
-                  <TextToSpeech />
+                  <UIDGenerator />
                 </CardContent>
               </Card>
             </TabsContent>
 
-            <TabsContent value="qr" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+            <TabsContent value="sensitivity" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
               <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(34,197,94,0.4)] dark:hover:shadow-[0_0_40px_rgba(34,197,94,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-green-500/50 rounded-2xl z-30">
                 <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-emerald-500/5 to-green-500/10 animate-gradient-shift" />
                 <div className="absolute -inset-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
                 <CardHeader className="relative z-10">
-                  <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textShine text-xl sm:text-2xl">
+                  <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textBounceIn text-xl sm:text-2xl">
                     <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg shadow-lg">
-                      <QrCode className="h-6 w-6 text-white animate-spin-slow" />
+                      <Sparkles className="h-6 w-6 text-white animate-pulse" />
                     </div>
-                    QR Code Generator
+                    Advanced Sensitivity Generator
                   </CardTitle>
-                  <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-sm sm:text-base">
-                    Generate QR codes for any text or URL instantly 📱
+                  <CardDescription className="dark:text-gray-400 animate-textFadeSlide text-sm sm:text-base" style={{ animationDelay: '0.1s' }}>
+                    Get device-optimized sensitivity settings (Max 200) with DPI adjustment ⚡
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="relative z-10">
-                  <QRCodeGenerator />
+                  <SensitivityGenerator />
                 </CardContent>
               </Card>
             </TabsContent>
 
-            <TabsContent value="clipboard" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+            <TabsContent value="password" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
               <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(249,115,22,0.4)] dark:hover:shadow-[0_0_40px_rgba(249,115,22,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-orange-500/50 rounded-2xl z-30">
                 <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-red-500/5 to-orange-500/10 animate-gradient-shift" />
                 <div className="absolute -inset-1 bg-gradient-to-r from-orange-500/20 to-red-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
                 <CardHeader className="relative z-10">
-                  <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textShine text-xl sm:text-2xl">
+                  <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textBounceIn text-xl sm:text-2xl">
                     <div className="p-2 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg shadow-lg">
-                      <ClipboardCopy className="h-6 w-6 text-white animate-wiggle" />
+                      <Shield className="h-6 w-6 text-white animate-pulse" />
                     </div>
-                    Clipboard Manager
+                    Secure Password Generator
                   </CardTitle>
-                  <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-sm sm:text-base">
-                    Save and manage text snippets for quick access 📋
+                  <CardDescription className="dark:text-gray-400 animate-textFadeSlide text-sm sm:text-base" style={{ animationDelay: '0.1s' }}>
+                    Create strong, secure passwords for your gaming accounts 🔒
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="relative z-10">
-                  <ClipboardManager />
+                  <PasswordGenerator />
                 </CardContent>
               </Card>
             </TabsContent>
 
-            <TabsContent value="text-formatter" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
-              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(168,85,247,0.4)] dark:hover:shadow-[0_0_40px_rgba(168,85,247,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-purple-500/50 rounded-2xl z-30">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-purple-500/10 animate-gradient-shift" />
-                <div className="absolute -inset-1 bg-gradient-to-r from-purple-500/20 to-pink-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+            <TabsContent value="weapons" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(239,68,68,0.4)] dark:hover:shadow-[0_0_40px_rgba(239,68,68,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-red-500/50 rounded-2xl z-30">
+                <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 via-orange-500/5 to-red-500/10 animate-gradient-shift" />
+                <div className="absolute -inset-1 bg-gradient-to-r from-red-500/20 to-orange-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
                 <CardHeader className="relative z-10">
-                  <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textShine text-xl sm:text-2xl">
-                    <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg shadow-lg">
-                      <Type className="h-6 w-6 text-white animate-pulse" />
+                  <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textBounceIn text-xl sm:text-2xl">
+                    <div className="p-2 bg-gradient-to-br from-red-500 to-orange-600 rounded-lg shadow-lg">
+                      <Crosshair className="h-6 w-6 text-white animate-pulse" />
                     </div>
-                    Text Formatter
+                    FF Weapon Stats Lookup
                   </CardTitle>
-                  <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-sm sm:text-base">
-                    Transform text with various formatting options ✍️
+                  <CardDescription className="dark:text-gray-400 animate-textFadeSlide text-sm sm:text-base" style={{ animationDelay: '0.1s' }}>
+                    View detailed weapon statistics and compare performance 🎯
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="relative z-10">
-                  <TextFormatter />
+                  <WeaponStatsLookup />
                 </CardContent>
               </Card>
             </TabsContent>
 
-            <TabsContent value="nickname" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
-              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(34,197,94,0.4)] dark:hover:shadow-[0_0_40px_rgba(34,197,94,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-green-500/50 rounded-2xl z-30">
-                <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-emerald-500/5 to-green-500/10 animate-gradient-shift" />
-                <div className="absolute -inset-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+            <TabsContent value="drop" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(59,130,246,0.4)] dark:hover:shadow-[0_0_40px_rgba(59,130,246,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-blue-500/50 rounded-2xl z-30">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-cyan-500/5 to-blue-500/10 animate-gradient-shift" />
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
                 <CardHeader className="relative z-10">
-                  <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textShine text-xl sm:text-2xl">
-                    <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg shadow-lg">
-                      <UserPlus className="h-6 w-6 text-white animate-bounce-slow" />
+                  <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textBounceIn text-xl sm:text-2xl">
+                    <div className="p-2 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg shadow-lg">
+                      <Target className="h-6 w-6 text-white animate-spin-slow" />
                     </div>
-                    Random Nickname Generator
+                    Drop Location Simulator
                   </CardTitle>
-                  <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-sm sm:text-base">
-                    Generate unique gaming nicknames instantly 🎮
+                  <CardDescription className="dark:text-gray-400 animate-textFadeSlide text-sm sm:text-base" style={{ animationDelay: '0.1s' }}>
+                    Simulate random drop locations with loot and risk analysis 📍
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="relative z-10">
-                  <RandomNicknameGenerator />
+                  <DropSimulator />
                 </CardContent>
               </Card>
             </TabsContent>
+
             </Tabs>
-          </div>
+        </div>
 
           <div className="mt-12 animate-fadeUp">
             <AdSenseAd />
@@ -2386,7 +2393,7 @@ export default function Tools() {
 
           {/* Feedback Section */}
           <div className="mt-12 animate-fadeUp" style={{ animationDelay: '0.6s' }}>
-            <PageFeedback pageName="Utility Tools" />
+            <PageFeedback pageName="FF Tools" />
           </div>
         </div>
       </div>
@@ -2405,7 +2412,7 @@ export default function Tools() {
 
         <HeroSection
           title="📥 Video Downloads"
-          subtitle="Download videos from your favorite platforms - YouTube, Instagram, TikTok & more!"
+          subtitle="Download videos from your favorite platforms!"
         />
 
         <div className="container mx-auto px-4 py-8 sm:py-12 relative z-10 max-w-6xl">
@@ -2415,49 +2422,304 @@ export default function Tools() {
             className="mb-6 group transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(239,68,68,0.3)] dark:border-red-500/50 dark:hover:bg-red-500/10 animate-slideInFromLeft"
             data-testid="button-back-category"
           >
-            <Sparkles className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform" />
+            <Video className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform" />
             Back to Categories
           </Button>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            <PlatformDownloadCard 
-              platform="youtube" 
-              name="YouTube" 
-              icon="🎥" 
-              color="from-red-500 to-red-600" 
-              delay={0.1}
-              hasPage={true}
-              detailPageUrl="/downloads/youtube-downloader" 
-            />
-            <PlatformDownloadCard 
-              platform="instagram" 
-              name="Instagram" 
-              icon="📸" 
-              color="from-purple-500 to-pink-600" 
-              delay={0.2}
-              hasPage={true}
-              detailPageUrl="/downloads/instagram-downloader"
-            />
-            <PlatformDownloadCard 
-              platform="tiktok" 
-              name="TikTok" 
-              icon="🎵" 
-              color="from-pink-500 to-cyan-600" 
-              delay={0.3}
-              hasPage={true}
-              detailPageUrl="/downloads/tiktok-downloader"
-            />
+          <div className={categoryContainerClass}>
+            {/* Featured YouTube Downloader */}
+            <div className="mb-8 animate-fadeUp">
+              <Link href="/tools/youtube-downloader">
+                <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-2xl transition-all duration-500 cursor-pointer group border-2 hover:border-red-500/50">
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-4">
+                      <div className="p-4 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl shadow-lg text-4xl group-hover:scale-110 transition-transform">
+                        🎥
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-2xl font-bold mb-1">YouTube Downloader - Full Version</h3>
+                        <p className="text-muted-foreground">Enhanced experience with video preview, title copy, and more features</p>
+                      </div>
+                      <Button className="bg-gradient-to-r from-red-500 to-red-600 hover:scale-110 transition-transform">
+                        Open Full Page →
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-20">
+              <PlatformDownloadCard 
+                platform="youtube" 
+                name="YouTube" 
+                icon="🎥" 
+                color="from-red-500 to-red-600" 
+                delay={0.1} 
+              />
+              <PlatformDownloadCard 
+                platform="tiktok" 
+                name="TikTok" 
+                icon="🎵" 
+                color="from-pink-500 to-purple-600" 
+                delay={0.2} 
+              />
+              <PlatformDownloadCard 
+                platform="instagram" 
+                name="Instagram" 
+                icon="📸" 
+                color="from-purple-500 to-pink-600" 
+                delay={0.3} 
+              />
+              <PlatformDownloadCard 
+                platform="facebook" 
+                name="Facebook" 
+                icon="👥" 
+                color="from-blue-500 to-blue-600" 
+                delay={0.4} 
+              />
+              <PlatformDownloadCard 
+                platform="twitter" 
+                name="Twitter/X" 
+                icon="🐦" 
+                color="from-sky-500 to-blue-600" 
+                delay={0.5} 
+              />
+              <PlatformDownloadCard 
+                platform="pinterest" 
+                name="Pinterest" 
+                icon="📌" 
+                color="from-red-600 to-pink-600" 
+                delay={0.6} 
+              />
+              <PlatformDownloadCard 
+                platform="vimeo" 
+                name="Vimeo" 
+                icon="🎬" 
+                color="from-cyan-500 to-blue-600" 
+                delay={0.7} 
+              />
+              <PlatformDownloadCard 
+                platform="dailymotion" 
+                name="Dailymotion" 
+                icon="▶️" 
+                color="from-indigo-500 to-purple-600" 
+                delay={0.8} 
+              />
+              <PlatformDownloadCard 
+                platform="reddit" 
+                name="Reddit" 
+                icon="🤖" 
+                color="from-orange-500 to-red-600" 
+                delay={0.9} 
+              />
+            </div>
           </div>
 
           <div className="mt-12 animate-fadeUp">
             <AdSenseAd />
           </div>
 
+          {/* Feedback Section */}
           <div className="mt-12 animate-fadeUp" style={{ animationDelay: '0.6s' }}>
-            <PageFeedback pageName="Download Tools" />
+            <PageFeedback pageName="Video Downloads" />
           </div>
         </div>
       </div>
     );
   }
+
+  // Utilities Category - Return statement at the end
+  return (
+    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-500">
+      {/* Animated Background */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-20 right-10 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl animate-floatSlow"></div>
+        <div className="absolute bottom-20 left-20 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl animate-floatSlow" style={{ animationDelay: '1s' }}></div>
+      </div>
+
+      <HeroSection
+        title="🔧 Productivity Tools"
+        subtitle="Boost your productivity with these essential utilities!"
+      />
+
+      <div className="container mx-auto px-4 py-8 sm:py-12 relative z-10 max-w-6xl">
+        <Button 
+          onClick={() => setSelectedCategory(null)} 
+          variant="outline" 
+          className="mb-6 group transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(168,85,247,0.3)] dark:border-purple-500/50 dark:hover:bg-purple-500/10 animate-slideInFromLeft"
+          data-testid="button-back-category"
+        >
+          <Sparkles className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform" />
+          Back to Categories
+        </Button>
+
+        <div className={categoryContainerClass}>
+          <Tabs defaultValue="image" className="w-full relative z-10 mb-20">
+            <TabsList className="flex flex-wrap justify-center gap-2 p-3 dark:bg-gray-800/50 backdrop-blur-xl mb-8 animate-fadeUp shadow-xl rounded-2xl border-2 border-gray-200 dark:border-gray-700 relative z-10" data-testid="tabs-utility">
+            <TabsTrigger value="image" data-testid="tab-image" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/40 data-[state=active]:to-blue-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-cyan-500/50">
+              <ImageDown className="h-4 w-4" />
+              <span className="whitespace-nowrap">Image</span>
+            </TabsTrigger>
+            <TabsTrigger value="tts" data-testid="tab-tts" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/40 data-[state=active]:to-pink-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-purple-500/50">
+              <Volume2 className="h-4 w-4" />
+              <span className="whitespace-nowrap">TTS</span>
+            </TabsTrigger>
+            <TabsTrigger value="qr" data-testid="tab-qr" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/40 data-[state=active]:to-emerald-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-green-500/50">
+              <QrCode className="h-4 w-4" />
+              <span className="whitespace-nowrap">QR Code</span>
+            </TabsTrigger>
+            <TabsTrigger value="clipboard" data-testid="tab-clipboard" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500/40 data-[state=active]:to-red-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-orange-500/50">
+              <ClipboardCopy className="h-4 w-4" />
+              <span className="whitespace-nowrap">Clipboard</span>
+            </TabsTrigger>
+            <TabsTrigger value="text-formatter" data-testid="tab-text-formatter" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/40 data-[state=active]:to-pink-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-purple-500/50">
+              <Type className="h-4 w-4" />
+              <span className="whitespace-nowrap">Formatter</span>
+            </TabsTrigger>
+            <TabsTrigger value="nickname" data-testid="tab-nickname" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/40 data-[state=active]:to-emerald-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-green-500/50">
+              <UserPlus className="h-4 w-4" />
+              <span className="whitespace-nowrap">Nickname</span>
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="image" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(6,182,212,0.4)] dark:hover:shadow-[0_0_40px_rgba(6,182,212,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-cyan-500/50 rounded-2xl z-30">
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/5 to-cyan-500/10 animate-gradient-shift" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+              <CardHeader className="relative z-10">
+                <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textShine text-xl sm:text-2xl">
+                  <div className="p-2 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg shadow-lg">
+                    <ImageDown className="h-6 w-6 text-white animate-bounce-slow" />
+                  </div>
+                  Image Compressor
+                </CardTitle>
+                <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-sm sm:text-base">
+                  Reduce image file size while maintaining quality 📸
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="relative z-10">
+                <ImageCompressor />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="tts" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(168,85,247,0.4)] dark:hover:shadow-[0_0_40px_rgba(168,85,247,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-purple-500/50 rounded-2xl z-30">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-purple-500/10 animate-gradient-shift" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-purple-500/20 to-pink-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+              <CardHeader className="relative z-10">
+                <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textShine text-xl sm:text-2xl">
+                  <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg shadow-lg">
+                    <Volume2 className="h-6 w-6 text-white animate-pulse" />
+                  </div>
+                  Text-to-Speech
+                </CardTitle>
+                <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-sm sm:text-base">
+                  Convert any text to natural-sounding speech 🔊
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="relative z-10">
+                <TextToSpeech />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="qr" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(34,197,94,0.4)] dark:hover:shadow-[0_0_40px_rgba(34,197,94,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-green-500/50 rounded-2xl z-30">
+              <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-emerald-500/5 to-green-500/10 animate-gradient-shift" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+              <CardHeader className="relative z-10">
+                <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textShine text-xl sm:text-2xl">
+                  <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg shadow-lg">
+                    <QrCode className="h-6 w-6 text-white animate-spin-slow" />
+                  </div>
+                  QR Code Generator
+                </CardTitle>
+                <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-sm sm:text-base">
+                  Generate QR codes for any text or URL instantly 📱
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="relative z-10">
+                <QRCodeGenerator />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="clipboard" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(249,115,22,0.4)] dark:hover:shadow-[0_0_40px_rgba(249,115,22,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-orange-500/50 rounded-2xl z-30">
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-red-500/5 to-orange-500/10 animate-gradient-shift" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-orange-500/20 to-red-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+              <CardHeader className="relative z-10">
+                <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textShine text-xl sm:text-2xl">
+                  <div className="p-2 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg shadow-lg">
+                    <ClipboardCopy className="h-6 w-6 text-white animate-wiggle" />
+                  </div>
+                  Clipboard Manager
+                </CardTitle>
+                <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-sm sm:text-base">
+                  Save and manage text snippets for quick access 📋
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="relative z-10">
+                <ClipboardManager />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="text-formatter" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(168,85,247,0.4)] dark:hover:shadow-[0_0_40px_rgba(168,85,247,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-purple-500/50 rounded-2xl z-30">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-purple-500/10 animate-gradient-shift" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-purple-500/20 to-pink-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+              <CardHeader className="relative z-10">
+                <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textShine text-xl sm:text-2xl">
+                  <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg shadow-lg">
+                    <Type className="h-6 w-6 text-white animate-pulse" />
+                  </div>
+                  Text Formatter
+                </CardTitle>
+                <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-sm sm:text-base">
+                  Transform text with various formatting options ✍️
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="relative z-10">
+                <TextFormatter />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="nickname" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
+            <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(34,197,94,0.4)] dark:hover:shadow-[0_0_40px_rgba(34,197,94,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-green-500/50 rounded-2xl z-30">
+              <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-emerald-500/5 to-green-500/10 animate-gradient-shift" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+              <CardHeader className="relative z-10">
+                <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textShine text-xl sm:text-2xl">
+                  <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg shadow-lg">
+                    <UserPlus className="h-6 w-6 text-white animate-bounce-slow" />
+                  </div>
+                  Random Nickname Generator
+                </CardTitle>
+                <CardDescription className="dark:text-gray-400 animate-fadeInLeft text-sm sm:text-base">
+                  Generate unique gaming nicknames instantly 🎮
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="relative z-10">
+                <RandomNicknameGenerator />
+              </CardContent>
+            </Card>
+          </TabsContent>
+          </Tabs>
+        </div>
+
+        <div className="mt-12 animate-fadeUp">
+          <AdSenseAd />
+        </div>
+
+        {/* Feedback Section */}
+        <div className="mt-12 animate-fadeUp" style={{ animationDelay: '0.6s' }}>
+          <PageFeedback pageName="Utility Tools" />
+        </div>
+      </div>
+    </div>
+  );
 }
