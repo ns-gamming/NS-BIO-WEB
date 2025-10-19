@@ -2251,7 +2251,114 @@ export default function Tools() {
     );
   }
 
-  // Utilities Category or Downloads - Return statement at the end
+  // Downloads Category
+  if (selectedCategory === 'downloads') {
+    return (
+      <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-500">
+        {/* Animated Background */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-red-500/10 rounded-full blur-3xl animate-floatSlow"></div>
+          <div className="absolute bottom-20 right-20 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl animate-floatSlow" style={{ animationDelay: '1s' }}></div>
+        </div>
+
+        <HeroSection
+          title="📥 Video Downloads"
+          subtitle="Download videos from your favorite platforms!"
+        />
+
+        <div className="container mx-auto px-4 py-8 sm:py-12 relative z-10 max-w-6xl">
+          <Button 
+            onClick={() => setSelectedCategory(null)} 
+            variant="outline" 
+            className="mb-6 group transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(239,68,68,0.3)] dark:border-red-500/50 dark:hover:bg-red-500/10 animate-slideInFromLeft"
+            data-testid="button-back-category"
+          >
+            <Video className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform" />
+            Back to Categories
+          </Button>
+
+          <div className={categoryContainerClass}>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-20">
+              <PlatformDownloadCard 
+                platform="youtube" 
+                name="YouTube" 
+                icon="🎥" 
+                color="from-red-500 to-red-600" 
+                delay={0.1} 
+              />
+              <PlatformDownloadCard 
+                platform="tiktok" 
+                name="TikTok" 
+                icon="🎵" 
+                color="from-pink-500 to-purple-600" 
+                delay={0.2} 
+              />
+              <PlatformDownloadCard 
+                platform="instagram" 
+                name="Instagram" 
+                icon="📸" 
+                color="from-purple-500 to-pink-600" 
+                delay={0.3} 
+              />
+              <PlatformDownloadCard 
+                platform="facebook" 
+                name="Facebook" 
+                icon="👥" 
+                color="from-blue-500 to-blue-600" 
+                delay={0.4} 
+              />
+              <PlatformDownloadCard 
+                platform="twitter" 
+                name="Twitter/X" 
+                icon="🐦" 
+                color="from-sky-500 to-blue-600" 
+                delay={0.5} 
+              />
+              <PlatformDownloadCard 
+                platform="pinterest" 
+                name="Pinterest" 
+                icon="📌" 
+                color="from-red-600 to-pink-600" 
+                delay={0.6} 
+              />
+              <PlatformDownloadCard 
+                platform="vimeo" 
+                name="Vimeo" 
+                icon="🎬" 
+                color="from-cyan-500 to-blue-600" 
+                delay={0.7} 
+              />
+              <PlatformDownloadCard 
+                platform="dailymotion" 
+                name="Dailymotion" 
+                icon="▶️" 
+                color="from-indigo-500 to-purple-600" 
+                delay={0.8} 
+              />
+              <PlatformDownloadCard 
+                platform="reddit" 
+                name="Reddit" 
+                icon="🤖" 
+                color="from-orange-500 to-red-600" 
+                delay={0.9} 
+              />
+            </div>
+          </div>
+
+          <div className="mt-12 animate-fadeUp">
+            <AdSenseAd />
+          </div>
+
+          {/* Feedback Section */}
+          <div className="mt-12 animate-fadeUp" style={{ animationDelay: '0.6s' }}>
+            <PageFeedback pageName="Video Downloads" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Utilities Category - Return statement at the end
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-500">
       {/* Animated Background */}
