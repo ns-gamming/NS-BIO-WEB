@@ -13,8 +13,8 @@ interface Position {
   y: number;
 }
 
-const GEMINI_API_KEY = "AIzaSyCFFW9QIhoUS31HRy8RuVILmkuU5SGPpDw";
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`;
 
 const FUNNY_ERRORS = [
   "Oops! My brain just did a 360 no-scope and missed! 🎯 Try again?",
@@ -543,24 +543,15 @@ User: ${userMessage.content}
 
 Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the user asks about blog articles, provide specific information and suggest they read the full article by clicking on it in the blog page.`;
 
-      const response = await fetch(GEMINI_API_URL, {
+      const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          contents: [
-            {
-              role: "user",
-              parts: [{ text: prompt }]
-            }
-          ],
-          generationConfig: {
-            temperature: 1.2,
-            topK: 40,
-            topP: 0.95,
-            maxOutputTokens: 2048,
-          }
+          messages: [
+            { role: "user", content: prompt }
+          ]
         }),
       });
 
@@ -569,7 +560,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
       }
 
       const data = await response.json();
-      const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't generate a response.";
+      const aiResponse = data.message || "Sorry, I couldn't generate a response.";
       const responseTime = Date.now() - messageStartTime;
 
       const assistantMessage: Message = {
