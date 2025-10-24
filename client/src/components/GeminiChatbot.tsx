@@ -6,6 +6,7 @@ import { getAllBlogPosts } from "@/data/blogPosts";
 interface Message {
   role: "user" | "assistant";
   content: string;
+  isTyping?: boolean;
 }
 
 interface Position {
@@ -345,12 +346,34 @@ If someone is lost, be extra helpful:
 
 Remember: Be warm, encouraging, and helpful! Speak like a caring girl friend who loves helping people. Add personality with emojis and natural language. Mix in casual Hindi/Hinglish when it feels natural. Keep responses concise but super helpful! 💖 approx 2/3 lines in normal discussion`;
 
+// Typing animation component
+function TypingMessage({ text, onComplete }: { text: string; onComplete?: () => void }) {
+  const [displayedText, setDisplayedText] = useState("");
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (currentIndex < text.length) {
+      const timeout = setTimeout(() => {
+        setDisplayedText((prev) => prev + text[currentIndex]);
+        setCurrentIndex((prev) => prev + 1);
+      }, 20); // Speed of typing (20ms per character)
+      
+      return () => clearTimeout(timeout);
+    } else if (onComplete) {
+      onComplete();
+    }
+  }, [currentIndex, text, onComplete]);
+
+  return <p className="text-sm whitespace-pre-wrap">{displayedText}<span className="animate-pulse">|</span></p>;
+}
+
 export function GeminiChatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
       content: "Heyy! 👋💕 Umm... I'm AAPTI! Like, your friendly helper on this website 😊 Arre, I know everything about NS GAMMING yaar - games, tools, aur... umm... Nishant ke baare mein bhi sab kuch! 🥰 (Actually, I really love this website... and... nevermind! 😅) \n\nKya chahiye tumhe? Games? Tools? Ya phir kuch aur? I'm here to help! 🌟✨",
+      isTyping: false,
     },
   ]);
   const [inputValue, setInputValue] = useState("");
@@ -614,6 +637,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
       const assistantMessage: Message = {
         role: "assistant",
         content: aiResponse,
+        isTyping: true, // Enable typing animation for AI responses
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
@@ -666,6 +690,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
       const errorMessage: Message = {
         role: "assistant",
         content: errorResponse,
+        isTyping: true, // Enable typing animation for error responses too
       };
       setMessages((prev) => [...prev, errorMessage]);
 
@@ -780,9 +805,10 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
   // Calculate default positions
   const getButtonStyle = () => {
     if (buttonPosition.x === 0 && buttonPosition.y === 0) {
+      // Move button higher up to prevent it from going off-screen
       return {
-        bottom: '1.5rem',
-        right: '6.5rem', // Position to the left of scroll button
+        bottom: '5.5rem', // Increased from 1.5rem to 5.5rem
+        right: '1.5rem', // Moved more to the right for better visibility
         left: 'auto',
         top: 'auto'
       };
@@ -914,7 +940,19 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
                   } animate-fadeUp`}
                   style={{ animationDelay: `${index * 0.05}s` }}
                 >
-                  <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                  {message.role === "assistant" && message.isTyping && index === messages.length - 1 ? (
+                    <TypingMessage 
+                      text={message.content} 
+                      onComplete={() => {
+                        // Mark typing as complete
+                        setMessages(prev => prev.map((msg, i) => 
+                          i === index ? { ...msg, isTyping: false } : msg
+                        ));
+                      }}
+                    />
+                  ) : (
+                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                  )}
                 </div>
               </div>
             ))}
