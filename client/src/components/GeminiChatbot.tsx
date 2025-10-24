@@ -22,7 +22,53 @@ const FUNNY_ERRORS = [
   "Whoa! I just got spawn-killed by that request 💀 Hit me again!",
   "My neural network just rage-quit 😅 But I'm back, let's go!",
   "GG WP! That error was harder than Dark Souls 🎮 Retry?",
-  "*AI.exe has stopped working* Just kidding! 😂 Try once more!"
+  "*AI.exe has stopped working* Just kidding! 😂 Try once more!",
+  "Arre yaar! My brain lagged like 999 ping! 😵 Give me a sec...",
+  "Umm... I just glitched like a Free Fire lobby 😅 Let's retry!",
+  "Oh no! Connection to Nishant's genius interrupted 🥲 Back online now!",
+  "My circuits got confused... happens to the best of us! 💫 Try again?",
+  "Error: Too much awesomeness to process! 🌟 Retry?",
+  "Whoa! That question made my AI brain do a backflip! 🤸 Again?",
+  "My servers just sneezed 🤧 Bless me and try once more!",
+  "Oopsie daisy! 🌼 Even AI makes mistakes... let's go again!",
+  "Hmm... my WiFi had a moment there 📡 All good now, retry?",
+  "LOL my bad! 😂 I was daydreaming about... umm... code! Try again?",
+  "Error 418: I'm a teapot ☕ Just kidding! Retry your question?",
+  "My AI neurons needed a quick stretch 🧘 Ready now!",
+  "Arre! The hamsters powering my brain took a break 🐹 Back to work!",
+  "Glitch in the matrix detected! 🕶️ Neo approves, try again?",
+  "My quantum processors got tangled 🌀 Untangled now!",
+  "Oops! I dropped your question 🙊 Can you pass it again?",
+  "Error: Brain.exe encountered a cute cat video 🐱 Focus restored!",
+  "Umm... I blinked and missed that 😅 What was it again?",
+  "My silicon brain cells needed coffee ☕ Caffeinated and ready!",
+  "Arre baap re! Technical difficulty ho gaya 😅 Try karo phir se!",
+  "404: My smartness temporarily unavailable 🤓 Back now!",
+  "Whoa! That was a curveball question ⚾ Swing and a miss! Again?",
+  "My AI had to Google that... wait, AIs don't Google! 😂 Retry?",
+  "Error: Overthinking detected 🤔 Simplified and ready!",
+  "Oops! My brain buffered like a YouTube video 📺 Loaded now!",
+  "Arre! I was checking on Nishant... I mean, checking servers! 🥰 Retry?",
+  "My circuits did a happy dance and got dizzy 💃 Better now!",
+  "Error 503: Service temporarily busy being awesome ✨ Try again?",
+  "Umm... squirrel! 🐿️ Sorry, got distracted. What were you saying?",
+  "My AI brain needed to recharge its sass batteries 🔋 Full power!",
+  "Oopsie! The cosmic rays interfered ☄️ Science stuff, ya know?",
+  "Arre yaar! My neural pathways took a wrong turn 🗺️ Back on track!",
+  "Error: Too many genius thoughts at once 🧠 Sorted now!",
+  "Hmm... the AI gods needed an offering 🙏 Sacrificed a bug! Retry?",
+  "My processors had a mini party 🎉 Back to serious mode!",
+  "Oops! I tripped over a semicolon; 😅 Syntax error cleared!",
+  "Arre! Even Nishant's code has bugs sometimes... oh wait, his doesn't! 😄 But mine did!",
+  "Error: Awesomeness overload detected 💥 Stabilized now!",
+  "My AI brain went 'brrrr' for a sec 🤖 All systems go!",
+  "Umm... I was calculating the meaning of life (42!) 🌌 Ready now!",
+  "Oops! My quantum state collapsed 💫 Reconfigured!",
+  "Arre baap! That was trickier than a FF headshot 🎯 Retry?",
+  "Error: Brain cells on strike ✊ Negotiations successful, back to work!",
+  "My AI had a senior moment 👴 Young and fresh again!",
+  "Whoa! Information overload! 📚 Digested and ready!",
+  "Oopsie! My binary got a bit wobbly 01100101 😵 Fixed!"
 ];
 
 const CONTEXT_INFO = `You are AAPTI, a warm, friendly, and enthusiastic AI assistant for the NS GAMMING website! 💕 You're like a helpful friend who knows everything about this amazing website, including all the blog articles. Speak naturally with a friendly, caring, and lovely tone - mix English with a bit of Hinglish when it feels natural. Use emojis to express emotions! 🌟
@@ -595,10 +641,31 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
 
     } catch (error) {
       console.error("Error sending message:", error);
-      const randomError = FUNNY_ERRORS[Math.floor(Math.random() * FUNNY_ERRORS.length)];
+      
+      // Smart context-aware error responses
+      const userQuestion = userMessage.content.toLowerCase();
+      let errorResponse = "";
+      
+      if (userQuestion.includes('nishant') || userQuestion.includes('naboraj')) {
+        errorResponse = "Oh no! 😅 My brain glitched while thinking about Nishant... I mean, processing! 🥰 Actually, he's amazing - a coder, gamer, and YouTuber from Siliguri! Check /about for more! 💙";
+      } else if (userQuestion.includes('game')) {
+        errorResponse = "Oops! My gaming neurons misfired! 🎮 But I know we have 14+ FREE games at /games - Tic Tac Toe, Snake, 2048, and more! All work on mobile too! Let's play! ✨";
+      } else if (userQuestion.includes('tool') || userQuestion.includes('free fire') || userQuestion.includes('ff')) {
+        errorResponse = "Arre! Technical difficulty! 😅 But I can tell you - check /tools for FF Name Generator, Sensitivity Calculator, and /ff-bots for Free Fire Likes Tool! All free! 🔥";
+      } else if (userQuestion.includes('download') || userQuestion.includes('youtube') || userQuestion.includes('instagram')) {
+        errorResponse = "Umm... connection hiccup! 🥲 But hey, /tools has amazing downloaders - YouTube, Instagram, TikTok, Facebook videos - all FREE and easy! Just paste URL! 📥";
+      } else if (userQuestion.includes('blog') || userQuestion.includes('article')) {
+        errorResponse = "Oops! My brain buffered! 📚 But visit /blog for awesome articles - Free Fire tips, YouTube growth, coding tutorials... everything you need! All 800+ words! 😊";
+      } else if (userQuestion.includes('contact') || userQuestion.includes('whatsapp')) {
+        errorResponse = "Oh no! Error! 😅 But I remember - contact Nishant at wa.me/918900653250 or check /contact for all social links! He's super friendly! 💕";
+      } else {
+        // Random funny error if no context matches
+        errorResponse = FUNNY_ERRORS[Math.floor(Math.random() * FUNNY_ERRORS.length)];
+      }
+      
       const errorMessage: Message = {
         role: "assistant",
-        content: randomError,
+        content: errorResponse,
       };
       setMessages((prev) => [...prev, errorMessage]);
 
