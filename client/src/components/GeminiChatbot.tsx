@@ -15,7 +15,7 @@ interface Position {
 }
 
 const GEMINI_API_KEY = "AIzaSyCFFW9QIhoUS31HRy8RuVILmkuU5SGPpDw";
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`;
+const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`;
 
 const FUNNY_ERRORS = [
   "Oops! My brain just did a 360 no-scope and missed! 🎯 Try again?",
