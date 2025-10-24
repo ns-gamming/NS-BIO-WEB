@@ -273,7 +273,7 @@ export default function Contact() {
 
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="animate-fadeUp">
-                  <label htmlFor="name" className="block text-sm font-semibold text-foreground mb-2">
+                  <label htmlFor="name" className="block text-sm font-bold text-foreground mb-2">
                     Your Name *
                   </label>
                   <input
@@ -283,13 +283,13 @@ export default function Contact() {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="John Doe"
-                    className="w-full px-4 py-3 rounded-lg bg-background/50 backdrop-blur-sm border-2 border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all hover:border-primary/30"
+                    className="w-full px-4 py-3 rounded-lg bg-background border-2 border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all hover:border-primary/30 dark:bg-gray-800 dark:text-white dark:border-gray-600"
                     data-testid="input-name"
                   />
                 </div>
 
                 <div className="animate-fadeUp" style={{ animationDelay: '0.1s' }}>
-                  <label htmlFor="email" className="block text-sm font-semibold text-foreground mb-2">
+                  <label htmlFor="email" className="block text-sm font-bold text-foreground mb-2">
                     Your Email *
                   </label>
                   <input
@@ -299,13 +299,13 @@ export default function Contact() {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="john@example.com"
-                    className="w-full px-4 py-3 rounded-lg bg-background/50 backdrop-blur-sm border-2 border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all hover:border-primary/30"
+                    className="w-full px-4 py-3 rounded-lg bg-background border-2 border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all hover:border-primary/30 dark:bg-gray-800 dark:text-white dark:border-gray-600"
                     data-testid="input-email"
                   />
                 </div>
 
                 <div className="animate-fadeUp" style={{ animationDelay: '0.2s' }}>
-                  <label htmlFor="message" className="block text-sm font-semibold text-foreground mb-2">
+                  <label htmlFor="message" className="block text-sm font-bold text-foreground mb-2">
                     Your Message *
                   </label>
                   <Textarea
@@ -315,7 +315,7 @@ export default function Contact() {
                     onChange={handleChange}
                     rows={5}
                     placeholder="Tell me about your project or question..."
-                    className="w-full px-4 py-3 rounded-lg bg-background/50 backdrop-blur-sm border-2 border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-none hover:border-primary/30"
+                    className="w-full px-4 py-3 rounded-lg bg-background border-2 border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-none hover:border-primary/30 dark:bg-gray-800 dark:text-white dark:border-gray-600"
                     data-testid="input-message"
                   />
                 </div>
@@ -365,7 +365,7 @@ export default function Contact() {
 
               <form onSubmit={handleFeedbackSubmit} className="space-y-5">
                 <div className="animate-fadeUp">
-                  <label htmlFor="feedback-name" className="block text-sm font-semibold text-foreground mb-2">
+                  <label htmlFor="feedback-name" className="block text-sm font-bold text-foreground mb-2">
                     Your Name *
                   </label>
                   <input
@@ -375,12 +375,12 @@ export default function Contact() {
                     value={feedbackData.name}
                     onChange={handleFeedbackChange}
                     placeholder="Your name"
-                    className="w-full px-4 py-3 rounded-lg bg-background/50 backdrop-blur-sm border-2 border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all hover:border-purple-500/30"
+                    className="w-full px-4 py-3 rounded-lg bg-background border-2 border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all hover:border-purple-500/30 dark:bg-gray-800 dark:text-white dark:border-gray-600"
                   />
                 </div>
 
                 <div className="animate-fadeUp" style={{ animationDelay: '0.1s' }}>
-                  <label htmlFor="feedback-email" className="block text-sm font-semibold text-foreground mb-2">
+                  <label htmlFor="feedback-email" className="block text-sm font-bold text-foreground mb-2">
                     Your Email *
                   </label>
                   <input
@@ -390,12 +390,12 @@ export default function Contact() {
                     value={feedbackData.email}
                     onChange={handleFeedbackChange}
                     placeholder="your@email.com"
-                    className="w-full px-4 py-3 rounded-lg bg-background/50 backdrop-blur-sm border-2 border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all hover:border-purple-500/30"
+                    className="w-full px-4 py-3 rounded-lg bg-background border-2 border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all hover:border-purple-500/30 dark:bg-gray-800 dark:text-white dark:border-gray-600"
                   />
                 </div>
 
                 <div className="animate-fadeUp" style={{ animationDelay: '0.2s' }}>
-                  <label htmlFor="feedback-subject" className="block text-sm font-semibold text-foreground mb-2">
+                  <label htmlFor="feedback-subject" className="block text-sm font-bold text-foreground mb-2">
                     Subject (Optional)
                   </label>
                   <input
@@ -405,12 +405,12 @@ export default function Contact() {
                     value={feedbackData.subject}
                     onChange={handleFeedbackChange}
                     placeholder="What's this about?"
-                    className="w-full px-4 py-3 rounded-lg bg-background/50 backdrop-blur-sm border-2 border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all hover:border-purple-500/30"
+                    className="w-full px-4 py-3 rounded-lg bg-background border-2 border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all hover:border-purple-500/30 dark:bg-gray-800 dark:text-white dark:border-gray-600"
                   />
                 </div>
 
                 <div className="animate-fadeUp" style={{ animationDelay: '0.3s' }}>
-                  <label className="block text-sm font-semibold text-foreground mb-3">
+                  <label className="block text-sm font-bold text-foreground mb-3">
                     Rate Your Experience *
                   </label>
                   <div className="flex gap-2 justify-center mb-2">
@@ -427,7 +427,7 @@ export default function Contact() {
                           className={`w-10 h-10 ${
                             star <= (hoveredRating || feedbackData.rating)
                               ? "fill-yellow-400 text-yellow-400"
-                              : "text-muted-foreground"
+                              : "text-gray-400 dark:text-gray-500"
                           } transition-colors duration-200`}
                         />
                       </button>
@@ -445,7 +445,7 @@ export default function Contact() {
                 </div>
 
                 <div className="animate-fadeUp" style={{ animationDelay: '0.4s' }}>
-                  <label htmlFor="feedback-message" className="block text-sm font-semibold text-foreground mb-2">
+                  <label htmlFor="feedback-message" className="block text-sm font-bold text-foreground mb-2">
                     Your Feedback *
                   </label>
                   <Textarea
@@ -455,7 +455,7 @@ export default function Contact() {
                     onChange={handleFeedbackChange}
                     rows={5}
                     placeholder="What did you like? What could be improved?"
-                    className="w-full px-4 py-3 rounded-lg bg-background/50 backdrop-blur-sm border-2 border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all resize-none hover:border-purple-500/30"
+                    className="w-full px-4 py-3 rounded-lg bg-background border-2 border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all resize-none hover:border-purple-500/30 dark:bg-gray-800 dark:text-white dark:border-gray-600"
                   />
                 </div>
 
