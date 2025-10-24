@@ -9,18 +9,14 @@
       "use": "@vercel/node"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/index"
+      "source": "/api/(.*)",
+      "destination": "/api/index"
     },
     {
-      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|webp|woff|woff2|ico|xml|txt))",
-      "dest": "/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
   "headers": [
@@ -88,7 +84,7 @@
       ]
     },
     {
-      "source": "/(.*).(js|css|png|jpg|jpeg|gif|svg|webp|woff|woff2)",
+      "source": "/(.*)\\.(js|css|png|jpg|jpeg|gif|svg|webp|woff|woff2)",
       "headers": [
         {
           "key": "Cache-Control",
