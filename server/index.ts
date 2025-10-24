@@ -2,6 +2,13 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import path from "path";
+import { registerFeedbackRoutes } from "./feedback-routes";
+import { registerChatbotRoutes } from "./chatbot-routes";
+import { registerGeminiRoutes } from "./gemini-routes";
+import { registerDownloaderRoutes } from "./downloader-routes";
+import { registerAnalyticsRoutes } from "./analytics-routes";
+import { registerPrivacyRoutes } from "./privacy-routes";
+import { registerContactFeedbackRoutes } from "./contact-feedback-routes";
 
 const app = express();
 app.use(express.json());
@@ -50,6 +57,14 @@ app.use((req, res, next) => {
 
 (async () => {
   const server = await registerRoutes(app);
+
+  registerFeedbackRoutes(app);
+  registerChatbotRoutes(app);
+  registerGeminiRoutes(app);
+  registerDownloaderRoutes(app);
+  registerAnalyticsRoutes(app);
+  registerPrivacyRoutes(app);
+  registerContactFeedbackRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
