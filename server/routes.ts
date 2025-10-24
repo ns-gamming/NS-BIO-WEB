@@ -143,13 +143,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  // Gemini Chat API endpoint - Robust for Vercel deployment with fallback
+  // Gemini Chat API endpoint - Robust for Vercel deployment with fallback and error logging
   app.post("/api/chat", async (req, res) => {
+    const ipAddress = req.headers['x-forwarded-for']?.toString().split(',')[0] || req.socket.remoteAddress || 'unknown';
+    const userAgent = req.headers['user-agent'] || 'unknown';
+    const sessionId = req.body.sessionId || 'unknown';
+    
     try {
       const { messages } = req.body;
 
       // Always return 200 to keep chat session alive - never break the chat!
       if (!messages || !Array.isArray(messages) || messages.length === 0) {
+        // Log error to Supabase
+        if (supabase) {
+          try {
+            await supabase.from('ai_chat_messages').insert({
+              session_id: sessionId,
+              sender_type: 'system',
+              message_text: 'Empty message received',
+              ip_address: ipAddress,
+              user_agent: userAgent,
+              page_url: req.headers.referer || 'unknown',
+              timestamp: new Date().toISOString()
+            });
+          } catch (err: any) {
+            console.log('Database log failed (OK):', err.message);
+          }
+        }
+        
         return res.json({ 
           message: "Oops! I didn't catch that! 🤔 Could you try saying that again? I'm here to help with games, tools, and anything NS GAMMING! ✨" 
         });
@@ -158,9 +179,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Get API key from environment
       const apiKey = process.env.GEMINI_API_KEY;
       
-      // If no API key, provide friendly fallback response
+      // If no API key, provide friendly fallback response and log to database
       if (!apiKey) {
         console.error('GEMINI_API_KEY not found - using fallback response');
+        
+        // Log API key missing error to Supabase
+        if (supabase) {
+          try {
+            await supabase.from('ai_chat_messages').insert({
+              session_id: sessionId,
+              sender_type: 'system',
+              message_text: `API_KEY_MISSING - User: ${messages[messages.length - 1]?.content || 'unknown'}`,
+              ip_address: ipAddress,
+              user_agent: userAgent,
+              page_url: req.headers.referer || 'unknown',
+              timestamp: new Date().toISOString()
+            });
+          } catch (err: any) {
+            console.log('Database log failed (OK):', err.message);
+          }
+        }
+        
         const lastMessage = messages[messages.length - 1];
         const userQuestion = lastMessage.content.toLowerCase();
         
@@ -202,6 +241,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ message: text });
     } catch (error: any) {
       console.error('Gemini API error:', error);
+      
+      // Log error to Supabase with IP tracking - CRITICAL for debugging
+      if (supabase) {
+        try {
+          await supabase.from('ai_chat_messages').insert({
+            session_id: sessionId,
+            sender_type: 'system',
+            message_text: `ERROR: ${error.message} - User IP: ${ipAddress} - Agent: ${userAgent} - Query: ${req.body.messages?.[req.body.messages.length - 1]?.content || 'unknown'}`,
+            ip_address: ipAddress,
+            user_agent: userAgent,
+            page_url: req.headers.referer || 'unknown',
+            timestamp: new Date().toISOString()
+          });
+        } catch (err: any) {
+          console.log('Database error log failed (OK):', err.message);
+        }
+      }
       
       // Provide contextual fallback responses instead of errors
       const lastMessage = req.body.messages?.[req.body.messages.length - 1];
