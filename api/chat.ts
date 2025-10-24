@@ -2,9 +2,11 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.SUPABASE_URL || 'https://zsithfxmjtyeummbchpy.supabase.co';
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaXRoZnhtanR5ZXVtbWJjaHB5Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1OTg1NTA5MSwiZXhwIjoyMDc1NDMxMDkxfQ.AmYPTMNFzWbRqg2CpT1F84vwYdASvG3boqk7P1_r0q0';
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_KEY;
+const supabase = (supabaseUrl && supabaseServiceKey) 
+  ? createClient(supabaseUrl, supabaseServiceKey)
+  : null;
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
@@ -30,34 +32,38 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     // Log incoming request to Supabase (non-blocking)
-    supabase.from('ai_chat_messages').insert({
-      session_id: sessionId || 'unknown',
-      sender_type: 'user',
-      message_text: messages[messages.length - 1]?.content || 'unknown',
-      ip_address: ipAddress,
-      user_agent: userAgent,
-      page_url: req.headers.referer || 'unknown',
-      timestamp: new Date().toISOString()
-    }).then(({ error }) => {
-      if (error) console.log('DB log failed (OK):', error.message);
-    });
+    if (supabase) {
+      supabase.from('ai_chat_messages').insert({
+        session_id: sessionId || 'unknown',
+        sender_type: 'user',
+        message_text: messages[messages.length - 1]?.content || 'unknown',
+        ip_address: ipAddress,
+        user_agent: userAgent,
+        page_url: req.headers.referer || 'unknown',
+        timestamp: new Date().toISOString()
+      }).then(({ error }) => {
+        if (error) console.log('DB log failed (OK):', error.message);
+      });
+    }
 
     // Check if API key exists
     if (!GEMINI_API_KEY) {
       const fallbackMessage = "Hey! 😊 I'm AAPTI! The AI service is temporarily unavailable, but I can still help! ✨\n\nExplore:\n- Games at /games 🎮\n- Free Fire tools at /ff-bots 🔥\n- Utility tools at /tools 🛠️\n- Blog articles at /blog 📝\n\nNeed help? Contact Nishant: https://wa.me/918900653250 💙";
       
       // Log API key missing error
-      supabase.from('ai_chat_messages').insert({
-        session_id: sessionId || 'unknown',
-        sender_type: 'error',
-        message_text: `API_KEY_MISSING - User: ${messages[messages.length - 1]?.content}`,
-        ip_address: ipAddress,
-        user_agent: userAgent,
-        page_url: req.headers.referer || 'unknown',
-        timestamp: new Date().toISOString()
-      }).then(({ error }) => {
-        if (error) console.log('Error log failed:', error.message);
-      });
+      if (supabase) {
+        supabase.from('ai_chat_messages').insert({
+          session_id: sessionId || 'unknown',
+          sender_type: 'error',
+          message_text: `API_KEY_MISSING - User: ${messages[messages.length - 1]?.content}`,
+          ip_address: ipAddress,
+          user_agent: userAgent,
+          page_url: req.headers.referer || 'unknown',
+          timestamp: new Date().toISOString()
+        }).then(({ error }) => {
+          if (error) console.log('Error log failed:', error.message);
+        });
+      }
 
       return res.status(200).json({ message: fallbackMessage });
     }
@@ -92,17 +98,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const aiMessage = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sorry, I could not generate a response.';
 
     // Log AI response to Supabase (non-blocking)
-    supabase.from('ai_chat_messages').insert({
-      session_id: sessionId || 'unknown',
-      sender_type: 'assistant',
-      message_text: aiMessage,
-      ip_address: ipAddress,
-      user_agent: userAgent,
-      page_url: req.headers.referer || 'unknown',
-      timestamp: new Date().toISOString()
-    }).then(({ error }) => {
-      if (error) console.log('AI response log failed (OK):', error.message);
-    });
+    if (supabase) {
+      supabase.from('ai_chat_messages').insert({
+        session_id: sessionId || 'unknown',
+        sender_type: 'assistant',
+        message_text: aiMessage,
+        ip_address: ipAddress,
+        user_agent: userAgent,
+        page_url: req.headers.referer || 'unknown',
+        timestamp: new Date().toISOString()
+      }).then(({ error }) => {
+        if (error) console.log('AI response log failed (OK):', error.message);
+      });
+    }
 
     return res.status(200).json({ message: aiMessage });
 
@@ -110,17 +118,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     console.error('Chat API error:', error);
 
     // Log error to Supabase
-    supabase.from('ai_chat_messages').insert({
-      session_id: sessionId || 'unknown',
-      sender_type: 'error',
-      message_text: `ERROR: ${error.message} - User: ${messages[messages.length - 1]?.content}`,
-      ip_address: ipAddress,
-      user_agent: userAgent,
-      page_url: req.headers.referer || 'unknown',
-      timestamp: new Date().toISOString()
-    }).then(({ error }) => {
-      if (error) console.log('Error log failed:', error.message);
-    });
+    if (supabase) {
+      supabase.from('ai_chat_messages').insert({
+        session_id: sessionId || 'unknown',
+        sender_type: 'error',
+        message_text: `ERROR: ${error.message} - User: ${messages[messages.length - 1]?.content}`,
+        ip_address: ipAddress,
+        user_agent: userAgent,
+        page_url: req.headers.referer || 'unknown',
+        timestamp: new Date().toISOString()
+      }).then(({ error }) => {
+        if (error) console.log('Error log failed:', error.message);
+      });
+    }
 
     // Return friendly error message
     const errorMessage = "Oops! 😅 Something went wrong, but don't worry! Try again or explore:\n- Games 🎮\n- Tools 🛠️\n- Blog 📝\n\nContact: https://wa.me/918900653250";
