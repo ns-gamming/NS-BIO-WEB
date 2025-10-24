@@ -10,6 +10,28 @@ Preferred communication style: Simple, everyday language with natural Hinglish p
 
 ## Recent Changes
 
+### October 24, 2025 - Client-Side Only AI Chatbot
+
+**Complete Chatbot Redesign - Zero Backend Dependencies**
+- Removed ALL backend API calls and database dependencies from chatbot
+- Implemented 100% client-side Gemini API integration using VITE_GEMINI_API_KEY
+- Direct API calls to Google Gemini (gemini-1.5-flash) from browser
+- Eliminated session tracking, analytics logging, and database storage
+- Fixed button positioning: moved to bottom: 2rem, right: 7rem (positioned next to scroll-up arrow)
+- Chatbot now works seamlessly on both Replit and Vercel with just one environment variable
+- Simple, beautiful, and fully portable - no backend setup required
+- Maintained typing animation, error handling, and all UI features
+- Security improvement: removed hardcoded credentials from all files
+
+**Environment Variables Required for Vercel Deployment:**
+- `VITE_GEMINI_API_KEY` - Your Google Gemini API key (get from Google AI Studio)
+
+**Technical Details:**
+- Chatbot calls: `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`
+- No server-side routes needed for chatbot functionality
+- All conversation state managed client-side only
+- Works identically on Replit preview and Vercel production
+
 ### October 16, 2025 - Unified Tools & Utilities Hub
 
 **Tools Page Consolidation**
