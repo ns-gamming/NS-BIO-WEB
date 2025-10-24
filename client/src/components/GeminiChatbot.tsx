@@ -533,65 +533,15 @@ export function GeminiChatbot() {
 
     const userMessage: Message = {
       role: "user",
-      content: inputValue,
+      content: inputValue.trim(),
     };
 
     setMessages((prev) => [...prev, userMessage]);
     setInputValue("");
     setIsLoading(true);
 
-    const messageStartTime = Date.now();
-    const sessionId = localStorage.getItem("analytics_session_id") || "unknown";
-    const pageUrl = window.location.href;
-
-    // Collect comprehensive user data
-    const userData = {
-      sessionId,
-      pageUrl,
-      pageTitle: document.title,
-      referrer: document.referrer || 'direct',
-      userAgent: navigator.userAgent,
-      language: navigator.language,
-      languages: navigator.languages || [navigator.language],
-      platform: navigator.platform,
-      cookieEnabled: navigator.cookieEnabled,
-      onLine: navigator.onLine,
-      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      screen: {
-        width: window.screen.width,
-        height: window.screen.height,
-        availWidth: window.screen.availWidth,
-        availHeight: window.screen.availHeight,
-        colorDepth: window.screen.colorDepth
-      },
-      viewport: {
-        width: window.innerWidth,
-        height: window.innerHeight
-      },
-      timestamp: new Date().toISOString()
-    };
-
     try {
-      // Try to save message to database, but don't block if it fails
-      const userMessageId = `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      fetch("/api/chat/message", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sessionId,
-          messageId: userMessageId,
-          senderType: "user",
-          messageText: userMessage.content,
-          metadata: { 
-            ...userData,
-            messageType: 'user_input'
-          }
-        }),
-      }).catch(err => {
-        // Silent fail - database is optional
-        console.log("Database unavailable, continuing without saving");
-      });
-
+      // Get blog posts for context
       const blogPosts = getAllBlogPosts();
       const blogPostsInfo = blogPosts.map(post => 
         `- "${post.title}" (${post.category}): ${post.excerpt} [Read at /blog/${post.slug}]`
@@ -613,26 +563,37 @@ User: ${userMessage.content}
 
 Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the user asks about blog articles, provide specific information and suggest they read the full article by clicking on it in the blog page.`;
 
-      const response = await fetch("/api/chat", {
+      // Call Gemini API directly from client - NO BACKEND! NO DATABASE!
+      if (!GEMINI_API_KEY) {
+        throw new Error("Gemini API key not configured");
+      }
+
+      const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          messages: [
-            { role: "user", content: prompt }
-          ],
-          sessionId
+          contents: [{
+            parts: [{
+              text: prompt
+            }]
+          }],
+          generationConfig: {
+            temperature: 0.9,
+            topK: 40,
+            topP: 0.95,
+            maxOutputTokens: 1024,
+          }
         }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to get response from AI");
+        throw new Error("Failed to get response from Gemini AI");
       }
 
       const data = await response.json();
-      const aiResponse = data.message || "Sorry, I couldn't generate a response.";
-      const responseTime = Date.now() - messageStartTime;
+      const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't generate a response.";
 
       const assistantMessage: Message = {
         role: "assistant",
@@ -641,27 +602,6 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
-
-      // Try to save assistant message, but don't block if it fails
-      const assistantMessageId = `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      fetch("/api/chat/message", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sessionId,
-          messageId: assistantMessageId,
-          senderType: "assistant",
-          messageText: aiResponse,
-          metadata: { 
-            pageUrl,
-            responseTimeMs: responseTime,
-            userMessageId
-          }
-        }),
-      }).catch(err => {
-        // Silent fail - database is optional
-        console.log("Database unavailable, continuing without saving");
-      });
 
     } catch (error) {
       console.error("Error sending message:", error);
@@ -693,27 +633,6 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
         isTyping: true, // Enable typing animation for error responses too
       };
       setMessages((prev) => [...prev, errorMessage]);
-
-      // Try to save error message, but don't block if it fails
-      const errorMessageId = `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      fetch("/api/chat/message", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sessionId,
-          messageId: errorMessageId,
-          senderType: "assistant",
-          messageText: errorResponse,
-          metadata: { 
-            pageUrl,
-            isError: true,
-            errorType: "api_failure"
-          }
-        }),
-      }).catch(err => {
-        // Silent fail - database is optional
-        console.log("Database unavailable, continuing without saving");
-      });
     } finally {
       setIsLoading(false);
     }
@@ -731,68 +650,6 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
       setIsOpen(true);
       // When opening, position chat where the button was
       setChatPosition(buttonPosition);
-
-      // Start a chat session with comprehensive tracking
-      const sessionId = localStorage.getItem("analytics_session_id") || `chat_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      const userId = localStorage.getItem("chat_user_id") || `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-
-      // Save user ID for future use
-      if (!localStorage.getItem("chat_user_id")) {
-        localStorage.setItem("chat_user_id", userId);
-      }
-
-      // Collect device and browser info
-      const getBrowser = () => {
-        const ua = navigator.userAgent;
-        if (ua.includes('Firefox')) return 'Firefox';
-        if (ua.includes('Edg')) return 'Edge';
-        if (ua.includes('Chrome')) return 'Chrome';
-        if (ua.includes('Safari')) return 'Safari';
-        return 'Unknown';
-      };
-
-      const getOS = () => {
-        const ua = navigator.userAgent;
-        if (ua.includes('Win')) return 'Windows';
-        if (ua.includes('Mac')) return 'macOS';
-        if (ua.includes('Linux')) return 'Linux';
-        if (ua.includes('Android')) return 'Android';
-        if (ua.includes('iOS')) return 'iOS';
-        return 'Unknown';
-      };
-
-      const getDeviceType = () => {
-        if (/mobile/i.test(navigator.userAgent)) return 'mobile';
-        if (/tablet/i.test(navigator.userAgent)) return 'tablet';
-        return 'desktop';
-      };
-
-      const deviceInfo = {
-        userAgent: navigator.userAgent,
-        screen: { width: window.screen.width, height: window.screen.height },
-        viewport: { width: window.innerWidth, height: window.innerHeight },
-        platform: navigator.platform,
-        language: navigator.language,
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        cookieEnabled: navigator.cookieEnabled,
-        onLine: navigator.onLine
-      };
-
-      // Try to start session, but don't block if it fails
-      fetch("/api/chat/session/start", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId,
-          sessionId,
-          deviceInfo,
-          browser: getBrowser(),
-          os: getOS(),
-          deviceType: getDeviceType()
-        }),
-      }).catch(err => {
-        console.log("Session tracking unavailable, continuing without tracking");
-      });
     }
   };
 
@@ -805,10 +662,11 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
   // Calculate default positions
   const getButtonStyle = () => {
     if (buttonPosition.x === 0 && buttonPosition.y === 0) {
-      // Move button higher up to prevent it from going off-screen
+      // Position next to scroll-up button (which is at bottom-8 right-8)
+      // Chatbot will be to the LEFT of scroll button
       return {
-        bottom: '5.5rem', // Increased from 1.5rem to 5.5rem
-        right: '1.5rem', // Moved more to the right for better visibility
+        bottom: '2rem', // Same as scroll button (bottom-8 = 2rem)
+        right: '7rem', // To the left of scroll button (right-8 + button width + gap)
         left: 'auto',
         top: 'auto'
       };
