@@ -12,6 +12,10 @@ export function registerAnalyticsRoutes(app: Express) {
   // Check if session exists
   app.get("/api/analytics/session/:sessionId/check", async (req, res) => {
     try {
+      if (!supabase) {
+        return res.json({ exists: false });
+      }
+
       const { sessionId } = req.params;
 
       const { data, error } = await supabase
@@ -31,6 +35,10 @@ export function registerAnalyticsRoutes(app: Express) {
 
   app.post("/api/analytics/session", async (req, res) => {
     try {
+      if (!supabase) {
+        return res.status(503).json({ success: false, error: 'Database unavailable' });
+      }
+
       const { sessionId, deviceInfo } = req.body;
       const ipAddress = getClientIP(req);
       const userAgent = req.headers['user-agent'] || 'unknown';
@@ -83,6 +91,10 @@ export function registerAnalyticsRoutes(app: Express) {
 
   app.post("/api/analytics/pageview", async (req, res) => {
     try {
+      if (!supabase) {
+        return res.status(503).json({ success: false, error: 'Database unavailable' });
+      }
+
       const { sessionId, pageUrl, pageTitle, referrer } = req.body;
       const ipAddress = getClientIP(req);
       const userAgent = req.headers['user-agent'] || 'unknown';
@@ -113,6 +125,10 @@ export function registerAnalyticsRoutes(app: Express) {
 
   app.post("/api/analytics/event", async (req, res) => {
     try {
+      if (!supabase) {
+        return res.status(503).json({ success: false, error: 'Database unavailable' });
+      }
+
       const { sessionId, eventType, elementId, elementText, elementTag, pageUrl, metadata } = req.body;
       const ipAddress = getClientIP(req);
       const userAgent = req.headers['user-agent'] || 'unknown';
@@ -145,6 +161,10 @@ export function registerAnalyticsRoutes(app: Express) {
 
   app.patch("/api/analytics/session/:sessionId/end", async (req, res) => {
     try {
+      if (!supabase) {
+        return res.status(503).json({ success: false, error: 'Database unavailable' });
+      }
+
       const { sessionId } = req.params;
 
       const { data, error } = await supabase
@@ -168,6 +188,10 @@ export function registerAnalyticsRoutes(app: Express) {
 
   app.patch("/api/analytics/pageview/:pageViewId/time", async (req, res) => {
     try {
+      if (!supabase) {
+        return res.status(503).json({ success: false, error: 'Database unavailable' });
+      }
+
       const { pageViewId } = req.params;
       const { timeSpent } = req.body;
 
