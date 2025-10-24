@@ -703,7 +703,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
           sessionId,
           messageId: errorMessageId,
           senderType: "assistant",
-          messageText: randomError,
+          messageText: errorResponse,
           metadata: { 
             pageUrl,
             isError: true,
