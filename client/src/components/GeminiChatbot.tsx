@@ -14,7 +14,7 @@ interface Position {
   y: number;
 }
 
-const GEMINI_API_KEY = "AIzaSyCFFW9QIhoUS31HRy8RuVILmkuU5SGPpDw";
+const GEMINI_API_KEY = "AIzaSyCFFW9QIhoUS31HRy8RuVILmkuU5SGPpDw"; // Replace with your real API key
 const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`;
 
 const FUNNY_ERRORS = [
