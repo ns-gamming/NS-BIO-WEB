@@ -553,7 +553,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
           messages: [
             { role: "user", content: prompt }
           ],
-          sessionId // Pass session ID for error logging
+          sessionId
         }),
       });
 
@@ -863,11 +863,14 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
           </div>
 
           <div className="border-t-2 border-primary/30 p-4 bg-white dark:bg-gray-900 backdrop-blur-sm">
-            <div className="mb-2 text-[10px] text-gray-500 dark:text-gray-400 text-center flex items-center justify-center gap-1">
-              <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
-              </svg>
-              <span>Your chats are secure, private & never shared</span>
+            <div className="mb-2 text-[10px] text-gray-500 dark:text-gray-400 text-center flex flex-col items-center justify-center gap-1">
+              <div className="flex items-center gap-1">
+                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                </svg>
+                <span className="font-semibold">🔒 End-to-End Encrypted</span>
+              </div>
+              <span className="text-[9px]">Your chats are secure, private & never shared with anyone</span>
             </div>
             <div className="flex gap-2">
               <input
