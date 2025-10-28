@@ -25,14 +25,14 @@ export default function PrivacyPolicy() {
     },
     {
       icon: Bell,
-      title: "Cookies and Tracking",
-      content: "We use cookies and similar tracking technologies to enhance your browsing experience. You can control cookies through your browser settings. We also use Google Analytics to understand how visitors use our site.",
+      title: "Cookies and Tracking Technologies",
+      content: "We use cookies and similar tracking technologies (including web beacons, pixels, and local storage) to enhance your browsing experience, analyze site traffic, and serve personalized content. Cookies are small text files stored on your device that help us remember your preferences and understand how you interact with our website. You can control or delete cookies through your browser settings at any time.",
       testId: "privacy-cookies"
     },
     {
       icon: Shield,
-      title: "Google AdSense",
-      content: "This website uses Google AdSense to display advertisements. Google may use cookies to serve ads based on your prior visits to our website or other websites. You can opt out of personalized advertising by visiting Google's Ads Settings.",
+      title: "Google AdSense & Third-Party Advertising",
+      content: "This website uses Google AdSense, a third-party advertising service. Google and its advertising partners use cookies and similar technologies to serve ads based on your prior visits to our website and other websites across the Internet. These cookies enable Google to personalize ads shown to you. We do not have control over these third-party cookies. You can opt out of personalized advertising at any time by visiting Google's Ads Settings (https://www.google.com/settings/ads) or by visiting the Network Advertising Initiative opt-out page (http://www.aboutads.info/choices/).",
       testId: "privacy-adsense"
     },
     {
@@ -111,8 +111,31 @@ export default function PrivacyPolicy() {
             </ul>
           </div>
 
+          {/* GDPR & EU User Consent */}
+          <div className="glass rounded-2xl p-8 mb-8 border-2 border-primary/40 animate-fadeUp" style={{ animationDelay: "1s" }}>
+            <h3 className="text-xl font-bold text-primary mb-4">GDPR Compliance & EU User Rights</h3>
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              For visitors from the European Economic Area (EEA), United Kingdom, and Switzerland, we comply with the General Data Protection Regulation (GDPR) and obtain your consent before using cookies for advertising and analytics purposes.
+            </p>
+            <div className="bg-primary/10 rounded-lg p-4 mb-4">
+              <h4 className="font-semibold text-foreground mb-2">Your GDPR Rights Include:</h4>
+              <ul className="list-disc list-inside text-muted-foreground space-y-1 ml-2">
+                <li>Right to access your personal data</li>
+                <li>Right to rectification (correction) of inaccurate data</li>
+                <li>Right to erasure ("right to be forgotten")</li>
+                <li>Right to restrict processing</li>
+                <li>Right to data portability</li>
+                <li>Right to object to processing</li>
+                <li>Right to withdraw consent at any time</li>
+              </ul>
+            </div>
+            <p className="text-muted-foreground leading-relaxed">
+              To exercise any of these rights, please contact us at <a href="mailto:nishant.ns.business@gmail.com" className="text-primary hover:underline">nishant.ns.business@gmail.com</a>. We will respond to your request within 30 days.
+            </p>
+          </div>
+
           {/* Third-Party Services */}
-          <div className="glass rounded-2xl p-8 mb-8 animate-fadeUp" style={{ animationDelay: "1s" }}>
+          <div className="glass rounded-2xl p-8 mb-8 animate-fadeUp" style={{ animationDelay: "1.05s" }}>
             <h3 className="text-xl font-bold text-primary mb-4">Third-Party Services & Links</h3>
             <p className="text-muted-foreground leading-relaxed mb-3">
               We use the following third-party services to provide our features:
@@ -123,11 +146,20 @@ export default function PrivacyPolicy() {
               <li><strong>Vercel Analytics:</strong> Understanding website traffic and user behavior</li>
               <li><strong>Free Fire Official API:</strong> Delivering likes and other game services</li>
             </ul>
-            <p className="text-muted-foreground leading-relaxed">
+            <p className="text-muted-foreground leading-relaxed mb-3">
               Our website may contain links to external sites (YouTube, Instagram, Telegram, WhatsApp, etc.). 
               We are not responsible for the privacy practices of these third-party websites. 
               We encourage you to read their privacy policies before providing any personal information.
             </p>
+            <div className="bg-accent/10 rounded-lg p-4 mt-4">
+              <h4 className="font-semibold text-foreground mb-2">Important Advertising Disclosures:</h4>
+              <ul className="list-disc list-inside text-muted-foreground space-y-1 ml-2 text-sm">
+                <li>Third-party vendors, including Google, use cookies to serve ads based on a user's prior visits to our website or other websites</li>
+                <li>Google's use of advertising cookies enables it and its partners to serve ads to our users based on their visit to our sites and/or other sites on the Internet</li>
+                <li>Users may opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Ads Settings</a></li>
+                <li>Users can also visit <a href="http://www.aboutads.info" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">aboutads.info</a> to opt out of third-party vendor use of cookies for personalized advertising</li>
+              </ul>
+            </div>
           </div>
 
           {/* Children's Privacy */}
