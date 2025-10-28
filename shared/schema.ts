@@ -73,6 +73,18 @@ export const userFeedback = pgTable("user_feedback", {
   submittedAt: timestamp("submitted_at").defaultNow().notNull(),
 });
 
+export const contactFeedback = pgTable("contact_feedback", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  subject: text("subject"),
+  message: text("message").notNull(),
+  rating: integer("rating").notNull(),
+  userIp: text("user_ip"),
+  userAgent: text("user_agent"),
+  submittedAt: timestamp("submitted_at").defaultNow().notNull(),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -113,6 +125,11 @@ export const insertUserFeedbackSchema = createInsertSchema(userFeedback).omit({
   submittedAt: true,
 });
 
+export const insertContactFeedbackSchema = createInsertSchema(contactFeedback).omit({
+  id: true,
+  submittedAt: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type BlogPost = typeof blogPosts.$inferSelect;
@@ -129,3 +146,5 @@ export type BlogShare = typeof blogShares.$inferSelect;
 export type InsertBlogShare = z.infer<typeof insertBlogShareSchema>;
 export type UserFeedback = typeof userFeedback.$inferSelect;
 export type InsertUserFeedback = z.infer<typeof insertUserFeedbackSchema>;
+export type ContactFeedback = typeof contactFeedback.$inferSelect;
+export type InsertContactFeedback = z.infer<typeof insertContactFeedbackSchema>;
