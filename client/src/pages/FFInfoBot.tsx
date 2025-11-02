@@ -130,8 +130,10 @@ export default function FFInfoBot() {
     },
     onError: (error: any) => {
       const errorMessage = error.message || "Failed to fetch player info";
+      const isConfigError = errorMessage.includes("not configured") || errorMessage.includes("Secrets");
+      
       toast({
-        title: "❌ Error",
+        title: isConfigError ? "⚙️ Configuration Error" : "❌ Error",
         description: errorMessage,
         variant: "destructive",
       });

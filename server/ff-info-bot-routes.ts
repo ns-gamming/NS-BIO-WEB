@@ -37,13 +37,13 @@ export function registerFfInfoBotRoutes(app: Express) {
     try {
       if (!supabase) {
         return res.status(503).json({ 
-          error: "Database not configured. Please set up Supabase." 
+          error: "❌ Database not configured. Please add SUPABASE_URL and SUPABASE_SERVICE_KEY to Replit Secrets." 
         });
       }
 
       if (!ffInfoApiKey) {
         return res.status(503).json({ 
-          error: "Free Fire API key not configured." 
+          error: "❌ Free Fire API key not configured. Please add FFINFO_API_KEY to Replit Secrets (Tools > Secrets)." 
         });
       }
 
