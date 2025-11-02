@@ -75,7 +75,7 @@ interface LimitResponse {
 }
 
 const REGIONS = [
-  { value: 'IND', label: '🇮🇳 India (IND)' },
+  { value: 'ind', label: '🇮🇳 India (IND)' },
   { value: 'SG', label: '🇸🇬 Singapore (SG)' },
   { value: 'PK', label: '🇵🇰 Pakistan (PK)' },
   { value: 'BD', label: '🇧🇩 Bangladesh (BD)' },
