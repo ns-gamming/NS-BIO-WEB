@@ -8,10 +8,26 @@ const supabase = process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_KEY
 
 const ffInfoApiKey = process.env.FFINFO_API_KEY || '';
 
+const REGION_API_MAP: Record<string, string> = {
+  'IND': 'IN',
+  'SG': 'SG',
+  'PK': 'PK',
+  'BD': 'BD',
+  'TH': 'TH',
+  'VN': 'VN',
+  'BR': 'BR',
+  'ID': 'ID',
+  'MY': 'MY',
+  'PH': 'PH',
+  'US': 'US',
+  'EU': 'EU',
+  'ME': 'ME',
+};
+
 const searchSchema = z.object({
   uid: z.string().regex(/^[0-9]{6,20}$/, 'UID must be 6-20 digits'),
   region: z.string().toUpperCase().refine(
-    val => ['SG', 'IN', 'VN', 'BR', 'US', 'EU', 'TH', 'ID', 'MY', 'PH'].includes(val),
+    val => Object.keys(REGION_API_MAP).includes(val),
     'Invalid region code'
   ),
 });
@@ -39,6 +55,8 @@ export function registerFfInfoBotRoutes(app: Express) {
       }
 
       const { uid, region } = validation.data;
+      const apiRegion = REGION_API_MAP[region];
+      
       const ipAddress = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() ||
                        req.socket.remoteAddress || 
                        'unknown';
@@ -80,7 +98,7 @@ export function registerFfInfoBotRoutes(app: Express) {
         }
       }
 
-      const apiUrl = `https://api.ffinfo.freefireofficial.com/api/${region.toLowerCase()}/${uid}?key=${ffInfoApiKey}`;
+      const apiUrl = `https://api.ffinfo.freefireofficial.com/api/${apiRegion.toLowerCase()}/${uid}?key=${ffInfoApiKey}`;
       
       const response = await fetch(apiUrl, {
         method: 'GET',
@@ -93,7 +111,7 @@ export function registerFfInfoBotRoutes(app: Express) {
       if (!response.ok) {
         if (response.status === 404) {
           return res.status(404).json({ 
-            error: `No account found for UID ${uid} in region ${region}` 
+            error: `No account found for UID ${uid} in ${region} region` 
           });
         }
         return res.status(502).json({ 

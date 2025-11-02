@@ -74,10 +74,26 @@ interface LimitResponse {
   limitReached: boolean;
 }
 
+const REGIONS = [
+  { value: 'IND', label: '🇮🇳 India (IND)' },
+  { value: 'SG', label: '🇸🇬 Singapore (SG)' },
+  { value: 'PK', label: '🇵🇰 Pakistan (PK)' },
+  { value: 'BD', label: '🇧🇩 Bangladesh (BD)' },
+  { value: 'TH', label: '🇹🇭 Thailand (TH)' },
+  { value: 'VN', label: '🇻🇳 Vietnam (VN)' },
+  { value: 'BR', label: '🇧🇷 Brazil (BR)' },
+  { value: 'ID', label: '🇮🇩 Indonesia (ID)' },
+  { value: 'MY', label: '🇲🇾 Malaysia (MY)' },
+  { value: 'PH', label: '🇵🇭 Philippines (PH)' },
+  { value: 'US', label: '🇺🇸 United States (US)' },
+  { value: 'EU', label: '🇪🇺 Europe (EU)' },
+  { value: 'ME', label: '🇦🇪 Middle East (ME)' },
+];
+
 export default function FFInfoBot() {
   const { toast } = useToast();
   const [uid, setUid] = useState("");
-  const [region, setRegion] = useState("SG");
+  const [region, setRegion] = useState("IND");
   const [playerData, setPlayerData] = useState<PlayerData | null>(null);
   const [searchInfo, setSearchInfo] = useState({ remainingSearches: 5, totalSearches: 0, dailyLimit: 5 });
   const [copied, setCopied] = useState(false);
@@ -292,16 +308,11 @@ ${social.signature}
                       <SelectValue placeholder="Select region" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="SG">Singapore (SG)</SelectItem>
-                      <SelectItem value="IN">India (IN)</SelectItem>
-                      <SelectItem value="BR">Brazil (BR)</SelectItem>
-                      <SelectItem value="US">United States (US)</SelectItem>
-                      <SelectItem value="EU">Europe (EU)</SelectItem>
-                      <SelectItem value="TH">Thailand (TH)</SelectItem>
-                      <SelectItem value="ID">Indonesia (ID)</SelectItem>
-                      <SelectItem value="MY">Malaysia (MY)</SelectItem>
-                      <SelectItem value="PH">Philippines (PH)</SelectItem>
-                      <SelectItem value="VN">Vietnam (VN)</SelectItem>
+                      {REGIONS.map((r) => (
+                        <SelectItem key={r.value} value={r.value}>
+                          {r.label}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
