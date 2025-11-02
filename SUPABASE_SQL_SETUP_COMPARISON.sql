@@ -55,7 +55,7 @@ ALTER TABLE ff_compare_vip_access ENABLE ROW LEVEL SECURITY;
 
 -- Policy: Allow service role full access
 CREATE POLICY "Service role has full access to vip_access"
-  ON ff_compare_vip_access
+ON ff_compare_vip_access
   FOR ALL
   TO service_role
   USING (true)
