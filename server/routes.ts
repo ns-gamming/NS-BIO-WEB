@@ -12,6 +12,7 @@ import { registerPrivacyRoutes } from "./privacy-routes";
 import { registerGeminiRoutes } from "./gemini-routes";
 import { registerDownloaderRoutes } from "./downloader-routes";
 import { registerContactFeedbackRoutes } from "./contact-feedback-routes";
+import { registerFfInfoBotRoutes } from "./ff-info-bot-routes";
 
 const supabase = process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_KEY
   ? createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY)
@@ -44,7 +45,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Seed blog posts on startup
   await seedBlogPosts();
   
-  // Register analytics, chatbot, feedback, privacy, gemini, downloader and contact feedback routes
+  // Register analytics, chatbot, feedback, privacy, gemini, downloader, contact feedback and ff-info-bot routes
   registerAnalyticsRoutes(app);
   registerChatbotRoutes(app);
   registerFeedbackRoutes(app);
@@ -52,6 +53,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   registerPrivacyRoutes(app);
   registerGeminiRoutes(app);
   registerDownloaderRoutes(app);
+  registerFfInfoBotRoutes(app);
   
   // Admin endpoint to initialize Supabase tables
   app.post("/api/admin/init-supabase", async (req, res) => {

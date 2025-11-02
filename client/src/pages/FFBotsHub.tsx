@@ -23,9 +23,9 @@ const BOTS = [
     icon: Users,
     color: 'from-blue-500 to-cyan-500',
     gradient: 'from-blue-500/20 to-cyan-500/20',
-    badge: 'Coming Soon 🚀',
-    status: 'Soon',
-    features: ['Player Stats', 'Match History', 'Detailed Info']
+    badge: 'Live Now 🎉',
+    status: 'Live',
+    features: ['5 Free Searches/Day', 'Complete Stats', 'Copy & Download']
   },
   {
     id: 'spam',

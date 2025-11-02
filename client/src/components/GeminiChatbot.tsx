@@ -176,14 +176,23 @@ Website domain: https://www.nsgamming.xyz/ (nsgamming.xyz)
 - Best place to start exploring!
 
 🔥 FF BOTS PAGE (/ff-bots)
-- Free Fire tools and bots hub
-- Free Fire Likes Tool - Get free likes for your FF account (1 use per day per user)
-- Enter your UID (8-11 digits) and select your region
-- Upcoming tools: Info Bot, Spam Bot, Visit Bot
-- Boost your Free Fire profile with powerful tools
+- Free Fire tools and bots hub - Your one-stop destination for all FF tools!
+- Free Fire Likes Tool (/ff-bots/likes) - Get free likes for your FF account (1 use per day per user)
+  * Enter your UID (8-11 digits) and select your region
+  * Real API integration with Free Fire official likes API
+  * Support for all regions: SG, IND, CIS, PK, TH, BR, BD, ME, VN
+- Free Fire Info Bot (/ff-bots/info) - 📊 NOW LIVE! Get complete player stats! 🔥
+  * Search any player's complete information
+  * View level, rank, achievements, guild info, and more!
+  * 5 FREE searches per day (resets daily at midnight)
+  * Copy formatted player info with emojis 📋
+  * Download complete player data as JSON
+  * Real-time data from official Free Fire servers
+  * Support for all regions: SG, IN, BR, US, EU, TH, ID, MY, PH, VN
+  * Shows: Nickname, Level, EXP, BR/CS Rank, Likes, Badges, Prime Level, Last Login, Guild/Clan details, Bio/Signature
+- Upcoming tools: Spam Bot, Visit Bot (launching soon!)
 - Automated daily usage tracking with Supabase
-- Real API integration with Free Fire official likes API
-- Support for all regions: SG, IND, CIS, PK, TH, BR, BD, ME, VN
+- All tools are FREE to use with daily limits!
 
 ℹ️ ABOUT PAGE (/about)
 - Detailed information about Nishant
