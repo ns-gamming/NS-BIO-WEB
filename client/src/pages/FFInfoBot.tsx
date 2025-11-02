@@ -130,13 +130,17 @@ export default function FFInfoBot() {
     },
     onError: (error: any) => {
       const errorMessage = error.message || "Failed to fetch player info";
-      const isConfigError = errorMessage.includes("not configured") || errorMessage.includes("Secrets");
+      const isConfigError = errorMessage.includes("not configured") || errorMessage.includes("Secrets") || errorMessage.includes("API key");
+      const isNotFound = errorMessage.includes("No player found") || errorMessage.includes("404");
       
       toast({
-        title: isConfigError ? "⚙️ Configuration Error" : "❌ Error",
+        title: isConfigError ? "⚙️ Configuration Error" : isNotFound ? "🔍 Player Not Found" : "❌ Error",
         description: errorMessage,
         variant: "destructive",
+        duration: 5000,
       });
+      
+      console.error('Search error:', error);
     },
   });
 

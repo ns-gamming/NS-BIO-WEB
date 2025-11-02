@@ -100,30 +100,47 @@ export function registerFfInfoBotRoutes(app: Express) {
 
       const apiUrl = `https://api.ffinfo.freefireofficial.com/api/${apiRegion.toLowerCase()}/${uid}?key=${ffInfoApiKey}`;
       
+      console.log(`Fetching player info from: ${apiUrl.replace(ffInfoApiKey, 'API_KEY_HIDDEN')}`);
+      
       const response = await fetch(apiUrl, {
         method: 'GET',
         headers: {
-          'User-Agent': 'NS-GAMMING-InfoBot/1.0',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+          'Accept': 'application/json',
+          'Accept-Language': 'en-US,en;q=0.9',
+          'Referer': 'https://nsgamming.xyz/',
         },
-        signal: AbortSignal.timeout(10000),
+        signal: AbortSignal.timeout(15000),
       });
 
+      console.log(`API Response Status: ${response.status}`);
+
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`API Error Response: ${errorText}`);
+        
         if (response.status === 404) {
           return res.status(404).json({ 
-            error: `No account found for UID ${uid} in ${region} region` 
+            error: `❌ No player found with UID ${uid} in ${region} region. Please check UID and region.` 
+          });
+        }
+        if (response.status === 401 || response.status === 403) {
+          return res.status(503).json({ 
+            error: "❌ API key issue. Please contact administrator or check FFINFO_API_KEY in Secrets." 
           });
         }
         return res.status(502).json({ 
-          error: "Failed to fetch player info. Please try again later." 
+          error: `❌ Free Fire API error (${response.status}). Please try again or contact support.` 
         });
       }
 
       const data = await response.json();
+      console.log('API Response Data:', JSON.stringify(data).substring(0, 200));
 
-      if (!data.basicInfo) {
+      if (!data || !data.basicInfo) {
+        console.error('Invalid API response structure:', data);
         return res.status(502).json({ 
-          error: "Invalid response from Free Fire API" 
+          error: "❌ Invalid response from Free Fire API. The player data is incomplete." 
         });
       }
 
@@ -166,10 +183,23 @@ export function registerFfInfoBotRoutes(app: Express) {
         }
       });
 
-    } catch (error) {
+    } catch (error: any) {
       console.error('FF Info Bot search error:', error);
+      
+      if (error.name === 'AbortError' || error.message?.includes('timeout')) {
+        return res.status(504).json({ 
+          error: "⏱️ Request timeout. The Free Fire API is taking too long to respond. Please try again." 
+        });
+      }
+      
+      if (error.message?.includes('fetch')) {
+        return res.status(503).json({ 
+          error: "🌐 Network error. Unable to connect to Free Fire API. Please try again later." 
+        });
+      }
+      
       return res.status(500).json({ 
-        error: "An error occurred while processing your request" 
+        error: "❌ An unexpected error occurred. Please try again or contact support." 
       });
     }
   });
