@@ -5,6 +5,14 @@
   "outputDirectory": "dist/public",
   "rewrites": [
     {
+      "source": "/api/ff-info-bot/search",
+      "destination": "/api/ff-info-bot"
+    },
+    {
+      "source": "/api/ff-info-bot/check-limit",
+      "destination": "/api/ff-info-bot"
+    },
+    {
       "source": "/((?!api/).*)",
       "destination": "/index.html"
     }
