@@ -31,6 +31,9 @@ interface PlayerData {
     badgeCnt: number;
     showBrRank: boolean;
     showCsRank: boolean;
+    accountType?: number;
+    badgeId?: string;
+    headPic?: string;
     primePrivilegeDetail?: {
       primeLevel: number;
     };
@@ -112,12 +115,38 @@ export default function FFInfoBot() {
         body: JSON.stringify(data),
       });
       
+      const contentType = response.headers.get('content-type');
+      const isJson = contentType?.includes('application/json');
+      
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Failed to fetch player info');
+        if (isJson) {
+          try {
+            const error = await response.json();
+            throw new Error(error.error || 'Failed to fetch player info');
+          } catch (parseError) {
+            throw new Error('Server error. Please try again later.');
+          }
+        } else {
+          const text = await response.text();
+          if (text.includes('FUNCTION_INVOCATION_TIMEOUT') || text.includes('timeout')) {
+            throw new Error('⏱️ Request timeout. The server took too long to respond. Please try again.');
+          }
+          if (response.status === 504) {
+            throw new Error('⏱️ Gateway timeout. The request took too long. Please try again.');
+          }
+          throw new Error(`Server error (${response.status}). Please try again later.`);
+        }
       }
       
-      return response.json();
+      if (!isJson) {
+        throw new Error('⚠️ Invalid server response. The server may be experiencing issues. Please try again.');
+      }
+      
+      try {
+        return await response.json();
+      } catch (parseError) {
+        throw new Error('⚠️ Failed to parse server response. Please try again.');
+      }
     },
     onSuccess: (data: SearchResponse) => {
       setPlayerData(data.data);

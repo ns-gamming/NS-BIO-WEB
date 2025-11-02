@@ -112,7 +112,7 @@ export function registerFfInfoBotRoutes(app: Express) {
       console.log(`   URL: ${apiUrl.replace(ffInfoApiKey, 'HIDDEN')}`);
       
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout for Vercel
+      const timeoutId = setTimeout(() => controller.abort(), 7000); // 7 second timeout for Vercel (leaves 3s buffer)
       
       const response = await fetch(apiUrl, {
         method: 'GET',
