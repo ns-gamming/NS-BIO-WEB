@@ -111,6 +111,9 @@ export function registerFfInfoBotRoutes(app: Express) {
       console.log(`   UID: ${uid}`);
       console.log(`   URL: ${apiUrl.replace(ffInfoApiKey, 'HIDDEN')}`);
       
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 25000); // 25 second timeout for Vercel
+      
       const response = await fetch(apiUrl, {
         method: 'GET',
         headers: {
@@ -119,8 +122,10 @@ export function registerFfInfoBotRoutes(app: Express) {
           'Accept-Language': 'en-US,en;q=0.9',
           'Cache-Control': 'no-cache',
         },
-        signal: AbortSignal.timeout(15000),
+        signal: controller.signal,
       });
+      
+      clearTimeout(timeoutId);
 
       console.log(`📡 API Response Status: ${response.status}`);
 
@@ -158,8 +163,19 @@ export function registerFfInfoBotRoutes(app: Express) {
         });
       }
 
-      const data = await response.json();
-      console.log('API Response Data:', JSON.stringify(data).substring(0, 200));
+      let data;
+      try {
+        const responseText = await response.text();
+        console.log('API Response Text (first 500 chars):', responseText.substring(0, 500));
+        data = JSON.parse(responseText);
+        console.log('API Response Parsed Successfully');
+      } catch (parseError: any) {
+        console.error('JSON Parse Error:', parseError.message);
+        console.error('Failed to parse API response');
+        return res.status(502).json({ 
+          error: "❌ Failed to parse Free Fire API response. The API may be temporarily unavailable." 
+        });
+      }
 
       if (!data || !data.basicInfo) {
         console.error('Invalid API response structure:', data);

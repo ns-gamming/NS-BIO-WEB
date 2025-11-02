@@ -215,7 +215,7 @@ ${info.showCsRank ? `🎯 CS Rank: ${info.csRank}\n⚡ CS Points: ${info.csRanki
 🏅 Badges: ${info.badgeCnt}
 🌟 Prime Level: ${info.primePrivilegeDetail?.primeLevel || 'N/A'}
 ⏰ Last Login: ${formatLastLogin(info.lastLoginAt)}
-${playerData.creditScoreInfo ? `🎖️ Credit Score: ${playerData.creditScoreInfo.creditScore}` : ''}
+${playerData.creditScoreInfo ? `🎖️ Honour Score: ${playerData.creditScoreInfo.creditScore}` : ''}
 
 ${clan ? `👥 *Guild/Clan Info*
 ━━━━━━━━━━━━━━━━━━━
@@ -504,7 +504,7 @@ ${social.signature}
                         <div className="flex items-center justify-between p-2 bg-green-500/10 rounded border border-green-500/20">
                           <span className="flex items-center gap-2">
                             <Trophy className="w-4 h-4 text-green-500" />
-                            <span className="text-muted-foreground">Credit Score:</span>
+                            <span className="text-muted-foreground">Honour Score:</span>
                           </span>
                           <Badge variant="outline" className="text-green-600 dark:text-green-400 font-bold">{playerData.creditScoreInfo.creditScore}</Badge>
                         </div>
@@ -599,7 +599,7 @@ ${social.signature}
                 </div>
                 <div className="text-center p-4 bg-background/50 rounded-lg border">
                   <p className="text-3xl font-bold text-green-500">{playerData.creditScoreInfo?.creditScore || 'N/A'}</p>
-                  <p className="text-sm text-muted-foreground">Credit Score</p>
+                  <p className="text-sm text-muted-foreground">Honour Score</p>
                 </div>
               </div>
             </CardContent>
