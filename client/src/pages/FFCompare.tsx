@@ -1,5 +1,6 @@
+
 import { Link } from "wouter";
-import { ArrowLeft, Swords, Trophy, Zap, Crown, Star, Heart, Shield, Send, ThumbsUp, ThumbsDown, Sparkles } from "lucide-react";
+import { ArrowLeft, Swords, Trophy, Zap, Crown, Star, Heart, Shield, Send, ThumbsUp, ThumbsDown, Sparkles, Plus, X, Loader2, CheckCircle } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -43,14 +44,25 @@ interface PlayerData {
   };
 }
 
+interface Player {
+  id: string;
+  uid: string;
+  region: string;
+}
+
 interface ComparisonResult {
   id: string;
-  player1: PlayerData;
-  player2: PlayerData;
-  player1Score: number;
-  player2Score: number;
+  players: PlayerData[];
+  scores: number[];
   winnerUid: string;
   analysis: string;
+}
+
+interface ProgressState {
+  stage: 'idle' | 'fetching' | 'analyzing' | 'complete';
+  currentPlayer?: number;
+  totalPlayers?: number;
+  message: string;
 }
 
 interface LimitResponse {
@@ -79,22 +91,54 @@ const REGIONS = [
 
 export default function FFCompare() {
   const { toast } = useToast();
-  const [player1Uid, setPlayer1Uid] = useState("");
-  const [player1Region, setPlayer1Region] = useState("IND");
-  const [player2Uid, setPlayer2Uid] = useState("");
-  const [player2Region, setPlayer2Region] = useState("IND");
+  const [players, setPlayers] = useState<Player[]>([
+    { id: '1', uid: '', region: 'IND' },
+    { id: '2', uid: '', region: 'IND' }
+  ]);
   const [comparison, setComparison] = useState<ComparisonResult | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [helpful, setHelpful] = useState<boolean | null>(null);
+  const [progressState, setProgressState] = useState<ProgressState>({ stage: 'idle', message: '' });
 
   const { data: limitData } = useQuery<LimitResponse>({
     queryKey: ['/api/ff-compare/check-limit'],
   });
 
+  const addPlayer = () => {
+    if (players.length >= 10) {
+      toast({
+        title: "⚠️ Maximum Players Reached",
+        description: "You can compare up to 10 players at once",
+        variant: "destructive",
+      });
+      return;
+    }
+    const newId = (Math.max(...players.map(p => parseInt(p.id))) + 1).toString();
+    setPlayers([...players, { id: newId, uid: '', region: 'IND' }]);
+  };
+
+  const removePlayer = (id: string) => {
+    if (players.length <= 2) {
+      toast({
+        title: "⚠️ Minimum Players Required",
+        description: "You need at least 2 players to compare",
+        variant: "destructive",
+      });
+      return;
+    }
+    setPlayers(players.filter(p => p.id !== id));
+  };
+
+  const updatePlayer = (id: string, field: 'uid' | 'region', value: string) => {
+    setPlayers(players.map(p => p.id === id ? { ...p, [field]: value } : p));
+  };
+
   const compareMutation = useMutation({
-    mutationFn: async (data: { player1Uid: string; player1Region: string; player2Uid: string; player2Region: string }) => {
+    mutationFn: async (data: { players: Player[] }) => {
+      setProgressState({ stage: 'fetching', totalPlayers: data.players.length, currentPlayer: 0, message: 'Starting comparison...' });
+      
       const response = await fetch('/api/ff-compare/compare', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -105,6 +149,7 @@ export default function FFCompare() {
       const isJson = contentType?.includes('application/json');
       
       if (!response.ok) {
+        setProgressState({ stage: 'idle', message: '' });
         if (isJson) {
           const error = await response.json();
           throw new Error(error.error || 'Comparison failed');
@@ -118,12 +163,16 @@ export default function FFCompare() {
       }
       
       if (!isJson) {
+        setProgressState({ stage: 'idle', message: '' });
         throw new Error('⚠️ Invalid server response');
       }
       
+      setProgressState({ stage: 'analyzing', message: 'AI is analyzing all players...' });
       return response.json();
     },
     onSuccess: (data) => {
+      setProgressState({ stage: 'complete', message: 'Comparison complete!' });
+      setTimeout(() => setProgressState({ stage: 'idle', message: '' }), 2000);
       setComparison(data.comparison);
       setShowFeedback(false);
       queryClient.invalidateQueries({ queryKey: ['/api/ff-compare/check-limit'] });
@@ -133,6 +182,7 @@ export default function FFCompare() {
       });
     },
     onError: (error: any) => {
+      setProgressState({ stage: 'idle', message: '' });
       toast({
         title: "❌ Comparison Failed",
         description: error.message,
@@ -169,34 +219,38 @@ export default function FFCompare() {
   });
 
   const handleCompare = () => {
-    if (!player1Uid.trim() || !player2Uid.trim()) {
+    const filledPlayers = players.filter(p => p.uid.trim());
+    
+    if (filledPlayers.length < 2) {
       toast({
-        title: "⚠️ Missing UIDs",
-        description: "Please enter both player UIDs",
+        title: "⚠️ Not Enough Players",
+        description: "Please enter at least 2 player UIDs",
         variant: "destructive",
       });
       return;
     }
 
-    if (player1Uid.length < 6 || player2Uid.length < 6) {
+    const invalidPlayers = filledPlayers.filter(p => p.uid.length < 6);
+    if (invalidPlayers.length > 0) {
       toast({
         title: "⚠️ Invalid UIDs",
-        description: "UIDs must be at least 6 digits",
+        description: "All UIDs must be at least 6 digits",
         variant: "destructive",
       });
       return;
     }
 
-    if (player1Uid === player2Uid && player1Region === player2Region) {
+    const uniqueCheck = new Set(filledPlayers.map(p => `${p.uid}-${p.region}`));
+    if (uniqueCheck.size !== filledPlayers.length) {
       toast({
-        title: "⚠️ Same Player",
-        description: "Please select two different players",
+        title: "⚠️ Duplicate Players",
+        description: "Each player must be unique (UID + Region)",
         variant: "destructive",
       });
       return;
     }
 
-    compareMutation.mutate({ player1Uid, player1Region, player2Uid, player2Region });
+    compareMutation.mutate({ players: filledPlayers });
   };
 
   const currentLimit = limitData || { remainingCompares: 3, totalCompares: 0, dailyLimit: 3, limitReached: false, isVip: false };
@@ -227,7 +281,7 @@ export default function FFCompare() {
           </h1>
           
           <p className="text-xl text-muted-foreground mb-4 max-w-2xl mx-auto">
-            Compare two Free Fire players head-to-head! AI-powered analysis determines the ultimate winner! 🏆
+            Compare up to 10 Free Fire players head-to-head! AI-powered analysis determines the ultimate winner! 🏆
           </p>
 
           <div className="flex flex-wrap justify-center gap-4 items-center">
@@ -267,83 +321,98 @@ export default function FFCompare() {
         >
           <Card className="mb-8">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-2xl">
-                <Sparkles className="w-6 h-6 text-primary animate-pulse" />
-                Select Players to Compare
+              <CardTitle className="flex items-center justify-between">
+                <div className="flex items-center gap-2 text-2xl">
+                  <Sparkles className="w-6 h-6 text-primary animate-pulse" />
+                  Select Players to Compare
+                </div>
+                <Button onClick={addPlayer} variant="outline" size="sm" disabled={players.length >= 10}>
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Player
+                </Button>
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid md:grid-cols-2 gap-8">
-                <motion.div 
-                  className="space-y-4 p-6 rounded-lg bg-blue-500/10 dark:bg-blue-500/20 border-2 border-blue-500/30"
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  <div className="flex items-center gap-2 mb-4">
-                    <Shield className="w-6 h-6 text-blue-500" />
-                    <h3 className="text-xl font-bold">Player 1</h3>
-                  </div>
-                  <div>
-                    <Label htmlFor="player1-uid">Player UID</Label>
-                    <Input
-                      id="player1-uid"
-                      type="text"
-                      placeholder="Enter UID"
-                      value={player1Uid}
-                      onChange={(e) => setPlayer1Uid(e.target.value.replace(/\D/g, '').slice(0, 20))}
-                      data-testid="input-player1-uid"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="player1-region">Region</Label>
-                    <Select value={player1Region} onValueChange={setPlayer1Region}>
-                      <SelectTrigger id="player1-region" data-testid="select-player1-region">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {REGIONS.map((r) => (
-                          <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </motion.div>
-
-                <motion.div 
-                  className="space-y-4 p-6 rounded-lg bg-red-500/10 dark:bg-red-500/20 border-2 border-red-500/30"
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  <div className="flex items-center gap-2 mb-4">
-                    <Shield className="w-6 h-6 text-red-500" />
-                    <h3 className="text-xl font-bold">Player 2</h3>
-                  </div>
-                  <div>
-                    <Label htmlFor="player2-uid">Player UID</Label>
-                    <Input
-                      id="player2-uid"
-                      type="text"
-                      placeholder="Enter UID"
-                      value={player2Uid}
-                      onChange={(e) => setPlayer2Uid(e.target.value.replace(/\D/g, '').slice(0, 20))}
-                      data-testid="input-player2-uid"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="player2-region">Region</Label>
-                    <Select value={player2Region} onValueChange={setPlayer2Region}>
-                      <SelectTrigger id="player2-region" data-testid="select-player2-region">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {REGIONS.map((r) => (
-                          <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </motion.div>
+              <div className="grid md:grid-cols-2 gap-6">
+                {players.map((player, index) => {
+                  const colors = [
+                    'blue', 'red', 'green', 'purple', 'orange', 'pink', 'cyan', 'yellow', 'indigo', 'emerald'
+                  ];
+                  const color = colors[index % colors.length];
+                  
+                  return (
+                    <motion.div 
+                      key={player.id}
+                      className={`space-y-4 p-6 rounded-lg bg-${color}-500/10 dark:bg-${color}-500/20 border-2 border-${color}-500/30 relative`}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: index * 0.1 }}
+                      whileHover={{ scale: 1.02 }}
+                    >
+                      {players.length > 2 && (
+                        <Button
+                          onClick={() => removePlayer(player.id)}
+                          variant="ghost"
+                          size="sm"
+                          className="absolute top-2 right-2 h-8 w-8 p-0"
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      )}
+                      <div className="flex items-center gap-2 mb-4">
+                        <Shield className={`w-6 h-6 text-${color}-500`} />
+                        <h3 className="text-xl font-bold">Player {index + 1}</h3>
+                      </div>
+                      <div>
+                        <Label htmlFor={`player${player.id}-uid`}>Player UID</Label>
+                        <Input
+                          id={`player${player.id}-uid`}
+                          type="text"
+                          placeholder="Enter UID"
+                          value={player.uid}
+                          onChange={(e) => updatePlayer(player.id, 'uid', e.target.value.replace(/\D/g, '').slice(0, 20))}
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor={`player${player.id}-region`}>Region</Label>
+                        <Select value={player.region} onValueChange={(val) => updatePlayer(player.id, 'region', val)}>
+                          <SelectTrigger id={`player${player.id}-region`}>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {REGIONS.map((r) => (
+                              <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </motion.div>
+                  );
+                })}
               </div>
+
+              {progressState.stage !== 'idle' && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-6 p-6 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-lg border border-blue-500/30"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    {progressState.stage === 'fetching' && <Loader2 className="w-5 h-5 animate-spin text-blue-500" />}
+                    {progressState.stage === 'analyzing' && <Zap className="w-5 h-5 animate-pulse text-purple-500" />}
+                    {progressState.stage === 'complete' && <CheckCircle className="w-5 h-5 text-green-500" />}
+                    <span className="font-semibold">{progressState.message}</span>
+                  </div>
+                  {progressState.totalPlayers && progressState.stage === 'fetching' && (
+                    <Progress value={(progressState.currentPlayer || 0) / progressState.totalPlayers * 100} className="h-2" />
+                  )}
+                  <p className="text-sm text-muted-foreground mt-2">
+                    {progressState.stage === 'fetching' && `Fetching player ${progressState.currentPlayer}/${progressState.totalPlayers} details from FF servers...`}
+                    {progressState.stage === 'analyzing' && 'Using AI to analyze stats and determine the winner...'}
+                    {progressState.stage === 'complete' && 'All done! Check results below 🎉'}
+                  </p>
+                </motion.div>
+              )}
 
               <div className="mt-8 flex justify-center">
                 <Button 
@@ -355,7 +424,7 @@ export default function FFCompare() {
                 >
                   {compareMutation.isPending ? (
                     <>
-                      <Zap className="w-6 h-6 mr-2 animate-spin" />
+                      <Loader2 className="w-6 h-6 mr-2 animate-spin" />
                       Analyzing Battle...
                     </>
                   ) : currentLimit.limitReached ? (
@@ -366,7 +435,7 @@ export default function FFCompare() {
                   ) : (
                     <>
                       <Swords className="w-6 h-6 mr-2" />
-                      Start Battle Comparison
+                      Compare {players.filter(p => p.uid.trim()).length} Players
                     </>
                   )}
                 </Button>
@@ -410,115 +479,66 @@ export default function FFCompare() {
                 <CardHeader className="bg-gradient-to-r from-purple-500/20 to-pink-500/20">
                   <CardTitle className="text-3xl text-center flex items-center justify-center gap-3">
                     <Trophy className="w-8 h-8 text-yellow-500 animate-bounce" />
-                    Battle Results
+                    Battle Results ({comparison.players.length} Players)
                     <Trophy className="w-8 h-8 text-yellow-500 animate-bounce" />
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-8">
-                  <div className="grid md:grid-cols-2 gap-8 mb-8">
-                    <motion.div
-                      className={`p-6 rounded-lg border-2 ${
-                        comparison.winnerUid === comparison.player1.basicInfo.accountId
-                          ? 'bg-green-500/20 border-green-500 shadow-lg shadow-green-500/50'
-                          : 'bg-muted/50 border-muted'
-                      }`}
-                      initial={{ x: -50, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ delay: 0.2 }}
-                    >
-                      {comparison.winnerUid === comparison.player1.basicInfo.accountId && (
-                        <div className="flex items-center justify-center mb-4">
-                          <Badge className="bg-green-500 text-white px-4 py-2 text-lg animate-pulse">
-                            <Crown className="w-5 h-5 mr-2" />
-                            WINNER!
-                          </Badge>
-                        </div>
-                      )}
-                      <div className="text-center mb-4">
-                        <h3 className="text-2xl font-bold mb-2">{comparison.player1.basicInfo.nickname}</h3>
-                        <Badge variant="outline" className="text-lg px-4 py-2">Level {comparison.player1.basicInfo.level}</Badge>
-                      </div>
-                      <div className="space-y-3">
-                        <div>
-                          <div className="flex justify-between text-sm mb-1">
-                            <span>Overall Score</span>
-                            <span className="font-bold">{comparison.player1Score}/100</span>
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    {comparison.players.map((player, index) => (
+                      <motion.div
+                        key={player.basicInfo.accountId}
+                        className={`p-6 rounded-lg border-2 ${
+                          comparison.winnerUid === player.basicInfo.accountId
+                            ? 'bg-green-500/20 border-green-500 shadow-lg shadow-green-500/50'
+                            : 'bg-muted/50 border-muted'
+                        }`}
+                        initial={{ x: index % 2 === 0 ? -50 : 50, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ delay: index * 0.1 }}
+                      >
+                        {comparison.winnerUid === player.basicInfo.accountId && (
+                          <div className="flex items-center justify-center mb-4">
+                            <Badge className="bg-green-500 text-white px-4 py-2 text-lg animate-pulse">
+                              <Crown className="w-5 h-5 mr-2" />
+                              WINNER!
+                            </Badge>
                           </div>
-                          <Progress value={comparison.player1Score} className="h-4" />
+                        )}
+                        <div className="text-center mb-4">
+                          <h3 className="text-2xl font-bold mb-2">{player.basicInfo.nickname}</h3>
+                          <Badge variant="outline" className="text-lg px-4 py-2">Level {player.basicInfo.level}</Badge>
                         </div>
-                        <Separator />
-                        <div className="space-y-2 text-sm">
-                          <p className="flex items-center justify-between">
-                            <span className="flex items-center gap-2"><Trophy className="w-4 h-4 text-yellow-500" /> BR Rank:</span>
-                            <Badge variant="secondary">#{comparison.player1.basicInfo.rank}</Badge>
-                          </p>
-                          <p className="flex items-center justify-between">
-                            <span className="flex items-center gap-2"><Star className="w-4 h-4 text-purple-500" /> BR Points:</span>
-                            <span className="font-semibold">{comparison.player1.basicInfo.rankingPoints.toLocaleString()}</span>
-                          </p>
-                          <p className="flex items-center justify-between">
-                            <span className="flex items-center gap-2"><Heart className="w-4 h-4 text-red-500" /> Likes:</span>
-                            <span className="font-semibold">{comparison.player1.basicInfo.liked.toLocaleString()}</span>
-                          </p>
-                          <p className="flex items-center justify-between">
-                            <span className="flex items-center gap-2"><Shield className="w-4 h-4 text-blue-500" /> Badges:</span>
-                            <span className="font-semibold">{comparison.player1.basicInfo.badgeCnt}</span>
-                          </p>
-                        </div>
-                      </div>
-                    </motion.div>
-
-                    <motion.div
-                      className={`p-6 rounded-lg border-2 ${
-                        comparison.winnerUid === comparison.player2.basicInfo.accountId
-                          ? 'bg-green-500/20 border-green-500 shadow-lg shadow-green-500/50'
-                          : 'bg-muted/50 border-muted'
-                      }`}
-                      initial={{ x: 50, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ delay: 0.2 }}
-                    >
-                      {comparison.winnerUid === comparison.player2.basicInfo.accountId && (
-                        <div className="flex items-center justify-center mb-4">
-                          <Badge className="bg-green-500 text-white px-4 py-2 text-lg animate-pulse">
-                            <Crown className="w-5 h-5 mr-2" />
-                            WINNER!
-                          </Badge>
-                        </div>
-                      )}
-                      <div className="text-center mb-4">
-                        <h3 className="text-2xl font-bold mb-2">{comparison.player2.basicInfo.nickname}</h3>
-                        <Badge variant="outline" className="text-lg px-4 py-2">Level {comparison.player2.basicInfo.level}</Badge>
-                      </div>
-                      <div className="space-y-3">
-                        <div>
-                          <div className="flex justify-between text-sm mb-1">
-                            <span>Overall Score</span>
-                            <span className="font-bold">{comparison.player2Score}/100</span>
+                        <div className="space-y-3">
+                          <div>
+                            <div className="flex justify-between text-sm mb-1">
+                              <span>Overall Score</span>
+                              <span className="font-bold">{comparison.scores[index]}/100</span>
+                            </div>
+                            <Progress value={comparison.scores[index]} className="h-4" />
                           </div>
-                          <Progress value={comparison.player2Score} className="h-4" />
+                          <Separator />
+                          <div className="space-y-2 text-sm">
+                            <p className="flex items-center justify-between">
+                              <span className="flex items-center gap-2"><Trophy className="w-4 h-4 text-yellow-500" /> BR Rank:</span>
+                              <Badge variant="secondary">#{player.basicInfo.rank}</Badge>
+                            </p>
+                            <p className="flex items-center justify-between">
+                              <span className="flex items-center gap-2"><Star className="w-4 h-4 text-purple-500" /> BR Points:</span>
+                              <span className="font-semibold">{player.basicInfo.rankingPoints.toLocaleString()}</span>
+                            </p>
+                            <p className="flex items-center justify-between">
+                              <span className="flex items-center gap-2"><Heart className="w-4 h-4 text-red-500" /> Likes:</span>
+                              <span className="font-semibold">{player.basicInfo.liked.toLocaleString()}</span>
+                            </p>
+                            <p className="flex items-center justify-between">
+                              <span className="flex items-center gap-2"><Shield className="w-4 h-4 text-blue-500" /> Badges:</span>
+                              <span className="font-semibold">{player.basicInfo.badgeCnt}</span>
+                            </p>
+                          </div>
                         </div>
-                        <Separator />
-                        <div className="space-y-2 text-sm">
-                          <p className="flex items-center justify-between">
-                            <span className="flex items-center gap-2"><Trophy className="w-4 h-4 text-yellow-500" /> BR Rank:</span>
-                            <Badge variant="secondary">#{comparison.player2.basicInfo.rank}</Badge>
-                          </p>
-                          <p className="flex items-center justify-between">
-                            <span className="flex items-center gap-2"><Star className="w-4 h-4 text-purple-500" /> BR Points:</span>
-                            <span className="font-semibold">{comparison.player2.basicInfo.rankingPoints.toLocaleString()}</span>
-                          </p>
-                          <p className="flex items-center justify-between">
-                            <span className="flex items-center gap-2"><Heart className="w-4 h-4 text-red-500" /> Likes:</span>
-                            <span className="font-semibold">{comparison.player2.basicInfo.liked.toLocaleString()}</span>
-                          </p>
-                          <p className="flex items-center justify-between">
-                            <span className="flex items-center gap-2"><Shield className="w-4 h-4 text-blue-500" /> Badges:</span>
-                            <span className="font-semibold">{comparison.player2.basicInfo.badgeCnt}</span>
-                          </p>
-                        </div>
-                      </div>
-                    </motion.div>
+                      </motion.div>
+                    ))}
                   </div>
 
                   <motion.div

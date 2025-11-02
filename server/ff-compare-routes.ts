@@ -16,17 +16,16 @@ const REGION_API_MAP: Record<string, string> = {
   'PK': 'ind', 'BD': 'ind', 'ME': 'cis', 'ID': 'sg', 'MY': 'sg', 'PH': 'sg', 'US': 'br', 'EU': 'cis',
 };
 
+const playerSchema = z.object({
+  uid: z.string().regex(/^[0-9]{6,20}$/, 'UID must be 6-20 digits'),
+  region: z.string().toUpperCase().refine(
+    val => Object.keys(REGION_API_MAP).includes(val),
+    'Invalid region'
+  ),
+});
+
 const compareSchema = z.object({
-  player1Uid: z.string().regex(/^[0-9]{6,20}$/, 'Player 1 UID must be 6-20 digits'),
-  player1Region: z.string().toUpperCase().refine(
-    val => Object.keys(REGION_API_MAP).includes(val),
-    'Invalid region for Player 1'
-  ),
-  player2Uid: z.string().regex(/^[0-9]{6,20}$/, 'Player 2 UID must be 6-20 digits'),
-  player2Region: z.string().toUpperCase().refine(
-    val => Object.keys(REGION_API_MAP).includes(val),
-    'Invalid region for Player 2'
-  ),
+  players: z.array(playerSchema).min(2, 'At least 2 players required').max(10, 'Maximum 10 players allowed'),
 });
 
 async function fetchPlayerData(uid: string, region: string) {
@@ -65,45 +64,40 @@ async function fetchPlayerData(uid: string, region: string) {
   }
 }
 
-async function analyzeWithGemini(player1Data: any, player2Data: any): Promise<{ player1Score: number, player2Score: number, analysis: string, winnerUid: string }> {
+async function analyzeWithGemini(playersData: any[]): Promise<{ scores: number[], analysis: string, winnerUid: string }> {
   if (!genAI) {
     throw new Error('Gemini AI not configured');
   }
 
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
   
-  const prompt = `You are a Free Fire game expert analyst. Compare these two players and provide:
-1. A score out of 100 for each player based on their overall performance
-2. A detailed analysis (200-300 words) comparing:
+  const playerStats = playersData.map((p, i) => `
+Player ${i + 1} (${p.basicInfo.nickname}, UID: ${p.basicInfo.accountId}):
+- Level: ${p.basicInfo.level}
+- BR Rank: ${p.basicInfo.rank}, Points: ${p.basicInfo.rankingPoints}
+- CS Rank: ${p.basicInfo.csRank}, Points: ${p.basicInfo.csRankingPoints}
+- Likes: ${p.basicInfo.liked}
+- Badges: ${p.basicInfo.badgeCnt}
+- Guild: ${p.clanBasicInfo?.clanName || 'None'}
+  `).join('\n');
+  
+  const prompt = `You are a Free Fire game expert analyst. Compare these ${playersData.length} players and provide:
+1. A score out of 100 for EACH player based on their overall performance
+2. A detailed analysis (250-400 words) comparing ALL players:
    - Rank and rating points (BR and CS)
    - Level and experience
    - Achievements (likes, badges)
    - Guild participation
    - Account activity
-3. Declare a clear winner
+3. Declare a clear winner with reasoning
 
-Player 1 (${player1Data.basicInfo.nickname}):
-- Level: ${player1Data.basicInfo.level}
-- BR Rank: ${player1Data.basicInfo.rank}, Points: ${player1Data.basicInfo.rankingPoints}
-- CS Rank: ${player1Data.basicInfo.csRank}, Points: ${player1Data.basicInfo.csRankingPoints}
-- Likes: ${player1Data.basicInfo.liked}
-- Badges: ${player1Data.basicInfo.badgeCnt}
-- Guild: ${player1Data.clanBasicInfo?.clanName || 'None'}
+${playerStats}
 
-Player 2 (${player2Data.basicInfo.nickname}):
-- Level: ${player2Data.basicInfo.level}
-- BR Rank: ${player2Data.basicInfo.rank}, Points: ${player2Data.basicInfo.rankingPoints}
-- CS Rank: ${player2Data.basicInfo.csRank}, Points: ${player2Data.basicInfo.csRankingPoints}
-- Likes: ${player2Data.basicInfo.liked}
-- Badges: ${player2Data.basicInfo.badgeCnt}
-- Guild: ${player2Data.clanBasicInfo?.clanName || 'None'}
-
-Format your response EXACTLY as JSON:
+Format your response EXACTLY as JSON with this structure:
 {
-  "player1Score": <number 0-100>,
-  "player2Score": <number 0-100>,
-  "winnerUid": "<UID of winner>",
-  "analysis": "<detailed comparison text>"
+  "scores": [<player1 score>, <player2 score>, ...],
+  "winnerUid": "<UID of the winner>",
+  "analysis": "<detailed comparison of all players>"
 }`;
 
   const result = await model.generateContent(prompt);
@@ -117,8 +111,7 @@ Format your response EXACTLY as JSON:
   const analysis = JSON.parse(jsonMatch[0]);
   
   return {
-    player1Score: Math.min(100, Math.max(0, analysis.player1Score)),
-    player2Score: Math.min(100, Math.max(0, analysis.player2Score)),
+    scores: analysis.scores.map((s: number) => Math.min(100, Math.max(0, s))),
     analysis: analysis.analysis,
     winnerUid: analysis.winnerUid,
   };
@@ -152,7 +145,7 @@ export function registerFfCompareRoutes(app: Express) {
         });
       }
 
-      const { player1Uid, player1Region, player2Uid, player2Region } = validation.data;
+      const { players: playersList } = validation.data;
       
       const ipAddress = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() ||
                        req.socket.remoteAddress || 
@@ -226,31 +219,34 @@ export function registerFfCompareRoutes(app: Express) {
         }
       }
 
-      console.log(`🔍 Comparing players: ${player1Uid} (${player1Region}) vs ${player2Uid} (${player2Region})`);
+      console.log(`🔍 Comparing ${playersList.length} players...`);
       
-      const [player1Data, player2Data] = await Promise.all([
-        fetchPlayerData(player1Uid, player1Region),
-        fetchPlayerData(player2Uid, player2Region),
-      ]);
-
-      if (!player1Data?.basicInfo || !player2Data?.basicInfo) {
-        return res.status(502).json({ 
-          error: "❌ Failed to fetch player data. Please verify UIDs and regions are correct." 
-        });
+      const playersData = [];
+      for (let i = 0; i < playersList.length; i++) {
+        const player = playersList[i];
+        console.log(`Fetching player ${i + 1}/${playersList.length}: ${player.uid} (${player.region})`);
+        const data = await fetchPlayerData(player.uid, player.region);
+        if (!data?.basicInfo) {
+          return res.status(502).json({ 
+            error: `❌ Failed to fetch data for player ${i + 1} (UID: ${player.uid}). Please verify UID and region.` 
+          });
+        }
+        playersData.push(data);
       }
 
-      const geminiResult = await analyzeWithGemini(player1Data, player2Data);
+      console.log(`✅ All players fetched. Starting AI analysis...`);
+      const geminiResult = await analyzeWithGemini(playersData);
 
       const { data: historyEntry } = await supabase
         .from('ff_compare_history')
         .insert({
           ip_address: ipAddress,
-          player1_uid: player1Uid,
-          player1_region: player1Region,
-          player2_uid: player2Uid,
-          player2_region: player2Region,
-          player1_score: geminiResult.player1Score,
-          player2_score: geminiResult.player2Score,
+          player1_uid: playersList[0].uid,
+          player1_region: playersList[0].region,
+          player2_uid: playersList[1].uid,
+          player2_region: playersList[1].region,
+          player1_score: geminiResult.scores[0],
+          player2_score: geminiResult.scores[1],
           winner_uid: geminiResult.winnerUid,
           analysis: geminiResult.analysis,
         })
@@ -267,10 +263,8 @@ export function registerFfCompareRoutes(app: Express) {
         success: true,
         comparison: {
           id: historyEntry?.id,
-          player1: player1Data,
-          player2: player2Data,
-          player1Score: geminiResult.player1Score,
-          player2Score: geminiResult.player2Score,
+          players: playersData,
+          scores: geminiResult.scores,
           winnerUid: geminiResult.winnerUid,
           analysis: geminiResult.analysis,
         },
