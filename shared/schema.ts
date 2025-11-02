@@ -102,6 +102,47 @@ export const ffInfoRateLimits = pgTable("ff_info_rate_limits", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+export const ffCompareVipAccess = pgTable("ff_compare_vip_access", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  ipAddress: text("ip_address").notNull().unique(),
+  isVip: boolean("is_vip").default(false).notNull(),
+  vipExpiresAt: timestamp("vip_expires_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const ffCompareRateLimits = pgTable("ff_compare_rate_limits", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  ipAddress: text("ip_address").notNull().unique(),
+  compareCount: integer("compare_count").default(0).notNull(),
+  lastResetDate: text("last_reset_date").notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const ffCompareHistory = pgTable("ff_compare_history", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  ipAddress: text("ip_address").notNull(),
+  player1Uid: text("player1_uid").notNull(),
+  player1Region: text("player1_region").notNull(),
+  player2Uid: text("player2_uid").notNull(),
+  player2Region: text("player2_region").notNull(),
+  player1Score: integer("player1_score").notNull(),
+  player2Score: integer("player2_score").notNull(),
+  winnerUid: text("winner_uid").notNull(),
+  analysis: text("analysis").notNull(),
+  comparedAt: timestamp("compared_at").defaultNow().notNull(),
+});
+
+export const ffCompareFeedback = pgTable("ff_compare_feedback", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  comparisonId: text("comparison_id").notNull(),
+  rating: integer("rating").notNull(),
+  comment: text("comment"),
+  helpful: boolean("helpful"),
+  ipAddress: text("ip_address"),
+  submittedAt: timestamp("submitted_at").defaultNow().notNull(),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -157,6 +198,27 @@ export const insertFfInfoRateLimitSchema = createInsertSchema(ffInfoRateLimits).
   updatedAt: true,
 });
 
+export const insertFfCompareVipAccessSchema = createInsertSchema(ffCompareVipAccess).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertFfCompareRateLimitSchema = createInsertSchema(ffCompareRateLimits).omit({
+  id: true,
+  updatedAt: true,
+});
+
+export const insertFfCompareHistorySchema = createInsertSchema(ffCompareHistory).omit({
+  id: true,
+  comparedAt: true,
+});
+
+export const insertFfCompareFeedbackSchema = createInsertSchema(ffCompareFeedback).omit({
+  id: true,
+  submittedAt: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type BlogPost = typeof blogPosts.$inferSelect;
@@ -179,3 +241,11 @@ export type FfInfoSearch = typeof ffInfoSearches.$inferSelect;
 export type InsertFfInfoSearch = z.infer<typeof insertFfInfoSearchSchema>;
 export type FfInfoRateLimit = typeof ffInfoRateLimits.$inferSelect;
 export type InsertFfInfoRateLimit = z.infer<typeof insertFfInfoRateLimitSchema>;
+export type FfCompareVipAccess = typeof ffCompareVipAccess.$inferSelect;
+export type InsertFfCompareVipAccess = z.infer<typeof insertFfCompareVipAccessSchema>;
+export type FfCompareRateLimit = typeof ffCompareRateLimits.$inferSelect;
+export type InsertFfCompareRateLimit = z.infer<typeof insertFfCompareRateLimitSchema>;
+export type FfCompareHistory = typeof ffCompareHistory.$inferSelect;
+export type InsertFfCompareHistory = z.infer<typeof insertFfCompareHistorySchema>;
+export type FfCompareFeedback = typeof ffCompareFeedback.$inferSelect;
+export type InsertFfCompareFeedback = z.infer<typeof insertFfCompareFeedbackSchema>;

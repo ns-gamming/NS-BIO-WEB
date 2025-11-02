@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Card } from "@/components/ui/card";
-import { Trophy, Users, TrendingUp, Sparkles, Rocket, Zap, Star, Gift } from "lucide-react";
+import { Trophy, Users, TrendingUp, Sparkles, Rocket, Zap, Star, Gift, Swords } from "lucide-react";
 import AdSenseAd from "@/components/AdSenseAd";
 import TelegramWhatsAppCTA from "@/components/TelegramWhatsAppCTA";
 
@@ -28,12 +28,23 @@ const BOTS = [
     features: ['5 Free Searches/Day', 'Complete Stats', 'Copy & Download']
   },
   {
+    id: 'compare',
+    title: 'Free Fire VS Battle',
+    description: 'Do players ko head-to-head compare karo! AI-powered analysis se jano kaun hai asli champion! ⚔️',
+    icon: Swords,
+    color: 'from-purple-500 to-pink-500',
+    gradient: 'from-purple-500/20 to-pink-500/20',
+    badge: 'NEW & HOT 🌟',
+    status: 'Live',
+    features: ['3 Free Compares/Day', 'AI Analysis', 'Detailed Scores']
+  },
+  {
     id: 'spam',
     title: 'Free Fire Spam Bot',
     description: 'Profile visibility badao aur famous bano! Automated engagement se popularity boost karo! 📈',
     icon: TrendingUp,
-    color: 'from-purple-500 to-pink-500',
-    gradient: 'from-purple-500/20 to-pink-500/20',
+    color: 'from-orange-500 to-red-500',
+    gradient: 'from-orange-500/20 to-red-500/20',
     badge: 'Coming Soon 🎯',
     status: 'Soon',
     features: ['Auto Engagement', 'Visibility Boost', 'Safe & Secure']

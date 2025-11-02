@@ -44,6 +44,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import FFBotsHub from "./pages/FFBotsHub";
 import FFLikesBot from "./pages/FFLikesBot";
 import FFInfoBot from "./pages/FFInfoBot";
+import FFCompare from "./pages/FFCompare";
 import FFSpamBot from "./pages/FFSpamBot";
 import FFVisitBot from "./pages/FFVisitBot";
 import Tools from "./pages/Tools";
@@ -62,6 +63,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/ff-bots/likes" component={FFLikesBot} />
       <Route path="/ff-bots/info" component={FFInfoBot} />
+      <Route path="/ff-bots/compare" component={FFCompare} />
       <Route path="/ff-bots/spam" component={FFSpamBot} />
       <Route path="/ff-bots/visit" component={FFVisitBot} />
       <Route path="/ff-bots" component={FFBotsHub} />
