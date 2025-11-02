@@ -70,6 +70,9 @@ export function useEasterEggs() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Safety check for e.key
+      if (!e.key) return;
+      
       // N key confetti easter egg
       if (e.key.toLowerCase() === 'n') {
         triggerConfettiEasterEgg();
