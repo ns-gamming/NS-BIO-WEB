@@ -29,7 +29,14 @@ CREATE POLICY "Service role has full access to rate_limits"
   USING (true)
   WITH CHECK (true);
 
--- Policy: Allow authenticated users to read only
+-- Policy: Allow anon users to read their own rate limits
+CREATE POLICY "Anon users can read rate_limits"
+  ON ff_compare_rate_limits
+  FOR SELECT
+  TO anon
+  USING (true);
+
+-- Policy: Allow authenticated users to read
 CREATE POLICY "Authenticated users can read rate_limits"
   ON ff_compare_rate_limits
   FOR SELECT
@@ -55,13 +62,20 @@ ALTER TABLE ff_compare_vip_access ENABLE ROW LEVEL SECURITY;
 
 -- Policy: Allow service role full access
 CREATE POLICY "Service role has full access to vip_access"
-ON ff_compare_vip_access
+  ON ff_compare_vip_access
   FOR ALL
   TO service_role
   USING (true)
   WITH CHECK (true);
 
--- Policy: Allow authenticated users to read only
+-- Policy: Allow anon users to read VIP status
+CREATE POLICY "Anon users can read vip_access"
+  ON ff_compare_vip_access
+  FOR SELECT
+  TO anon
+  USING (true);
+
+-- Policy: Allow authenticated users to read
 CREATE POLICY "Authenticated users can read vip_access"
   ON ff_compare_vip_access
   FOR SELECT
@@ -97,7 +111,14 @@ CREATE POLICY "Service role has full access to history"
   USING (true)
   WITH CHECK (true);
 
--- Policy: Allow authenticated users to read only
+-- Policy: Allow anon users to read history
+CREATE POLICY "Anon users can read history"
+  ON ff_compare_history
+  FOR SELECT
+  TO anon
+  USING (true);
+
+-- Policy: Allow authenticated users to read
 CREATE POLICY "Authenticated users can read history"
   ON ff_compare_history
   FOR SELECT
@@ -129,7 +150,14 @@ CREATE POLICY "Service role has full access to feedback"
   USING (true)
   WITH CHECK (true);
 
--- Policy: Allow authenticated users to read only
+-- Policy: Allow anon users to read feedback
+CREATE POLICY "Anon users can read feedback"
+  ON ff_compare_feedback
+  FOR SELECT
+  TO anon
+  USING (true);
+
+-- Policy: Allow authenticated users to read
 CREATE POLICY "Authenticated users can read feedback"
   ON ff_compare_feedback
   FOR SELECT
@@ -231,7 +259,13 @@ GRANT ALL ON ff_compare_vip_access TO service_role;
 GRANT ALL ON ff_compare_history TO service_role;
 GRANT ALL ON ff_compare_feedback TO service_role;
 
--- Authenticated users only need read access
+-- Anon role needs read access (for public users)
+GRANT SELECT ON ff_compare_rate_limits TO anon;
+GRANT SELECT ON ff_compare_vip_access TO anon;
+GRANT SELECT ON ff_compare_history TO anon;
+GRANT SELECT ON ff_compare_feedback TO anon;
+
+-- Authenticated users need read access
 GRANT SELECT ON ff_compare_rate_limits TO authenticated;
 GRANT SELECT ON ff_compare_vip_access TO authenticated;
 GRANT SELECT ON ff_compare_history TO authenticated;
@@ -244,7 +278,7 @@ DO $$
 BEGIN
   RAISE NOTICE '✅ Free Fire Comparison Database Setup Complete!';
   RAISE NOTICE '📋 Tables created: ff_compare_rate_limits, ff_compare_vip_access, ff_compare_history, ff_compare_feedback';
-  RAISE NOTICE '🔒 Row Level Security enabled with proper policies';
+  RAISE NOTICE '🔒 Row Level Security enabled with proper policies for service_role, anon, and authenticated';
   RAISE NOTICE '⚡ Indexes created for optimal performance';
   RAISE NOTICE '🎯 Ready to use on Vercel deployment!';
 END $$;
