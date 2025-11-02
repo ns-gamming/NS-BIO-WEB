@@ -112,13 +112,13 @@ export function registerFfInfoBotRoutes(app: Express) {
       console.log(`   URL: ${apiUrl.replace(ffInfoApiKey, 'HIDDEN')}`);
       
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 25000); // 25 second timeout for Vercel
+      const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout for Vercel
       
       const response = await fetch(apiUrl, {
         method: 'GET',
         headers: {
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-          'Accept': 'application/json, text/plain, */*',
+          'Accept': 'application/json',
           'Accept-Language': 'en-US,en;q=0.9',
           'Cache-Control': 'no-cache',
         },
@@ -167,13 +167,22 @@ export function registerFfInfoBotRoutes(app: Express) {
       try {
         const responseText = await response.text();
         console.log('API Response Text (first 500 chars):', responseText.substring(0, 500));
+        
+        // Check if response is HTML (Vercel timeout error)
+        if (responseText.trim().startsWith('<') || responseText.includes('<!DOCTYPE') || responseText.includes('<html')) {
+          console.error('Received HTML instead of JSON - likely Vercel timeout or error page');
+          return res.status(504).json({ 
+            error: "⏱️ Request timeout. The Free Fire API took too long to respond. Please try again in a moment." 
+          });
+        }
+        
         data = JSON.parse(responseText);
         console.log('API Response Parsed Successfully');
       } catch (parseError: any) {
         console.error('JSON Parse Error:', parseError.message);
         console.error('Failed to parse API response');
         return res.status(502).json({ 
-          error: "❌ Failed to parse Free Fire API response. The API may be temporarily unavailable." 
+          error: "❌ Failed to get player info. The API may be temporarily down. Please try again later." 
         });
       }
 
@@ -226,20 +235,20 @@ export function registerFfInfoBotRoutes(app: Express) {
     } catch (error: any) {
       console.error('FF Info Bot search error:', error);
       
-      if (error.name === 'AbortError' || error.message?.includes('timeout')) {
+      if (error.name === 'AbortError' || error.message?.includes('timeout') || error.message?.includes('aborted')) {
         return res.status(504).json({ 
-          error: "⏱️ Request timeout. The Free Fire API is taking too long to respond. Please try again." 
+          error: "⏱️ Request timeout. The Free Fire API is slow right now. Please wait a moment and try again." 
         });
       }
       
-      if (error.message?.includes('fetch')) {
+      if (error.message?.includes('fetch') || error.message?.includes('network')) {
         return res.status(503).json({ 
-          error: "🌐 Network error. Unable to connect to Free Fire API. Please try again later." 
+          error: "🌐 Network error. Unable to connect to Free Fire API. Check your internet and try again." 
         });
       }
       
       return res.status(500).json({ 
-        error: "❌ An unexpected error occurred. Please try again or contact support." 
+        error: "❌ Something went wrong. Please try again in a few seconds." 
       });
     }
   });
