@@ -9,19 +9,19 @@ const supabase = process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_KEY
 const ffInfoApiKey = process.env.FFINFO_API_KEY || '';
 
 const REGION_API_MAP: Record<string, string> = {
-  'IND': 'IN',
-  'SG': 'SG',
-  'PK': 'PK',
-  'BD': 'BD',
-  'TH': 'TH',
-  'VN': 'VN',
-  'BR': 'BR',
-  'ID': 'ID',
-  'MY': 'MY',
-  'PH': 'PH',
-  'US': 'US',
-  'EU': 'EU',
-  'ME': 'ME',
+  'IND': 'in',
+  'SG': 'sg',
+  'PK': 'pk',
+  'BD': 'bd',
+  'TH': 'th',
+  'VN': 'vn',
+  'BR': 'br',
+  'ID': 'id',
+  'MY': 'my',
+  'PH': 'ph',
+  'US': 'us',
+  'EU': 'eu',
+  'ME': 'me',
 };
 
 const searchSchema = z.object({
@@ -98,39 +98,59 @@ export function registerFfInfoBotRoutes(app: Express) {
         }
       }
 
-      // Free Fire Info API endpoint - correct official API
-      const apiUrl = `https://api.ffinfo.freefireofficial.com/api/${apiRegion.toLowerCase()}/${uid}?key=${ffInfoApiKey}`;
+      // Free Fire Info API endpoint - correct official API format
+      // Format: https://api.ffinfo.freefireofficial.com/api/{region}/{uid}?key={apikey}
+      const apiUrl = `https://api.ffinfo.freefireofficial.com/api/${apiRegion}/${uid}?key=${ffInfoApiKey}`;
       
-      console.log(`Fetching player info from: ${apiUrl.replace(ffInfoApiKey, 'API_KEY_HIDDEN')}`);
+      console.log(`🔍 Fetching player info:`);
+      console.log(`   Region: ${region} -> ${apiRegion}`);
+      console.log(`   UID: ${uid}`);
+      console.log(`   URL: ${apiUrl.replace(ffInfoApiKey, 'HIDDEN')}`);
       
       const response = await fetch(apiUrl, {
         method: 'GET',
         headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-          'Accept': 'application/json',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'application/json, text/plain, */*',
           'Accept-Language': 'en-US,en;q=0.9',
+          'Cache-Control': 'no-cache',
         },
         signal: AbortSignal.timeout(15000),
       });
 
-      console.log(`API Response Status: ${response.status}`);
+      console.log(`📡 API Response Status: ${response.status}`);
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error(`API Error Response: ${errorText}`);
+        console.error(`❌ API Error Response:`, errorText);
         
         if (response.status === 404) {
           return res.status(404).json({ 
-            error: `❌ No player found with UID ${uid} in ${region} region. Please check UID and region.` 
+            error: `❌ No player found with UID ${uid} in ${region} region. Double-check your UID and region!` 
           });
         }
         if (response.status === 401 || response.status === 403) {
           return res.status(503).json({ 
-            error: "❌ API key issue. Please contact administrator or check FFINFO_API_KEY in Secrets." 
+            error: "❌ API authentication failed. Please check FFINFO_API_KEY in Replit Secrets." 
           });
         }
+        if (response.status === 500) {
+          // Parse error for more details
+          try {
+            const errorData = JSON.parse(errorText);
+            console.error('🔴 500 Error Details:', errorData);
+            
+            return res.status(502).json({ 
+              error: `❌ Free Fire API error: ${errorData.error_id || 'REQUEST_ERROR'}. This could mean:\n• Invalid UID format\n• Wrong region\n• API key issue\n\nPlease verify your UID and region are correct.` 
+            });
+          } catch (e) {
+            return res.status(502).json({ 
+              error: `❌ Free Fire API server error (500). The API might be down or your UID/region might be incorrect.` 
+            });
+          }
+        }
         return res.status(502).json({ 
-          error: `❌ Free Fire API error (${response.status}). Please try again or contact support.` 
+          error: `❌ Free Fire API error (${response.status}). Please try again later.` 
         });
       }
 
