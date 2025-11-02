@@ -431,30 +431,42 @@ ${social.signature}
                     </h3>
                     <div className="space-y-2 text-sm">
                       <p><span className="text-muted-foreground">UID:</span> <span className="font-mono" data-testid="text-uid">{playerData.basicInfo.accountId}</span></p>
-                      <p><span className="text-muted-foreground">Region:</span> {playerData.basicInfo.region}</p>
+                      <p><span className="text-muted-foreground">Nickname:</span> <span className="font-semibold">{playerData.basicInfo.nickname}</span></p>
+                      <p><span className="text-muted-foreground">Region:</span> <Badge variant="outline">{playerData.basicInfo.region}</Badge></p>
+                      <p><span className="text-muted-foreground">Account Type:</span> <Badge>{playerData.basicInfo.accountType === 1 ? 'Standard' : 'Guest'}</Badge></p>
                       <p><span className="text-muted-foreground">Level:</span> <Badge variant="secondary" data-testid="text-level">{playerData.basicInfo.level}</Badge></p>
-                      <p><span className="text-muted-foreground">EXP:</span> {playerData.basicInfo.exp.toLocaleString()}</p>
-                      <p><span className="text-muted-foreground">Last Login:</span> {formatLastLogin(playerData.basicInfo.lastLoginAt)}</p>
+                      <p><span className="text-muted-foreground">Total EXP:</span> {playerData.basicInfo.exp.toLocaleString()}</p>
+                      <p><span className="text-muted-foreground">Last Login:</span> <Badge variant="outline">{formatLastLogin(playerData.basicInfo.lastLoginAt)}</Badge></p>
+                      <p><span className="text-muted-foreground">Game Version:</span> {playerData.basicInfo.releaseVersion || 'N/A'}</p>
                     </div>
                   </div>
 
                   <div className="space-y-3">
                     <h3 className="font-semibold text-lg flex items-center gap-2">
                       <Crown className="w-5 h-5 text-yellow-500" />
-                      Rank Stats
+                      Rank Statistics
                     </h3>
                     <div className="space-y-2 text-sm">
                       {playerData.basicInfo.showBrRank && (
                         <>
-                          <p><span className="text-muted-foreground">BR Rank:</span> <Badge className="ml-2" data-testid="text-br-rank">{playerData.basicInfo.rank}</Badge></p>
-                          <p><span className="text-muted-foreground">BR Points:</span> {playerData.basicInfo.rankingPoints}</p>
+                          <div className="bg-gradient-to-r from-yellow-500/10 to-orange-500/10 p-3 rounded-lg border border-yellow-500/20">
+                            <p className="font-semibold text-yellow-600 dark:text-yellow-400 mb-2">🏆 Battle Royale</p>
+                            <p><span className="text-muted-foreground">Rank:</span> <Badge className="ml-2 bg-yellow-500" data-testid="text-br-rank">#{playerData.basicInfo.rank}</Badge></p>
+                            <p><span className="text-muted-foreground">Rating Points:</span> <span className="font-bold text-yellow-600 dark:text-yellow-400">{playerData.basicInfo.rankingPoints.toLocaleString()}</span></p>
+                          </div>
                         </>
                       )}
                       {playerData.basicInfo.showCsRank && (
                         <>
-                          <p><span className="text-muted-foreground">CS Rank:</span> <Badge className="ml-2" data-testid="text-cs-rank">{playerData.basicInfo.csRank}</Badge></p>
-                          <p><span className="text-muted-foreground">CS Points:</span> {playerData.basicInfo.csRankingPoints}</p>
+                          <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 p-3 rounded-lg border border-purple-500/20">
+                            <p className="font-semibold text-purple-600 dark:text-purple-400 mb-2">⚔️ Clash Squad</p>
+                            <p><span className="text-muted-foreground">Rank:</span> <Badge className="ml-2 bg-purple-500" data-testid="text-cs-rank">#{playerData.basicInfo.csRank}</Badge></p>
+                            <p><span className="text-muted-foreground">Rating Points:</span> <span className="font-bold text-purple-600 dark:text-purple-400">{playerData.basicInfo.csRankingPoints.toLocaleString()}</span></p>
+                          </div>
                         </>
+                      )}
+                      {!playerData.basicInfo.showBrRank && !playerData.basicInfo.showCsRank && (
+                        <p className="text-muted-foreground italic">No ranked data available</p>
                       )}
                     </div>
                   </div>
@@ -462,26 +474,52 @@ ${social.signature}
                   <div className="space-y-3">
                     <h3 className="font-semibold text-lg flex items-center gap-2">
                       <Star className="w-5 h-5 text-purple-500" />
-                      Achievements
+                      Achievements & Stats
                     </h3>
                     <div className="space-y-2 text-sm">
-                      <p className="flex items-center gap-2">
-                        <Heart className="w-4 h-4 text-red-500" />
-                        <span className="text-muted-foreground">Likes:</span> 
-                        <Badge variant="outline" data-testid="text-likes">{playerData.basicInfo.liked.toLocaleString()}</Badge>
-                      </p>
-                      <p className="flex items-center gap-2">
-                        <Shield className="w-4 h-4 text-blue-500" />
-                        <span className="text-muted-foreground">Badges:</span> {playerData.basicInfo.badgeCnt}
-                      </p>
+                      <div className="flex items-center justify-between p-2 bg-red-500/10 rounded border border-red-500/20">
+                        <span className="flex items-center gap-2">
+                          <Heart className="w-4 h-4 text-red-500" />
+                          <span className="text-muted-foreground">Total Likes:</span>
+                        </span>
+                        <Badge variant="outline" className="text-red-600 dark:text-red-400 font-bold" data-testid="text-likes">{playerData.basicInfo.liked.toLocaleString()}</Badge>
+                      </div>
+                      <div className="flex items-center justify-between p-2 bg-blue-500/10 rounded border border-blue-500/20">
+                        <span className="flex items-center gap-2">
+                          <Shield className="w-4 h-4 text-blue-500" />
+                          <span className="text-muted-foreground">Badges:</span>
+                        </span>
+                        <Badge variant="outline" className="text-blue-600 dark:text-blue-400 font-bold">{playerData.basicInfo.badgeCnt}</Badge>
+                      </div>
                       {playerData.basicInfo.primePrivilegeDetail && (
-                        <p className="flex items-center gap-2">
-                          <Crown className="w-4 h-4 text-yellow-500" />
-                          <span className="text-muted-foreground">Prime Lv:</span> {playerData.basicInfo.primePrivilegeDetail.primeLevel}
-                        </p>
+                        <div className="flex items-center justify-between p-2 bg-yellow-500/10 rounded border border-yellow-500/20">
+                          <span className="flex items-center gap-2">
+                            <Crown className="w-4 h-4 text-yellow-500" />
+                            <span className="text-muted-foreground">Prime Level:</span>
+                          </span>
+                          <Badge variant="outline" className="text-yellow-600 dark:text-yellow-400 font-bold">{playerData.basicInfo.primePrivilegeDetail.primeLevel}</Badge>
+                        </div>
                       )}
                       {playerData.creditScoreInfo && (
-                        <p><span className="text-muted-foreground">Credit:</span> {playerData.creditScoreInfo.creditScore}</p>
+                        <div className="flex items-center justify-between p-2 bg-green-500/10 rounded border border-green-500/20">
+                          <span className="flex items-center gap-2">
+                            <Trophy className="w-4 h-4 text-green-500" />
+                            <span className="text-muted-foreground">Credit Score:</span>
+                          </span>
+                          <Badge variant="outline" className="text-green-600 dark:text-green-400 font-bold">{playerData.creditScoreInfo.creditScore}</Badge>
+                        </div>
+                      )}
+                      {playerData.petInfo && (
+                        <div className="flex items-center justify-between p-2 bg-purple-500/10 rounded border border-purple-500/20">
+                          <span className="text-muted-foreground">🐾 Pet Level:</span>
+                          <Badge variant="outline" className="text-purple-600 dark:text-purple-400 font-bold">{playerData.petInfo.level}</Badge>
+                        </div>
+                      )}
+                      {playerData.basicInfo.badgeId && (
+                        <p><span className="text-muted-foreground">Badge ID:</span> <span className="font-mono text-xs">{playerData.basicInfo.badgeId}</span></p>
+                      )}
+                      {playerData.basicInfo.headPic && (
+                        <p><span className="text-muted-foreground">Profile Avatar:</span> <span className="font-mono text-xs">{playerData.basicInfo.headPic}</span></p>
                       )}
                     </div>
                   </div>
@@ -507,12 +545,28 @@ ${social.signature}
                   </>
                 )}
 
-                {playerData.socialInfo?.signature && (
+                {playerData.socialInfo && (
                   <>
                     <Separator className="my-6" />
                     <div className="space-y-3">
-                      <h3 className="font-semibold text-lg">Bio/Signature</h3>
-                      <p className="text-sm bg-muted p-4 rounded-lg" data-testid="text-signature">{playerData.socialInfo.signature}</p>
+                      <h3 className="font-semibold text-lg flex items-center gap-2">
+                        <Star className="w-5 h-5 text-cyan-500" />
+                        Social & Profile Info
+                      </h3>
+                      <div className="grid md:grid-cols-2 gap-4 text-sm">
+                        {playerData.socialInfo.signature && (
+                          <div className="md:col-span-2">
+                            <p className="text-muted-foreground font-semibold mb-2">📝 Bio/Signature:</p>
+                            <p className="bg-muted p-4 rounded-lg italic" data-testid="text-signature">{playerData.socialInfo.signature}</p>
+                          </div>
+                        )}
+                        {playerData.socialInfo.language && (
+                          <div>
+                            <p className="text-muted-foreground">🌐 Language:</p>
+                            <Badge variant="outline" className="mt-1">{playerData.socialInfo.language.toUpperCase()}</Badge>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </>
                 )}
@@ -521,16 +575,49 @@ ${social.signature}
           </motion.div>
         )}
 
+        {playerData && (
+          <Card className="mb-8 bg-gradient-to-br from-primary/10 to-accent/10 border-2">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Trophy className="w-6 h-6 text-yellow-500" />
+                Quick Stats Summary
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="text-center p-4 bg-background/50 rounded-lg border">
+                  <p className="text-3xl font-bold text-primary">{playerData.basicInfo.level}</p>
+                  <p className="text-sm text-muted-foreground">Level</p>
+                </div>
+                <div className="text-center p-4 bg-background/50 rounded-lg border">
+                  <p className="text-3xl font-bold text-yellow-500">{playerData.basicInfo.liked.toLocaleString()}</p>
+                  <p className="text-sm text-muted-foreground">Total Likes</p>
+                </div>
+                <div className="text-center p-4 bg-background/50 rounded-lg border">
+                  <p className="text-3xl font-bold text-purple-500">{playerData.basicInfo.badgeCnt}</p>
+                  <p className="text-sm text-muted-foreground">Badges</p>
+                </div>
+                <div className="text-center p-4 bg-background/50 rounded-lg border">
+                  <p className="text-3xl font-bold text-green-500">{playerData.creditScoreInfo?.creditScore || 'N/A'}</p>
+                  <p className="text-sm text-muted-foreground">Credit Score</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         <Card className="bg-gradient-to-br from-primary/5 to-accent/5">
           <CardHeader>
             <CardTitle>ℹ️ Important Information</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2 text-sm text-muted-foreground">
-            <p>• 🔢 Free searches: 5 per day</p>
-            <p>• 🔄 Limit resets daily at midnight</p>
-            <p>• 📋 Use "Copy Info" to get formatted player details with emojis</p>
-            <p>• 💾 Download JSON for complete raw data</p>
+            <p>• 🔢 Free searches: 5 per day per user</p>
+            <p>• 🔄 Limit resets daily at midnight (00:00)</p>
+            <p>• 📋 Use "Copy Info" to get beautifully formatted player details with emojis</p>
+            <p>• 💾 Download JSON for complete raw data (all API fields included)</p>
             <p>• ⚡ Data is fetched in real-time from official Free Fire servers</p>
+            <p>• 🌍 Supports all major regions: SG, IND, CIS, TH, VN, TR, BR</p>
+            <p>• 🔒 Your data is private and never shared</p>
           </CardContent>
         </Card>
       </div>
