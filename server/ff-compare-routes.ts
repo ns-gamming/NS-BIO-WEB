@@ -225,17 +225,34 @@ export function registerFfCompareRoutes(app: Express) {
       for (let i = 0; i < playersList.length; i++) {
         const player = playersList[i];
         console.log(`Fetching player ${i + 1}/${playersList.length}: ${player.uid} (${player.region})`);
-        const data = await fetchPlayerData(player.uid, player.region);
-        if (!data?.basicInfo) {
+        
+        try {
+          const data = await fetchPlayerData(player.uid, player.region);
+          if (!data?.basicInfo) {
+            return res.status(502).json({ 
+              error: `❌ Failed to fetch data for player ${i + 1} (UID: ${player.uid}). Please verify UID and region.` 
+            });
+          }
+          playersData.push(data);
+        } catch (error: any) {
+          console.error(`Error fetching player ${i + 1}:`, error);
           return res.status(502).json({ 
-            error: `❌ Failed to fetch data for player ${i + 1} (UID: ${player.uid}). Please verify UID and region.` 
+            error: `❌ Failed to fetch data for player ${i + 1} (UID: ${player.uid}). ${error.message || 'Please try again.'}` 
           });
         }
-        playersData.push(data);
       }
 
       console.log(`✅ All players fetched. Starting AI analysis...`);
-      const geminiResult = await analyzeWithGemini(playersData);
+      
+      let geminiResult;
+      try {
+        geminiResult = await analyzeWithGemini(playersData);
+      } catch (error: any) {
+        console.error('Gemini analysis error:', error);
+        return res.status(500).json({ 
+          error: `❌ AI analysis failed: ${error.message || 'Please try again.'}` 
+        });
+      }
 
       const { data: historyEntry } = await supabase
         .from('ff_compare_history')

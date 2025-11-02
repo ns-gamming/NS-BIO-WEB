@@ -137,7 +137,12 @@ export default function FFCompare() {
 
   const compareMutation = useMutation({
     mutationFn: async (data: { players: Player[] }) => {
-      setProgressState({ stage: 'fetching', totalPlayers: data.players.length, currentPlayer: 0, message: 'Starting comparison...' });
+      setProgressState({ 
+        stage: 'fetching', 
+        totalPlayers: data.players.length, 
+        currentPlayer: 1, 
+        message: `Fetching player 1/${data.players.length} details...` 
+      });
       
       const response = await fetch('/api/ff-compare/compare', {
         method: 'POST',
