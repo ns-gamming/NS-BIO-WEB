@@ -16,8 +16,8 @@ export default function ScrollToTop() {
   }, [location]);
 
   const toggleVisibility = () => {
-    // Show button only when scrolled down more than 500px
-    if (window.pageYOffset > 500) {
+    // Show button only when scrolled down more than 300px
+    if (window.pageYOffset > 300) {
       setIsVisible(true);
     } else {
       setIsVisible(false);
@@ -46,7 +46,7 @@ export default function ScrollToTop() {
   return (
     <button
       onClick={scrollToTop}
-      className="fixed bottom-8 right-8 z-50 group"
+      className="fixed bottom-8 left-8 z-50 group"
       aria-label="Scroll to top"
       data-testid="scroll-to-top"
     >

@@ -350,7 +350,7 @@
 }
 
 .animate-neonPulse {
-  animation: neonPulse 2s ease-in-out infinite;
+  animation: neonPulse 2s ease-in-out infinite alternate;
 }
 
 .animate-countUp {
@@ -913,7 +913,7 @@
   .hover\:scale-125:hover {
     transform: scale(1) !important;
   }
-  
+
   /* Keep opacity and other effects */
   .hover\:scale-105:hover,
   .hover\:scale-110:hover,

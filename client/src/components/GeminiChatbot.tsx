@@ -671,11 +671,10 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
   // Calculate default positions
   const getButtonStyle = () => {
     if (buttonPosition.x === 0 && buttonPosition.y === 0) {
-      // Position next to scroll-up button (which is at bottom-8 right-8)
-      // Chatbot will be to the LEFT of scroll button
+      // Position on right side of screen
       return {
-        bottom: '2rem', // Same as scroll button (bottom-8 = 2rem)
-        right: '7rem', // To the left of scroll button (right-8 + button width + gap)
+        bottom: '2rem',
+        right: '2rem',
         left: 'auto',
         top: 'auto'
       };
@@ -694,8 +693,8 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
 
       return {
         bottom: '6rem',
-        [isMobile ? 'left' : 'right']: '1rem',
-        [isMobile ? 'right' : 'left']: 'auto',
+        right: '1rem',
+        left: isMobile ? '1rem' : 'auto',
         top: 'auto'
       };
     }
