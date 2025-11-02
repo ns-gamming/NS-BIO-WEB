@@ -54,11 +54,10 @@ CREATE TABLE IF NOT EXISTS ff_compare_vip_access (
   vip_expires_at TIMESTAMP WITH TIME ZONE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
-  notes TEXT
+  RLS TEXT
 );
 
--- Enable RLS
-ALTER TABLE ff_compare_vip_access ENABLE ROW LEVEL SECURITY;
+-- Enable RLSQLLTER TABLE ff_compare_vip_access ENABLE ROW LEVEL SECURITY;
 
 -- Policy: Allow service role full access
 CREATE POLICY "Service role has full access to vip_access"
