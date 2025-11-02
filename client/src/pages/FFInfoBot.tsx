@@ -75,7 +75,7 @@ interface LimitResponse {
 }
 
 const REGIONS = [
-  { value: 'ind', label: '🇮🇳 India (IND)' },
+  { value: 'IND', label: '🇮🇳 India (IND)' },
   { value: 'SG', label: '🇸🇬 Singapore (SG)' },
   { value: 'PK', label: '🇵🇰 Pakistan (PK)' },
   { value: 'BD', label: '🇧🇩 Bangladesh (BD)' },
@@ -153,7 +153,26 @@ export default function FFInfoBot() {
       });
       return;
     }
-    searchMutation.mutate({ uid, region });
+    
+    if (uid.length < 6 || uid.length > 20) {
+      toast({
+        title: "⚠️ Invalid UID",
+        description: "UID must be between 6 and 20 digits",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    try {
+      searchMutation.mutate({ uid: uid.trim(), region });
+    } catch (error) {
+      console.error('Search mutation error:', error);
+      toast({
+        title: "❌ Error",
+        description: "Failed to start search. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const formatLastLogin = (timestamp: string) => {
@@ -302,10 +321,22 @@ ${social.signature}
                     type="text"
                     placeholder="Enter Free Fire UID (e.g., 2405657626)"
                     value={uid}
-                    onChange={(e) => setUid(e.target.value.replace(/\D/g, ''))}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, '');
+                      if (value.length <= 20) {
+                        setUid(value);
+                      }
+                    }}
                     maxLength={20}
+                    inputMode="numeric"
+                    pattern="[0-9]*"
                     data-testid="input-uid"
                   />
+                  {uid && uid.length < 6 && (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      UID must be at least 6 digits
+                    </p>
+                  )}
                 </div>
                 <div>
                   <Label htmlFor="region">Region</Label>

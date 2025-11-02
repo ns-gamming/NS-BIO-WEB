@@ -98,17 +98,17 @@ export function registerFfInfoBotRoutes(app: Express) {
         }
       }
 
-      const apiUrl = `https://api.ffinfo.freefireofficial.com/api/${apiRegion.toLowerCase()}/${uid}?key=${ffInfoApiKey}`;
+      // Free Fire Info API endpoint - updated to correct format
+      const apiUrl = `https://freefire-api.com/api/info/${apiRegion}/${uid}`;
       
-      console.log(`Fetching player info from: ${apiUrl.replace(ffInfoApiKey, 'API_KEY_HIDDEN')}`);
+      console.log(`Fetching player info from region ${apiRegion}, UID: ${uid}`);
       
       const response = await fetch(apiUrl, {
         method: 'GET',
         headers: {
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-          'Accept': 'application/json',
+          'Accept': '*/*',
           'Accept-Language': 'en-US,en;q=0.9',
-          'Referer': 'https://nsgamming.xyz/',
         },
         signal: AbortSignal.timeout(15000),
       });

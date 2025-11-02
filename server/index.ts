@@ -9,6 +9,7 @@ import { registerDownloaderRoutes } from "./downloader-routes";
 import { registerAnalyticsRoutes } from "./analytics-routes";
 import { registerPrivacyRoutes } from "./privacy-routes";
 import { registerContactFeedbackRoutes } from "./contact-feedback-routes";
+import { registerFfInfoBotRoutes } from "./ff-info-bot-routes";
 
 const app = express();
 app.use(express.json());
@@ -65,6 +66,7 @@ app.use((req, res, next) => {
   registerAnalyticsRoutes(app);
   registerPrivacyRoutes(app);
   registerContactFeedbackRoutes(app);
+  registerFfInfoBotRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
