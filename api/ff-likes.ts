@@ -97,7 +97,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
     }
 
-    const apiUrl = `https://likes.api.freefireofficial.com/api/${region}/${uid}?key=testkey12`;
+    // API key is secured on backend only - never sent to frontend
+    const ffLikesApiKey = process.env.FF_LIKES_API_KEY || 'testkey12';
+    const apiUrl = `https://likes.api.freefireofficial.com/api/${region}/${uid}?key=${ffLikesApiKey}`;
     const apiResponse = await fetch(apiUrl);
     const apiData = await apiResponse.json();
 

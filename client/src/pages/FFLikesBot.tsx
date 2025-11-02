@@ -24,12 +24,6 @@ const REGIONS = [
 
 const UPCOMING_TOOLS = [
   {
-    title: 'Free Fire Info Bot',
-    description: 'Get detailed player information including stats, level, and more',
-    icon: Users,
-    color: 'from-blue-500 to-cyan-500'
-  },
-  {
     title: 'Free Fire Spam Bot',
     description: 'Boost your profile visibility with automated engagement',
     icon: TrendingUp,
