@@ -8,20 +8,24 @@ const supabase = process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_KEY
 
 const ffInfoApiKey = process.env.FFINFO_API_KEY || '';
 
+// Region mapping for Free Fire API
+// API accepts: sg, ind, cis, th, vn, tr, br
 const REGION_API_MAP: Record<string, string> = {
-  'IND': 'in',
-  'SG': 'sg',
-  'PK': 'pk',
-  'BD': 'bd',
-  'TH': 'th',
-  'VN': 'vn',
-  'BR': 'br',
-  'ID': 'id',
-  'MY': 'my',
-  'PH': 'ph',
-  'US': 'us',
-  'EU': 'eu',
-  'ME': 'me',
+  'SG': 'sg',        // Singapore
+  'IND': 'ind',      // India (corrected to 'ind' not 'in')
+  'CIS': 'cis',      // CIS region
+  'TH': 'th',        // Thailand
+  'VN': 'vn',        // Vietnam
+  'TR': 'tr',        // Turkey
+  'BR': 'br',        // Brazil
+  'PK': 'ind',       // Pakistan uses India region
+  'BD': 'ind',       // Bangladesh uses India region
+  'ME': 'cis',       // Middle East uses CIS region
+  'ID': 'sg',        // Indonesia uses Singapore region
+  'MY': 'sg',        // Malaysia uses Singapore region
+  'PH': 'sg',        // Philippines uses Singapore region
+  'US': 'br',        // US uses Brazil region
+  'EU': 'cis',       // Europe uses CIS region
 };
 
 const searchSchema = z.object({
