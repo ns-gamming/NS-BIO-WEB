@@ -1,6 +1,6 @@
 # 🎮 NS GAMMING — Nishant Sarkar’s Portfolio & Gaming Universe
 
-**Domain:** [nsgaming.xyz](https://nsgaming.xyz) • **Owner / Developer:** [Nishant Sarkar (Naboraj Sarkar)](mailto:nishant.ns.business@gmail.com)
+**Domain:** [nsgaming.xyz](https://nsgamming.xyz) • **Owner / Developer:** [Nishant Sarkar (Naboraj Sarkar)](mailto:nishant.ns.business@gmail.com)
 Built with 💙 TypeScript | React | Vite | Tailwind | Supabase | Google Gemini AI
 
 ---
