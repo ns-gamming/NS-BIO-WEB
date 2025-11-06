@@ -127,7 +127,7 @@ WhatsApp: https://wa.me/918900653250
 Keep coding, keep creating! 🚀
     `);
 
-    // Simulate loading for initial page load (helps with slow networks)
+    // Simulate loading for initial page load (helps for slow networks)
     const minLoadTime = setTimeout(() => {
       setIsLoading(false);
     }, 1500);

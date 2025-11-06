@@ -145,12 +145,15 @@ export default function Chat() {
       timestamp: Date.now()
     };
 
-    setFolders(folders.map(f => 
+    // Immediately show user message
+    const updatedFolders = folders.map(f => 
       f.id === activeFolderId 
         ? { ...f, messages: [...f.messages, userMessage] }
         : f
-    ));
+    );
+    setFolders(updatedFolders);
     
+    const currentInput = inputValue.trim();
     setInputValue("");
     setIsLoading(true);
 
@@ -210,7 +213,7 @@ Respond as EDITH - professional, confident, and helpful.`;
         timestamp: Date.now()
       };
 
-      setFolders(folders.map(f => 
+      setFolders(prevFolders => prevFolders.map(f => 
         f.id === activeFolderId 
           ? { ...f, messages: [...f.messages, assistantMessage] }
           : f
@@ -224,7 +227,7 @@ Respond as EDITH - professional, confident, and helpful.`;
         timestamp: Date.now()
       };
 
-      setFolders(folders.map(f => 
+      setFolders(prevFolders => prevFolders.map(f => 
         f.id === activeFolderId 
           ? { ...f, messages: [...f.messages, errorMessage] }
           : f
@@ -281,14 +284,16 @@ Respond as EDITH - professional, confident, and helpful.`;
               </div>
 
               <div className="flex-1 overflow-y-auto p-4 space-y-2">
-                {folders.map((folder) => (
+                {folders.map((folder, idx) => (
                   <motion.div
                     key={folder.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: idx * 0.05 }}
+                    whileHover={{ x: 4 }}
                     className={`group relative p-3 rounded-xl transition-all cursor-pointer ${
                       activeFolderId === folder.id
-                        ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 border-2 border-blue-500/50'
+                        ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 border-2 border-blue-500/50 shadow-lg'
                         : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 border-2 border-transparent'
                     }`}
                     onClick={() => setActiveFolderId(folder.id)}
@@ -306,7 +311,16 @@ Respond as EDITH - professional, confident, and helpful.`;
                     ) : (
                       <div className="flex items-center justify-between">
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium truncate">{folder.name}</p>
+                          <div className="flex items-center gap-2">
+                            {activeFolderId === folder.id && (
+                              <motion.div
+                                animate={{ scale: [1, 1.2, 1] }}
+                                transition={{ duration: 2, repeat: Infinity }}
+                                className="w-2 h-2 bg-blue-500 rounded-full"
+                              />
+                            )}
+                            <p className="text-sm font-medium truncate">{folder.name}</p>
+                          </div>
                           <p className="text-xs text-gray-500 dark:text-gray-400">
                             {folder.messages.length} messages
                           </p>
@@ -407,7 +421,7 @@ Respond as EDITH - professional, confident, and helpful.`;
               <AnimatePresence>
                 {activeFolder?.messages.map((message, index) => (
                   <motion.div
-                    key={index}
+                    key={`${message.timestamp}-${index}`}
                     initial={{ opacity: 0, y: 20, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
@@ -428,7 +442,12 @@ Respond as EDITH - professional, confident, and helpful.`;
                           <span className="text-xs font-semibold text-blue-600 dark:text-blue-400">EDITH</span>
                         </div>
                       )}
-                      {message.isTyping ? (
+                      {message.role === "user" && (
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-xs font-semibold opacity-90">You</span>
+                        </div>
+                      )}
+                      {message.isTyping && message.role === "assistant" && index === activeFolder.messages.length - 1 ? (
                         <TypingMessage 
                           text={message.content}
                           onComplete={() => {
@@ -445,7 +464,7 @@ Respond as EDITH - professional, confident, and helpful.`;
                           }}
                         />
                       ) : (
-                        <p className="text-sm md:text-base whitespace-pre-wrap">{message.content}</p>
+                        <p className="text-sm md:text-base whitespace-pre-wrap break-words">{message.content}</p>
                       )}
                       <p className="text-xs mt-2 opacity-60">
                         {new Date(message.timestamp).toLocaleTimeString()}
@@ -488,9 +507,10 @@ Respond as EDITH - professional, confident, and helpful.`;
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    placeholder="Ask EDITH anything..."
-                    className="w-full px-6 py-4 rounded-2xl border-2 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-lg"
+                    placeholder={isLoading ? "EDITH is thinking..." : "Ask EDITH anything..."}
+                    className="w-full px-6 py-4 rounded-2xl border-2 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-lg disabled:opacity-60"
                     disabled={isLoading}
+                    maxLength={1000}
                   />
                   <motion.div
                     animate={{ opacity: [0.5, 1, 0.5] }}
@@ -511,9 +531,16 @@ Respond as EDITH - professional, confident, and helpful.`;
                   <span className="hidden md:inline">Send</span>
                 </motion.button>
               </div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-3 text-center">
-                Powered by Google Gemini AI • Created by Naboraj Sarkar - The New King 👑
-              </p>
+              <div className="flex items-center justify-between mt-3">
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Powered by Google Gemini AI • Created by Naboraj Sarkar 👑
+                </p>
+                {inputValue && (
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    {inputValue.length}/1000
+                  </p>
+                )}
+              </div>
             </div>
           </motion.div>
         </div>
