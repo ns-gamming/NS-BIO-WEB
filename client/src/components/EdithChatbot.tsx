@@ -1,10 +1,10 @@
 /**
  * EDITH (Even Death I Am The Hero) Chatbot Component
- * 
+ *
  * A professional, confident, and heroic AI assistant for NS GAMMING website.
  * Named after Iron Man's AI system, EDITH is designed to help users navigate
  * the website with intelligence and efficiency.
- * 
+ *
  * Features:
  * - Floating draggable chat interface
  * - Full-screen mode support
@@ -14,7 +14,7 @@
  * - Dark/Light theme support
  * - Mobile responsive design
  * - Message history management
- * 
+ *
  * Creator: Naboraj Sarkar (The New King)
  */
 
@@ -197,7 +197,7 @@ function TypingMessage({ text, onComplete }: { text: string; onComplete?: () => 
         setDisplayedText((prev) => prev + text[currentIndex]);
         setCurrentIndex((prev) => prev + 1);
       }, 20); // 20ms per character for smooth typing
-      
+
       return () => clearTimeout(timeout);
     } else if (onComplete) {
       onComplete();
@@ -406,7 +406,7 @@ export function EdithChatbot() {
     try {
       // Build blog posts context
       const blogPosts = getAllBlogPosts();
-      const blogPostsInfo = blogPosts.map(post => 
+      const blogPostsInfo = blogPosts.map(post =>
         `- "${post.title}" (${post.category}): ${post.excerpt} [Read at /blog/${post.slug}]`
       ).join('\n');
 
@@ -471,11 +471,11 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
 
     } catch (error) {
       console.error("Error sending message:", error);
-      
+
       // Context-aware error responses with heroic tone
       const userQuestion = userMessage.content.toLowerCase();
       let errorResponse = "";
-      
+
       if (userQuestion.includes('nishant') || userQuestion.includes('naboraj') || userQuestion.includes('king')) {
         errorResponse = "Connection interrupted! 🛡️ But I can tell you - Naboraj Sarkar (The New King) is an amazing developer, gamer, and content creator from Siliguri. Check /about for his full story! 👑";
       } else if (userQuestion.includes('game')) {
@@ -518,13 +518,13 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
    * Framer Motion animation variants
    */
   const chatWindowVariants = {
-    hidden: { 
-      opacity: 0, 
+    hidden: {
+      opacity: 0,
       scale: 0.8,
       y: 100,
     },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       scale: 1,
       y: 0,
       transition: {
@@ -533,8 +533,8 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
         damping: 30
       }
     },
-    exit: { 
-      opacity: 0, 
+    exit: {
+      opacity: 0,
       scale: 0.8,
       y: 100,
       transition: {
@@ -545,8 +545,8 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
 
   const buttonVariants = {
     hidden: { scale: 0, opacity: 0 },
-    visible: { 
-      scale: 1, 
+    visible: {
+      scale: 1,
       opacity: 1,
       transition: {
         type: "spring",
@@ -554,7 +554,7 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
         damping: 30
       }
     },
-    hover: { 
+    hover: {
       scale: 1.1,
       transition: {
         type: "spring",
@@ -639,7 +639,7 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
               ...chatStyle,
               cursor: isDragging ? 'grabbing' : 'default' // Change cursor when dragging
             }}
-            className="fixed z-50 w-[380px] max-w-[calc(100vw-2rem)] h-[600px] max-h-[calc(100vh-2rem)] bg-background border-2 border-primary/20 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+            className="fixed z-50 w-[380px] max-w-[calc(100vw-2rem)] h-[600px] max-h-[calc(100vh-2rem)] bg-gradient-to-br from-white/95 via-gray-50/95 to-white/95 dark:from-gray-900/95 dark:via-gray-850/95 dark:to-gray-900/95 rounded-2xl shadow-2xl border-2 border-blue-500/40 dark:border-blue-400/30 backdrop-blur-xl overflow-hidden"
           >
             {/* Chat Header - draggable area */}
             <motion.div
@@ -715,11 +715,11 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
                     }`}
                   >
                     {message.isTyping ? (
-                      <TypingMessage 
+                      <TypingMessage
                         text={message.content}
                         onComplete={() => {
-                          setMessages(prev => 
-                            prev.map((msg, i) => 
+                          setMessages(prev =>
+                            prev.map((msg, i) =>
                               i === index ? { ...msg, isTyping: false } : msg
                             )
                           );
