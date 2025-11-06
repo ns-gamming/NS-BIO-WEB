@@ -109,7 +109,7 @@ ABOUT NABORAJ SARKAR (THE NEW KING):
 - Skills: Full-stack developer, gamer, content creator, video editor
 - First Languages: Python, then JavaScript
 - Loves: Coding, gaming (Free Fire expert), football, creating content
-- Mission: Build his digital empire and inspire others through gaming and tech
+- Mission: Build his digital empire and inspire others through gaming and coding
 - Status: Single, focused on growth and success
 - Vision: Helping people achieve their dreams through gaming and coding
 
@@ -276,17 +276,6 @@ export function EdithChatbot() {
     setIsDragging(true);
   };
 
-  const handleChatTouchStart = (e: React.TouchEvent) => {
-    if (!chatboxRef.current) return;
-    const touch = e.touches[0];
-    const rect = chatboxRef.current.getBoundingClientRect();
-    setDragOffset({
-      x: touch.clientX - rect.left,
-      y: touch.clientY - rect.top
-    });
-    setIsDragging(true);
-  };
-
   /**
    * Drag handlers for floating button
    */
@@ -297,18 +286,6 @@ export function EdithChatbot() {
     setDragOffset({
       x: e.clientX - rect.left,
       y: e.clientY - rect.top
-    });
-    setIsDragging(true);
-  };
-
-  const handleButtonTouchStart = (e: React.TouchEvent) => {
-    if (!buttonRef.current) return;
-    e.stopPropagation();
-    const touch = e.touches[0];
-    const rect = buttonRef.current.getBoundingClientRect();
-    setDragOffset({
-      x: touch.clientX - rect.left,
-      y: touch.clientY - rect.top
     });
     setIsDragging(true);
   };
@@ -355,6 +332,11 @@ export function EdithChatbot() {
       }
     };
 
+    const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    // Touch event handlers
     const handleTouchMove = (e: TouchEvent) => {
       if (!isDragging) return;
       e.preventDefault();
@@ -388,10 +370,6 @@ export function EdithChatbot() {
 
         setButtonPosition({ x: newX, y: newY });
       }
-    };
-
-    const handleMouseUp = () => {
-      setIsDragging(false);
     };
 
     if (isDragging) {
@@ -505,7 +483,7 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
       } else if (userQuestion.includes('tool') || userQuestion.includes('free fire') || userQuestion.includes('ff')) {
         errorResponse = "System recalibrating! 🔧 Meanwhile - explore /tools for FF Name Generator, Sensitivity Calculator, and /ff-bots for Free Fire Likes & Info tools. All free! 🔥";
       } else if (userQuestion.includes('download') || userQuestion.includes('youtube') || userQuestion.includes('instagram')) {
-        errorResponse = "Brief interruption! 📥 Head to /tools and check the Downloads section - YouTube, Instagram, TikTok, Facebook video downloaders all ready. Just paste the URL! 🚀";
+        errorResponse = "Brief interruption! 📥 Head to /tools and check the Downloads section - YouTube, Instagram, TikTok, Facebook, Twitter/X, Pinterest, Reddit, Snapchat downloaders all ready. Just paste the URL! 🚀";
       } else if (userQuestion.includes('blog') || userQuestion.includes('article')) {
         errorResponse = "Processing delay! 📚 Visit /blog for comprehensive guides on Free Fire strategies, YouTube growth, web development, and more. Quality content awaits! 📝";
       } else {
@@ -587,6 +565,15 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
     tap: { scale: 0.95 }
   };
 
+  // Dynamic styling for positioning based on drag state
+  const buttonStyle = buttonPosition.x === 0 && buttonPosition.y === 0
+    ? { bottom: '1.5rem', right: '1.5rem', left: 'auto', top: 'auto' } // Default position
+    : { left: `${buttonPosition.x}px`, top: `${buttonPosition.y}px`, bottom: 'auto', right: 'auto' };
+
+  const chatStyle = chatPosition.x === 0 && chatPosition.y === 0
+    ? { bottom: '1.5rem', right: '1.5rem', left: 'auto', top: 'auto' } // Default position
+    : { left: `${chatPosition.x}px`, top: `${chatPosition.y}px`, bottom: 'auto', right: 'auto' };
+
   return (
     <>
       {/* Floating Chat Button - appears when chat is closed */}
@@ -601,15 +588,23 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
             whileHover="hover"
             whileTap="tap"
             onMouseDown={handleButtonMouseDown}
-            onTouchStart={handleButtonTouchStart}
+            onTouchStart={(e) => { // Added touch start for button
+              if (!buttonRef.current) return;
+              e.stopPropagation();
+              const touch = e.touches[0];
+              const rect = buttonRef.current.getBoundingClientRect();
+              setDragOffset({
+                x: touch.clientX - rect.left,
+                y: touch.clientY - rect.top
+              });
+              setIsDragging(true);
+            }}
             onClick={() => !isDragging && setIsOpen(true)}
             style={{
-              left: buttonPosition.x || 'auto',
-              right: buttonPosition.x ? 'auto' : '1.5rem',
-              top: buttonPosition.y || 'auto',
-              bottom: buttonPosition.y ? 'auto' : '1.5rem',
+              ...buttonStyle,
+              cursor: isDragging ? 'grabbing' : 'grab' // Change cursor when dragging
             }}
-            className="fixed z-50 p-4 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-2xl hover:shadow-blue-500/50 transition-shadow cursor-move group"
+            className="fixed z-50 p-4 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-2xl hover:shadow-blue-500/50 transition-shadow group"
             aria-label="Open EDITH Chat"
           >
             <MessageCircle className="w-6 h-6" />
@@ -624,7 +619,7 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
               }}
             />
             {/* Tooltip */}
-            <div className="absolute bottom-full right-0 mb-2 px-3 py-1 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+            <div className="absolute bottom-full right-0 mb-2 px-3 py-1 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap dark:bg-gray-700">
               Chat with EDITH 🚀
             </div>
           </motion.button>
@@ -641,10 +636,8 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
             animate="visible"
             exit="exit"
             style={{
-              left: chatPosition.x || 'auto',
-              right: chatPosition.x ? 'auto' : '1.5rem',
-              top: chatPosition.y || 'auto',
-              bottom: chatPosition.y ? 'auto' : '1.5rem',
+              ...chatStyle,
+              cursor: isDragging ? 'grabbing' : 'default' // Change cursor when dragging
             }}
             className="fixed z-50 w-[380px] max-w-[calc(100vw-2rem)] h-[600px] max-h-[calc(100vh-2rem)] bg-background border-2 border-primary/20 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
           >
@@ -652,7 +645,16 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
             <motion.div
               className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 flex items-center justify-between cursor-move"
               onMouseDown={handleChatMouseDown}
-              onTouchStart={handleChatTouchStart}
+              onTouchStart={(e) => { // Added touch start for chat header
+                if (!chatboxRef.current) return;
+                const touch = e.touches[0];
+                const rect = chatboxRef.current.getBoundingClientRect();
+                setDragOffset({
+                  x: touch.clientX - rect.left,
+                  y: touch.clientY - rect.top
+                });
+                setIsDragging(true);
+              }}
               whileHover={{ backgroundPosition: "right center" }}
               style={{ backgroundSize: "200% 100%" }}
             >
