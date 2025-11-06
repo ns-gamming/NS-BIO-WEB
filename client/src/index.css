@@ -1034,7 +1034,7 @@ a:hover,
   .hover\:scale-125:hover {
     opacity: 0.9;
   }
-  
+
   /* Reduce hover lift on mobile */
   .hover-lift:hover {
     transform: translateY(-2px);

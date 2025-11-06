@@ -248,7 +248,7 @@ export function EdithChatbot() {
    * Auto-scroll to bottom when new messages arrive
    */
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   };
 
   useEffect(() => {
@@ -571,7 +571,7 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
     : { left: `${buttonPosition.x}px`, top: `${buttonPosition.y}px`, bottom: 'auto', right: 'auto' };
 
   const chatStyle = chatPosition.x === 0 && chatPosition.y === 0
-    ? { bottom: '1.5rem', right: '1.5rem', left: 'auto', top: 'auto' } // Default position
+    ? { bottom: '1.5rem', right: '1.5rem', left: 'auto', top: 'auto' } // Default position - always bottom right
     : { left: `${chatPosition.x}px`, top: `${chatPosition.y}px`, bottom: 'auto', right: 'auto' };
 
   return (
@@ -639,7 +639,7 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
               ...chatStyle,
               cursor: isDragging ? 'grabbing' : 'default' // Change cursor when dragging
             }}
-            className="fixed z-50 w-[380px] max-w-[calc(100vw-2rem)] h-[600px] max-h-[calc(100vh-2rem)] bg-gradient-to-br from-white/95 via-gray-50/95 to-white/95 dark:from-gray-900/95 dark:via-gray-850/95 dark:to-gray-900/95 rounded-2xl shadow-2xl border-2 border-blue-500/40 dark:border-blue-400/30 backdrop-blur-xl overflow-hidden"
+            className="fixed z-50 w-[90vw] sm:w-[380px] max-w-[380px] flex flex-col bg-gradient-to-br from-white/95 via-gray-50/95 to-white/95 dark:from-gray-900/95 dark:via-gray-850/95 dark:to-gray-900/95 rounded-2xl shadow-2xl border-2 border-blue-500/40 dark:border-blue-400/30 backdrop-blur-xl overflow-hidden"
           >
             {/* Chat Header - draggable area */}
             <motion.div
@@ -697,8 +697,8 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
               </div>
             </motion.div>
 
-            {/* Messages Container */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-background/95 backdrop-blur">
+            {/* Messages Container - Fixed height with scroll */}
+            <div className="h-[400px] overflow-y-auto p-4 space-y-4 bg-background/95 backdrop-blur scroll-smooth">
               {messages.map((message, index) => (
                 <motion.div
                   key={index}
@@ -708,7 +708,7 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
                   className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
                 >
                   <div
-                    className={`max-w-[80%] p-3 rounded-2xl ${
+                    className={`max-w-[80%] p-3 rounded-2xl shadow-lg ${
                       message.role === "user"
                         ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-br-none"
                         : "bg-muted text-foreground rounded-bl-none border border-border"
@@ -737,7 +737,7 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
                   animate={{ opacity: 1 }}
                   className="flex justify-start"
                 >
-                  <div className="bg-muted p-3 rounded-2xl rounded-bl-none border border-border">
+                  <div className="bg-muted p-3 rounded-2xl rounded-bl-none border border-border shadow-lg">
                     <div className="flex items-center gap-2">
                       <Loader2 className="w-4 h-4 animate-spin" />
                       <span className="text-sm">EDITH is thinking...</span>
@@ -749,7 +749,7 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
             </div>
 
             {/* Input Area */}
-            <div className="p-4 border-t border-border bg-background">
+            <div className="p-3 sm:p-4 border-t border-border bg-background shrink-0">
               <div className="flex gap-2">
                 <input
                   type="text"
@@ -757,7 +757,7 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Ask EDITH anything..."
-                  className="flex-1 px-4 py-2 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                  className="flex-1 px-3 sm:px-4 py-2 text-sm rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                   disabled={isLoading}
                 />
                 <motion.button
@@ -765,12 +765,12 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
                   whileTap={{ scale: 0.95 }}
                   onClick={sendMessage}
                   disabled={isLoading || !inputValue.trim()}
-                  className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-3 sm:px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <Send className="w-5 h-5" />
+                  <Send className="w-4 h-4 sm:w-5 sm:h-5" />
                 </motion.button>
               </div>
-              <p className="text-xs text-muted-foreground mt-2 text-center">
+              <p className="text-[10px] sm:text-xs text-muted-foreground mt-2 text-center">
                 Created by Naboraj Sarkar - The New King 👑
               </p>
             </div>
