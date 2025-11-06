@@ -12,7 +12,8 @@ import {
   SiX,
   SiFacebook,
   SiWhatsapp,
-  SiBinance
+  SiBinance,
+  SiGithub
 } from "react-icons/si";
 
 import _1000016408 from "@assets/1000016408.jpg";
@@ -29,6 +30,16 @@ export default function Social() {
   const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.8, 1, 1, 0.8]);
 
   const socialLinks = [
+    {
+      name: "GitHub",
+      icon: SiGithub,
+      color: "text-gray-900 dark:text-white",
+      bgGradient: "from-gray-700/20 to-gray-900/20",
+      hoverGradient: "from-gray-700/40 to-gray-900/40",
+      url: "https://github.com/ns-gamming69",
+      description: "Check out my code, projects, and open-source contributions on GitHub! Star my repos! ⭐💻",
+      testId: "social-github"
+    },
     {
       name: "Binance Square",
       icon: SiBinance,

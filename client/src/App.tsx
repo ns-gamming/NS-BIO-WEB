@@ -4,7 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "./components/ThemeProvider";
-import { GeminiChatbot } from "./components/GeminiChatbot";
+import { EdithChatbot } from "./components/EdithChatbot";
 import CookieConsentBanner from "./components/CookieConsentBanner";
 import Navigation from "./components/Navigation";
 import ParticleBackground from "./components/ParticleBackground";
@@ -53,6 +53,7 @@ import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import TermsConditions from "./pages/TermsConditions";
 import Disclaimer from "./pages/Disclaimer";
+import Chat from "./pages/Chat";
 import NotFound from "@/pages/not-found";
 import PageLoader from "./components/PageLoader";
 import { useEffect, useState } from "react";
@@ -61,6 +62,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/chat" component={Chat} />
       <Route path="/ff-bots/likes" component={FFLikesBot} />
       <Route path="/ff-bots/info" component={FFInfoBot} />
       <Route path="/ff-bots/compare" component={FFCompare} />
@@ -165,7 +167,7 @@ Keep coding, keep creating! 🚀
             <ScrollToTop />
             <BackButton />
             <EasterEggs />
-            <GeminiChatbot />
+            <EdithChatbot />
             <CookieConsentBanner />
             <Footer />
             <Toaster />
