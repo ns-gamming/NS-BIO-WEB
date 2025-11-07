@@ -88,18 +88,18 @@ function GameScene({
       <directionalLight position={[10, 10, 5]} intensity={1} />
       <pointLight position={[0, 10, 10]} intensity={1.5} color="#ffffff" />
       <fog attach="fog" args={['#000033', 20, 60]} />
-      
+
       <StarField count={Math.min(1200, 800 + level * 40)} speed={0.3 + level * 0.05} />
-      
+
       <PlayerShip 
         position={playerPos} 
         health={playerHealth}
         maxHealth={maxHealth}
         shieldActive={shieldActive}
       />
-      
+
       <EngineTrail position={[playerPos[0], playerPos[1] - 1, playerPos[2]]} color="#ff6600" intensity={1.5} />
-      
+
       {enemies.map(enemy => (
         <Enemy
           key={enemy.id}
@@ -110,7 +110,7 @@ function GameScene({
           maxHealth={enemy.maxHealth}
         />
       ))}
-      
+
       {bullets.map(bullet => (
         <Bullet
           key={bullet.id}
@@ -120,7 +120,7 @@ function GameScene({
           fromPlayer={bullet.fromPlayer}
         />
       ))}
-      
+
       {powerUps.map(powerUp => (
         <PowerUp
           key={powerUp.id}
@@ -146,6 +146,34 @@ function GameScene({
   );
 }
 
+function ErrorBoundary({ children }: { children: React.ReactNode }) {
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    const handleError = () => setHasError(true);
+    window.addEventListener('error', handleError);
+    return () => window.removeEventListener('error', handleError);
+  }, []);
+
+  if (hasError) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <div className="text-center">
+          <p className="text-red-500 mb-4">WebGL context error. Please refresh the page.</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="px-4 py-2 bg-primary text-white rounded"
+          >
+            Refresh
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return <>{children}</>;
+}
+
 export default function SpaceShooterEnhanced() {
   const [, navigate] = useLocation();
   const [gameState, setGameState] = useState<'menu' | 'playing' | 'paused' | 'gameOver' | 'levelComplete' | 'victory'>('menu');
@@ -164,7 +192,7 @@ export default function SpaceShooterEnhanced() {
   const [combo, setCombo] = useState(0);
   const [highScore, setHighScore] = useState(0);
   const [bossSpawned, setBossSpawned] = useState(false);
-  
+
   const { playSound } = useSoundEffects();
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
   const lastShotTime = useRef(0);
@@ -204,7 +232,7 @@ export default function SpaceShooterEnhanced() {
 
   const spawnEnemy = () => {
     const levelConfig = getCurrentLevelConfig();
-    
+
     if (levelConfig.bossLevel && !bossSpawned && enemies.length === 0) {
       const health = 300 + level * 50;
       setBossSpawned(true);
@@ -218,16 +246,16 @@ export default function SpaceShooterEnhanced() {
       if (soundEnabled) playSound('notify');
       return;
     }
-    
+
     if (enemies.length >= levelConfig.maxEnemies) return;
-    
+
     const types: EnemyType[] = level > 1 ? ['scout', 'fighter'] : ['scout'];
     const weights = level > 1 ? [0.65, 0.35] : [1.0];
-    
+
     const rand = Math.random();
     let type: EnemyType = 'scout';
     let cumWeight = 0;
-    
+
     for (let i = 0; i < types.length; i++) {
       cumWeight += weights[i];
       if (rand < cumWeight) {
@@ -235,14 +263,14 @@ export default function SpaceShooterEnhanced() {
         break;
       }
     }
-    
+
     const maxHealthMap = { 
       scout: 20 + level * 5, 
       fighter: 50 + level * 10, 
       boss: 200 + level * 30 
     };
     const health = maxHealthMap[type];
-    
+
     setEnemies(prev => [...prev, {
       id: `enemy-${Date.now()}-${Math.random()}`,
       position: [
@@ -259,7 +287,7 @@ export default function SpaceShooterEnhanced() {
   const spawnPowerUp = () => {
     const types: PowerUpType[] = ['health', 'shield', 'rapidfire', 'coins'];
     const type = types[Math.floor(Math.random() * types.length)];
-    
+
     setPowerUps(prev => [...prev, {
       id: `powerup-${Date.now()}`,
       position: [
@@ -278,7 +306,7 @@ export default function SpaceShooterEnhanced() {
       size,
       color
     }]);
-    
+
     setTimeout(() => {
       setExplosions(prev => prev.slice(1));
     }, 1000);
@@ -286,14 +314,14 @@ export default function SpaceShooterEnhanced() {
 
   const shoot = () => {
     if (gameState !== 'playing') return;
-    
+
     const now = Date.now();
     const fireRate = rapidFire ? 100 : 200;
     if (now - lastShotTime.current < fireRate) return;
     lastShotTime.current = now;
-    
+
     if (soundEnabled) playSound('shoot');
-    
+
     const newBullets: BulletEntity[] = [{
       id: `bullet-${Date.now()}-${Math.random()}`,
       position: [playerPos[0], playerPos[1] + 1, playerPos[2]],
@@ -301,7 +329,7 @@ export default function SpaceShooterEnhanced() {
       fromPlayer: true,
       velocity: [0, 2.5, 0]
     }];
-    
+
     if (rapidFire) {
       newBullets.push({
         id: `bullet-${Date.now()}-${Math.random()}-left`,
@@ -318,7 +346,7 @@ export default function SpaceShooterEnhanced() {
         velocity: [0.3, 2.5, 0]
       });
     }
-    
+
     setBullets(prev => [...prev, ...newBullets]);
   };
 
@@ -403,22 +431,22 @@ export default function SpaceShooterEnhanced() {
 
       setBullets(prevBullets => {
         const remainingBullets = [...prevBullets];
-        
+
         setEnemies(prevEnemies => {
           const remainingEnemies = [...prevEnemies];
-          
+
           prevBullets.forEach((bullet, bIndex) => {
             if (!bullet.fromPlayer) return;
-            
+
             prevEnemies.forEach((enemy, eIndex) => {
               if (remainingBullets[bIndex] === null || remainingEnemies[eIndex] === null) return;
-              
+
               const dx = bullet.position[0] - enemy.position[0];
               const dy = bullet.position[1] - enemy.position[1];
               const distance = Math.sqrt(dx * dx + dy * dy);
-              
+
               const hitRadius = enemy.type === 'boss' ? 1.8 : enemy.type === 'fighter' ? 0.8 : 0.6;
-              
+
               if (distance < hitRadius) {
                 remainingBullets[bIndex] = null as any;
                 const damage = 15;
@@ -426,10 +454,10 @@ export default function SpaceShooterEnhanced() {
                   ...enemy,
                   health: enemy.health - damage
                 };
-                
+
                 if (soundEnabled) playSound('hit');
                 createExplosion(bullet.position, 0.2, '#00ffff');
-                
+
                 if (remainingEnemies[eIndex].health <= 0) {
                   if (soundEnabled) playSound('explosion');
                   const points = enemy.type === 'boss' ? 500 : enemy.type === 'fighter' ? 100 : 50;
@@ -437,7 +465,7 @@ export default function SpaceShooterEnhanced() {
                   setCombo(c => c + 1);
                   createExplosion(enemy.position, enemy.type === 'boss' ? 1.5 : 0.5, enemy.type === 'boss' ? '#aa00ff' : '#ff6600');
                   remainingEnemies[eIndex] = null as any;
-                  
+
                   if (Math.random() < 0.15) {
                     spawnPowerUp();
                   }
@@ -445,27 +473,27 @@ export default function SpaceShooterEnhanced() {
               }
             });
           });
-          
+
           return remainingEnemies.filter(e => e !== null);
         });
-        
+
         return remainingBullets.filter(b => b !== null);
       });
 
       setPowerUps(prevPowerUps => {
         const remaining = [...prevPowerUps];
-        
+
         prevPowerUps.forEach((powerUp, index) => {
           const dx = powerUp.position[0] - playerPos[0];
           const dy = powerUp.position[1] - playerPos[1];
           const distance = Math.sqrt(dx * dx + dy * dy);
-          
+
           if (distance < 1.2) {
             remaining[index] = null as any;
-            
+
             if (soundEnabled) playSound('powerup');
             createExplosion(powerUp.position, 0.3, '#ffff00');
-            
+
             switch (powerUp.type) {
               case 'health':
                 setPlayerHealth(h => Math.min(maxHealth, h + 40));
@@ -484,7 +512,7 @@ export default function SpaceShooterEnhanced() {
             }
           }
         });
-        
+
         return remaining.filter(p => p !== null);
       });
 
@@ -519,11 +547,10 @@ export default function SpaceShooterEnhanced() {
   }, [enemies, gameState, level, bossSpawned]);
 
   useEffect(() => {
-    if (score > 0 && score % 1000 === 0 && !getCurrentLevelConfig().bossLevel) {
-      if (level < 10) {
+    const levelConfig = getCurrentLevelConfig();
+    if (score > 0 && score % 1000 === 0 && !levelConfig.bossLevel && level < 10) {
         setGameState('levelComplete');
         if (soundEnabled) playSound('levelup');
-      }
     }
   }, [score]);
 
@@ -549,11 +576,11 @@ export default function SpaceShooterEnhanced() {
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!touchStartRef.current) return;
-    
+
     const touch = e.touches[0];
     const dx = (touch.clientX - touchStartRef.current.x) * 0.05;
     const dy = -(touch.clientY - touchStartRef.current.y) * 0.05;
-    
+
     handleMove(dx, dy);
     touchStartRef.current = { x: touch.clientX, y: touch.clientY };
   };
@@ -574,7 +601,7 @@ export default function SpaceShooterEnhanced() {
             <ArrowLeft className="w-5 h-5" />
             <span className="font-semibold">Back to Games</span>
           </button>
-          
+
           <button
             onClick={() => navigate('/games')}
             className="flex items-center gap-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 hover:text-purple-300 px-6 py-3 rounded-lg transition-all duration-300 border border-purple-500/50 hover:border-purple-400 backdrop-blur-sm"
@@ -720,30 +747,33 @@ export default function SpaceShooterEnhanced() {
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            <Canvas
-              shadows
-              gl={{ 
-                antialias: true, 
-                alpha: false,
-                powerPreference: 'high-performance',
-                stencil: false,
-                depth: true
-              }}
-              dpr={[1, 1.5]}
-              performance={{ min: 0.5 }}
-            >
-              <GameScene
-                playerPos={playerPos}
-                enemies={enemies}
-                bullets={bullets}
-                powerUps={powerUps}
-                explosions={explosions}
-                playerHealth={playerHealth}
-                maxHealth={maxHealth}
-                shieldActive={shieldActive}
-                level={level}
-              />
-            </Canvas>
+            <ErrorBoundary>
+              <Canvas
+                camera={{ position: [0, -10, 25], fov: 75 }}
+                gl={{ 
+                  antialias: true, 
+                  alpha: false,
+                  powerPreference: 'high-performance',
+                  stencil: false,
+                  depth: true,
+                  preserveDrawingBuffer: true,
+                }}
+                dpr={[1, 1.5]}
+                performance={{ min: 0.5 }}
+              >
+                <GameScene
+                  playerPos={playerPos}
+                  enemies={enemies}
+                  bullets={bullets}
+                  powerUps={powerUps}
+                  explosions={explosions}
+                  playerHealth={playerHealth}
+                  maxHealth={maxHealth}
+                  shieldActive={shieldActive}
+                  level={level}
+                />
+              </Canvas>
+            </ErrorBoundary>
           </div>
 
           {gameState === 'playing' && (
@@ -777,7 +807,7 @@ export default function SpaceShooterEnhanced() {
                   <span>⚡</span> Rapid Fire
                 </div>}
               </div>
-              
+
               <div className="flex gap-2 pointer-events-auto">
                 <button
                   onClick={() => setSoundEnabled(!soundEnabled)}
@@ -799,7 +829,7 @@ export default function SpaceShooterEnhanced() {
             </div>
           )}
         </div>
-        
+
         <div className="mt-8 text-center text-gray-400 text-sm">
           <p>🎮 Tip: Maintain your combo streak for bonus points!</p>
           <p className="mt-2">Boss battles occur on levels 3, 6, 9, and 10</p>

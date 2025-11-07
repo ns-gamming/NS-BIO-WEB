@@ -7,6 +7,7 @@ import { FaJava } from "react-icons/fa";
 import AdSenseAd from "../components/AdSenseAd";
 import { SEO } from "../components/SEO";
 import { useTheme } from "../components/ThemeProvider";
+import { useSoundEffects } from "../hooks/useSoundEffects";
 
 interface SkillData {
   name: string;
@@ -120,50 +121,70 @@ const skillsData: SkillData[] = [
   }
 ];
 
-const projects = [
-  {
-    title: "NS GAMMING Website",
-    description: "A full-stack portfolio website with blog, games, tools, and AI chatbot integration. Built with React, TypeScript, and modern web technologies.",
-    tech: ["React", "TypeScript", "Tailwind CSS", "Node.js", "Gemini AI"],
-    link: "https://nsgamming.xyz",
-    icon: Globe,
-    external: true
-  },
-  {
-    title: "NS Finance Tracker",
-    description: "Professional finance tracking application that helps you monitor daily expenses, track income, and understand your financial health. Build your future with smart money management.",
-    tech: ["React", "TypeScript", "Financial Analytics", "Data Visualization", "Vercel"],
-    link: "https://ns-finance-tracker.vercel.app/",
-    icon: Code2,
-    external: true
-  },
-  {
-    title: "AI Pro Sales Agent",
-    description: "Customizable AI-powered sales agent that can sell any product. Features dashboard access, Telegram & WhatsApp integration, and intelligent conversation flows.",
-    tech: ["AI/ML", "React", "Telegram API", "WhatsApp API", "Dashboard UI"],
-    link: "https://ai-pro-sales-agent.vercel.app/",
-    icon: Sparkles,
-    external: true
-  },
-  {
-    title: "Free Fire Tools Hub",
-    description: "Advanced tools for Free Fire players including sensitivity calculator, name generator, and profile boosting bots.",
-    tech: ["React", "TypeScript", "API Integration", "Responsive Design"],
-    link: "/ff-bots",
-    icon: Sparkles,
-    external: false
-  },
-  {
-    title: "Interactive Gaming Portal",
-    description: "Collection of browser-based games including Snake, Tic-Tac-Toe, 2048, and more. Pure JavaScript game development.",
-    tech: ["JavaScript", "Canvas API", "Game Logic", "Responsive UI"],
-    link: "/games",
-    icon: Code2,
-    external: false
-  }
-];
-
 export default function Portfolio() {
+  const { playSound } = useSoundEffects();
+
+  const projects = [
+    {
+      id: 1,
+      title: "NS Finance Tracker",
+      description: "A comprehensive finance tracking application to monitor daily expenses, income, and financial goals. Features intuitive visualizations, budget planning, and expense categorization to help you understand your financial habits and build a better future.",
+      image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&auto=format&fit=crop",
+      tech: ["React", "TypeScript", "Chart.js", "Tailwind CSS"],
+      github: "https://github.com/nishant-app/ns-finance-tracker",
+      live: "https://ns-finance-tracker.vercel.app/",
+      category: "fullstack",
+      featured: true
+    },
+    {
+      id: 2,
+      title: "AI Pro Sales Agent",
+      description: "An intelligent AI-powered sales agent platform that can be customized to sell any product. Features direct dashboard access, seamless integration with Telegram and WhatsApp, automated responses, lead management, and conversion tracking for enhanced sales performance.",
+      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&auto=format&fit=crop",
+      tech: ["Next.js", "AI/ML", "Telegram API", "WhatsApp API", "TypeScript"],
+      github: "https://github.com/nishant-app/ai-sales-agent",
+      live: "https://ai-pro-sales-agent.vercel.app/",
+      category: "fullstack",
+      featured: true
+    },
+    {
+      id: 3,
+      title: "NS GAMMING Website",
+      description: "A full-stack portfolio website with blog, games, tools, and AI chatbot integration. Built with React, TypeScript, and modern web technologies.",
+      tech: ["React", "TypeScript", "Tailwind CSS", "Node.js", "Gemini AI"],
+      link: "https://nsgamming.xyz",
+      icon: Globe,
+      external: true
+    },
+    {
+      id: 4,
+      title: "Free Fire Stats Dashboard",
+      description: "Advanced tools for Free Fire players including sensitivity calculator, name generator, and profile boosting bots.",
+      tech: ["React", "TypeScript", "API Integration", "Responsive Design"],
+      link: "/ff-bots",
+      icon: Sparkles,
+      external: false
+    },
+    {
+      id: 5,
+      title: "Gaming Content Hub",
+      description: "A centralized platform for all my gaming content, including videos, streams, and articles. Stay updated with the latest in the gaming world and connect with a community of passionate gamers.",
+      tech: ["React", "Content Management", "Video Integration", "Community Features"],
+      link: "/gaming-hub",
+      icon: Youtube,
+      external: false
+    },
+    {
+      id: 6,
+      title: "Interactive Web Games",
+      description: "Collection of browser-based games including Snake, Tic-Tac-Toe, 2048, and more. Pure JavaScript game development.",
+      tech: ["JavaScript", "Canvas API", "Game Logic", "Responsive UI"],
+      link: "/games",
+      icon: Code2,
+      external: false
+    }
+  ];
+
   const [selectedSkill, setSelectedSkill] = useState<SkillData | null>(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const { theme } = useTheme();
@@ -232,7 +253,7 @@ export default function Portfolio() {
 
       <div className="pt-16 min-h-screen">
         {/* Hero Section */}
-        <motion.section 
+        <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -255,45 +276,48 @@ export default function Portfolio() {
               </div>
             </motion.div>
 
-            <motion.p 
+            <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
               className="text-base md:text-lg lg:text-xl text-foreground/80 max-w-3xl mx-auto mb-8 leading-relaxed px-4"
             >
-              Passionate about building innovative web solutions, AI-powered applications, financial tools, 
-              and creating engaging gaming content. From full-stack development to content creation — every 
+              Passionate about building innovative web solutions, AI-powered applications, financial tools,
+              and creating engaging gaming content. From full-stack development to content creation — every
               project is built with love, dedication, and cutting-edge technology! 💻🎮🚀
             </motion.p>
 
             {/* CTA Buttons */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
               className="flex flex-wrap gap-4 justify-center"
             >
-              <a 
-                href="https://github.com/ns-gamming" 
-                target="_blank" 
+              <a
+                href="https://github.com/ns-gamming"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center gap-2 px-6 py-3 bg-foreground text-background rounded-full hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+                onClick={() => playSound('click')}
               >
                 <Github className="w-5 h-5 group-hover:rotate-12 transition-transform" />
                 GitHub Projects
               </a>
-              <a 
-                href="https://youtube.com/@Nishant_sarkar" 
-                target="_blank" 
+              <a
+                href="https://youtube.com/@Nishant_sarkar"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center gap-2 px-6 py-3 bg-red-500 text-white rounded-full hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+                onClick={() => playSound('click')}
               >
                 <Youtube className="w-5 h-5 group-hover:scale-110 transition-transform" />
                 YouTube Channel
               </a>
-              <Link 
+              <Link
                 href="/contact"
                 className="group flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-full hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+                onClick={() => playSound('click')}
               >
                 <Mail className="w-5 h-5 group-hover:rotate-12 transition-transform" />
                 Get in Touch
@@ -303,7 +327,7 @@ export default function Portfolio() {
         </motion.section>
 
         {/* About Me Section */}
-        <motion.section 
+        <motion.section
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -322,15 +346,15 @@ export default function Portfolio() {
               </h2>
               <div className="space-y-4 text-foreground/90 leading-relaxed">
                 <p className="text-lg">
-                  Hi! I'm <span className="text-primary font-semibold">Nishant Sarkar</span> (also known as <span className="text-primary font-semibold">Naboraj Sarkar</span>), 
+                  Hi! I'm <span className="text-primary font-semibold">Nishant Sarkar</span> (also known as <span className="text-primary font-semibold">Naboraj Sarkar</span>),
                   a passionate developer and content creator from Siliguri, West Bengal. I love building things that make a difference!
                 </p>
                 <p>
-                  My journey started with gaming and evolved into coding, web development, and content creation. 
+                  My journey started with gaming and evolved into coding, web development, and content creation.
                   I believe in learning by doing, sharing knowledge openly, and building communities that support each other's growth.
                 </p>
                 <p>
-                  Whether it's developing full-stack applications, creating gaming content, or helping others learn to code — 
+                  Whether it's developing full-stack applications, creating gaming content, or helping others learn to code —
                   I pour my heart into everything I do. My mission is to build my own empire while helping others achieve their dreams! 🚀
                 </p>
                 {/* AI Chatbot Introduction */}
@@ -350,7 +374,7 @@ export default function Portfolio() {
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
       >
-        <motion.h2 
+        <motion.h2
           className="text-4xl md:text-5xl font-orbitron font-bold text-center mb-12 bg-gradient-to-r from-yellow-400 via-green-400 to-emerald-400 bg-clip-text text-transparent"
           initial={{ scale: 0.9 }}
           whileInView={{ scale: 1 }}
@@ -363,12 +387,13 @@ export default function Portfolio() {
           <motion.div
             className="glass rounded-2xl p-8 hover:scale-105 transition-all duration-500 border-2 border-yellow-500/30 hover:border-yellow-500/60 hover:shadow-[0_0_40px_rgba(234,179,8,0.3)] group relative overflow-hidden"
             whileHover={{ y: -10 }}
+            onHoverStart={() => playSound('hover')}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/10 to-orange-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="relative z-10">
               <div className="text-6xl mb-4 group-hover:animate-bounce">💎</div>
               <h3 className="text-2xl font-bold mb-2 text-yellow-500">Cryptocurrency</h3>
-              <motion.p 
+              <motion.p
                 className="text-4xl font-bold mb-4"
                 key={cryptoValue}
                 initial={{ opacity: 0.7 }}
@@ -390,12 +415,13 @@ export default function Portfolio() {
             className="glass rounded-2xl p-8 hover:scale-105 transition-all duration-500 border-2 border-amber-500/30 hover:border-amber-500/60 hover:shadow-[0_0_40px_rgba(245,158,11,0.3)] group relative overflow-hidden"
             whileHover={{ y: -10 }}
             transition={{ delay: 0.1 }}
+            onHoverStart={() => playSound('hover')}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-yellow-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="relative z-10">
               <div className="text-6xl mb-4 group-hover:animate-bounce">🪙</div>
               <h3 className="text-2xl font-bold mb-2 text-amber-500">Digital Gold</h3>
-              <motion.p 
+              <motion.p
                 className="text-4xl font-bold mb-4"
                 key={digitalGoldValue}
                 initial={{ opacity: 0.7 }}
@@ -416,12 +442,13 @@ export default function Portfolio() {
             className="glass rounded-2xl p-8 hover:scale-105 transition-all duration-500 border-2 border-green-500/30 hover:border-green-500/60 hover:shadow-[0_0_40px_rgba(34,197,94,0.3)] group relative overflow-hidden"
             whileHover={{ y: -10 }}
             transition={{ delay: 0.2 }}
+            onHoverStart={() => playSound('hover')}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="relative z-10">
               <div className="text-6xl mb-4 group-hover:animate-bounce">📈</div>
               <h3 className="text-2xl font-bold mb-2 text-green-500">Stock Market</h3>
-              <motion.p 
+              <motion.p
                 className="text-4xl font-bold mb-4"
                 key={stockValue}
                 initial={{ opacity: 0.7 }}
@@ -456,14 +483,14 @@ export default function Portfolio() {
       </motion.section>
 
         {/* Skills Section */}
-        <motion.section 
+        <motion.section
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           className="container mx-auto px-4 py-12"
         >
           <div className="max-w-6xl mx-auto">
-            <motion.h2 
+            <motion.h2
               initial={{ y: 20, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ once: true }}
@@ -482,7 +509,7 @@ export default function Portfolio() {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.05 }}
-                  onClick={() => setSelectedSkill(skill)}
+                  onClick={() => { setSelectedSkill(skill); playSound('click'); }}
                   className="glass rounded-2xl p-6 cursor-pointer group hover:scale-105 transition-all duration-300 hover:shadow-xl hover:shadow-primary/20"
                 >
                   <div className={`${skill.color} mb-4 flex justify-center`}>
@@ -498,14 +525,14 @@ export default function Portfolio() {
         </motion.section>
 
         {/* Projects Section */}
-        <motion.section 
+        <motion.section
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           className="container mx-auto px-4 py-12"
         >
           <div className="max-w-6xl mx-auto">
-            <motion.h2 
+            <motion.h2
               initial={{ y: 20, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ once: true }}
@@ -516,40 +543,60 @@ export default function Portfolio() {
             </motion.h2>
 
             <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {projects.map((project, index) => (
+              {projects.map((project) => (
                 <motion.div
-                  key={project.title}
+                  key={project.id}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="glass rounded-2xl p-6 hover:scale-[1.02] md:hover:scale-105 transition-all duration-300 hover:shadow-xl hover:shadow-primary/20 flex flex-col"
+                  transition={{ delay: (project.id - 1) * 0.1 }}
+                  onHoverStart={() => playSound('hover')}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="glass rounded-2xl overflow-hidden h-full flex flex-col group"
                 >
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="p-2 bg-primary/20 rounded-lg">
-                      <project.icon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
+                  <div className="p-6 flex flex-col flex-grow">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="p-2 bg-primary/20 rounded-lg">
+                        <project.icon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
+                      </div>
+                      <h3 className="text-lg md:text-xl font-bold text-foreground">{project.title}</h3>
                     </div>
-                    <h3 className="text-lg md:text-xl font-bold text-foreground">{project.title}</h3>
+                    <p className="text-sm md:text-base text-foreground/80 mb-4 leading-relaxed flex-grow">
+                      {project.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {project.tech.map((tech) => (
+                        <span key={tech} className="px-2 py-1 md:px-3 bg-primary/20 text-primary rounded-full text-xs md:text-sm font-medium">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                  <p className="text-sm md:text-base text-foreground/80 mb-4 leading-relaxed flex-grow">
-                    {project.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tech.map((tech) => (
-                      <span key={tech} className="px-2 py-1 md:px-3 bg-primary/20 text-primary rounded-full text-xs md:text-sm font-medium">
-                        {tech}
-                      </span>
-                    ))}
+                  <div className="p-6 flex justify-end gap-3 bg-foreground/5">
+                    {project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2 glass rounded-lg hover:bg-primary/20 transition-colors"
+                          onClick={() => playSound('click')}
+                        >
+                          <Github className="h-5 w-5" />
+                        </a>
+                      )}
+                      {project.live && (
+                        <a
+                          href={project.live}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2 glass rounded-lg hover:bg-primary/20 transition-colors"
+                          onClick={() => playSound('click')}
+                        >
+                          <ExternalLink className="h-5 w-5" />
+                        </a>
+                      )}
                   </div>
-                  <a
-                    href={project.link}
-                    target={project.external ? "_blank" : undefined}
-                    rel={project.external ? "noopener noreferrer" : undefined}
-                    className="inline-flex items-center gap-2 text-primary hover:gap-3 transition-all font-semibold text-sm md:text-base"
-                  >
-                    {project.external ? 'Visit Website' : 'View Project'}
-                    <ExternalLink className="w-4 h-4" />
-                  </a>
                 </motion.div>
               ))}
             </div>
@@ -557,7 +604,7 @@ export default function Portfolio() {
         </motion.section>
 
         {/* Social Links */}
-        <motion.section 
+        <motion.section
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -577,38 +624,42 @@ export default function Portfolio() {
                 Follow me on social media and let's build something amazing together!
               </p>
               <div className="flex flex-wrap gap-4 justify-center">
-                <a 
-                  href="https://github.com/ns-gamming" 
-                  target="_blank" 
+                <a
+                  href="https://github.com/ns-gamming"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 px-6 py-3 bg-foreground text-background rounded-full hover:scale-105 transition-all"
+                  onClick={() => playSound('click')}
                 >
                   <Github className="w-5 h-5" />
                   GitHub
                 </a>
-                <a 
-                  href="https://youtube.com/@Nishant_sarkar" 
-                  target="_blank" 
+                <a
+                  href="https://youtube.com/@Nishant_sarkar"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 px-6 py-3 bg-red-500 text-white rounded-full hover:scale-105 transition-all"
+                  onClick={() => playSound('click')}
                 >
                   <Youtube className="w-5 h-5" />
                   YouTube
                 </a>
-                <a 
-                  href="https://linkedin.com/in/naboraj-sarkar" 
-                  target="_blank" 
+                <a
+                  href="https://linkedin.com/in/naboraj-sarkar"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-full hover:scale-105 transition-all"
+                  onClick={() => playSound('click')}
                 >
                   <Linkedin className="w-5 h-5" />
                   LinkedIn
                 </a>
-                <a 
-                  href="https://twitter.com/NSGAMMING699" 
-                  target="_blank" 
+                <a
+                  href="https://twitter.com/NSGAMMING699"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 px-6 py-3 bg-sky-500 text-white rounded-full hover:scale-105 transition-all"
+                  onClick={() => playSound('click')}
                 >
                   <Twitter className="w-5 h-5" />
                   Twitter
@@ -702,7 +753,7 @@ export default function Portfolio() {
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0 }}
-              onClick={scrollToTop}
+              onClick={() => { scrollToTop(); playSound('click'); }}
               className="fixed bottom-8 right-8 p-4 bg-primary text-white rounded-full shadow-lg hover:scale-110 transition-all z-40"
               aria-label="Scroll to top"
             >
