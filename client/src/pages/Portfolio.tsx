@@ -557,7 +557,7 @@ export default function Portfolio() {
               </p>
               <div className="flex flex-wrap gap-4 justify-center">
                 <a 
-                  href="https://github.com/ns-gamming69" 
+                  href="https://github.com/ns-gamming" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 px-6 py-3 bg-foreground text-background rounded-full hover:scale-105 transition-all"

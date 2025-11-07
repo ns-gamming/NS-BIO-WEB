@@ -36,7 +36,7 @@ export default function Social() {
       color: "text-gray-900 dark:text-white",
       bgGradient: "from-gray-700/20 to-gray-900/20",
       hoverGradient: "from-gray-700/40 to-gray-900/40",
-      url: "https://github.com/ns-gamming69",
+      url: "https://github.com/ns-gamming",
       description: "Check out my code, projects, and open-source contributions on GitHub! Star my repos! ⭐💻",
       testId: "social-github"
     },
