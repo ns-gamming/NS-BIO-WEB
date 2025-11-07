@@ -368,7 +368,7 @@ export default function Portfolio() {
 
         {/* Investment Portfolio Section */}
       <motion.section
-        className="mb-20"
+        className="container mx-auto px-4 py-12"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}

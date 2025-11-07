@@ -74,6 +74,14 @@ class AnalyticsTracker {
     try {
       // Check if session already exists
       const checkResponse = await fetch(`/api/analytics/session/${this.sessionId}/check`);
+      
+      // Silently fail if analytics endpoint is unavailable (e.g., database not configured)
+      if (!checkResponse.ok) {
+        console.log('Analytics not available - continuing without tracking');
+        this.isInitialized = true;
+        return;
+      }
+      
       const { exists } = await checkResponse.json();
 
       if (!exists) {
@@ -87,7 +95,8 @@ class AnalyticsTracker {
         });
 
         if (!response.ok) {
-          console.error('Failed to create session');
+          console.log('Analytics session creation failed - continuing without tracking');
+          this.isInitialized = true;
           return;
         }
       }
@@ -97,7 +106,8 @@ class AnalyticsTracker {
       this.setupEventListeners();
       this.setupBeforeUnload();
     } catch (error) {
-      console.error('Failed to initialize analytics:', error);
+      console.log('Analytics disabled - continuing without tracking');
+      this.isInitialized = true;
     }
   }
 

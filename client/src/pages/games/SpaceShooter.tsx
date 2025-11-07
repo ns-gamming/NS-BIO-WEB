@@ -1,14 +1,8 @@
+
 import { useState, useEffect, useRef } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useLocation } from 'wouter';
 import { ArrowLeft, Play, Pause, RotateCcw, Home, Volume2, VolumeX, Trophy } from 'lucide-react';
-import PlayerShip from '../../components/game/PlayerShip';
-import Enemy, { EnemyType } from '../../components/game/Enemy';
-import Bullet, { BulletType } from '../../components/game/Bullet';
-import PowerUp, { PowerUpType } from '../../components/game/PowerUp';
-import StarField from '../../components/game/StarField';
-import ParticleExplosion from '../../components/game/ParticleExplosion';
-import EngineTrail from '../../components/game/EngineTrail';
 import { useSoundEffects } from '../../hooks/useSoundEffects';
 
 interface GameEntity {
@@ -17,19 +11,19 @@ interface GameEntity {
 }
 
 interface EnemyEntity extends GameEntity {
-  type: EnemyType;
+  type: 'scout' | 'fighter' | 'boss';
   health: number;
   maxHealth: number;
 }
 
 interface BulletEntity extends GameEntity {
-  type: BulletType;
+  type: 'laser' | 'plasma';
   fromPlayer: boolean;
   velocity: [number, number, number];
 }
 
 interface PowerUpEntity extends GameEntity {
-  type: PowerUpType;
+  type: 'health' | 'shield' | 'rapidfire' | 'coins';
 }
 
 interface ExplosionEntity extends GameEntity {
@@ -54,6 +48,37 @@ const LEVEL_CONFIG = [
   { level: 10, enemySpawnRate: 0.07, maxEnemies: 30, bossLevel: true },
 ];
 
+function SimpleStarField() {
+  const points = useRef<THREE.Points>(null);
+  
+  useFrame(() => {
+    if (points.current) {
+      points.current.rotation.y += 0.0002;
+    }
+  });
+
+  const positions = new Float32Array(800 * 3);
+  for (let i = 0; i < 800; i++) {
+    positions[i * 3] = (Math.random() - 0.5) * 100;
+    positions[i * 3 + 1] = (Math.random() - 0.5) * 100;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 50;
+  }
+
+  return (
+    <points ref={points}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={800}
+          array={positions}
+          itemSize={3}
+        />
+      </bufferGeometry>
+      <pointsMaterial size={0.1} color="#ffffff" transparent opacity={0.8} />
+    </points>
+  );
+}
+
 function GameScene({ 
   playerPos, 
   enemies, 
@@ -62,8 +87,7 @@ function GameScene({
   explosions,
   playerHealth,
   maxHealth,
-  shieldActive,
-  level
+  shieldActive
 }: {
   playerPos: [number, number, number];
   enemies: EnemyEntity[];
@@ -73,7 +97,6 @@ function GameScene({
   playerHealth: number;
   maxHealth: number;
   shieldActive: boolean;
-  level: number;
 }) {
   const { camera } = useThree();
 
@@ -84,94 +107,63 @@ function GameScene({
 
   return (
     <>
-      <ambientLight intensity={0.7} />
-      <directionalLight position={[10, 10, 5]} intensity={1} />
-      <pointLight position={[0, 10, 10]} intensity={1.5} color="#ffffff" />
-      <fog attach="fog" args={['#000033', 20, 60]} />
+      <ambientLight intensity={0.5} />
+      <directionalLight position={[10, 10, 5]} intensity={0.8} />
+      
+      <SimpleStarField />
 
-      <StarField count={Math.min(1200, 800 + level * 40)} speed={0.3 + level * 0.05} />
+      {/* Player Ship */}
+      <mesh position={playerPos}>
+        <boxGeometry args={[1, 1.5, 0.5]} />
+        <meshStandardMaterial color={shieldActive ? "#00ffff" : "#00ff00"} />
+      </mesh>
 
-      <PlayerShip 
-        position={playerPos} 
-        health={playerHealth}
-        maxHealth={maxHealth}
-        shieldActive={shieldActive}
-      />
+      {/* Health Bar */}
+      <mesh position={[playerPos[0], playerPos[1] + 1.2, playerPos[2]]}>
+        <planeGeometry args={[1 * (playerHealth / maxHealth), 0.1]} />
+        <meshBasicMaterial color={playerHealth > 50 ? "#00ff00" : playerHealth > 25 ? "#ffff00" : "#ff0000"} />
+      </mesh>
 
-      <EngineTrail position={[playerPos[0], playerPos[1] - 1, playerPos[2]]} color="#ff6600" intensity={1.5} />
-
+      {/* Enemies */}
       {enemies.map(enemy => (
-        <Enemy
-          key={enemy.id}
-          id={enemy.id}
-          position={enemy.position}
-          type={enemy.type}
-          health={enemy.health}
-          maxHealth={enemy.maxHealth}
-        />
+        <mesh key={enemy.id} position={enemy.position}>
+          <boxGeometry args={enemy.type === 'boss' ? [2, 2, 1] : [0.8, 0.8, 0.5]} />
+          <meshStandardMaterial color={enemy.type === 'boss' ? "#aa00ff" : enemy.type === 'fighter' ? "#ff6600" : "#ff0000"} />
+        </mesh>
       ))}
 
+      {/* Bullets */}
       {bullets.map(bullet => (
-        <Bullet
-          key={bullet.id}
-          id={bullet.id}
-          position={bullet.position}
-          type={bullet.type}
-          fromPlayer={bullet.fromPlayer}
-        />
+        <mesh key={bullet.id} position={bullet.position}>
+          <sphereGeometry args={[0.15, 8, 8]} />
+          <meshBasicMaterial color={bullet.fromPlayer ? "#00ffff" : "#ff0000"} />
+        </mesh>
       ))}
 
+      {/* Power-ups */}
       {powerUps.map(powerUp => (
-        <PowerUp
-          key={powerUp.id}
-          id={powerUp.id}
-          position={powerUp.position}
-          type={powerUp.type}
-        />
+        <mesh key={powerUp.id} position={powerUp.position}>
+          <boxGeometry args={[0.5, 0.5, 0.5]} />
+          <meshStandardMaterial 
+            color={
+              powerUp.type === 'health' ? "#00ff00" :
+              powerUp.type === 'shield' ? "#00ffff" :
+              powerUp.type === 'rapidfire' ? "#ff6600" :
+              "#ffff00"
+            } 
+          />
+        </mesh>
       ))}
 
+      {/* Explosions */}
       {explosions.map(explosion => (
-        <ParticleExplosion
-          key={explosion.id}
-          position={explosion.position}
-          count={40}
-          color={explosion.color}
-          size={explosion.size}
-          duration={800}
-        />
+        <mesh key={explosion.id} position={explosion.position}>
+          <sphereGeometry args={[explosion.size, 16, 16]} />
+          <meshBasicMaterial color={explosion.color} transparent opacity={0.6} />
+        </mesh>
       ))}
-
-      <gridHelper args={[60, 60, '#00ffff', '#003355']} position={[0, 0, -5]} />
     </>
   );
-}
-
-function ErrorBoundary({ children }: { children: React.ReactNode }) {
-  const [hasError, setHasError] = useState(false);
-
-  useEffect(() => {
-    const handleError = () => setHasError(true);
-    window.addEventListener('error', handleError);
-    return () => window.removeEventListener('error', handleError);
-  }, []);
-
-  if (hasError) {
-    return (
-      <div className="flex items-center justify-center h-full">
-        <div className="text-center">
-          <p className="text-red-500 mb-4">WebGL context error. Please refresh the page.</p>
-          <button 
-            onClick={() => window.location.reload()} 
-            className="px-4 py-2 bg-primary text-white rounded"
-          >
-            Refresh
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  return <>{children}</>;
 }
 
 export default function SpaceShooterEnhanced() {
@@ -249,20 +241,8 @@ export default function SpaceShooterEnhanced() {
 
     if (enemies.length >= levelConfig.maxEnemies) return;
 
-    const types: EnemyType[] = level > 1 ? ['scout', 'fighter'] : ['scout'];
-    const weights = level > 1 ? [0.65, 0.35] : [1.0];
-
-    const rand = Math.random();
-    let type: EnemyType = 'scout';
-    let cumWeight = 0;
-
-    for (let i = 0; i < types.length; i++) {
-      cumWeight += weights[i];
-      if (rand < cumWeight) {
-        type = types[i];
-        break;
-      }
-    }
+    const types: Array<'scout' | 'fighter'> = level > 1 ? ['scout', 'fighter'] : ['scout'];
+    const type = types[Math.floor(Math.random() * types.length)];
 
     const maxHealthMap = { 
       scout: 20 + level * 5, 
@@ -285,7 +265,7 @@ export default function SpaceShooterEnhanced() {
   };
 
   const spawnPowerUp = () => {
-    const types: PowerUpType[] = ['health', 'shield', 'rapidfire', 'coins'];
+    const types: Array<'health' | 'shield' | 'rapidfire' | 'coins'> = ['health', 'shield', 'rapidfire', 'coins'];
     const type = types[Math.floor(Math.random() * types.length)];
 
     setPowerUps(prev => [...prev, {
@@ -439,7 +419,7 @@ export default function SpaceShooterEnhanced() {
             if (!bullet.fromPlayer) return;
 
             prevEnemies.forEach((enemy, eIndex) => {
-              if (remainingBullets[bIndex] === null || remainingEnemies[eIndex] === null) return;
+              if (!remainingBullets[bIndex] || !remainingEnemies[eIndex]) return;
 
               const dx = bullet.position[0] - enemy.position[0];
               const dy = bullet.position[1] - enemy.position[1];
@@ -448,7 +428,7 @@ export default function SpaceShooterEnhanced() {
               const hitRadius = enemy.type === 'boss' ? 1.8 : enemy.type === 'fighter' ? 0.8 : 0.6;
 
               if (distance < hitRadius) {
-                remainingBullets[bIndex] = null as any;
+                remainingBullets.splice(bIndex, 1);
                 const damage = 15;
                 remainingEnemies[eIndex] = {
                   ...enemy,
@@ -464,7 +444,7 @@ export default function SpaceShooterEnhanced() {
                   setScore(s => s + points * (1 + combo * 0.1));
                   setCombo(c => c + 1);
                   createExplosion(enemy.position, enemy.type === 'boss' ? 1.5 : 0.5, enemy.type === 'boss' ? '#aa00ff' : '#ff6600');
-                  remainingEnemies[eIndex] = null as any;
+                  remainingEnemies.splice(eIndex, 1);
 
                   if (Math.random() < 0.15) {
                     spawnPowerUp();
@@ -474,10 +454,10 @@ export default function SpaceShooterEnhanced() {
             });
           });
 
-          return remainingEnemies.filter(e => e !== null);
+          return remainingEnemies;
         });
 
-        return remainingBullets.filter(b => b !== null);
+        return remainingBullets;
       });
 
       setPowerUps(prevPowerUps => {
@@ -489,7 +469,7 @@ export default function SpaceShooterEnhanced() {
           const distance = Math.sqrt(dx * dx + dy * dy);
 
           if (distance < 1.2) {
-            remaining[index] = null as any;
+            remaining.splice(index, 1);
 
             if (soundEnabled) playSound('powerup');
             createExplosion(powerUp.position, 0.3, '#ffff00');
@@ -513,7 +493,7 @@ export default function SpaceShooterEnhanced() {
           }
         });
 
-        return remaining.filter(p => p !== null);
+        return remaining;
       });
 
       const levelConfig = getCurrentLevelConfig();
@@ -549,8 +529,8 @@ export default function SpaceShooterEnhanced() {
   useEffect(() => {
     const levelConfig = getCurrentLevelConfig();
     if (score > 0 && score % 1000 === 0 && !levelConfig.bossLevel && level < 10) {
-        setGameState('levelComplete');
-        if (soundEnabled) playSound('levelup');
+      setGameState('levelComplete');
+      if (soundEnabled) playSound('levelup');
     }
   }, [score]);
 
@@ -612,7 +592,7 @@ export default function SpaceShooterEnhanced() {
         </div>
 
         <h1 className="text-4xl md:text-5xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 animate-pulse">
-          🚀 Space Shooter 3D - Enhanced Edition
+          🚀 Space Shooter 3D
         </h1>
 
         <div className="relative w-full max-w-4xl mx-auto aspect-[3/4] md:aspect-video bg-black rounded-xl overflow-hidden shadow-2xl border-2 border-cyan-500/30">
@@ -625,8 +605,6 @@ export default function SpaceShooterEnhanced() {
                 <h2 className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 mb-4 animate-pulse">
                   Space Shooter 3D
                 </h2>
-                <p className="text-2xl text-gray-300 mb-2 font-semibold">Enhanced Edition</p>
-                <p className="text-lg text-cyan-400 mb-8">10 Epic Levels • Boss Battles • Advanced Graphics</p>
                 <button
                   onClick={startGame}
                   className="bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 hover:from-cyan-600 hover:via-purple-600 hover:to-pink-600 text-white px-12 py-5 rounded-xl text-2xl font-bold transition-all transform hover:scale-110 flex items-center gap-3 mx-auto shadow-2xl shadow-cyan-500/50 border-2 border-cyan-400/50"
@@ -639,16 +617,6 @@ export default function SpaceShooterEnhanced() {
                     <p className="text-yellow-400 font-bold text-xl">🏆 High Score: {highScore}</p>
                   </div>
                 )}
-                <div className="mt-10 bg-black/50 backdrop-blur-sm p-6 rounded-xl max-w-md mx-auto border border-cyan-500/30">
-                  <h3 className="text-cyan-400 font-bold mb-3 text-lg">Controls:</h3>
-                  <div className="text-left text-gray-300 text-sm space-y-2">
-                    <p><strong className="text-cyan-400">Desktop:</strong> Arrow keys or WASD to move, Space to shoot</p>
-                    <p><strong className="text-cyan-400">Mobile:</strong> Touch and drag to move, release to shoot</p>
-                  </div>
-                  <div className="mt-4 pt-4 border-t border-cyan-500/30">
-                    <p className="text-yellow-400 text-xs font-semibold">🎮 Collect power-ups • Build combos • Defeat bosses!</p>
-                  </div>
-                </div>
               </div>
             </div>
           )}
@@ -674,10 +642,6 @@ export default function SpaceShooterEnhanced() {
                 <h2 className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-cyan-400 animate-pulse">
                   Level Complete!
                 </h2>
-                <div className="bg-black/50 backdrop-blur-sm p-6 rounded-xl border border-green-500/30">
-                  <p className="text-3xl text-cyan-400 font-bold mb-2">Score: {score}</p>
-                  <p className="text-2xl text-green-400 font-semibold">Next: Level {level + 1}</p>
-                </div>
                 <button
                   onClick={nextLevel}
                   className="bg-gradient-to-r from-green-500 to-cyan-500 hover:from-green-600 hover:to-cyan-600 text-white px-12 py-5 rounded-xl text-2xl font-bold transition-all transform hover:scale-110 flex items-center gap-3 mx-auto shadow-2xl shadow-green-500/50 border-2 border-green-400/50"
@@ -696,14 +660,6 @@ export default function SpaceShooterEnhanced() {
                 <h2 className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400 animate-pulse">
                   Victory!
                 </h2>
-                <p className="text-3xl text-green-400 font-bold">You defeated all 10 levels!</p>
-                <div className="bg-black/50 backdrop-blur-sm p-6 rounded-xl border border-yellow-500/30">
-                  <p className="text-2xl text-cyan-400 font-bold mb-2">Final Score</p>
-                  <p className="text-5xl text-yellow-400 font-bold">{score}</p>
-                  {score > highScore && (
-                    <p className="text-lg text-green-400 font-semibold mt-2">🎊 New High Score!</p>
-                  )}
-                </div>
                 <button
                   onClick={startGame}
                   className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-12 py-5 rounded-xl text-2xl font-bold transition-all transform hover:scale-110 flex items-center gap-3 mx-auto shadow-2xl shadow-yellow-500/50 border-2 border-yellow-400/50"
@@ -722,14 +678,6 @@ export default function SpaceShooterEnhanced() {
                 <h2 className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-400 animate-pulse">
                   Game Over
                 </h2>
-                <div className="bg-black/50 backdrop-blur-sm p-6 rounded-xl border border-red-500/30">
-                  <p className="text-3xl text-cyan-400 font-bold mb-2">Final Score</p>
-                  <p className="text-5xl text-yellow-400 font-bold mb-4">{score}</p>
-                  <p className="text-xl text-purple-400 font-semibold">Level Reached: {level}</p>
-                  {score > highScore && (
-                    <p className="text-lg text-green-400 font-semibold mt-2">🎊 New High Score!</p>
-                  )}
-                </div>
                 <button
                   onClick={startGame}
                   className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white px-12 py-5 rounded-xl text-2xl font-bold transition-all transform hover:scale-110 flex items-center gap-3 mx-auto shadow-2xl shadow-cyan-500/50 border-2 border-cyan-400/50"
@@ -747,33 +695,25 @@ export default function SpaceShooterEnhanced() {
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            <ErrorBoundary>
-              <Canvas
-                camera={{ position: [0, -10, 25], fov: 75 }}
-                gl={{ 
-                  antialias: true, 
-                  alpha: false,
-                  powerPreference: 'high-performance',
-                  stencil: false,
-                  depth: true,
-                  preserveDrawingBuffer: true,
-                }}
-                dpr={[1, 1.5]}
-                performance={{ min: 0.5 }}
-              >
-                <GameScene
-                  playerPos={playerPos}
-                  enemies={enemies}
-                  bullets={bullets}
-                  powerUps={powerUps}
-                  explosions={explosions}
-                  playerHealth={playerHealth}
-                  maxHealth={maxHealth}
-                  shieldActive={shieldActive}
-                  level={level}
-                />
-              </Canvas>
-            </ErrorBoundary>
+            <Canvas
+              camera={{ position: [0, -10, 25], fov: 75 }}
+              gl={{ 
+                antialias: true, 
+                alpha: false,
+                powerPreference: 'high-performance'
+              }}
+            >
+              <GameScene
+                playerPos={playerPos}
+                enemies={enemies}
+                bullets={bullets}
+                powerUps={powerUps}
+                explosions={explosions}
+                playerHealth={playerHealth}
+                maxHealth={maxHealth}
+                shieldActive={shieldActive}
+              />
+            </Canvas>
           </div>
 
           {gameState === 'playing' && (
@@ -828,11 +768,6 @@ export default function SpaceShooterEnhanced() {
               </div>
             </div>
           )}
-        </div>
-
-        <div className="mt-8 text-center text-gray-400 text-sm">
-          <p>🎮 Tip: Maintain your combo streak for bonus points!</p>
-          <p className="mt-2">Boss battles occur on levels 3, 6, 9, and 10</p>
         </div>
       </div>
     </div>
