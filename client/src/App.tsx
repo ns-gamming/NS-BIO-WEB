@@ -40,6 +40,7 @@ import TypingSpeed from "./pages/games/TypingSpeed";
 import SlidingPuzzle from "./pages/games/SlidingPuzzle";
 import Breakout from "./pages/games/Breakout";
 import ConnectFour from "./pages/games/ConnectFour";
+import SpaceShooter from "./pages/games/SpaceShooter"; // Assuming SpaceShooter is in this path
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import FFBotsHub from "./pages/FFBotsHub";
 import FFLikesBot from "./pages/FFLikesBot";
@@ -93,6 +94,7 @@ function Router() {
       <Route path="/games/sliding" component={SlidingPuzzle} />
       <Route path="/games/breakout" component={Breakout} />
       <Route path="/games/connect4" component={ConnectFour} />
+      <Route path="/games/spaceshooter" component={SpaceShooter} />
       <Route path="/tools" component={Tools} />
       <Route path="/tools/youtube-downloader" component={YouTubeDownloader} />
       <Route path="/blog" component={Blog} />

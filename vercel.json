@@ -1,40 +1,14 @@
-
 {
   "version": 2,
   "buildCommand": "npm run build",
   "outputDirectory": "dist/public",
   "rewrites": [
     {
-      "source": "/api/ff-info-bot/search",
-      "destination": "/api/ff-info-bot"
-    },
-    {
-      "source": "/api/ff-info-bot/check-limit",
-      "destination": "/api/ff-info-bot"
-    },
-    {
-      "source": "/((?!api/).*)",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ],
   "headers": [
-    {
-      "source": "/api/(.*)",
-      "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        },
-        {
-          "key": "Access-Control-Allow-Methods",
-          "value": "GET, POST, PUT, DELETE, OPTIONS"
-        },
-        {
-          "key": "Access-Control-Allow-Headers",
-          "value": "Origin, X-Requested-With, Content-Type, Accept"
-        }
-      ]
-    },
     {
       "source": "/(.*)",
       "headers": [
@@ -44,7 +18,7 @@
         },
         {
           "key": "X-Frame-Options",
-          "value": "SAMEORIGIN"
+          "value": "DENY"
         },
         {
           "key": "X-XSS-Protection",
@@ -53,20 +27,15 @@
         {
           "key": "Referrer-Policy",
           "value": "strict-origin-when-cross-origin"
-        }
-      ]
-    },
-    {
-      "source": "/(.*)\\.js",
-      "headers": [
+        },
         {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
         }
       ]
     },
     {
-      "source": "/(.*)\\.css",
+      "source": "/assets/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -76,6 +45,8 @@
     }
   ],
   "env": {
-    "NODE_ENV": "production"
+    "VITE_GEMINI_API_KEY": "@gemini-api-key",
+    "VITE_SUPABASE_URL": "@supabase-url",
+    "VITE_SUPABASE_ANON_KEY": "@supabase-anon-key"
   }
 }
