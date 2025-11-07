@@ -332,20 +332,23 @@ export default function Games() {
               </div>
             </div>
 
-            {/* Space Shooter 3D */}
+            {/* Space Shooter 3D - NEW ADVANCED GAME */}
             <div className="glass rounded-2xl p-4 sm:p-6 hover:scale-105 transition-all duration-500 group animate-bounceIn hover:shadow-2xl hover:shadow-cyan-500/50 cursor-pointer relative overflow-hidden" data-testid="game-spaceshooter" style={{ animationDelay: '1.4s' }}>
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="absolute top-0 right-0 w-20 h-20 bg-cyan-500/20 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+              <div className="absolute -top-2 -right-2 bg-gradient-to-br from-yellow-500 to-orange-500 text-black text-xs font-bold px-3 py-1 rounded-full animate-pulse shadow-lg z-20">
+                NEW 3D!
+              </div>
               <div className="relative z-10">
                 <div className="text-center mb-4">
                   <div className="relative inline-block mb-3">
                     <div className="absolute inset-0 bg-cyan-500/30 rounded-full blur-xl group-hover:blur-2xl transition-all duration-500"></div>
                     <Zap className="w-10 h-10 sm:w-12 sm:h-12 text-cyan-500 mx-auto relative group-hover:animate-pulse transition-all duration-300" />
                   </div>
-                  <h3 className="text-lg sm:text-xl font-bold text-foreground group-hover:text-cyan-500 transition-colors duration-300">Space Shooter 3D</h3>
+                  <h3 className="text-lg sm:text-xl font-bold text-foreground group-hover:text-cyan-500 transition-colors duration-300">🚀 Space Shooter 3D</h3>
                 </div>
                 <p className="text-muted-foreground mb-4 sm:mb-6 text-center text-sm sm:text-base group-hover:text-foreground transition-colors duration-300">
-                  Epic 3D space battle! Destroy enemies, collect power-ups, and save the galaxy!
+                  Epic 3D space battle with stunning graphics! Destroy enemies, collect power-ups, and save the galaxy! 🌌
                 </p>
                 <Link href="/games/spaceshooter" className="neon-btn w-full flex items-center justify-center gap-2" data-testid="play-spaceshooter">
                   <Gamepad2 className="w-4 h-4" />

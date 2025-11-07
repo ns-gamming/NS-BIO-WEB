@@ -61,20 +61,20 @@ export default function Enemy({ id, position, type, health, maxHealth }: EnemyPr
   return (
     <group position={position}>
       {/* Main body */}
-      <mesh ref={enemyRef} castShadow>
+      <mesh ref={enemyRef} castShadow receiveShadow>
         {type === 'boss' ? (
-          <dodecahedronGeometry args={[size, 1]} />
+          <dodecahedronGeometry args={[size, 2]} />
         ) : type === 'fighter' ? (
-          <octahedronGeometry args={[size, 0]} />
+          <octahedronGeometry args={[size, 1]} />
         ) : (
-          <tetrahedronGeometry args={[size, 0]} />
+          <tetrahedronGeometry args={[size, 1]} />
         )}
         <meshStandardMaterial 
           color={color}
           emissive={color}
-          emissiveIntensity={0.5}
-          metalness={0.8}
-          roughness={0.2}
+          emissiveIntensity={0.9}
+          metalness={0.9}
+          roughness={0.1}
         />
       </mesh>
 

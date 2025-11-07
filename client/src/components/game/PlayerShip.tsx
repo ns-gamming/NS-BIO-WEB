@@ -30,14 +30,14 @@ export default function PlayerShip({ position, health, maxHealth, shieldActive }
   return (
     <group position={position}>
       {/* Main ship body */}
-      <mesh ref={shipRef} castShadow>
-        <coneGeometry args={[0.5, 1.5, 6]} />
+      <mesh ref={shipRef} castShadow receiveShadow>
+        <coneGeometry args={[0.5, 1.5, 8]} />
         <meshStandardMaterial 
           color={shipColor}
           emissive={shipColor}
-          emissiveIntensity={0.5}
-          metalness={0.8}
-          roughness={0.2}
+          emissiveIntensity={0.8}
+          metalness={0.9}
+          roughness={0.1}
         />
       </mesh>
 
