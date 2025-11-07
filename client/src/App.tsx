@@ -40,7 +40,7 @@ import TypingSpeed from "./pages/games/TypingSpeed";
 import SlidingPuzzle from "./pages/games/SlidingPuzzle";
 import Breakout from "./pages/games/Breakout";
 import ConnectFour from "./pages/games/ConnectFour";
-import SpaceShooter from "./pages/games/SpaceShooter"; // Assuming SpaceShooter is in this path
+import SpaceShooter from "./pages/games/SpaceShooter";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import FFBotsHub from "./pages/FFBotsHub";
 import FFLikesBot from "./pages/FFLikesBot";
