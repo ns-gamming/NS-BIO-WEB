@@ -102,8 +102,22 @@ export default function Enemy({ id, position, type, health, maxHealth }: EnemyPr
         </mesh>
       )}
 
-      {/* Point light */}
-      <pointLight color={color} intensity={type === 'boss' ? 3 : 1.5} distance={type === 'boss' ? 15 : 8} />
+      {/* Point light - Enhanced */}
+      <pointLight color={color} intensity={type === 'boss' ? 4 : 2} distance={type === 'boss' ? 20 : 10} castShadow />
+      
+      {/* Additional glow rings for boss */}
+      {type === 'boss' && (
+        <>
+          <mesh rotation={[Math.PI / 2, 0, 0]}>
+            <torusGeometry args={[size * 1.5, 0.1, 16, 32]} />
+            <meshBasicMaterial color={color} transparent opacity={0.4} />
+          </mesh>
+          <mesh rotation={[0, Math.PI / 2, 0]}>
+            <torusGeometry args={[size * 1.3, 0.08, 16, 32]} />
+            <meshBasicMaterial color={color} transparent opacity={0.3} />
+          </mesh>
+        </>
+      )}
     </group>
   );
 }

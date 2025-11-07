@@ -75,11 +75,25 @@ export default function PlayerShip({ position, health, maxHealth, shieldActive }
         />
       </mesh>
 
-      {/* Engine glow */}
-      <pointLight position={[0, 0, -1]} color="#ff6600" intensity={2} distance={5} />
+      {/* Engine glow - Enhanced */}
+      <pointLight position={[0, 0, -1]} color="#ff6600" intensity={3} distance={8} castShadow />
       <mesh position={[0, 0, -0.8]}>
         <cylinderGeometry args={[0.2, 0.3, 0.5, 8]} />
-        <meshBasicMaterial color="#ff6600" />
+        <meshStandardMaterial 
+          color="#ff6600"
+          emissive="#ff6600"
+          emissiveIntensity={2}
+        />
+      </mesh>
+      
+      {/* Thruster particles */}
+      <mesh position={[0, 0, -1.2]}>
+        <coneGeometry args={[0.3, 0.6, 8]} />
+        <meshBasicMaterial 
+          color="#ffaa00"
+          transparent
+          opacity={0.7}
+        />
       </mesh>
 
       {/* Shield */}

@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useLocation } from 'wouter';
-import { ArrowLeft, Play, Pause, RotateCcw, Settings } from 'lucide-react';
+import { ArrowLeft, Play, Pause, RotateCcw, Home } from 'lucide-react';
 import PlayerShip from '../../components/game/PlayerShip';
 import Enemy, { EnemyType } from '../../components/game/Enemy';
 import Bullet, { BulletType } from '../../components/game/Bullet';
@@ -58,9 +58,19 @@ function GameScene({
 
   return (
     <>
-      <ambientLight intensity={0.3} />
-      <pointLight position={[10, 10, 10]} intensity={1} />
-      <pointLight position={[-10, -10, 10]} intensity={0.5} color="#00ffff" />
+      <ambientLight intensity={0.5} />
+      <directionalLight position={[10, 10, 5]} intensity={1} castShadow />
+      <pointLight position={[10, 10, 10]} intensity={1.5} castShadow />
+      <pointLight position={[-10, -10, 10]} intensity={0.8} color="#00ffff" />
+      <spotLight 
+        position={[0, 20, 0]} 
+        angle={0.5} 
+        penumbra={1} 
+        intensity={2}
+        castShadow
+        color="#ffffff"
+      />
+      <fog attach="fog" args={['#000033', 15, 50]} />
       
       <PlayerShip 
         position={playerPos} 
@@ -100,6 +110,12 @@ function GameScene({
       ))}
 
       <gridHelper args={[50, 50, '#00ffff', '#003333']} position={[0, 0, -5]} />
+      
+      {/* Star field background */}
+      <mesh position={[0, 0, -10]}>
+        <sphereGeometry args={[40, 32, 32]} />
+        <meshBasicMaterial color="#000011" side={1} />
+      </mesh>
     </>
   );
 }
@@ -381,19 +397,29 @@ export default function SpaceShooter() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900 to-black text-white">
       <div className="container mx-auto px-4 py-8">
-        <button
-          onClick={() => navigate('/games')}
-          className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 mb-4 transition-colors"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          Back to Games
-        </button>
+        <div className="flex items-center justify-between mb-6">
+          <button
+            onClick={() => navigate('/games')}
+            className="flex items-center gap-2 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 hover:text-cyan-300 px-6 py-3 rounded-lg transition-all duration-300 border border-cyan-500/50 hover:border-cyan-400 backdrop-blur-sm"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            <span className="font-semibold">Back to Games</span>
+          </button>
+          
+          <button
+            onClick={() => navigate('/games')}
+            className="flex items-center gap-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 hover:text-purple-300 px-6 py-3 rounded-lg transition-all duration-300 border border-purple-500/50 hover:border-purple-400 backdrop-blur-sm"
+          >
+            <Home className="w-5 h-5" />
+            <span className="font-semibold">Games Hub</span>
+          </button>
+        </div>
 
-        <h1 className="text-4xl font-bold text-center mb-8 text-cyan-400">
-          3D Space Shooter
+        <h1 className="text-4xl md:text-5xl font-bold text-center mb-8 text-cyan-400 animate-pulse">
+          🚀 3D Space Shooter
         </h1>
 
-        <div className="relative w-full max-w-4xl mx-auto aspect-[3/4] md:aspect-video bg-black rounded-lg overflow-hidden shadow-2xl">
+        <div className="relative w-full max-w-4xl mx-auto aspect-[3/4] md:aspect-video bg-black rounded-xl overflow-hidden shadow-2xl border-2 border-cyan-500/30">
           {gameState === 'menu' && (
             <div className="absolute inset-0 flex items-center justify-center bg-black/80 z-10">
               <div className="text-center space-y-6">
@@ -451,7 +477,15 @@ export default function SpaceShooter() {
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            <Canvas>
+            <Canvas
+              shadows
+              gl={{ 
+                antialias: true, 
+                alpha: true,
+                powerPreference: 'high-performance'
+              }}
+              dpr={[1, 2]}
+            >
               <GameScene
                 playerPos={playerPos}
                 enemies={enemies}
