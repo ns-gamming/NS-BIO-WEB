@@ -227,7 +227,7 @@ export default function Portfolio() {
               className="mb-6"
             >
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent animate-gradient">
-                Nishant Sarkar
+                Nishant Sarkar (NABORAJ)
               </h1>
               <div className="flex items-center justify-center gap-2 text-xl md:text-2xl text-muted-foreground">
                 <Code2 className="w-6 h-6 text-primary animate-pulse" />
