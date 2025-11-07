@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from "react";
 import { ArrowLeft, Send, Loader2, Sparkles, Zap, Menu, X, Plus, Edit2, Trash2, Check } from "lucide-react";
 import { useLocation } from "wouter";
@@ -306,111 +307,111 @@ Respond as EDITH - professional, confident, and helpful.`;
           )}
         </AnimatePresence>
 
-        {/* Sidebar */}
-        <AnimatePresence>
-          {sidebarOpen && (
-            <motion.div
-              initial={{ x: -300, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: -300, opacity: 0 }}
-              className="fixed lg:relative w-80 max-w-[85vw] bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-r border-gray-200 dark:border-gray-800 flex flex-col z-50 h-[calc(100vh-4rem)] lg:h-auto"
+        {/* Sidebar - Always render but control visibility */}
+        <motion.div
+          initial={false}
+          animate={{ 
+            x: sidebarOpen ? 0 : -320,
+            opacity: sidebarOpen ? 1 : 0
+          }}
+          transition={{ type: "spring", damping: 20 }}
+          className="fixed lg:relative w-80 max-w-[85vw] bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-r border-gray-200 dark:border-gray-800 flex flex-col z-50 h-[calc(100vh-4rem)]"
+          style={{ pointerEvents: sidebarOpen ? 'auto' : 'none' }}
+        >
+          <div className="p-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
+            <h2 className="font-bold text-lg">Chats</h2>
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="lg:hidden p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"
             >
-              <div className="p-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
-                <h2 className="font-bold text-lg">Chats</h2>
-                <button
-                  onClick={() => setSidebarOpen(false)}
-                  className="lg:hidden p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
+              <X className="w-5 h-5" />
+            </button>
+          </div>
 
-              <div className="p-4 border-b border-gray-200 dark:border-gray-800">
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={createNewFolder}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-shadow"
-                >
-                  <Plus className="w-5 h-5" />
-                  New Chat
-                </motion.button>
-              </div>
+          <div className="p-4 border-b border-gray-200 dark:border-gray-800">
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={createNewFolder}
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-shadow"
+            >
+              <Plus className="w-5 h-5" />
+              New Chat
+            </motion.button>
+          </div>
 
-              <div className="flex-1 overflow-y-auto p-4 space-y-2">
-                {folders.map((folder, idx) => (
-                  <motion.div
-                    key={folder.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.05 }}
-                    onClick={() => {
-                      if (editingFolderId !== folder.id) {
-                        setActiveFolderId(folder.id);
-                        setSidebarOpen(false);
-                      }
-                    }}
-                    className={`group relative p-3 rounded-xl transition-all cursor-pointer ${
-                      activeFolderId === folder.id
-                        ? 'bg-gradient-to-br from-blue-500/25 to-purple-500/25 border-2 border-blue-500/60 shadow-xl'
-                        : 'bg-gray-100/90 dark:bg-gray-800/90 hover:bg-gray-200 dark:hover:bg-gray-700 border-2 border-gray-200/50 dark:border-gray-700/50'
-                    }`}
-                  >
-                    {editingFolderId === folder.id ? (
-                      <div className="flex items-center gap-2">
-                        <input
-                          type="text"
-                          value={editName}
-                          onChange={(e) => setEditName(e.target.value)}
-                          onKeyPress={(e) => e.key === 'Enter' && saveEditFolder()}
-                          className="flex-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm outline-none focus:ring-2 focus:ring-blue-500"
-                          autoFocus
-                        />
-                        <button onClick={saveEditFolder} className="p-1 hover:bg-green-500/20 rounded">
-                          <Check className="w-4 h-4 text-green-500" />
+          <div className="flex-1 overflow-y-auto p-4 space-y-2">
+            {folders.map((folder, idx) => (
+              <motion.div
+                key={folder.id}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: idx * 0.05 }}
+                onClick={() => {
+                  if (editingFolderId !== folder.id) {
+                    setActiveFolderId(folder.id);
+                    setSidebarOpen(false);
+                  }
+                }}
+                className={`group relative p-3 rounded-xl transition-all cursor-pointer ${
+                  activeFolderId === folder.id
+                    ? 'bg-gradient-to-br from-blue-500/25 to-purple-500/25 border-2 border-blue-500/60 shadow-xl'
+                    : 'bg-gray-100/90 dark:bg-gray-800/90 hover:bg-gray-200 dark:hover:bg-gray-700 border-2 border-gray-200/50 dark:border-gray-700/50'
+                }`}
+              >
+                {editingFolderId === folder.id ? (
+                  <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                    <input
+                      type="text"
+                      value={editName}
+                      onChange={(e) => setEditName(e.target.value)}
+                      onKeyPress={(e) => e.key === 'Enter' && saveEditFolder()}
+                      className="flex-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm outline-none focus:ring-2 focus:ring-blue-500"
+                      autoFocus
+                    />
+                    <button onClick={saveEditFolder} className="p-1 hover:bg-green-500/20 rounded">
+                      <Check className="w-4 h-4 text-green-500" />
+                    </button>
+                    <button onClick={cancelEditFolder} className="p-1 hover:bg-red-500/20 rounded">
+                      <X className="w-4 h-4 text-red-500" />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium truncate">{folder.name}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        {folder.messages.length} messages
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity" onClick={(e) => e.stopPropagation()}>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          startEditFolder(folder.id, folder.name);
+                        }}
+                        className="p-1 hover:bg-blue-500/20 rounded"
+                      >
+                        <Edit2 className="w-4 h-4" />
+                      </button>
+                      {folders.length > 1 && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            deleteFolder(folder.id);
+                          }}
+                          className="p-1 hover:bg-red-500/20 rounded"
+                        >
+                          <Trash2 className="w-4 h-4 text-red-500" />
                         </button>
-                        <button onClick={cancelEditFolder} className="p-1 hover:bg-red-500/20 rounded">
-                          <X className="w-4 h-4 text-red-500" />
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="flex items-center justify-between">
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium truncate">{folder.name}</p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">
-                            {folder.messages.length} messages
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              startEditFolder(folder.id, folder.name);
-                            }}
-                            className="p-1 hover:bg-blue-500/20 rounded"
-                          >
-                            <Edit2 className="w-4 h-4" />
-                          </button>
-                          {folders.length > 1 && (
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                deleteFolder(folder.id);
-                              }}
-                              className="p-1 hover:bg-red-500/20 rounded"
-                            >
-                              <Trash2 className="w-4 h-4 text-red-500" />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    )}
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
 
         {/* Main Chat Area */}
         <div className="flex-1 flex flex-col min-w-0">
