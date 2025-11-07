@@ -126,21 +126,40 @@ const projects = [
     description: "A full-stack portfolio website with blog, games, tools, and AI chatbot integration. Built with React, TypeScript, and modern web technologies.",
     tech: ["React", "TypeScript", "Tailwind CSS", "Node.js", "Gemini AI"],
     link: "https://nsgamming.xyz",
-    icon: Globe
+    icon: Globe,
+    external: true
+  },
+  {
+    title: "NS Finance Tracker",
+    description: "Professional finance tracking application that helps you monitor daily expenses, track income, and understand your financial health. Build your future with smart money management.",
+    tech: ["React", "TypeScript", "Financial Analytics", "Data Visualization", "Vercel"],
+    link: "https://ns-finance-tracker.vercel.app/",
+    icon: Code2,
+    external: true
+  },
+  {
+    title: "AI Pro Sales Agent",
+    description: "Customizable AI-powered sales agent that can sell any product. Features dashboard access, Telegram & WhatsApp integration, and intelligent conversation flows.",
+    tech: ["AI/ML", "React", "Telegram API", "WhatsApp API", "Dashboard UI"],
+    link: "https://ai-pro-sales-agent.vercel.app/",
+    icon: Sparkles,
+    external: true
   },
   {
     title: "Free Fire Tools Hub",
     description: "Advanced tools for Free Fire players including sensitivity calculator, name generator, and profile boosting bots.",
     tech: ["React", "TypeScript", "API Integration", "Responsive Design"],
     link: "/ff-bots",
-    icon: Sparkles
+    icon: Sparkles,
+    external: false
   },
   {
     title: "Interactive Gaming Portal",
     description: "Collection of browser-based games including Snake, Tic-Tac-Toe, 2048, and more. Pure JavaScript game development.",
     tech: ["JavaScript", "Canvas API", "Game Logic", "Responsive UI"],
     link: "/games",
-    icon: Code2
+    icon: Code2,
+    external: false
   }
 ];
 
@@ -240,11 +259,11 @@ export default function Portfolio() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
-              className="text-lg md:text-xl text-foreground/80 max-w-3xl mx-auto mb-8 leading-relaxed"
+              className="text-base md:text-lg lg:text-xl text-foreground/80 max-w-3xl mx-auto mb-8 leading-relaxed px-4"
             >
-              Passionate about building innovative web solutions, creating engaging gaming content, 
-              and sharing knowledge with the community. From coding to content creation — every project 
-              is built with love and dedication! 💻🎮
+              Passionate about building innovative web solutions, AI-powered applications, financial tools, 
+              and creating engaging gaming content. From full-stack development to content creation — every 
+              project is built with love, dedication, and cutting-edge technology! 💻🎮🚀
             </motion.p>
 
             {/* CTA Buttons */}
@@ -340,7 +359,7 @@ export default function Portfolio() {
           💰 Investment Portfolio
         </motion.h2>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto px-4">
           <motion.div
             className="glass rounded-2xl p-8 hover:scale-105 transition-all duration-500 border-2 border-yellow-500/30 hover:border-yellow-500/60 hover:shadow-[0_0_40px_rgba(234,179,8,0.3)] group relative overflow-hidden"
             whileHover={{ y: -10 }}
@@ -490,13 +509,13 @@ export default function Portfolio() {
               initial={{ y: 20, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ once: true }}
-              className="text-3xl md:text-4xl font-bold text-center text-primary mb-12 flex items-center justify-center gap-3"
+              className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-primary mb-8 md:mb-12 flex items-center justify-center gap-2 md:gap-3 px-4"
             >
-              <Globe className="w-8 h-8 animate-spin-slow" />
+              <Globe className="w-6 h-6 md:w-8 md:h-8 animate-spin-slow" />
               Featured Projects
             </motion.h2>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {projects.map((project, index) => (
                 <motion.div
                   key={project.title}
@@ -504,29 +523,31 @@ export default function Portfolio() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="glass rounded-2xl p-6 hover:scale-105 transition-all duration-300 hover:shadow-xl hover:shadow-primary/20"
+                  className="glass rounded-2xl p-6 hover:scale-[1.02] md:hover:scale-105 transition-all duration-300 hover:shadow-xl hover:shadow-primary/20 flex flex-col"
                 >
                   <div className="flex items-center gap-3 mb-4">
-                    <project.icon className="w-8 h-8 text-primary" />
-                    <h3 className="text-xl font-bold text-foreground">{project.title}</h3>
+                    <div className="p-2 bg-primary/20 rounded-lg">
+                      <project.icon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
+                    </div>
+                    <h3 className="text-lg md:text-xl font-bold text-foreground">{project.title}</h3>
                   </div>
-                  <p className="text-foreground/80 mb-4 leading-relaxed">
+                  <p className="text-sm md:text-base text-foreground/80 mb-4 leading-relaxed flex-grow">
                     {project.description}
                   </p>
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.tech.map((tech) => (
-                      <span key={tech} className="px-3 py-1 bg-primary/20 text-primary rounded-full text-sm">
+                      <span key={tech} className="px-2 py-1 md:px-3 bg-primary/20 text-primary rounded-full text-xs md:text-sm font-medium">
                         {tech}
                       </span>
                     ))}
                   </div>
                   <a
                     href={project.link}
-                    target={project.link.startsWith('http') ? "_blank" : undefined}
-                    rel={project.link.startsWith('http') ? "noopener noreferrer" : undefined}
-                    className="inline-flex items-center gap-2 text-primary hover:gap-3 transition-all"
+                    target={project.external ? "_blank" : undefined}
+                    rel={project.external ? "noopener noreferrer" : undefined}
+                    className="inline-flex items-center gap-2 text-primary hover:gap-3 transition-all font-semibold text-sm md:text-base"
                   >
-                    View Project
+                    {project.external ? 'Visit Website' : 'View Project'}
                     <ExternalLink className="w-4 h-4" />
                   </a>
                 </motion.div>

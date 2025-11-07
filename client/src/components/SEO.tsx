@@ -17,7 +17,7 @@ const DEFAULT_SEO = {
   siteName: 'NS GAMMING',
   defaultTitle: 'NS GAMMING - Nishant Sarkar | Gaming, Coding & Content Creation',
   defaultDescription: 'Official website of NS GAMMING by Nishant Sarkar (Naboraj Sarkar). Free Fire tools, coding tutorials, gaming guides, and tech content. Best Free Fire sensitivity settings, name generators, and more!',
-  defaultKeywords: 'NS GAMMING, Nishant Sarkar, Naboraj Sarkar, Nishant, Naboraj, NS, NS TEAM, NS GROUP, Free Fire tools, Free Fire sensitivity, Free Fire name generator, gaming tutorials, coding tutorials, web development, tech blog, content creator, Siliguri, West Bengal, India, YouTube NS GAMMING, Free Fire likes bot, Free Fire UID generator, gaming tips, programming tutorials, JavaScript tutorials, React tutorials, Python tutorials',
+  defaultKeywords: 'NS GAMMING, Nishant Sarkar, Naboraj Sarkar, NS, NS TEAM, NS GROUP, Free Fire tools, Free Fire sensitivity, Free Fire name generator, gaming tutorials, coding tutorials, web development, tech blog, content creator, Siliguri, West Bengal, India, YouTube NS GAMMING, Free Fire likes bot, Free Fire UID generator, gaming tips, programming tutorials, JavaScript tutorials, React tutorials, Python tutorials',
   defaultImage: 'https://nsgamming.xyz/og-image.png',
   siteUrl: 'https://nsgamming.xyz',
   twitterHandle: '@NSGAMMING699',
@@ -38,10 +38,10 @@ export function SEO({
   const [location] = useLocation();
 
   useEffect(() => {
-    const fullTitle = title 
-      ? `${title} | ${DEFAULT_SEO.siteName}` 
+    const fullTitle = title
+      ? `${title} | ${DEFAULT_SEO.siteName}`
       : DEFAULT_SEO.defaultTitle;
-    
+
     const metaDescription = description || DEFAULT_SEO.defaultDescription;
     const metaKeywords = keywords || DEFAULT_SEO.defaultKeywords;
     const metaImage = image || DEFAULT_SEO.defaultImage;
@@ -263,8 +263,8 @@ export const SEO_CONFIG = {
   },
   portfolio: {
     title: 'Portfolio - Nishant Sarkar Projects & Work',
-    description: 'Explore projects and work by Nishant Sarkar (Naboraj Sarkar). Web development, gaming tools, content creation, and more. See the innovative solutions and creative projects.',
-    keywords: 'Nishant Sarkar portfolio, Naboraj Sarkar projects, NS GAMMING projects, web development portfolio, gaming tools, developer portfolio, coding projects, React projects, JavaScript portfolio',
+    description: 'Explore the portfolio of Nishant Sarkar (NS GAMMING) - Full Stack Developer specializing in AI solutions, finance tracking apps, and gaming tools. Featured projects: NS Finance Tracker, AI Pro Sales Agent, and more. Skills in React, TypeScript, AI/ML, and modern web technologies.',
+    keywords: 'Nishant Sarkar portfolio, NS GAMMING developer, full stack developer portfolio, AI sales agent, finance tracker app, React developer, TypeScript developer, AI ML developer, web developer Siliguri, Naboraj Sarkar projects, tech portfolio India, investment portfolio, Vercel deployment',
     type: 'website' as const,
   },
   games: {
