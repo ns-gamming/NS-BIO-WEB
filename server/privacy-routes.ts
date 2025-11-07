@@ -13,6 +13,10 @@ export function registerPrivacyRoutes(app: Express) {
 
   app.post("/api/privacy/consent", async (req, res) => {
     try {
+      if (!supabase) {
+        return res.status(503).json({ success: false, error: 'Database unavailable' });
+      }
+
       const { sessionId, consentType, consentGiven, preferences } = req.body;
       const ipAddress = getClientIP(req);
       const userAgent = req.headers['user-agent'] || 'unknown';
@@ -65,6 +69,10 @@ export function registerPrivacyRoutes(app: Express) {
 
   app.get("/api/privacy/consent/:sessionId", async (req, res) => {
     try {
+      if (!supabase) {
+        return res.status(503).json({ success: false, error: 'Database unavailable' });
+      }
+
       const { sessionId } = req.params;
 
       const { data, error } = await supabase
@@ -89,6 +97,10 @@ export function registerPrivacyRoutes(app: Express) {
 
   app.post("/api/privacy/revoke-consent", async (req, res) => {
     try {
+      if (!supabase) {
+        return res.status(503).json({ success: false, error: 'Database unavailable' });
+      }
+
       const { sessionId, consentType } = req.body;
 
       const { data, error } = await supabase
@@ -114,6 +126,10 @@ export function registerPrivacyRoutes(app: Express) {
 
 async function saveCookiePreferences(sessionId: string | null, ipAddress: string, preferences: any) {
   try {
+    if (!supabase) {
+      return new Error('Database unavailable');
+    }
+
     const { error } = await supabase
       .from('cookie_preferences')
       .insert([{
