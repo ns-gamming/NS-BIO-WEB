@@ -17,7 +17,76 @@ import {
 } from "./admin-auth";
 import bcrypt from 'bcrypt';
 
-export function registerAdminRoutes(app: Express): void {
+// Helper function to create an admin user, used by setup and create-first-admin
+async function createAdminUser(username: string, email: string, password: string) {
+  if (password.length < 8) {
+    throw new Error("Password must be at least 8 characters long");
+  }
+
+  const passwordHash = await hashPassword(password);
+
+  const existingAdmins = await storage.getAdminUserByUsername('admin'); // Check if 'admin' user exists
+  if (existingAdmins) {
+    throw new Error('Admin user already exists. Use the login endpoint instead.');
+  }
+
+  const adminUser = await storage.createAdminUser({
+    username,
+    email,
+    passwordHash,
+    role: 'admin',
+  });
+
+  return adminUser;
+}
+
+export function registerAdminRoutes(app: Express) {
+  // Setup initial admin (only works if no admin exists)
+  app.post("/api/admin/setup", async (req, res) => {
+    try {
+      const { username, password, email } = req.body;
+
+      if (!username || !password || !email) {
+        return res.status(400).json({ error: "Username, email, and password are required" });
+      }
+
+      const user = await createAdminUser(username, email, password);
+
+      if (!user) {
+        return res.status(500).json({ error: "Failed to create admin user" });
+      }
+
+      // Log the admin action for setup
+      const ipAddress = req.headers['x-forwarded-for']?.toString().split(',')[0] || req.socket.remoteAddress || 'unknown';
+      await logAdminAction(
+        user.id,
+        'SETUP_ADMIN',
+        'admin_users',
+        user.id,
+        { username: user.username, email: user.email },
+        ipAddress
+      );
+
+
+      res.json({
+        success: true,
+        message: "Admin user created successfully",
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          role: user.role
+        }
+      });
+    } catch (error: any) {
+      if (error.message.includes('already exists')) {
+        return res.status(400).json({ error: "Admin user already exists. Use the login endpoint instead." });
+      }
+      console.error("Setup error:", error);
+      res.status(500).json({ error: error.message || "Failed to setup admin" });
+    }
+  });
+
   // Force create/update admin user (for development)
   app.post("/api/admin/force-create-admin", async (req, res) => {
     try {
@@ -36,10 +105,10 @@ export function registerAdminRoutes(app: Express): void {
         email: email || `${username}@nsgamming.com`
       });
 
-      res.json({ 
-        success: true, 
+      res.json({
+        success: true,
         message: "Admin user created/updated successfully",
-        username: admin.username 
+        username: admin.username
       });
     } catch (error: any) {
       res.status(500).json({ error: error.message });
@@ -52,7 +121,7 @@ export function registerAdminRoutes(app: Express): void {
       const existingAdmins = await storage.getAdminUserByUsername('admin');
 
       if (existingAdmins) {
-        return res.status(403).json({ 
+        return res.status(403).json({
           error: "Admin user already exists. Use the login endpoint instead.",
         });
       }
@@ -60,14 +129,8 @@ export function registerAdminRoutes(app: Express): void {
       const { username, password, email } = req.body;
 
       if (!username || !password || !email) {
-        return res.status(400).json({ 
+        return res.status(400).json({
           error: "Username, password, and email are required",
-        });
-      }
-
-      if (password.length < 8) {
-        return res.status(400).json({ 
-          error: "Password must be at least 8 characters long",
         });
       }
 
@@ -107,8 +170,8 @@ export function registerAdminRoutes(app: Express): void {
   });
 
   app.get("/api/admin/status", (req: Request, res: Response) => {
-    res.json({ 
-      status: "ok", 
+    res.json({
+      status: "ok",
       message: "Admin API is running",
       timestamp: new Date().toISOString(),
     });
@@ -136,7 +199,7 @@ export function registerAdminRoutes(app: Express): void {
 
       if (adminUser.totpSecret) {
         if (!totpToken) {
-          return res.status(400).json({ 
+          return res.status(400).json({
             error: "TOTP token required",
             requiresTOTP: true,
           });
@@ -282,6 +345,7 @@ export function registerAdminRoutes(app: Express): void {
       if (adminUser) {
         adminUser.totpSecret = secret;
         adminUser.backupCodes = backupCodes || [];
+        await storage.updateAdminUser(adminUser); // Save the updated user
       }
 
       const ipAddress = req.headers['x-forwarded-for']?.toString().split(',')[0] || req.socket.remoteAddress || 'unknown';
