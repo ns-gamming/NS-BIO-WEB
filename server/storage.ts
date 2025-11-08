@@ -1,7 +1,8 @@
 import { 
   type User, type InsertUser, type BlogPost, type InsertBlogPost,
   type Poll, type InsertPoll, type VisitorStat, type InsertVisitorStat,
-  type ToolUsage, type InsertToolUsage
+  type ToolUsage, type InsertToolUsage, type AdminUser, type InsertAdminUser,
+  type AdminSession, type InsertAdminSession, type AdminAuditLog, type InsertAdminAuditLog
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 import { comprehensiveBlogPosts } from "./blog-seed-data";
@@ -25,6 +26,14 @@ export interface IStorage {
   
   getToolUsage(toolName: string): Promise<ToolUsage | undefined>;
   incrementToolUsage(toolName: string): Promise<void>;
+  
+  getAdminUserById(id: string): Promise<AdminUser | undefined>;
+  getAdminUserByUsername(username: string): Promise<AdminUser | undefined>;
+  createAdminUser(user: InsertAdminUser): Promise<AdminUser>;
+  updateAdminUserLastLogin(id: string): Promise<void>;
+  createAdminSession(session: InsertAdminSession): Promise<AdminSession>;
+  deleteAdminSession(sessionToken: string): Promise<void>;
+  createAdminAuditLog(log: InsertAdminAuditLog): Promise<AdminAuditLog>;
 }
 
 export class MemStorage implements IStorage {
@@ -33,6 +42,9 @@ export class MemStorage implements IStorage {
   private polls: Map<string, Poll>;
   private visitorStats: Map<string, VisitorStat>;
   private toolUsage: Map<string, ToolUsage>;
+  private adminUsers: Map<string, AdminUser>;
+  private adminSessions: Map<string, AdminSession>;
+  private adminAuditLogs: Map<string, AdminAuditLog>;
 
   constructor() {
     this.users = new Map();
@@ -40,6 +52,9 @@ export class MemStorage implements IStorage {
     this.polls = new Map();
     this.visitorStats = new Map();
     this.toolUsage = new Map();
+    this.adminUsers = new Map();
+    this.adminSessions = new Map();
+    this.adminAuditLogs = new Map();
     
     this.seedData();
   }
@@ -213,6 +228,70 @@ export class MemStorage implements IStorage {
         lastUsed: new Date(),
       });
     }
+  }
+
+  async getAdminUserById(id: string): Promise<AdminUser | undefined> {
+    return this.adminUsers.get(id);
+  }
+
+  async getAdminUserByUsername(username: string): Promise<AdminUser | undefined> {
+    return Array.from(this.adminUsers.values()).find(
+      (user) => user.username === username
+    );
+  }
+
+  async createAdminUser(insertUser: InsertAdminUser): Promise<AdminUser> {
+    const id = randomUUID();
+    const adminUser: AdminUser = {
+      id,
+      ...insertUser,
+      role: insertUser.role || 'admin',
+      totpSecret: insertUser.totpSecret || null,
+      backupCodes: insertUser.backupCodes || null,
+      createdAt: new Date(),
+      lastLogin: null,
+    };
+    this.adminUsers.set(id, adminUser);
+    return adminUser;
+  }
+
+  async updateAdminUserLastLogin(id: string): Promise<void> {
+    const user = this.adminUsers.get(id);
+    if (user) {
+      user.lastLogin = new Date();
+      this.adminUsers.set(id, user);
+    }
+  }
+
+  async createAdminSession(insertSession: InsertAdminSession): Promise<AdminSession> {
+    const id = randomUUID();
+    const session: AdminSession = {
+      id,
+      ...insertSession,
+      createdAt: new Date(),
+    };
+    this.adminSessions.set(session.sessionToken, session);
+    return session;
+  }
+
+  async deleteAdminSession(sessionToken: string): Promise<void> {
+    this.adminSessions.delete(sessionToken);
+  }
+
+  async createAdminAuditLog(insertLog: InsertAdminAuditLog): Promise<AdminAuditLog> {
+    const id = randomUUID();
+    const log: AdminAuditLog = {
+      id,
+      adminUserId: insertLog.adminUserId,
+      action: insertLog.action,
+      targetTable: insertLog.targetTable || null,
+      targetId: insertLog.targetId || null,
+      changes: insertLog.changes || null,
+      ipAddress: insertLog.ipAddress || null,
+      timestamp: new Date(),
+    };
+    this.adminAuditLogs.set(id, log);
+    return log;
   }
 }
 

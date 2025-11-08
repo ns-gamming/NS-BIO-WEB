@@ -11,6 +11,7 @@ import { registerPrivacyRoutes } from "./privacy-routes";
 import { registerContactFeedbackRoutes } from "./contact-feedback-routes";
 import { registerFfInfoBotRoutes } from "./ff-info-bot-routes";
 import { registerFfCompareRoutes } from "./ff-compare-routes";
+import { registerAdminRoutes } from "./admin-routes";
 
 const app = express();
 app.use(express.json());
@@ -69,6 +70,7 @@ app.use((req, res, next) => {
   registerContactFeedbackRoutes(app);
   registerFfInfoBotRoutes(app);
   registerFfCompareRoutes(app);
+  registerAdminRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;

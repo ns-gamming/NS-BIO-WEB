@@ -240,11 +240,15 @@ export default function Portfolio() {
 
   // Scroll to top handler
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   // Show scroll button after scrolling
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 300);
     };
@@ -570,9 +574,11 @@ export default function Portfolio() {
                 >
                   <div className="p-6 flex flex-col flex-grow">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="p-2 bg-primary/20 rounded-lg">
-                        <project.icon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
-                      </div>
+                      {project.icon && (
+                        <div className="p-2 bg-primary/20 rounded-lg">
+                          <project.icon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
+                        </div>
+                      )}
                       <h3 className="text-lg md:text-xl font-bold text-foreground">{project.title}</h3>
                     </div>
                     <p className="text-sm md:text-base text-foreground/80 mb-4 leading-relaxed flex-grow">

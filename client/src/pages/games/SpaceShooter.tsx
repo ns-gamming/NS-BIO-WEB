@@ -5,6 +5,7 @@ import { useLocation } from 'wouter';
 import { ArrowLeft, Play, Pause, RotateCcw, Home, Volume2, VolumeX, Trophy } from 'lucide-react';
 import { useSoundEffects } from '../../hooks/useSoundEffects';
 import PlayerShip from '../../components/game/PlayerShip';
+import * as THREE from 'three';
 
 interface GameEntity {
   id: string;
@@ -384,7 +385,7 @@ export default function SpaceShooterEnhanced() {
   };
 
   useEffect(() => {
-    if (gameState !== 'playing') return;
+    if (gameState !== 'playing' || typeof window === 'undefined') return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       const speed = 0.6;
@@ -623,6 +624,8 @@ export default function SpaceShooterEnhanced() {
   };
 
   useEffect(() => {
+    if (typeof document === 'undefined') return;
+    
     if (gameState === 'playing' || gameState === 'countdown') {
       document.body.style.overflow = 'hidden';
       document.body.style.position = 'fixed';
@@ -636,10 +639,12 @@ export default function SpaceShooterEnhanced() {
     }
 
     return () => {
-      document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
-      document.body.style.touchAction = '';
+      if (typeof document !== 'undefined') {
+        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.width = '';
+        document.body.style.touchAction = '';
+      }
     };
   }, [gameState]);
 
