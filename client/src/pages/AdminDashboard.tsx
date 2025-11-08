@@ -166,7 +166,7 @@ export default function AdminDashboard() {
               <CardDescription>
                 Configure system settings
               </CardDescription>
-            </CardContent>
+            </CardHeader>
             <CardContent>
               <Button className="w-full" variant="outline">
                 Configure
