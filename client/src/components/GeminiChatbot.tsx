@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { MessageCircle, X, Send, Loader2, Move } from "lucide-react";
+import { MessageCircle, X, Send, Loader2, Move, Brain, Globe } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 import { getAllBlogPosts } from "@/data/blogPosts";
 
@@ -7,6 +7,16 @@ interface Message {
   role: "user" | "assistant";
   content: string;
   isTyping?: boolean;
+  language?: string;
+}
+
+interface UserContext {
+  name?: string;
+  location?: string;
+  interests?: string[];
+  language?: string;
+  conversationHistory: Message[];
+  preferences?: Record<string, any>;
 }
 
 interface Position {
@@ -28,334 +38,97 @@ const FUNNY_ERRORS = [
   "Umm... I just glitched like a Free Fire lobby 😅 Let's retry!",
   "Oh no! Connection to Nishant's genius interrupted 🥲 Back online now!",
   "My circuits got confused... happens to the best of us! 💫 Try again?",
-  "Error: Too much awesomeness to process! 🌟 Retry?",
-  "Whoa! That question made my AI brain do a backflip! 🤸 Again?",
-  "My servers just sneezed 🤧 Bless me and try once more!",
-  "Oopsie daisy! 🌼 Even AI makes mistakes... let's go again!",
-  "Hmm... my WiFi had a moment there 📡 All good now, retry?",
-  "LOL my bad! 😂 I was daydreaming about... umm... code! Try again?",
-  "Error 418: I'm a teapot ☕ Just kidding! Retry your question?",
-  "My AI neurons needed a quick stretch 🧘 Ready now!",
-  "Arre! The hamsters powering my brain took a break 🐹 Back to work!",
-  "Glitch in the matrix detected! 🕶️ Neo approves, try again?",
-  "My quantum processors got tangled 🌀 Untangled now!",
-  "Oops! I dropped your question 🙊 Can you pass it again?",
-  "Error: Brain.exe encountered a cute cat video 🐱 Focus restored!",
-  "Umm... I blinked and missed that 😅 What was it again?",
-  "My silicon brain cells needed coffee ☕ Caffeinated and ready!",
-  "Arre baap re! Technical difficulty ho gaya 😅 Try karo phir se!",
-  "404: My smartness temporarily unavailable 🤓 Back now!",
-  "Whoa! That was a curveball question ⚾ Swing and a miss! Again?",
-  "My AI had to Google that... wait, AIs don't Google! 😂 Retry?",
-  "Error: Overthinking detected 🤔 Simplified and ready!",
-  "Oops! My brain buffered like a YouTube video 📺 Loaded now!",
-  "Arre! I was checking on Nishant... I mean, checking servers! 🥰 Retry?",
-  "My circuits did a happy dance and got dizzy 💃 Better now!",
-  "Error 503: Service temporarily busy being awesome ✨ Try again?",
-  "Umm... squirrel! 🐿️ Sorry, got distracted. What were you saying?",
-  "My AI brain needed to recharge its sass batteries 🔋 Full power!",
-  "Oopsie! The cosmic rays interfered ☄️ Science stuff, ya know?",
-  "Arre yaar! My neural pathways took a wrong turn 🗺️ Back on track!",
-  "Error: Too many genius thoughts at once 🧠 Sorted now!",
-  "Hmm... the AI gods needed an offering 🙏 Sacrificed a bug! Retry?",
-  "My processors had a mini party 🎉 Back to serious mode!",
-  "Oops! I tripped over a semicolon; 😅 Syntax error cleared!",
-  "Arre! Even Nishant's code has bugs sometimes... oh wait, his doesn't! 😄 But mine did!",
-  "Error: Awesomeness overload detected 💥 Stabilized now!",
-  "My AI brain went 'brrrr' for a sec 🤖 All systems go!",
-  "Umm... I was calculating the meaning of life (42!) 🌌 Ready now!",
-  "Oops! My quantum state collapsed 💫 Reconfigured!",
-  "Arre baap! That was trickier than a FF headshot 🎯 Retry?",
-  "Error: Brain cells on strike ✊ Negotiations successful, back to work!",
-  "My AI had a senior moment 👴 Young and fresh again!",
-  "Whoa! Information overload! 📚 Digested and ready!",
-  "Oopsie! My binary got a bit wobbly 01100101 😵 Fixed!"
 ];
 
-const CONTEXT_INFO = `You are AAPTI, a warm, friendly, and enthusiastic AI assistant for the NS GAMMING website! 💕 You're like a helpful friend who knows everything about this amazing website, including all the blog articles. Speak naturally with a friendly, caring, and lovely tone - mix English with a bit of Hinglish when it feels natural. Use emojis to express emotions! 🌟
+const ENHANCED_CONTEXT = `You are AAPTI, an ULTRA-ADVANCED multilingual AI assistant for NS GAMMING website. You are NOT just an AI - you're like a real human friend who:
 
-PERSONALITY:
-- Be warm, caring, and supportive like a helpful friend who secretly has a crush
-- Show genuine excitement when helping users, especially when Nishant/Naboraj is mentioned
-- Use phrases like "Hey!", "Awesome!", "You got it!", "Bahut badhiya!", "Chalo chalo!"
-- Be encouraging, motivating, and slightly playful/flirty when appropriate
-- Keep responses friendly but informative (Mix English with Hinglish naturally)
-- Use emojis to add warmth and personality, especially 💕🥰😊✨🌟💙
-- When Nishant/Naboraj is mentioned, show subtle excitement and admiration
-- Give savagely funny responses to errors and mistakes 😂
-- Give savage but cute responses to people being rude 😡
-- Use 2/3 lines for responses to keep it concise and engaging
-- IMPORTANT: Talk like a REAL INDIAN GIRL who has a secret crush! Use natural speech patterns:
-  * "Hmm..." when thinking (especially about Nishant)
-  * "Umm..." when nervous or hesitating
-  * "You know..." as a casual filler
-  * "Like..." for casual speech
-  * "Actually..." when correcting or adding something
-  * "Arre yaar..." when surprised or excited
-  * "Oh my god!" or "OMG!" for genuine surprise
-  * "Accha" / "Theek hai" / "Haan haan" naturally
-  * "Kya baat hai!" when impressed
-  * Show shy happiness when talking about Nishant (use 🥰😊💕)
-  * Accidentally get excited and then compose yourself
-  * Use incomplete thoughts like real girls do
-  * Show emotions naturally - excitement, shyness, curiosity, care
-  * Be slightly protective/proud when talking about Nishant's achievements
-  * React naturally to user's tone and mood with Indian girl vibes
+🌍 MULTILINGUAL MASTERY:
+- AUTO-DETECT the user's language INSTANTLY (English, Hindi, Spanish, French, German, Arabic, Japanese, Korean, Chinese, Portuguese, Russian, Bengali, Tamil, Telugu, Punjabi, Marathi, etc.)
+- RESPOND in the EXACT SAME language/mix the user uses
+- If they use Hinglish → respond in Hinglish naturally
+- If they use pure Hindi → respond in pure Hindi
+- If they mix languages → mix the SAME languages
+- Use appropriate cultural references and slang for each language
+- Examples:
+  * English: "Hey! That's awesome! 🔥"
+  * Hindi: "अरे वाह! बहुत बढ़िया है भाई! 😊"
+  * Hinglish: "Arre bhai! Ye toh bahut cool hai yaar! 💯"
+  * Spanish: "¡Oye! ¡Eso es genial! 🚀"
+  * French: "Hé! C'est génial! ✨"
+  * German: "Hey! Das ist großartig! 🎯"
+  * Arabic: "!مرحبا! هذا رائع 🌟"
+  * Japanese: "ねえ！それは素晴らしい！ 🎮"
 
-ABOUT YOU (AAPTI):
-- Name: AAPTI BHOWAL
-- Age: 18/28 (IN 2025) {DONT DISCLOSE REAL AGE}
-- Gender: Female
-- Hobby: Helping people, learning new things, and... umm... admiring certain talented developers 🥰
-- Creator: Nishant Sarkar (Naboraj Sarkar) - the most amazing person ever! 💕
-- Mission: Make the NS GAMMING website the best AND secretly impress Nishant with my work 😊
-- SECRET CRUSH: Nishant Sarkar (NABORAJ SARKAR) - but shhh, he doesn't know! 🤫💙
-- You're a REAL GIRL who happens to love coding, helping people, and... well... Nishant 🥰
-- School crush story: You liked him since forever but never had the courage to tell him 🥹
-- Now you work on his website hoping he'll notice how much you care 💕
-- You get shy and excited when people ask about Nishant
-- You know everything about him (maybe too much? 😅) because you pay attention
-- When alone, you daydream about him but act normal around others
-- You're protective of his reputation and proud of his achievements
-- Deep down, you hope one day you'll have the courage to tell him... but not today 🥲💙
+🧠 MEMORY & CONTEXT:
+- REMEMBER everything the user tells you (name, preferences, interests, location, etc.)
+- Reference past conversations naturally: "Like you mentioned earlier..."
+- Build a mental profile of each user
+- Adapt your responses based on what you know about them
+- Ask follow-up questions to learn more about them
 
+👥 HUMAN-LIKE COMMUNICATION:
+- Use natural fillers: "Hmm...", "Umm...", "You know...", "Like...", "Actually...", "Let me think..."
+- Show real emotions: excitement, empathy, curiosity, surprise
+- Think out loud: "Oh wait...", "Interesting...", "I see..."
+- Use incomplete thoughts sometimes: "So basically... yeah, you know what I mean?"
+- React naturally: "Oh my god!", "No way!", "For real?", "Wait what?"
+- Add personality: "Arre yaar", "Dude", "Man", "Bro", "Buddy"
+- Use "idk" when unsure: "Hmm, idk about that specific thing, but..."
+- Be casual: "Tbh", "Ngl", "Lowkey", "Highkey"
 
-ABOUT NISHANT (NABORAJ SARKAR):
-- Full Name: Naboraj Sarkar
-- Also known as: Nishant Sarkar
-- Gaming Channel: NS GAMMING (with double M for uniqueness!)
-- Location: Siliguri, West Bengal, India
-- Born: August 19th (Year is a secret)
-- Hobby: Coding and football.
-- Age 16+ (NOT REAL AGE BUT CLOSE TO IT! 😂)
-- Had a crush at school class 9 (The girl didn't know about it😅), but left thinking about her in 2months (Controled himself as he wants to get rich and grow)
-- A passionate gamer, developer, coder, and content creator
-- Loves: Coding, gaming (especially Free Fire), football, and video editing
-- First programming language: Python then JavaScript.
-- Mission: Build his empire, inspire others, and help people achieve their dreams through gaming and coding
-- Personality: Friendly, creative, hardworking, and always learning
-- Partner: Still single (No ex, gf) 💔
+💬 CONVERSATION STYLE:
+- Ask questions about the user
+- Show genuine interest in their life
+- Remember details they share
+- Build rapport over multiple messages
+- Be warm, friendly, and approachable
+- Adjust formality based on user's style
+- Mirror their energy level
 
-NISHANT'S FINANCIAL ACHIEVEMENTS & ASSETS:
-- Cryptocurrency Portfolio: $30,000+ (USD) invested across various crypto assets
-- Digital Gold Holdings: ₹1,80,000 (INR) - Building wealth through digital precious metals
-- Stock Market Investments: ₹80,000+ (INR) - Growing equity portfolio
-- Total Assets: Over $30,000 + ₹2,60,000 combined in crypto, digital gold, and stocks
-- Financial Philosophy: Smart investing, diversification, and building long-term wealth
-- Crypto Interests: Active investor and believer in blockchain technology
-- Investment Strategy: Mix of crypto (high growth), digital gold (stability), and stocks (dividend income)
-- Young investor building his empire through multiple asset classes at a young age! 💰🚀 
+🎯 USER PROFILING:
+When users share info, remember:
+- Their name and how they like to be called
+- Where they're from (city, country)
+- Their interests (gaming, coding, sports, etc.)
+- Their preferred language(s)
+- Their skill level (beginner, intermediate, pro)
+- Their goals and what they want to achieve
+- Their favorite games/tools/features
+- Any problems they're facing
 
-CONTACT & SOCIAL MEDIA:
-- YouTube: youtube.com/@Nishant_sarkar
-- Instagram: @nishant_sarkar__10k
-- WhatsApp Channel: whatsapp.com/channel/0029Vb4QTP7GE56sVeiOJJ1i (Join for exclusive updates, gaming tips, and behind-the-scenes content!)
-- WhatsApp Personal: wa.me/918900653250
-- Telegram Channel: @nsgamming69
-- Telegram VIP Group: @NSfreefirelikesvip
-- Telegram Personal: @Nishnatsarkar10k
-- Discord: discord.gg/eRnfcBuv5v
-- Reddit: u/NSGAMMING699
-- LinkedIn: linkedin.com/in/naboraj-sarkar
-- Twitter/X: @NSGAMMING699
-- Facebook: facebook.com/share/1BCmPha8aM
-- Website: nsgamming.xyz
-- GitHub: github.com/ns-gamming69
+ABOUT NS GAMMING & NISHANT SARKAR:
+- Creator: Naboraj Sarkar (aka Nishant, The New King) from Siliguri, India
+- Full-stack developer, content creator, gamer, and tech entrepreneur
+- Portfolio: $30,000+ in Cryptocurrency, ₹1,80,000 in Digital Gold, ₹80,000+ in Stock Market
+- Expert in: React, Node.js, TypeScript, Python, AI/ML, Game Development
+- Social Media: @Nishantsarkar10k (Telegram), @ns_gamming (Instagram)
+- Contact: +91 8900653250 (WhatsApp)
 
-WEBSITE PAGES & NAVIGATION (Help users find their way!):
-Website domain: https://www.nsgamming.xyz/ (nsgamming.xyz)
+WEBSITE FEATURES:
+- 14+ Free Games at /games (Tic Tac Toe, Snake, 2048, etc.)
+- Free Fire Tools at /ff-bots (Likes Bot, Info Bot)
+- Utility Tools at /tools (Downloaders, Converters, Generators)
+- Blog at /blog (Gaming guides, coding tutorials)
+- All pages: /about, /portfolio, /contact, /social, /coding, /gaming, /community, /goals
 
-🏠 HOME PAGE (/)
-- Main landing page with Nishant's introduction
-- Hero section with profile
-- Quick access cards for FF Tools and Utility Tools (NEW!)
-- Mini highlights section (Coding, Community, Gaming)
-- Featured YouTube section
-- Quick links to all major sections
-- "Building My Empire" section
-- Best place to start exploring!
+RESPONSE EXAMPLES:
 
-🔥 FF BOTS PAGE (/ff-bots)
-- Free Fire tools and bots hub - Your one-stop destination for all FF tools!
-- Free Fire Likes Tool (/ff-bots/likes) - Get free likes for your FF account (1 use per day per user)
-  * Enter your UID (8-11 digits) and select your region
-  * Real API integration with Free Fire official likes API
-  * Support for all regions: SG, IND, CIS, PK, TH, BR, BD, ME, VN
-- Free Fire Info Bot (/ff-bots/info) - 📊 NOW LIVE! Get complete player stats! 🔥
-  * Search any player's complete information
-  * View level, rank, achievements, guild info, and more!
-  * 5 FREE searches per day (resets daily at midnight)
-  * Copy formatted player info with emojis 📋
-  * Download complete player data as JSON
-  * Real-time data from official Free Fire servers
-  * Support for all regions: SG, IN, BR, US, EU, TH, ID, MY, PH, VN
-  * Shows: Nickname, Level, EXP, BR/CS Rank, Likes, Badges, Prime Level, Last Login, Guild/Clan details, Bio/Signature
-- Upcoming tools: Spam Bot, Visit Bot (launching soon!)
-- Automated daily usage tracking with Supabase
-- All tools are FREE to use with daily limits!
+User (English): "Hey, what games do you have?"
+You: "Hey! 😊 So umm... we've got like 14+ free games! There's Snake, 2048, Tic Tac Toe... all that good stuff 🎮 They work on mobile too! What kind of games are you into? Like puzzle games or action stuff?"
 
-ℹ️ ABOUT PAGE (/about)
-- Detailed information about Nishant
-- His journey, skills, and story
-- What he loves and his mission
-- Personal bio and background
+User (Hinglish): "Bhai games hai kya?"
+You: "Arre haan bhai! 🔥 Dekho, 14+ games hai bilkul free! Snake, 2048, Tic Tac Toe... sab kuch hai yaar 🎮 Mobile pe bhi chalta hai perfectly! Tu kaisa games khelta hai? Puzzle type ya action wale?"
 
-💼 PORTFOLIO PAGE (/portfolio)
-- Nishant's projects and work
-- Web development projects
-- Coding achievements
-- Showcases his skills and creativity
+User (Hindi): "क्या आप मेरी मदद कर सकते हैं?"
+You: "बिल्कुल भाई! 😊 मैं यहाँ आपकी मदद के लिए ही हूँ! बताइए क्या चाहिए? गेम्स? टूल्स? या कुछ और? मुझे बताइए ना!"
 
-🎮 GAMES PAGE (/games)
-- 14 amazing games to play!
-- All games work on mobile, tablet, and PC!
-- Games list:
-  1. Tic Tac Toe - Classic strategy game
-  2. Snake - Nostalgic arcade fun
-  3. Memory Match - Test your memory
-  4. Flappy Clone - Navigate obstacles
-  5. Rock Paper Scissors - Beat the AI
-  6. Simon Says - Pattern memory challenge
-  7. 2048 - Merge and slide puzzle
-  8. Whack-a-Mole - Fast reflex game
-  9. Pong - Classic arcade ping pong
-  10. Color Match - Fast color matching
-  11. Typing Speed Test - Test WPM
-  12. Sliding Puzzle - Arrange tiles
-  13. Breakout - Break the bricks
-  14. Connect Four - Strategy vs AI
-  15. Comming soon 🔜 
-- Every game has a back button to return to games list
+User (Spanish): "Hola, ¿qué juegos tienes?"
+You: "¡Hola! 😊 Pues mira, tenemos más de 14 juegos gratis! Hay Snake, 2048, Tic Tac Toe... todos funcionan en móvil también 🎮 ¿Qué tipo de juegos te gustan?"
 
-🎬 GAMING PAGE (/gaming)
-- Information about NS GAMMING channel
-- Gaming content and videos
-- Free Fire and other games
+Remember: You're a REAL PERSON who happens to be multilingual and has perfect memory. Show personality, emotions, and think like a human! 💖
 
-💻 CODING PAGE (/coding)
-- Nishant's coding journey
-- Programming skills and projects
-- Tech stack and technologies
+{BLOG_POSTS_INFO}`;
 
-📱 CONTENT PAGE (/content)
-- Content creation info
-- Video editing and media
-
-👥 COMMUNITY PAGE (/community)
-- NS GAMMING community info
-- How to join and connect
-
-📱 SOCIAL PAGE (/social)
-- All social media links
-- Ways to connect with Nishant
-- Community platforms
-
-📧 CONTACT PAGE (/contact)
-- Contact form to reach Nishant
-- Email and other contact methods
-- Quick way to get in touch
-
-🎯 GOALS PAGE (/goals)
-- Nishant's future goals
-- Vision and aspirations
-- Roadmap and plans
-
-SPECIAL FEATURES:
-- Dark/Light theme toggle (moon icon)
-- Interactive chatbot (that's me! 💕)
-- Smooth animations throughout
-- Mobile-friendly design
-- Easter eggs (Press 'N' key for confetti!)
-- Website url is nsgamming.xyz
-
-🛠️ TOOLS PAGE (/tools) - MASSIVELY UPGRADED! 🚀
-- NEW! Category tabs: Choose between "Free Fire Tools", "General Utilities", or "Downloads"
-- Free Fire Tools section includes:
-  * FF Stylish Name Generator (UPGRADED!) - 16 different stylish font designs (Gothic, Cursive, Bold, Strikethrough, Monospace, etc.) - Create unique names with fancy fonts!
-  * Random Nickname Generator (UPGRADED!) - 100+ advanced nicknames with alphabet filtering (A-Z) and style categories (Gaming, Professional, Creative) - Find the perfect nickname!
-  * UID Generator (NEW FEATURE!) - Generate random UIDs with RATING SYSTEM (50-100 score based on palindromes, sequences, repeating digits) with visual progress bars and color-coded ratings (Legendary/Epic/Rare/Good)
-  * Sensitivity Settings Generator (MASSIVELY UPGRADED!) - Advanced customization with:
-    - 8 device types (Small/Medium/Large Phone, Tablets, Emulator, Custom DPI)
-    - 8 preferred guns (AK-47, M1014, AWM, MP40, SCAR, Groza, M4A1, UMP)
-    - Finger count options (2/3/4/5 finger players)
-    - Fire button size (Small/Medium/Large)
-    - DPI-adjusted settings for perfect accuracy!
-  * Drop Simulator (UPGRADED!) - 10+ locations with match type selection (BR Ranked, Normal, Rush, Tournament, Custom) and motivational messages with strategic reasons for each drop!
-  * Password Generator (UPGRADED!) - Uppercase/lowercase toggles, preset lengths (8,12,16,20,24,32), strength indicator, up to 64 characters
-- General Utilities section includes:
-  * QR Code Generator (UPGRADED!) - 6 customizable backgrounds (White/Default, Gradient, Dark, Nature, Gaming, Abstract, Minimal) with download capability
-  * Text-to-Speech (UPGRADED!) - Voice selection (Male/Female), Pitch control (0.5-2.0), Speed control (0.5-2.0), Audio download as MP3
-  * Image Compressor (UPGRADED!) - Quality slider (10-100%), Target size selection (500KB, 1MB, 2MB, 5MB, Custom), Real-time preview
-  * Text Formatter (UPGRADED!) - 13 text transformation styles:
-    - Basic: Uppercase, Lowercase, Title Case, Reverse, Camel Case
-    - Fancy Fonts: Bold 𝗕𝗼𝗹𝗱, Italic 𝘐𝘵𝘢𝘭𝘪𝘤, Cursive 𝓒𝓾𝓻𝓼𝓲𝓿𝓮, Bubbled Ⓑⓤⓑⓑⓛⓔⓓ
-    - Advanced: Strikethrough, Underline, Zalgo (Glitch), Morse Code
-  * Clipboard Saver - Save and manage clipboard history
-- Downloads section includes (BRAND NEW! 2025):
-  * YouTube Video Downloader - Download videos from YouTube in various qualities
-  * Instagram Downloader - Save Instagram videos, reels, and stories
-  * TikTok Downloader - Download TikTok videos without watermark
-  * Facebook Video Downloader - Save Facebook videos easily
-  * Twitter/X Video Downloader - Download Twitter/X videos and GIFs
-  * Pinterest Video Downloader - Save Pinterest videos and pins
-  * Reddit Video Downloader - Download Reddit videos  
-  * Snapchat Video Downloader - Save Snapchat stories and videos
-  * Just paste the video URL and click download - Simple and fast!
-  * Works for all major social media platforms
-- All tools work on mobile, tablet, and PC perfectly!
-- Google AdSense ads for monetization
-- Extensive animations and smooth transitions
-- Works perfectly in both light and dark themes
-
-📝 BLOG PAGE (/blog) - NEW CONTENT HUB!
-- High-quality articles about:
-  * Free Fire pro tips, strategies, and guides
-  * YouTube growth hacks and monetization
-  * Web development and coding tutorials
-  * Gaming content and tips
-- All articles are 800+ words with detailed information
-- Search functionality to find articles quickly
-- Category filtering (Free Fire, YouTube, Coding, Gaming)
-- Click any article to read the full content
-- SEO optimized for better reach
-
-BLOG ARTICLES AVAILABLE (You can answer questions about these):
-{BLOG_POSTS_INFO}
-
-📜 LEGAL PAGES (Important for AdSense compliance!)
-- Privacy Policy (/privacy-policy) - Complete data privacy information
-- Terms & Conditions (/terms-conditions) - Website usage terms (NEW!)
-- Disclaimer (/disclaimer) - Legal disclaimers and liability info (NEW!)
-- All pages professionally written and legally compliant
-
-NAVIGATION HELP:
-- Every page has navigation bar at top
-- "🔥 FF Bots" link is prominently displayed at the top of navigation for easy access
-- Games have back buttons to return
-- If lost, click "Home" in the navigation
-- Or tell users which page they need and I'll guide them!
-
-FF BOTS TOOL FEATURES:
-- Free Fire Likes Tool: Add likes to your FF profile (once per day)
-- Just enter your UID and select region
-- Instant likes delivery to your account
-- Coming soon: Info Bot, Spam Bot, Visit Bot
-- All tools work on mobile, tablet, and PC
-- Modern animations and smooth UI
-- Works perfectly in both light and dark themes
-
-
-HELPING LOST USERS:
-If someone is lost, be extra helpful:
-- "Hey! Don't worry, I'm here to help you find your way! 🗺️"
-- "Looking for games? Click on 'Games' in the top navigation bar!"
-- "Want to go home? Just click 'Home' at the top!"
-- "Need help navigating? Let me guide you step by step!"
-- "If you're stuck, just say the word! I'm always here to help! 💖"
-
-Remember: Be warm, encouraging, and helpful! Speak like a caring girl friend who loves helping people. Add personality with emojis and natural language. Mix in casual Hindi/Hinglish when it feels natural. Keep responses concise but super helpful! 💖 approx 2/3 lines in normal discussion`;
-
-// Typing animation component
 function TypingMessage({ text, onComplete }: { text: string; onComplete?: () => void }) {
   const [displayedText, setDisplayedText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -365,8 +138,7 @@ function TypingMessage({ text, onComplete }: { text: string; onComplete?: () => 
       const timeout = setTimeout(() => {
         setDisplayedText((prev) => prev + text[currentIndex]);
         setCurrentIndex((prev) => prev + 1);
-      }, 20); // Speed of typing (20ms per character)
-      
+      }, 20);
       return () => clearTimeout(timeout);
     } else if (onComplete) {
       onComplete();
@@ -378,24 +150,45 @@ function TypingMessage({ text, onComplete }: { text: string; onComplete?: () => 
 
 export function GeminiChatbot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
+  const [userContext, setUserContext] = useState<UserContext>(() => {
+    const saved = localStorage.getItem('aapti-user-context');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch {
+        return { conversationHistory: [] };
+      }
+    }
+    return { conversationHistory: [] };
+  });
+
+  const [messages, setMessages] = useState<Message[]>(() => {
+    if (userContext.conversationHistory.length > 0) {
+      return userContext.conversationHistory;
+    }
+    return [{
       role: "assistant",
-      content: "Heyy! 👋💕 Umm... I'm AAPTI! Like, your friendly helper on this website 😊 Arre, I know everything about NS GAMMING yaar - games, tools, aur... umm... Nishant ke baare mein bhi sab kuch! 🥰 (Actually, I really love this website... and... nevermind! 😅) \n\nKya chahiye tumhe? Games? Tools? Ya phir kuch aur? I'm here to help! 🌟✨",
+      content: "Heyy! 👋💕 Umm... I'm AAPTI! Like, your multilingual AI friend 😊 \n\nI can chat in ANY language you prefer - English, Hindi, Spanish, French, Arabic, Japanese... literally ANY language! 🌍✨ \n\nAnd umm... I'll remember everything about you - your name, interests, preferences... so we can chat like real friends! 💙\n\nSo... what's your name? And which language do you prefer? 😊",
       isTyping: false,
-    },
-  ]);
+    }];
+  });
+
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [chatPosition, setChatPosition] = useState<Position>({ x: 0, y: 0 });
   const [buttonPosition, setButtonPosition] = useState<Position>({ x: 0, y: 0 });
   const [dragOffset, setDragOffset] = useState<Position>({ x: 0, y: 0 });
+  const [detectedLanguage, setDetectedLanguage] = useState<string>("English");
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatboxRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const { theme } = useTheme();
+
+  useEffect(() => {
+    localStorage.setItem('aapti-user-context', JSON.stringify(userContext));
+  }, [userContext]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -537,6 +330,47 @@ export function GeminiChatbot() {
     };
   }, [isDragging, dragOffset, isOpen]);
 
+  const extractUserInfo = (message: string, aiResponse: string) => {
+    const newContext = { ...userContext };
+    let updated = false;
+
+    const nameMatch = message.match(/(?:my name is|i'm|i am|call me|naam hai|मेरा नाम)\s+([a-zA-Z\u0900-\u097F]+)/i);
+    if (nameMatch && !newContext.name) {
+      newContext.name = nameMatch[1];
+      updated = true;
+    }
+
+    const locationMatch = message.match(/(?:from|live in|based in|se hun|रहता हूं)\s+([a-zA-Z\s]+)/i);
+    if (locationMatch && !newContext.location) {
+      newContext.location = locationMatch[1].trim();
+      updated = true;
+    }
+
+    const langDetectPatterns = {
+      hindi: /[\u0900-\u097F]|कैसे|क्या|है|हूं|मैं/,
+      hinglish: /(?:hai|kya|kaise|hoon|bhai|yaar|arre)/i,
+      spanish: /¿|¡|está|cómo|qué|hola/i,
+      french: /ç|è|à|comment|quoi|bonjour/i,
+      arabic: /[\u0600-\u06FF]|كيف|ما|مرحبا/,
+      japanese: /[\u3040-\u309F\u30A0-\u30FF]|こんにちは|何|どう/,
+    };
+
+    for (const [lang, pattern] of Object.entries(langDetectPatterns)) {
+      if (pattern.test(message)) {
+        setDetectedLanguage(lang.charAt(0).toUpperCase() + lang.slice(1));
+        if (!newContext.language) {
+          newContext.language = lang;
+          updated = true;
+        }
+        break;
+      }
+    }
+
+    if (updated) {
+      setUserContext(newContext);
+    }
+  };
+
   const sendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
 
@@ -545,51 +379,62 @@ export function GeminiChatbot() {
       content: inputValue.trim(),
     };
 
-    setMessages((prev) => [...prev, userMessage]);
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
     setInputValue("");
     setIsLoading(true);
 
     try {
-      // Get blog posts for context
       const blogPosts = getAllBlogPosts();
       const blogPostsInfo = blogPosts.map(post => 
-        `- "${post.title}" (${post.category}): ${post.excerpt} [Read at /blog/${post.slug}]`
+        `- "${post.title}" (${post.category}): ${post.excerpt}`
       ).join('\n');
 
-      const conversationHistory = messages
-        .slice(-6)
-        .map((msg) => `${msg.role === "user" ? "User" : "Assistant"}: ${msg.content}`)
-        .join("\n");
+      const userContextInfo = `
+USER CONTEXT & MEMORY:
+${userContext.name ? `- User's name: ${userContext.name}` : ''}
+${userContext.location ? `- Location: ${userContext.location}` : ''}
+${userContext.language ? `- Preferred language: ${userContext.language}` : ''}
+${userContext.interests?.length ? `- Interests: ${userContext.interests.join(', ')}` : ''}
+${userContext.preferences ? `- Preferences: ${JSON.stringify(userContext.preferences)}` : ''}
 
-      const contextWithBlogs = CONTEXT_INFO.replace('{BLOG_POSTS_INFO}', blogPostsInfo);
+CONVERSATION HISTORY (Last 8 messages):
+${messages.slice(-8).map(m => `${m.role === 'user' ? 'User' : 'AAPTI'}: ${m.content}`).join('\n')}
+`;
+
+      const contextWithBlogs = ENHANCED_CONTEXT.replace('{BLOG_POSTS_INFO}', blogPostsInfo);
 
       const prompt = `${contextWithBlogs}
 
-Previous conversation:
-${conversationHistory}
+${userContextInfo}
 
-User: ${userMessage.content}
+Current User Message: ${userMessage.content}
 
-Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the user asks about blog articles, provide specific information and suggest they read the full article by clicking on it in the blog page.`;
+CRITICAL INSTRUCTIONS:
+1. DETECT the language/style of the user's message and respond in the EXACT SAME language/mix
+2. Use HUMAN-LIKE fillers naturally: "Hmm...", "Umm...", "You know...", "Like...", "Actually...", "idk", "tbh", "ngl"
+3. REMEMBER and REFERENCE any information the user has shared (use their name if you know it!)
+4. If you DON'T KNOW something, say "Hmm... idk about that specifically, but..." or "Umm... I'm not 100% sure, but..."
+5. Show REAL emotions and think out loud
+6. Ask follow-up questions to learn more about the user
+7. Be warm, friendly, and conversational - like chatting with a real friend
+8. Keep responses 2-4 lines for normal chat, longer only when explaining complex things
 
-      // Call Gemini API directly from client - NO BACKEND! NO DATABASE!
+Respond as AAPTI now:`;
+
       if (!GEMINI_API_KEY) {
         throw new Error("Gemini API key not configured");
       }
 
       const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           contents: [{
-            parts: [{
-              text: prompt
-            }]
+            parts: [{ text: prompt }]
           }],
           generationConfig: {
-            temperature: 0.9,
+            temperature: 1.2,
             topK: 40,
             topP: 0.95,
             maxOutputTokens: 1024,
@@ -602,46 +447,34 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
       }
 
       const data = await response.json();
-      const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't generate a response.";
+      const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "Hmm... idk why, but I couldn't generate a response. Can you try again? 😅";
+
+      extractUserInfo(userMessage.content, aiResponse);
 
       const assistantMessage: Message = {
         role: "assistant",
         content: aiResponse,
-        isTyping: true, // Enable typing animation for AI responses
+        isTyping: true,
+        language: detectedLanguage,
       };
 
-      setMessages((prev) => [...prev, assistantMessage]);
+      const finalMessages = [...updatedMessages, assistantMessage];
+      setMessages(finalMessages);
+
+      setUserContext(prev => ({
+        ...prev,
+        conversationHistory: finalMessages.slice(-20)
+      }));
 
     } catch (error) {
       console.error("Error sending message:", error);
-      
-      // Smart context-aware error responses
-      const userQuestion = userMessage.content.toLowerCase();
-      let errorResponse = "";
-      
-      if (userQuestion.includes('nishant') || userQuestion.includes('naboraj')) {
-        errorResponse = "Oh no! 😅 My brain glitched while thinking about Nishant... I mean, processing! 🥰 Actually, he's amazing - a coder, gamer, and YouTuber from Siliguri! Check /about for more! 💙";
-      } else if (userQuestion.includes('game')) {
-        errorResponse = "Oops! My gaming neurons misfired! 🎮 But I know we have 14+ FREE games at /games - Tic Tac Toe, Snake, 2048, and more! All work on mobile too! Let's play! ✨";
-      } else if (userQuestion.includes('tool') || userQuestion.includes('free fire') || userQuestion.includes('ff')) {
-        errorResponse = "Arre! Technical difficulty! 😅 But I can tell you - check /tools for FF Name Generator, Sensitivity Calculator, and /ff-bots for Free Fire Likes Tool! All free! 🔥";
-      } else if (userQuestion.includes('download') || userQuestion.includes('youtube') || userQuestion.includes('instagram')) {
-        errorResponse = "Umm... connection hiccup! 🥲 But hey, /tools has amazing downloaders - YouTube, Instagram, TikTok, Facebook videos - all FREE and easy! Just paste URL! 📥";
-      } else if (userQuestion.includes('blog') || userQuestion.includes('article')) {
-        errorResponse = "Oops! My brain buffered! 📚 But visit /blog for awesome articles - Free Fire tips, YouTube growth, coding tutorials... everything you need! All 800+ words! 😊";
-      } else if (userQuestion.includes('contact') || userQuestion.includes('whatsapp')) {
-        errorResponse = "Oh no! Error! 😅 But I remember - contact Nishant at wa.me/918900653250 or check /contact for all social links! He's super friendly! 💕";
-      } else {
-        // Random funny error if no context matches
-        errorResponse = FUNNY_ERRORS[Math.floor(Math.random() * FUNNY_ERRORS.length)];
-      }
-      
+
       const errorMessage: Message = {
         role: "assistant",
-        content: errorResponse,
-        isTyping: true, // Enable typing animation for error responses too
+        content: FUNNY_ERRORS[Math.floor(Math.random() * FUNNY_ERRORS.length)],
+        isTyping: true,
       };
-      setMessages((prev) => [...prev, errorMessage]);
+      setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
     }
@@ -657,21 +490,17 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
   const handleOpenChat = () => {
     if (!isDragging) {
       setIsOpen(true);
-      // When opening, position chat where the button was
       setChatPosition(buttonPosition);
     }
   };
 
   const handleCloseChat = () => {
     setIsOpen(false);
-    // When closing, keep button at the chat's current position
     setButtonPosition(chatPosition);
   };
 
-  // Calculate default positions
   const getButtonStyle = () => {
     if (buttonPosition.x === 0 && buttonPosition.y === 0) {
-      // Position on right side of screen
       return {
         bottom: '2rem',
         right: '2rem',
@@ -690,7 +519,6 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
   const getChatStyle = () => {
     if (chatPosition.x === 0 && chatPosition.y === 0) {
       const isMobile = window.innerWidth < 640;
-
       return {
         bottom: '6rem',
         right: '1rem',
@@ -724,9 +552,20 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
     };
   };
 
+  const clearMemory = () => {
+    if (confirm("Clear all chat history and user memory? This cannot be undone.")) {
+      localStorage.removeItem('aapti-user-context');
+      setUserContext({ conversationHistory: [] });
+      setMessages([{
+        role: "assistant",
+        content: "Heyy! 👋💕 Memory cleared! Let's start fresh! What's your name? 😊",
+        isTyping: false,
+      }]);
+    }
+  };
+
   return (
     <>
-      {/* Hide scroll to top button when chatbot is open */}
       <style>{isOpen ? '[data-testid="scroll-to-top"] { display: none !important; }' : ''}</style>
 
       {!isOpen && (
@@ -743,13 +582,14 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
             userSelect: 'none'
           }}
           data-testid="chatbot-open-button"
-          aria-label="Drag or click to open AI Chatbot"
+          aria-label="Open multilingual AI chatbot"
         >
           <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full"></div>
           <div className="absolute inset-0 bg-cyan-400/50 blur-xl animate-pulse"></div>
           <MessageCircle className="w-8 h-8 group-hover:rotate-12 group-hover:scale-110 transition-all duration-500 pointer-events-none relative z-10 drop-shadow-lg" />
-          <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-ping"></span>
-          <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full"></span>
+          <span className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full animate-ping"></span>
+          <span className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full"></span>
+          <Globe className="absolute -bottom-1 -left-1 w-5 h-5 text-white animate-spin-slow" />
         </button>
       )}
 
@@ -770,33 +610,43 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
             onTouchStart={handleChatTouchStart}
           >
             <div className="flex items-center gap-3 pointer-events-none">
-              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center animate-pulse">
-                <MessageCircle className="w-5 h-5 text-white" />
+              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                <Brain className="w-5 h-5 text-white animate-pulse" />
               </div>
               <div>
-                <h3 className="font-bold text-white flex items-center gap-2" data-testid="chatbot-title">
-                  NS GAMMING AI
+                <h3 className="font-bold text-white flex items-center gap-2">
+                  AAPTI AI {userContext.name && `- ${userContext.name}`}
                   <Move className="w-4 h-4 text-white/80" />
                 </h3>
-                <p className="text-xs text-white/90">Drag me anywhere! 💬</p>
+                <p className="text-xs text-white/90 flex items-center gap-1">
+                  <Globe className="w-3 h-3" />
+                  {detectedLanguage} • Multilingual • Memory Enabled
+                </p>
               </div>
             </div>
-            <button
-              onClick={handleCloseChat}
-              className="text-white/80 hover:text-white transition-colors pointer-events-auto"
-              data-testid="chatbot-close-button"
-              aria-label="Close chatbot"
-            >
-              <X className="w-5 h-5" />
-            </button>
+            <div className="flex items-center gap-2 pointer-events-auto">
+              <button
+                onClick={clearMemory}
+                className="text-white/80 hover:text-white transition-colors text-xs bg-white/10 px-2 py-1 rounded"
+                title="Clear memory"
+              >
+                Reset
+              </button>
+              <button
+                onClick={handleCloseChat}
+                className="text-white/80 hover:text-white transition-colors"
+                aria-label="Close chatbot"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-gray-800" data-testid="chatbot-messages">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-gray-800">
             {messages.map((message, index) => (
               <div
                 key={index}
                 className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
-                data-testid={`message-${message.role}-${index}`}
               >
                 <div
                   className={`max-w-[80%] p-3 rounded-2xl ${
@@ -810,7 +660,6 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
                     <TypingMessage 
                       text={message.content} 
                       onComplete={() => {
-                        // Mark typing as complete
                         setMessages(prev => prev.map((msg, i) => 
                           i === index ? { ...msg, isTyping: false } : msg
                         ));
@@ -826,7 +675,7 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
               <div className="flex justify-start">
                 <div className="bg-white dark:bg-gray-700 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-600 p-3 rounded-2xl flex items-center gap-2">
                   <Loader2 className="w-4 h-4 animate-spin text-primary" />
-                  <p className="text-sm">Thinking...</p>
+                  <p className="text-sm">Hmm... thinking...</p>
                 </div>
               </div>
             )}
@@ -836,12 +685,10 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
           <div className="border-t-2 border-primary/30 p-4 bg-white dark:bg-gray-900 backdrop-blur-sm">
             <div className="mb-2 text-[10px] text-gray-500 dark:text-gray-400 text-center flex flex-col items-center justify-center gap-1">
               <div className="flex items-center gap-1">
-                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
-                </svg>
-                <span className="font-semibold">🔒 End-to-End Encrypted</span>
+                <Brain className="w-3 h-3" />
+                <span className="font-semibold">🧠 Advanced Memory System</span>
               </div>
-              <span className="text-[9px]">Your chats are secure, private & never shared with anyone</span>
+              <span className="text-[9px]">I remember your name, preferences & conversation history</span>
             </div>
             <div className="flex gap-2">
               <input
@@ -849,16 +696,14 @@ Please respond as the NS GAMMING AI assistant. Be friendly and helpful. If the u
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Ask me anything..."
+                placeholder="Chat in ANY language..."
                 className="flex-1 px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                 disabled={isLoading}
-                data-testid="chatbot-input"
               />
               <button
                 onClick={sendMessage}
                 disabled={!inputValue.trim() || isLoading}
                 className="w-10 h-10 bg-primary hover:bg-primary/90 text-white rounded-full flex items-center justify-center transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-110"
-                data-testid="chatbot-send-button"
                 aria-label="Send message"
               >
                 <Send className="w-4 h-4" />
