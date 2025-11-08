@@ -1,206 +1,298 @@
-import { supabase } from './supabase-client';
-import bcrypt from 'bcryptjs';
-import crypto from 'crypto';
+import {
+  type User, type InsertUser, type BlogPost, type InsertBlogPost,
+  type Poll, type InsertPoll, type VisitorStat, type InsertVisitorStat,
+  type ToolUsage, type InsertToolUsage, type AdminUser, type InsertAdminUser,
+  type AdminSession, type InsertAdminSession, type AdminAuditLog, type InsertAdminAuditLog
+} from "@shared/schema";
+import { randomUUID } from "crypto";
+import { comprehensiveBlogPosts } from "./blog-seed-data";
 
-export interface AdminUser {
-  id: string;
-  username: string;
-  email: string;
-  role: string;
-  isActive: boolean;
-  lastLogin?: Date;
-  createdAt: Date;
+export interface IStorage {
+  getUser(id: string): Promise<User | undefined>;
+  getUserByUsername(username: string): Promise<User | undefined>;
+  createUser(user: InsertUser): Promise<User>;
+
+  getAllBlogPosts(): Promise<BlogPost[]>;
+  getBlogPostBySlug(slug: string): Promise<BlogPost | undefined>;
+  createBlogPost(post: InsertBlogPost): Promise<BlogPost>;
+  incrementBlogViews(slug: string): Promise<void>;
+
+  getActivePolls(): Promise<Poll[]>;
+  createPoll(poll: InsertPoll): Promise<Poll>;
+  votePoll(id: string, optionIndex: number): Promise<Poll>;
+
+  getTodayVisitorCount(): Promise<number>;
+  incrementVisitorCount(): Promise<void>;
+
+  getToolUsage(toolName: string): Promise<ToolUsage | undefined>;
+  incrementToolUsage(toolName: string): Promise<void>;
+
+  getAdminUserById(id: string): Promise<AdminUser | undefined>;
+  getAdminUserByUsername(username: string): Promise<AdminUser | undefined>;
+  createAdminUser(user: InsertAdminUser): Promise<AdminUser>;
+  updateAdminUserLastLogin(id: string): Promise<void>;
+  createAdminSession(session: InsertAdminSession): Promise<AdminSession>;
+  deleteAdminSession(sessionToken: string): Promise<void>;
+  createAdminAuditLog(log: InsertAdminAuditLog): Promise<AdminAuditLog>;
 }
 
-export interface AdminSession {
-  id: string;
-  adminId: string;
-  token: string;
-  expiresAt: Date;
-}
+export class MemStorage implements IStorage {
+  private users: Map<string, User>;
+  private blogPosts: Map<string, BlogPost>;
+  private polls: Map<string, Poll>;
+  private visitorStats: Map<string, VisitorStat>;
+  private toolUsage: Map<string, ToolUsage>;
+  private adminUsers: Map<string, AdminUser>;
+  private adminSessions: Map<string, AdminSession>;
+  private adminAuditLogs: Map<string, AdminAuditLog>;
 
-// Create admin user
-export async function createAdminUser(username: string, email: string, password: string): Promise<AdminUser | null> {
-  if (!supabase) {
-    console.error('Supabase client not initialized');
-    return null;
+  constructor() {
+    this.users = new Map();
+    this.blogPosts = new Map();
+    this.polls = new Map();
+    this.visitorStats = new Map();
+    this.toolUsage = new Map();
+    this.adminUsers = new Map();
+    this.adminSessions = new Map();
+    this.adminAuditLogs = new Map();
+
+    this.seedData();
   }
 
-  try {
-    // Check if user already exists
-    const { data: existing } = await supabase
-      .from('admin_users')
-      .select('id')
-      .or(`username.eq.${username},email.eq.${email}`)
-      .single();
+  private seedData() {
+    const blogPosts: InsertBlogPost[] = comprehensiveBlogPosts;
+
+    const samplePolls: InsertPoll[] = [
+      {
+        question: "What's your favorite Free Fire game mode?",
+        options: ["Battle Royale", "Clash Squad", "Lone Wolf", "Craftland"],
+        votes: ["45", "32", "18", "23"],
+        active: true,
+      },
+      {
+        question: "Which web framework should I learn next?",
+        options: ["React", "Vue.js", "Angular", "Svelte"],
+        votes: ["78", "34", "12", "25"],
+        active: true,
+      },
+      {
+        question: "What content do you want to see more of?",
+        options: ["Free Fire Tips", "Coding Tutorials", "YouTube Guides", "Gaming News"],
+        votes: ["0", "0", "0", "0"],
+        active: true,
+      }
+    ];
+
+    for (const post of blogPosts) {
+      const id = randomUUID();
+      const blogPost: BlogPost = {
+        id,
+        ...post,
+        imageUrl: post.imageUrl || null,
+        published: post.published ?? true,
+        views: 0,
+        createdAt: new Date(),
+      };
+      this.blogPosts.set(blogPost.slug, blogPost);
+    }
+
+    for (const poll of samplePolls) {
+      const id = randomUUID();
+      const pollData: Poll = {
+        id,
+        ...poll,
+        active: poll.active ?? true,
+        createdAt: new Date(),
+      };
+      this.polls.set(id, pollData);
+    }
+  }
+
+  async getUser(id: string): Promise<User | undefined> {
+    return this.users.get(id);
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    return Array.from(this.users.values()).find(
+      (user) => user.username === username,
+    );
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const id = randomUUID();
+    const user: User = { ...insertUser, id };
+    this.users.set(id, user);
+    return user;
+  }
+
+  async getAllBlogPosts(): Promise<BlogPost[]> {
+    return Array.from(this.blogPosts.values())
+      .filter(post => post.published)
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  }
+
+  async getBlogPostBySlug(slug: string): Promise<BlogPost | undefined> {
+    return this.blogPosts.get(slug);
+  }
+
+  async createBlogPost(post: InsertBlogPost): Promise<BlogPost> {
+    const id = randomUUID();
+    const blogPost: BlogPost = {
+      id,
+      ...post,
+      imageUrl: post.imageUrl || null,
+      published: post.published ?? true,
+      views: 0,
+      createdAt: new Date(),
+    };
+    this.blogPosts.set(blogPost.slug, blogPost);
+    return blogPost;
+  }
+
+  async incrementBlogViews(slug: string): Promise<void> {
+    const post = this.blogPosts.get(slug);
+    if (post) {
+      post.views += 1;
+      this.blogPosts.set(slug, post);
+    }
+  }
+
+  async getActivePolls(): Promise<Poll[]> {
+    return Array.from(this.polls.values())
+      .filter(poll => poll.active)
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  }
+
+  async createPoll(poll: InsertPoll): Promise<Poll> {
+    const id = randomUUID();
+    const pollData: Poll = {
+      id,
+      ...poll,
+      active: poll.active ?? true,
+      createdAt: new Date(),
+    };
+    this.polls.set(id, pollData);
+    return pollData;
+  }
+
+  async votePoll(id: string, optionIndex: number): Promise<Poll> {
+    const poll = this.polls.get(id);
+    if (!poll) throw new Error("Poll not found");
+
+    const currentVotes = poll.votes.map(v => parseInt(v));
+    currentVotes[optionIndex] = (currentVotes[optionIndex] || 0) + 1;
+    poll.votes = currentVotes.map(v => v.toString());
+
+    this.polls.set(id, poll);
+    return poll;
+  }
+
+  async getTodayVisitorCount(): Promise<number> {
+    const today = new Date().toISOString().split('T')[0];
+    const stat = this.visitorStats.get(today);
+    return stat?.count || 0;
+  }
+
+  async incrementVisitorCount(): Promise<void> {
+    const today = new Date().toISOString().split('T')[0];
+    const existing = this.visitorStats.get(today);
 
     if (existing) {
-      throw new Error('Admin user already exists');
+      existing.count += 1;
+      this.visitorStats.set(today, existing);
+    } else {
+      const id = randomUUID();
+      this.visitorStats.set(today, { id, date: today, count: 1 });
     }
-
-    const passwordHash = await bcrypt.hash(password, 10);
-
-    const { data, error } = await supabase
-      .from('admin_users')
-      .insert({
-        username,
-        email,
-        password_hash: passwordHash,
-        role: 'admin',
-        is_active: true
-      })
-      .select()
-      .single();
-
-    if (error) throw error;
-
-    return {
-      id: data.id,
-      username: data.username,
-      email: data.email,
-      role: data.role,
-      isActive: data.is_active,
-      createdAt: new Date(data.created_at)
-    };
-  } catch (error: any) {
-    console.error('Error creating admin user:', error.message);
-    throw error;
-  }
-}
-
-// Verify admin credentials
-export async function verifyAdminCredentials(username: string, password: string): Promise<AdminUser | null> {
-  if (!supabase) {
-    console.error('Supabase client not initialized');
-    return null;
   }
 
-  try {
-    const { data, error } = await supabase
-      .from('admin_users')
-      .select('*')
-      .eq('username', username)
-      .eq('is_active', true)
-      .single();
-
-    if (error || !data) return null;
-
-    const isValid = await bcrypt.compare(password, data.password_hash);
-    if (!isValid) return null;
-
-    // Update last login
-    await supabase
-      .from('admin_users')
-      .update({ last_login: new Date().toISOString() })
-      .eq('id', data.id);
-
-    return {
-      id: data.id,
-      username: data.username,
-      email: data.email,
-      role: data.role,
-      isActive: data.is_active,
-      lastLogin: data.last_login ? new Date(data.last_login) : undefined,
-      createdAt: new Date(data.created_at)
-    };
-  } catch (error: any) {
-    console.error('Error verifying admin credentials:', error.message);
-    return null;
-  }
-}
-
-// Create admin session
-export async function createAdminSession(adminId: string, ipAddress: string, userAgent: string): Promise<string | null> {
-  if (!supabase) {
-    console.error('Supabase client not initialized');
-    return null;
+  async getToolUsage(toolName: string): Promise<ToolUsage | undefined> {
+    return Array.from(this.toolUsage.values()).find(
+      (usage) => usage.toolName === toolName
+    );
   }
 
-  try {
-    const token = crypto.randomBytes(32).toString('hex');
-    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+  async incrementToolUsage(toolName: string): Promise<void> {
+    const existing = await this.getToolUsage(toolName);
 
-    const { error } = await supabase
-      .from('admin_sessions')
-      .insert({
-        admin_id: adminId,
-        token,
-        ip_address: ipAddress,
-        user_agent: userAgent,
-        expires_at: expiresAt.toISOString()
+    if (existing) {
+      existing.usageCount += 1;
+      existing.lastUsed = new Date();
+      this.toolUsage.set(existing.id, existing);
+    } else {
+      const id = randomUUID();
+      this.toolUsage.set(id, {
+        id,
+        toolName,
+        usageCount: 1,
+        lastUsed: new Date(),
       });
-
-    if (error) throw error;
-
-    return token;
-  } catch (error: any) {
-    console.error('Error creating admin session:', error.message);
-    return null;
-  }
-}
-
-// Verify admin session
-export async function verifyAdminSession(token: string): Promise<AdminUser | null> {
-  if (!supabase) {
-    console.error('Supabase client not initialized');
-    return null;
-  }
-
-  try {
-    const { data: session, error: sessionError } = await supabase
-      .from('admin_sessions')
-      .select('admin_id, expires_at')
-      .eq('token', token)
-      .single();
-
-    if (sessionError || !session) return null;
-
-    // Check if session is expired
-    if (new Date(session.expires_at) < new Date()) {
-      await supabase.from('admin_sessions').delete().eq('token', token);
-      return null;
     }
+  }
 
-    const { data: user, error: userError } = await supabase
-      .from('admin_users')
-      .select('*')
-      .eq('id', session.admin_id)
-      .eq('is_active', true)
-      .single();
+  async getAdminUserById(id: string): Promise<AdminUser | undefined> {
+    return this.adminUsers.get(id);
+  }
 
-    if (userError || !user) return null;
+  async getAdminUserByUsername(username: string): Promise<AdminUser | undefined> {
+    return Array.from(this.adminUsers.values()).find(
+      (user) => user.username === username
+    );
+  }
 
-    return {
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      role: user.role,
-      isActive: user.is_active,
-      lastLogin: user.last_login ? new Date(user.last_login) : undefined,
-      createdAt: new Date(user.created_at)
+  async createAdminUser(insertUser: InsertAdminUser): Promise<AdminUser> {
+    const id = randomUUID();
+    const adminUser: AdminUser = {
+      id,
+      ...insertUser,
+      role: insertUser.role || 'admin',
+      totpSecret: insertUser.totpSecret || null,
+      backupCodes: insertUser.backupCodes || null,
+      createdAt: new Date(),
+      lastLogin: null,
     };
-  } catch (error: any) {
-    console.error('Error verifying admin session:', error.message);
-    return null;
+    this.adminUsers.set(id, adminUser);
+    return adminUser;
+  }
+
+  async updateAdminUserLastLogin(id: string): Promise<void> {
+    const user = this.adminUsers.get(id);
+    if (user) {
+      user.lastLogin = new Date();
+      this.adminUsers.set(id, user);
+    }
+  }
+
+  async createAdminSession(insertSession: InsertAdminSession): Promise<AdminSession> {
+    const id = randomUUID();
+    const session: AdminSession = {
+      id,
+      ...insertSession,
+      createdAt: new Date(),
+    };
+    this.adminSessions.set(session.sessionToken, session);
+    return session;
+  }
+
+  async deleteAdminSession(sessionToken: string): Promise<void> {
+    this.adminSessions.delete(sessionToken);
+  }
+
+  async createAdminAuditLog(insertLog: InsertAdminAuditLog): Promise<AdminAuditLog> {
+    const id = randomUUID();
+    const log: AdminAuditLog = {
+      id,
+      adminUserId: insertLog.adminUserId,
+      action: insertLog.action,
+      targetTable: insertLog.targetTable || null,
+      targetId: insertLog.targetId || null,
+      changes: insertLog.changes || null,
+      ipAddress: insertLog.ipAddress || null,
+      timestamp: new Date(),
+    };
+    this.adminAuditLogs.set(id, log);
+    return log;
   }
 }
 
-// Delete admin session (logout)
-export async function deleteAdminSession(token: string): Promise<boolean> {
-  if (!supabase) {
-    console.error('Supabase client not initialized');
-    return false;
-  }
-
-  try {
-    const { error } = await supabase
-      .from('admin_sessions')
-      .delete()
-      .eq('token', token);
-
-    return !error;
-  } catch (error: any) {
-    console.error('Error deleting admin session:', error.message);
-    return false;
-  }
-}
+export const storage = new MemStorage();
