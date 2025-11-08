@@ -195,34 +195,43 @@ export default function Portfolio() {
   const [stockValue, setStockValue] = useState(80000);
 
   useEffect(() => {
+    let isMounted = true;
+
     // Crypto counter - fluctuates between $31,800 - $32,200
     const cryptoInterval = setInterval(() => {
-      setCryptoValue(prev => {
-        const change = (Math.random() - 0.5) * 40; // ±$20 change
-        const newValue = prev + change;
-        return Math.max(31800, Math.min(32200, newValue));
-      });
-    }, 3000); // Update every 3 seconds
+      if (isMounted) {
+        setCryptoValue(prev => {
+          const change = (Math.random() - 0.5) * 40; // ±$20 change
+          const newValue = prev + change;
+          return Math.max(31800, Math.min(32200, newValue));
+        });
+      }
+    }, 3000);
 
     // Digital Gold counter - fluctuates between ₹179,500 - ₹180,500
     const goldInterval = setInterval(() => {
-      setDigitalGoldValue(prev => {
-        const change = (Math.random() - 0.5) * 200; // ±₹100 change
-        const newValue = prev + change;
-        return Math.max(179500, Math.min(180500, newValue));
-      });
-    }, 4000); // Update every 4 seconds
+      if (isMounted) {
+        setDigitalGoldValue(prev => {
+          const change = (Math.random() - 0.5) * 200; // ±₹100 change
+          const newValue = prev + change;
+          return Math.max(179500, Math.min(180500, newValue));
+        });
+      }
+    }, 4000);
 
     // Stock counter - fluctuates between ₹79,500 - ₹80,500
     const stockInterval = setInterval(() => {
-      setStockValue(prev => {
-        const change = (Math.random() - 0.5) * 200; // ±₹100 change
-        const newValue = prev + change;
-        return Math.max(79500, Math.min(80500, newValue));
-      });
-    }, 3500); // Update every 3.5 seconds
+      if (isMounted) {
+        setStockValue(prev => {
+          const change = (Math.random() - 0.5) * 200; // ±₹100 change
+          const newValue = prev + change;
+          return Math.max(79500, Math.min(80500, newValue));
+        });
+      }
+    }, 3500);
 
     return () => {
+      isMounted = false;
       clearInterval(cryptoInterval);
       clearInterval(goldInterval);
       clearInterval(stockInterval);
@@ -235,11 +244,14 @@ export default function Portfolio() {
   };
 
   // Show scroll button after scrolling
-  if (typeof window !== "undefined") {
-    window.addEventListener("scroll", () => {
+  useEffect(() => {
+    const handleScroll = () => {
       setShowScrollTop(window.scrollY > 300);
-    });
-  }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <>
@@ -338,6 +350,7 @@ export default function Portfolio() {
               initial={{ y: 20, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
               className="glass rounded-3xl p-8 md:p-12"
             >
               <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6 flex items-center gap-3">
@@ -575,27 +588,48 @@ export default function Portfolio() {
                   </div>
                   <div className="p-6 flex justify-end gap-3 bg-foreground/5">
                     {project.github && (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 glass rounded-lg hover:bg-primary/20 transition-colors"
+                        onClick={(e) => { e.stopPropagation(); playSound('click'); }}
+                      >
+                        <Github className="h-5 w-5" />
+                      </a>
+                    )}
+                    {project.live && (
+                      <a
+                        href={project.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 glass rounded-lg hover:bg-primary/20 transition-colors"
+                        onClick={(e) => { e.stopPropagation(); playSound('click'); }}
+                      >
+                        <ExternalLink className="h-5 w-5" />
+                      </a>
+                    )}
+                    {project.link && (
+                      project.external ? (
                         <a
-                          href={project.github}
+                          href={project.link}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="p-2 glass rounded-lg hover:bg-primary/20 transition-colors"
-                          onClick={() => playSound('click')}
+                          onClick={(e) => { e.stopPropagation(); playSound('click'); }}
                         >
-                          <Github className="h-5 w-5" />
+                          <project.icon className="h-5 w-5" />
                         </a>
-                      )}
-                      {project.live && (
-                        <a
-                          href={project.live}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                      ) : (
+                        <Link
+                          href={project.link}
                           className="p-2 glass rounded-lg hover:bg-primary/20 transition-colors"
-                          onClick={() => playSound('click')}
+                          onClick={(e) => { e.stopPropagation(); playSound('click'); }}
                         >
-                          <ExternalLink className="h-5 w-5" />
-                        </a>
-                      )}
+                          <project.icon className="h-5 w-5" />
+                        </Link>
+                      )
+                    )}
                   </div>
                 </motion.div>
               ))}
@@ -681,13 +715,15 @@ export default function Portfolio() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setSelectedSkill(null)}
+              transition={{ duration: 0.2 }}
+              onClick={() => { setSelectedSkill(null); playSound('click'); }}
               className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
             >
               <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
+                transition={{ duration: 0.3, type: "spring", stiffness: 300, damping: 30 }}
                 onClick={(e) => e.stopPropagation()}
                 className="bg-background border-2 border-primary/20 rounded-3xl p-6 md:p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
               >
@@ -697,8 +733,9 @@ export default function Portfolio() {
                     <h3 className="text-2xl md:text-3xl font-bold text-foreground">{selectedSkill.name}</h3>
                   </div>
                   <button
-                    onClick={() => setSelectedSkill(null)}
+                    onClick={() => { setSelectedSkill(null); playSound('click'); }}
                     className="p-2 hover:bg-muted rounded-full transition-colors"
+                    aria-label="Close modal"
                   >
                     <X className="w-6 h-6" />
                   </button>

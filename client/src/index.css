@@ -1,4 +1,3 @@
-
 /* Prevent unwanted scrolling and touch behavior on game pages */
 .touch-none {
   touch-action: none;
