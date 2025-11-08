@@ -88,7 +88,9 @@ function GameScene({
   explosions,
   playerHealth,
   maxHealth,
-  shieldActive
+  shieldActive,
+  score,
+  level
 }: {
   playerPos: [number, number, number];
   enemies: EnemyEntity[];
@@ -98,6 +100,8 @@ function GameScene({
   playerHealth: number;
   maxHealth: number;
   shieldActive: boolean;
+  score: number;
+  level: number;
 }) {
   const { camera } = useThree();
 
@@ -712,6 +716,8 @@ export default function SpaceShooterEnhanced() {
                 playerHealth={playerHealth}
                 maxHealth={maxHealth}
                 shieldActive={shieldActive}
+                score={score}
+                level={level}
               />
             </Canvas>
           </div>
