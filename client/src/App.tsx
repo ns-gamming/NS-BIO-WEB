@@ -57,12 +57,17 @@ import Disclaimer from "./pages/Disclaimer";
 import Chat from "./pages/Chat";
 import NotFound from "@/pages/not-found";
 import PageLoader from "./components/PageLoader";
+import AdminLogin from "./pages/AdminLogin";
+import AdminDashboard from "./pages/AdminDashboard";
 import { useEffect, useState } from "react";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/admin" component={AdminLogin} />
+      <Route path="/nsadmin" component={AdminLogin} />
+      <Route path="/admin/dashboard" component={AdminDashboard} />
       <Route path="/chat" component={Chat} />
       <Route path="/ff-bots/likes" component={FFLikesBot} />
       <Route path="/ff-bots/info" component={FFInfoBot} />
