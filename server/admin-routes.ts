@@ -15,8 +15,97 @@ import {
   logAdminAction,
   type AdminAuthRequest,
 } from "./admin-auth";
+import bcrypt from 'bcrypt';
 
 export function registerAdminRoutes(app: Express): void {
+  // Force create/update admin user (for development)
+  app.post("/api/admin/force-create-admin", async (req, res) => {
+    try {
+      const { username, password, email } = req.body;
+
+      if (!username || !password) {
+        return res.status(400).json({ error: "Username and password required" });
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      // Try to create or update admin
+      const admin = await storage.createOrUpdateAdmin({
+        username,
+        password: hashedPassword,
+        email: email || `${username}@nsgamming.com`
+      });
+
+      res.json({ 
+        success: true, 
+        message: "Admin user created/updated successfully",
+        username: admin.username 
+      });
+    } catch (error: any) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  // Create first admin user (only works if no admin exists)
+  app.post("/api/admin/create-first-admin", async (req: Request, res: Response) => {
+    try {
+      const existingAdmins = await storage.getAdminUserByUsername('admin');
+
+      if (existingAdmins) {
+        return res.status(403).json({ 
+          error: "Admin user already exists. Use the login endpoint instead.",
+        });
+      }
+
+      const { username, password, email } = req.body;
+
+      if (!username || !password || !email) {
+        return res.status(400).json({ 
+          error: "Username, password, and email are required",
+        });
+      }
+
+      if (password.length < 8) {
+        return res.status(400).json({ 
+          error: "Password must be at least 8 characters long",
+        });
+      }
+
+      const passwordHash = await hashPassword(password);
+
+      const adminUser = await storage.createAdminUser({
+        username,
+        email,
+        passwordHash,
+        role: 'admin',
+      });
+
+      const ipAddress = req.headers['x-forwarded-for']?.toString().split(',')[0] || req.socket.remoteAddress || 'unknown';
+      await logAdminAction(
+        adminUser.id,
+        'CREATE_ADMIN',
+        'admin_users',
+        adminUser.id,
+        { username, email },
+        ipAddress
+      );
+
+      res.json({
+        success: true,
+        message: "Admin user created successfully",
+        user: {
+          id: adminUser.id,
+          username: adminUser.username,
+          email: adminUser.email,
+          role: adminUser.role,
+        },
+      });
+    } catch (error) {
+      console.error('Admin creation error:', error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
   app.get("/api/admin/status", (req: Request, res: Response) => {
     res.json({ 
       status: "ok", 
@@ -34,13 +123,13 @@ export function registerAdminRoutes(app: Express): void {
       }
 
       const adminUser = await storage.getAdminUserByUsername(username);
-      
+
       if (!adminUser) {
         return res.status(401).json({ error: "Invalid credentials" });
       }
 
       const passwordValid = await verifyPassword(password, adminUser.passwordHash);
-      
+
       if (!passwordValid) {
         return res.status(401).json({ error: "Invalid credentials" });
       }
@@ -54,7 +143,7 @@ export function registerAdminRoutes(app: Express): void {
         }
 
         const totpValid = verifyTOTP(totpToken, adminUser.totpSecret);
-        
+
         if (!totpValid) {
           return res.status(401).json({ error: "Invalid TOTP token" });
         }
@@ -211,65 +300,6 @@ export function registerAdminRoutes(app: Express): void {
       });
     } catch (error) {
       console.error('2FA verification error:', error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  });
-
-  app.post("/api/admin/create-first-admin", async (req: Request, res: Response) => {
-    try {
-      const existingAdmins = await storage.getAdminUserByUsername('admin');
-      
-      if (existingAdmins) {
-        return res.status(403).json({ 
-          error: "Admin user already exists. Use the login endpoint instead.",
-        });
-      }
-
-      const { username, password, email } = req.body;
-
-      if (!username || !password || !email) {
-        return res.status(400).json({ 
-          error: "Username, password, and email are required",
-        });
-      }
-
-      if (password.length < 8) {
-        return res.status(400).json({ 
-          error: "Password must be at least 8 characters long",
-        });
-      }
-
-      const passwordHash = await hashPassword(password);
-
-      const adminUser = await storage.createAdminUser({
-        username,
-        email,
-        passwordHash,
-        role: 'admin',
-      });
-
-      const ipAddress = req.headers['x-forwarded-for']?.toString().split(',')[0] || req.socket.remoteAddress || 'unknown';
-      await logAdminAction(
-        adminUser.id,
-        'CREATE_ADMIN',
-        'admin_users',
-        adminUser.id,
-        { username, email },
-        ipAddress
-      );
-
-      res.json({
-        success: true,
-        message: "Admin user created successfully",
-        user: {
-          id: adminUser.id,
-          username: adminUser.username,
-          email: adminUser.email,
-          role: adminUser.role,
-        },
-      });
-    } catch (error) {
-      console.error('Admin creation error:', error);
       res.status(500).json({ error: "Internal server error" });
     }
   });

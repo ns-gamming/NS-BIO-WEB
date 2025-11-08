@@ -1,4 +1,4 @@
-import { 
+import {
   type User, type InsertUser, type BlogPost, type InsertBlogPost,
   type Poll, type InsertPoll, type VisitorStat, type InsertVisitorStat,
   type ToolUsage, type InsertToolUsage, type AdminUser, type InsertAdminUser,
@@ -11,22 +11,22 @@ export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
-  
+
   getAllBlogPosts(): Promise<BlogPost[]>;
   getBlogPostBySlug(slug: string): Promise<BlogPost | undefined>;
   createBlogPost(post: InsertBlogPost): Promise<BlogPost>;
   incrementBlogViews(slug: string): Promise<void>;
-  
+
   getActivePolls(): Promise<Poll[]>;
   createPoll(poll: InsertPoll): Promise<Poll>;
   votePoll(id: string, optionIndex: number): Promise<Poll>;
-  
+
   getTodayVisitorCount(): Promise<number>;
   incrementVisitorCount(): Promise<void>;
-  
+
   getToolUsage(toolName: string): Promise<ToolUsage | undefined>;
   incrementToolUsage(toolName: string): Promise<void>;
-  
+
   getAdminUserById(id: string): Promise<AdminUser | undefined>;
   getAdminUserByUsername(username: string): Promise<AdminUser | undefined>;
   createAdminUser(user: InsertAdminUser): Promise<AdminUser>;
@@ -55,7 +55,7 @@ export class MemStorage implements IStorage {
     this.adminUsers = new Map();
     this.adminSessions = new Map();
     this.adminAuditLogs = new Map();
-    
+
     this.seedData();
   }
 
@@ -178,11 +178,11 @@ export class MemStorage implements IStorage {
   async votePoll(id: string, optionIndex: number): Promise<Poll> {
     const poll = this.polls.get(id);
     if (!poll) throw new Error("Poll not found");
-    
+
     const currentVotes = poll.votes.map(v => parseInt(v));
     currentVotes[optionIndex] = (currentVotes[optionIndex] || 0) + 1;
     poll.votes = currentVotes.map(v => v.toString());
-    
+
     this.polls.set(id, poll);
     return poll;
   }
@@ -196,7 +196,7 @@ export class MemStorage implements IStorage {
   async incrementVisitorCount(): Promise<void> {
     const today = new Date().toISOString().split('T')[0];
     const existing = this.visitorStats.get(today);
-    
+
     if (existing) {
       existing.count += 1;
       this.visitorStats.set(today, existing);
@@ -214,7 +214,7 @@ export class MemStorage implements IStorage {
 
   async incrementToolUsage(toolName: string): Promise<void> {
     const existing = await this.getToolUsage(toolName);
-    
+
     if (existing) {
       existing.usageCount += 1;
       existing.lastUsed = new Date();
