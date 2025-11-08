@@ -554,11 +554,13 @@ export default function SpaceShooterEnhanced() {
   }, [combo]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
+    e.preventDefault(); // Prevent scrolling
     const touch = e.touches[0];
     touchStartRef.current = { x: touch.clientX, y: touch.clientY };
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
+    e.preventDefault(); // Prevent scrolling
     if (!touchStartRef.current) return;
 
     const touch = e.touches[0];
@@ -569,37 +571,62 @@ export default function SpaceShooterEnhanced() {
     touchStartRef.current = { x: touch.clientX, y: touch.clientY };
   };
 
-  const handleTouchEnd = () => {
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    e.preventDefault(); // Prevent scrolling
     touchStartRef.current = null;
     shoot();
   };
 
+  useEffect(() => {
+    // Lock scroll when game is active
+    if (gameState === 'playing') {
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.touchAction = 'none';
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.touchAction = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.touchAction = '';
+    };
+  }, [gameState]);
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900 to-black text-white">
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-6">
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900 to-black text-white overflow-hidden">
+      <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8">
+        <div className="flex items-center justify-between mb-4 sm:mb-6 gap-2">
           <button
             onClick={() => navigate('/games')}
-            className="flex items-center gap-2 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 hover:text-cyan-300 px-6 py-3 rounded-lg transition-all duration-300 border border-cyan-500/50 hover:border-cyan-400 backdrop-blur-sm"
+            className="flex items-center gap-1 sm:gap-2 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 hover:text-cyan-300 px-3 sm:px-6 py-2 sm:py-3 rounded-lg transition-all duration-300 border border-cyan-500/50 hover:border-cyan-400 backdrop-blur-sm text-sm sm:text-base"
           >
-            <ArrowLeft className="w-5 h-5" />
-            <span className="font-semibold">Back to Games</span>
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span className="font-semibold hidden sm:inline">Back to Games</span>
+            <span className="font-semibold sm:hidden">Back</span>
           </button>
 
           <button
             onClick={() => navigate('/games')}
-            className="flex items-center gap-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 hover:text-purple-300 px-6 py-3 rounded-lg transition-all duration-300 border border-purple-500/50 hover:border-purple-400 backdrop-blur-sm"
+            className="flex items-center gap-1 sm:gap-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 hover:text-purple-300 px-3 sm:px-6 py-2 sm:py-3 rounded-lg transition-all duration-300 border border-purple-500/50 hover:border-purple-400 backdrop-blur-sm text-sm sm:text-base"
           >
-            <Home className="w-5 h-5" />
-            <span className="font-semibold">Games Hub</span>
+            <Home className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span className="font-semibold hidden sm:inline">Games Hub</span>
+            <span className="font-semibold sm:hidden">Hub</span>
           </button>
         </div>
 
-        <h1 className="text-4xl md:text-5xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 animate-pulse">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-4 sm:mb-8 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 animate-pulse">
           🚀 Space Shooter 3D
         </h1>
 
-        <div className="relative w-full max-w-4xl mx-auto aspect-[3/4] md:aspect-video bg-black rounded-xl overflow-hidden shadow-2xl border-2 border-cyan-500/30">
+        <div className="relative w-full max-w-4xl mx-auto aspect-[3/4] md:aspect-video bg-black rounded-lg md:rounded-xl overflow-hidden shadow-2xl border-2 border-cyan-500/30 touch-none">
           {gameState === 'menu' && (
             <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-black/90 via-purple-900/30 to-black/90 backdrop-blur-md z-10">
               <div className="text-center space-y-6 p-8">
@@ -694,10 +721,11 @@ export default function SpaceShooterEnhanced() {
           )}
 
           <div 
-            className="w-full h-full"
+            className="w-full h-full touch-none select-none"
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
+            style={{ touchAction: 'none', WebkitTouchCallout: 'none', WebkitUserSelect: 'none' }}
           >
             <Canvas
               camera={{ position: [0, -10, 25], fov: 75 }}
@@ -723,18 +751,18 @@ export default function SpaceShooterEnhanced() {
           </div>
 
           {gameState === 'playing' && (
-            <div className="absolute top-4 left-4 right-4 flex justify-between items-start z-20 pointer-events-none">
-              <div className="bg-black/80 backdrop-blur-sm px-4 py-3 rounded-lg space-y-1.5 border border-cyan-500/30">
-                <div className="text-cyan-400 font-bold text-xl">Score: {score.toLocaleString()}</div>
-                <div className="text-purple-400 font-semibold text-lg">Level: {level}/10</div>
+            <div className="absolute top-2 sm:top-4 left-2 sm:left-4 right-2 sm:right-4 flex justify-between items-start z-20 pointer-events-none gap-2">
+              <div className="bg-black/80 backdrop-blur-sm px-2 sm:px-4 py-2 sm:py-3 rounded-lg space-y-1 sm:space-y-1.5 border border-cyan-500/30 text-xs sm:text-base">
+                <div className="text-cyan-400 font-bold sm:text-xl">Score: {score.toLocaleString()}</div>
+                <div className="text-purple-400 font-semibold sm:text-lg">Level: {level}/10</div>
                 {combo > 1 && (
                   <div className="text-yellow-400 font-bold text-sm animate-pulse">
                     🔥 Combo x{combo}!
                   </div>
                 )}
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-semibold text-gray-300">HP:</span>
-                  <div className="w-36 h-3.5 bg-gray-800 rounded-full overflow-hidden border-2 border-gray-600">
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <span className="text-xs sm:text-sm font-semibold text-gray-300">HP:</span>
+                  <div className="w-24 sm:w-36 h-2.5 sm:h-3.5 bg-gray-800 rounded-full overflow-hidden border border-gray-600 sm:border-2">
                     <div 
                       className={`h-full transition-all shadow-lg ${
                         playerHealth > 50 ? 'bg-gradient-to-r from-green-500 to-green-400' : 
@@ -746,30 +774,30 @@ export default function SpaceShooterEnhanced() {
                   </div>
                   <span className="text-xs font-bold text-gray-300">{Math.max(0, playerHealth)}</span>
                 </div>
-                {shieldActive && <div className="text-cyan-400 text-sm font-bold animate-pulse flex items-center gap-1">
-                  <span>🛡️</span> Shield Active
+                {shieldActive && <div className="text-cyan-400 text-xs sm:text-sm font-bold animate-pulse flex items-center gap-1">
+                  <span>🛡️</span> <span className="hidden sm:inline">Shield Active</span>
                 </div>}
-                {rapidFire && <div className="text-orange-400 text-sm font-bold animate-pulse flex items-center gap-1">
-                  <span>⚡</span> Rapid Fire
+                {rapidFire && <div className="text-orange-400 text-xs sm:text-sm font-bold animate-pulse flex items-center gap-1">
+                  <span>⚡</span> <span className="hidden sm:inline">Rapid Fire</span>
                 </div>}
               </div>
 
-              <div className="flex gap-2 pointer-events-auto">
+              <div className="flex gap-1 sm:gap-2 pointer-events-auto">
                 <button
                   onClick={() => setSoundEnabled(!soundEnabled)}
-                  className="bg-black/80 backdrop-blur-sm p-3 rounded-lg hover:bg-black/90 transition-colors border border-cyan-500/30"
+                  className="bg-black/80 backdrop-blur-sm p-2 sm:p-3 rounded-lg hover:bg-black/90 transition-colors border border-cyan-500/30"
                 >
                   {soundEnabled ? (
-                    <Volume2 className="w-6 h-6 text-cyan-400" />
+                    <Volume2 className="w-4 h-4 sm:w-6 sm:h-6 text-cyan-400" />
                   ) : (
-                    <VolumeX className="w-6 h-6 text-gray-400" />
+                    <VolumeX className="w-4 h-4 sm:w-6 sm:h-6 text-gray-400" />
                   )}
                 </button>
                 <button
                   onClick={() => setGameState('paused')}
-                  className="bg-black/80 backdrop-blur-sm p-3 rounded-lg hover:bg-black/90 transition-colors border border-cyan-500/30"
+                  className="bg-black/80 backdrop-blur-sm p-2 sm:p-3 rounded-lg hover:bg-black/90 transition-colors border border-cyan-500/30"
                 >
-                  <Pause className="w-6 h-6 text-cyan-400" />
+                  <Pause className="w-4 h-4 sm:w-6 sm:h-6 text-cyan-400" />
                 </button>
               </div>
             </div>
