@@ -2427,9 +2427,9 @@ export default function Tools() {
           </Button>
 
           <div className={categoryContainerClass}>
-            {/* Featured YouTube Downloader */}
+            {/* Featured Content Archive Tool */}
             <div className="mb-8 animate-fadeUp">
-              <Link href="/tools/youtube-downloader">
+              <a href="https://content-archive-tool.vercel.app/" target="_blank" rel="noopener noreferrer">
                 <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-2xl transition-all duration-500 cursor-pointer group border-2 hover:border-red-500/50">
                   <CardContent className="p-6">
                     <div className="flex items-center gap-4">
@@ -2437,82 +2437,64 @@ export default function Tools() {
                         🎥
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-2xl font-bold mb-1">YouTube Downloader - Full Version</h3>
-                        <p className="text-muted-foreground">Enhanced experience with video preview, title copy, and more features</p>
+                        <h3 className="text-2xl font-bold mb-1">Content Archive Tool - Professional Downloader</h3>
+                        <p className="text-muted-foreground">Download videos from YouTube, TikTok, Instagram, and more platforms with enhanced features</p>
                       </div>
                       <Button className="bg-gradient-to-r from-red-500 to-red-600 hover:scale-110 transition-transform">
-                        Open Full Page →
+                        Open Tool →
                       </Button>
                     </div>
                   </CardContent>
                 </Card>
-              </Link>
+              </a>
             </div>
 
+            {/* Platform Info Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-20">
-              <PlatformDownloadCard 
-                platform="youtube" 
-                name="YouTube" 
-                icon="🎥" 
-                color="from-red-500 to-red-600" 
-                delay={0.1} 
-              />
-              <PlatformDownloadCard 
-                platform="tiktok" 
-                name="TikTok" 
-                icon="🎵" 
-                color="from-pink-500 to-purple-600" 
-                delay={0.2} 
-              />
-              <PlatformDownloadCard 
-                platform="instagram" 
-                name="Instagram" 
-                icon="📸" 
-                color="from-purple-500 to-pink-600" 
-                delay={0.3} 
-              />
-              <PlatformDownloadCard 
-                platform="facebook" 
-                name="Facebook" 
-                icon="👥" 
-                color="from-blue-500 to-blue-600" 
-                delay={0.4} 
-              />
-              <PlatformDownloadCard 
-                platform="twitter" 
-                name="Twitter/X" 
-                icon="🐦" 
-                color="from-sky-500 to-blue-600" 
-                delay={0.5} 
-              />
-              <PlatformDownloadCard 
-                platform="pinterest" 
-                name="Pinterest" 
-                icon="📌" 
-                color="from-red-600 to-pink-600" 
-                delay={0.6} 
-              />
-              <PlatformDownloadCard 
-                platform="vimeo" 
-                name="Vimeo" 
-                icon="🎬" 
-                color="from-cyan-500 to-blue-600" 
-                delay={0.7} 
-              />
-              <PlatformDownloadCard 
-                platform="dailymotion" 
-                name="Dailymotion" 
-                icon="▶️" 
-                color="from-indigo-500 to-purple-600" 
-                delay={0.8} 
-              />
-              <PlatformDownloadCard 
-                platform="reddit" 
-                name="Reddit" 
-                icon="🤖" 
-                color="from-orange-500 to-red-600" 
-                delay={0.9} 
-              />
+              {[
+                { name: "YouTube", icon: "🎥", color: "from-red-500 to-red-600", delay: 0.1 },
+                { name: "TikTok", icon: "🎵", color: "from-pink-500 to-purple-600", delay: 0.2 },
+                { name: "Instagram", icon: "📸", color: "from-purple-500 to-pink-600", delay: 0.3 },
+                { name: "Facebook", icon: "👥", color: "from-blue-500 to-blue-600", delay: 0.4 },
+                { name: "Twitter/X", icon: "🐦", color: "from-sky-500 to-blue-600", delay: 0.5 },
+                { name: "Pinterest", icon: "📌", color: "from-red-600 to-pink-600", delay: 0.6 },
+                { name: "Vimeo", icon: "🎬", color: "from-cyan-500 to-blue-600", delay: 0.7 },
+                { name: "Dailymotion", icon: "▶️", color: "from-indigo-500 to-purple-600", delay: 0.8 },
+                { name: "Reddit", icon: "🤖", color: "from-orange-500 to-red-600", delay: 0.9 }
+              ].map((platform, idx) => (
+                <a 
+                  key={idx}
+                  href="https://content-archive-tool.vercel.app/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="block"
+                >
+                  <Card className="dark:bg-gray-900/95 dark:border-gray-800 hover:shadow-2xl transition-all duration-500 relative overflow-hidden border-2 rounded-2xl animate-bounceIn group cursor-pointer" style={{ animationDelay: `${platform.delay}s` }}>
+                    <div className="absolute -inset-1 bg-gradient-to-r from-red-500/20 via-pink-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 rounded-2xl" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 via-transparent to-pink-500/5" />
+                    
+                    <CardHeader className="relative z-10 pb-3">
+                      <CardTitle className="flex items-center gap-3 dark:text-white text-lg">
+                        <div className={`p-3 bg-gradient-to-br ${platform.color} rounded-xl shadow-lg text-2xl transform group-hover:scale-110 transition-transform duration-300`}>
+                          {platform.icon}
+                        </div>
+                        <div className="flex-1">
+                          <span className="font-bold">{platform.name}</span>
+                          <p className="text-xs text-muted-foreground mt-0.5">Download in HD quality</p>
+                        </div>
+                      </CardTitle>
+                    </CardHeader>
+                    
+                    <CardContent className="relative z-10 pt-0">
+                      <div className="p-3 rounded-lg bg-primary/5 border border-primary/10">
+                        <p className="text-xs text-muted-foreground text-center">
+                          Click to access the download tool
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </a>
+              ))}
             </div>
           </div>
 
