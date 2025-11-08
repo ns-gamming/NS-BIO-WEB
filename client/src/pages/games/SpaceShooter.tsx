@@ -18,13 +18,13 @@ interface EnemyEntity extends GameEntity {
 }
 
 interface BulletEntity extends GameEntity {
-  type: 'laser' | 'plasma';
+  type: 'laser' | 'plasma' | 'missile' | 'rocket';
   fromPlayer: boolean;
   velocity: [number, number, number];
 }
 
 interface PowerUpEntity extends GameEntity {
-  type: 'health' | 'shield' | 'rapidfire' | 'coins';
+  type: 'health' | 'shield' | 'rapidfire' | 'coins' | 'missile';
 }
 
 interface ExplosionEntity extends GameEntity {
@@ -117,7 +117,6 @@ function GameScene({
       
       <SimpleStarField />
 
-      {/* Player Ship - Advanced Design */}
       <PlayerShip
         position={playerPos}
         health={playerHealth}
@@ -128,7 +127,6 @@ function GameScene({
         armorLevel={Math.min(3, Math.floor(level / 2) + 1)}
       />
 
-      {/* Enemies */}
       {enemies.map(enemy => (
         <mesh key={enemy.id} position={enemy.position}>
           <boxGeometry args={enemy.type === 'boss' ? [2, 2, 1] : [0.8, 0.8, 0.5]} />
@@ -136,15 +134,39 @@ function GameScene({
         </mesh>
       ))}
 
-      {/* Bullets */}
       {bullets.map(bullet => (
-        <mesh key={bullet.id} position={bullet.position}>
-          <sphereGeometry args={[0.15, 8, 8]} />
-          <meshBasicMaterial color={bullet.fromPlayer ? "#00ffff" : "#ff0000"} />
-        </mesh>
+        <group key={bullet.id} position={bullet.position}>
+          {bullet.type === 'missile' ? (
+            <>
+              <mesh>
+                <cylinderGeometry args={[0.08, 0.12, 0.5, 8]} />
+                <meshStandardMaterial color="#ff6600" emissive="#ff6600" emissiveIntensity={1.5} />
+              </mesh>
+              <mesh position={[0, -0.3, 0]}>
+                <coneGeometry args={[0.15, 0.3, 8]} />
+                <meshBasicMaterial color="#ffaa00" transparent opacity={0.7} />
+              </mesh>
+            </>
+          ) : bullet.type === 'rocket' ? (
+            <>
+              <mesh>
+                <cylinderGeometry args={[0.1, 0.15, 0.6, 8]} />
+                <meshStandardMaterial color="#aa00ff" emissive="#aa00ff" emissiveIntensity={2} />
+              </mesh>
+              <mesh position={[0, -0.35, 0]}>
+                <coneGeometry args={[0.2, 0.4, 8]} />
+                <meshBasicMaterial color="#ff00ff" transparent opacity={0.8} />
+              </mesh>
+            </>
+          ) : (
+            <mesh>
+              <sphereGeometry args={[0.15, 8, 8]} />
+              <meshBasicMaterial color={bullet.fromPlayer ? "#00ffff" : "#ff0000"} />
+            </mesh>
+          )}
+        </group>
       ))}
 
-      {/* Power-ups */}
       {powerUps.map(powerUp => (
         <mesh key={powerUp.id} position={powerUp.position}>
           <boxGeometry args={[0.5, 0.5, 0.5]} />
@@ -153,13 +175,13 @@ function GameScene({
               powerUp.type === 'health' ? "#00ff00" :
               powerUp.type === 'shield' ? "#00ffff" :
               powerUp.type === 'rapidfire' ? "#ff6600" :
+              powerUp.type === 'missile' ? "#aa00ff" :
               "#ffff00"
             } 
           />
         </mesh>
       ))}
 
-      {/* Explosions */}
       {explosions.map(explosion => (
         <mesh key={explosion.id} position={explosion.position}>
           <sphereGeometry args={[explosion.size, 16, 16]} />
@@ -172,7 +194,8 @@ function GameScene({
 
 export default function SpaceShooterEnhanced() {
   const [, navigate] = useLocation();
-  const [gameState, setGameState] = useState<'menu' | 'playing' | 'paused' | 'gameOver' | 'levelComplete' | 'victory'>('menu');
+  const [gameState, setGameState] = useState<'menu' | 'countdown' | 'playing' | 'paused' | 'gameOver' | 'levelComplete' | 'victory'>('menu');
+  const [countdown, setCountdown] = useState(3);
   const [playerPos, setPlayerPos] = useState<[number, number, number]>([0, -10, 0]);
   const [playerHealth, setPlayerHealth] = useState(100);
   const [maxHealth] = useState(100);
@@ -184,6 +207,7 @@ export default function SpaceShooterEnhanced() {
   const [explosions, setExplosions] = useState<ExplosionEntity[]>([]);
   const [level, setLevel] = useState(1);
   const [rapidFire, setRapidFire] = useState(false);
+  const [missileMode, setMissileMode] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [combo, setCombo] = useState(0);
   const [highScore, setHighScore] = useState(0);
@@ -198,7 +222,8 @@ export default function SpaceShooterEnhanced() {
   };
 
   const startGame = () => {
-    setGameState('playing');
+    setGameState('countdown');
+    setCountdown(3);
     setPlayerPos([0, -10, 0]);
     setPlayerHealth(100);
     setScore(0);
@@ -209,10 +234,25 @@ export default function SpaceShooterEnhanced() {
     setLevel(1);
     setShieldActive(false);
     setRapidFire(false);
+    setMissileMode(false);
     setCombo(0);
     setBossSpawned(false);
     if (soundEnabled) playSound('notify');
   };
+
+  useEffect(() => {
+    if (gameState === 'countdown') {
+      if (countdown > 0) {
+        const timer = setTimeout(() => {
+          setCountdown(countdown - 1);
+          if (soundEnabled) playSound('notify');
+        }, 1000);
+        return () => clearTimeout(timer);
+      } else {
+        setGameState('playing');
+      }
+    }
+  }, [gameState, countdown, soundEnabled]);
 
   const nextLevel = () => {
     setLevel(prev => prev + 1);
@@ -269,7 +309,7 @@ export default function SpaceShooterEnhanced() {
   };
 
   const spawnPowerUp = () => {
-    const types: Array<'health' | 'shield' | 'rapidfire' | 'coins'> = ['health', 'shield', 'rapidfire', 'coins'];
+    const types: Array<'health' | 'shield' | 'rapidfire' | 'coins' | 'missile'> = ['health', 'shield', 'rapidfire', 'coins', 'missile'];
     const type = types[Math.floor(Math.random() * types.length)];
 
     setPowerUps(prev => [...prev, {
@@ -306,10 +346,11 @@ export default function SpaceShooterEnhanced() {
 
     if (soundEnabled) playSound('shoot');
 
+    const bulletType = missileMode ? (Math.random() > 0.5 ? 'missile' : 'rocket') : 'laser';
     const newBullets: BulletEntity[] = [{
       id: `bullet-${Date.now()}-${Math.random()}`,
       position: [playerPos[0], playerPos[1] + 1, playerPos[2]],
-      type: 'laser',
+      type: bulletType,
       fromPlayer: true,
       velocity: [0, 2.5, 0]
     }];
@@ -318,14 +359,14 @@ export default function SpaceShooterEnhanced() {
       newBullets.push({
         id: `bullet-${Date.now()}-${Math.random()}-left`,
         position: [playerPos[0] - 0.5, playerPos[1] + 1, playerPos[2]],
-        type: 'laser',
+        type: bulletType,
         fromPlayer: true,
         velocity: [-0.3, 2.5, 0]
       });
       newBullets.push({
         id: `bullet-${Date.now()}-${Math.random()}-right`,
         position: [playerPos[0] + 0.5, playerPos[1] + 1, playerPos[2]],
-        type: 'laser',
+        type: bulletType,
         fromPlayer: true,
         velocity: [0.3, 2.5, 0]
       });
@@ -373,7 +414,7 @@ export default function SpaceShooterEnhanced() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [gameState, playerPos, rapidFire]);
+  }, [gameState, playerPos, rapidFire, missileMode]);
 
   useEffect(() => {
     if (gameState !== 'playing') return;
@@ -433,7 +474,7 @@ export default function SpaceShooterEnhanced() {
 
               if (distance < hitRadius) {
                 remainingBullets.splice(bIndex, 1);
-                const damage = 15;
+                const damage = bullet.type === 'missile' ? 30 : bullet.type === 'rocket' ? 50 : 15;
                 remainingEnemies[eIndex] = {
                   ...enemy,
                   health: enemy.health - damage
@@ -490,6 +531,10 @@ export default function SpaceShooterEnhanced() {
                 setRapidFire(true);
                 setTimeout(() => setRapidFire(false), 8000);
                 break;
+              case 'missile':
+                setMissileMode(true);
+                setTimeout(() => setMissileMode(false), 10000);
+                break;
               case 'coins':
                 setScore(s => s + 100);
                 break;
@@ -515,7 +560,7 @@ export default function SpaceShooterEnhanced() {
     }, 50);
 
     return () => clearInterval(interval);
-  }, [gameState, playerPos, level, rapidFire, enemies, combo]);
+  }, [gameState, playerPos, level, rapidFire, missileMode, enemies, combo]);
 
   useEffect(() => {
     const levelConfig = getCurrentLevelConfig();
@@ -554,13 +599,13 @@ export default function SpaceShooterEnhanced() {
   }, [combo]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
-    e.preventDefault(); // Prevent scrolling
+    e.preventDefault();
     const touch = e.touches[0];
     touchStartRef.current = { x: touch.clientX, y: touch.clientY };
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    e.preventDefault(); // Prevent scrolling
+    e.preventDefault();
     if (!touchStartRef.current) return;
 
     const touch = e.touches[0];
@@ -572,14 +617,13 @@ export default function SpaceShooterEnhanced() {
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
-    e.preventDefault(); // Prevent scrolling
+    e.preventDefault();
     touchStartRef.current = null;
     shoot();
   };
 
   useEffect(() => {
-    // Lock scroll when game is active
-    if (gameState === 'playing') {
+    if (gameState === 'playing' || gameState === 'countdown') {
       document.body.style.overflow = 'hidden';
       document.body.style.position = 'fixed';
       document.body.style.width = '100%';
@@ -601,64 +645,85 @@ export default function SpaceShooterEnhanced() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900 to-black text-white overflow-hidden">
-      <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8">
-        <div className="flex items-center justify-between mb-4 sm:mb-6 gap-2">
+      <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-4">
+        <div className="flex items-center justify-between mb-2 sm:mb-4 gap-2">
           <button
             onClick={() => navigate('/games')}
-            className="flex items-center gap-1 sm:gap-2 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 hover:text-cyan-300 px-3 sm:px-6 py-2 sm:py-3 rounded-lg transition-all duration-300 border border-cyan-500/50 hover:border-cyan-400 backdrop-blur-sm text-sm sm:text-base"
+            className="flex items-center gap-1 sm:gap-2 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 hover:text-cyan-300 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg transition-all duration-300 border border-cyan-500/50 hover:border-cyan-400 backdrop-blur-sm text-xs sm:text-base"
           >
-            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span className="font-semibold hidden sm:inline">Back to Games</span>
-            <span className="font-semibold sm:hidden">Back</span>
+            <ArrowLeft className="w-3 h-3 sm:w-5 sm:h-5" />
+            <span className="font-semibold">Back</span>
           </button>
+
+          <h1 className="text-lg sm:text-2xl md:text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 animate-pulse flex-1 truncate">
+            🚀 Space Shooter 3D
+          </h1>
 
           <button
             onClick={() => navigate('/games')}
-            className="flex items-center gap-1 sm:gap-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 hover:text-purple-300 px-3 sm:px-6 py-2 sm:py-3 rounded-lg transition-all duration-300 border border-purple-500/50 hover:border-purple-400 backdrop-blur-sm text-sm sm:text-base"
+            className="flex items-center gap-1 sm:gap-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 hover:text-purple-300 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg transition-all duration-300 border border-purple-500/50 hover:border-purple-400 backdrop-blur-sm text-xs sm:text-base"
           >
-            <Home className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span className="font-semibold hidden sm:inline">Games Hub</span>
-            <span className="font-semibold sm:hidden">Hub</span>
+            <Home className="w-3 h-3 sm:w-5 sm:h-5" />
+            <span className="font-semibold hidden sm:inline">Hub</span>
           </button>
         </div>
-
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-4 sm:mb-8 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 animate-pulse">
-          🚀 Space Shooter 3D
-        </h1>
 
         <div className="relative w-full max-w-4xl mx-auto aspect-[3/4] md:aspect-video bg-black rounded-lg md:rounded-xl overflow-hidden shadow-2xl border-2 border-cyan-500/30 touch-none">
           {gameState === 'menu' && (
             <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-black/90 via-purple-900/30 to-black/90 backdrop-blur-md z-10">
-              <div className="text-center space-y-6 p-8">
-                <div className="animate-pulse mb-6">
-                  <div className="text-7xl mb-4">🚀</div>
+              <div className="text-center space-y-4 sm:space-y-6 p-4 sm:p-8 w-full max-w-md">
+                <div className="animate-pulse mb-4 sm:mb-6">
+                  <div className="text-4xl sm:text-7xl mb-2 sm:mb-4">🚀</div>
                 </div>
-                <h2 className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 mb-4 animate-pulse">
+                <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 mb-2 sm:mb-4 animate-pulse">
                   Space Shooter 3D
                 </h2>
                 <button
                   onClick={startGame}
-                  className="bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 hover:from-cyan-600 hover:via-purple-600 hover:to-pink-600 text-white px-12 py-5 rounded-xl text-2xl font-bold transition-all transform hover:scale-110 flex items-center gap-3 mx-auto shadow-2xl shadow-cyan-500/50 border-2 border-cyan-400/50"
+                  className="bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 hover:from-cyan-600 hover:via-purple-600 hover:to-pink-600 text-white px-6 sm:px-12 py-3 sm:py-5 rounded-xl text-lg sm:text-2xl font-bold transition-all transform hover:scale-110 flex items-center gap-2 sm:gap-3 mx-auto shadow-2xl shadow-cyan-500/50 border-2 border-cyan-400/50"
                 >
-                  <Play className="w-8 h-8" />
+                  <Play className="w-5 h-5 sm:w-8 sm:h-8" />
                   Start Game
                 </button>
                 {highScore > 0 && (
-                  <div className="mt-6 bg-black/50 backdrop-blur-sm p-4 rounded-xl border border-yellow-500/30">
-                    <p className="text-yellow-400 font-bold text-xl">🏆 High Score: {highScore}</p>
+                  <div className="mt-4 sm:mt-6 bg-black/50 backdrop-blur-sm p-3 sm:p-4 rounded-xl border border-yellow-500/30">
+                    <p className="text-yellow-400 font-bold text-sm sm:text-xl">🏆 High Score: {highScore}</p>
                   </div>
                 )}
               </div>
             </div>
           )}
 
+          {gameState === 'countdown' && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-black/90 via-purple-900/30 to-black/90 backdrop-blur-md z-10">
+              <div className="text-center space-y-4 sm:space-y-8 p-4 sm:p-8">
+                <h2 className="text-2xl sm:text-4xl font-bold text-cyan-400 mb-4 sm:mb-8">Get Ready!</h2>
+                <div className="text-6xl sm:text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 animate-bounce">
+                  {countdown || 'GO!'}
+                </div>
+                <div className="bg-black/50 backdrop-blur-sm p-3 sm:p-6 rounded-xl max-w-sm sm:max-w-md mx-auto border border-cyan-500/30 text-xs sm:text-base">
+                  <h3 className="text-cyan-400 font-bold mb-2 sm:mb-3 text-sm sm:text-lg">How to Play:</h3>
+                  <div className="text-left text-gray-300 space-y-1 sm:space-y-2">
+                    <p><strong className="text-cyan-400">Move:</strong> Arrow keys / WASD / Touch & Drag</p>
+                    <p><strong className="text-cyan-400">Shoot:</strong> Space / Release touch</p>
+                    <p><strong className="text-cyan-400">🟢 Green:</strong> Health +40</p>
+                    <p><strong className="text-cyan-400">🔵 Cyan:</strong> Shield 7s</p>
+                    <p><strong className="text-cyan-400">🟠 Orange:</strong> Rapid Fire 8s</p>
+                    <p><strong className="text-cyan-400">🟣 Purple:</strong> Missiles 10s</p>
+                    <p><strong className="text-cyan-400">🟡 Yellow:</strong> Coins +100</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {gameState === 'paused' && (
             <div className="absolute inset-0 flex items-center justify-center bg-black/80 z-10">
-              <div className="text-center space-y-6">
-                <h2 className="text-4xl font-bold text-cyan-400">Paused</h2>
+              <div className="text-center space-y-4 sm:space-y-6">
+                <h2 className="text-3xl sm:text-4xl font-bold text-cyan-400">Paused</h2>
                 <button
                   onClick={() => setGameState('playing')}
-                  className="bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-4 rounded-lg text-xl font-bold transition-all"
+                  className="bg-cyan-500 hover:bg-cyan-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-lg sm:text-xl font-bold transition-all"
                 >
                   Resume
                 </button>
@@ -668,16 +733,16 @@ export default function SpaceShooterEnhanced() {
 
           {gameState === 'levelComplete' && (
             <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-green-900/30 via-black/90 to-black/90 backdrop-blur-md z-10">
-              <div className="text-center space-y-8 p-8">
-                <div className="text-8xl mb-4 animate-bounce">🎉</div>
-                <h2 className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-cyan-400 animate-pulse">
+              <div className="text-center space-y-4 sm:space-y-8 p-4 sm:p-8">
+                <div className="text-5xl sm:text-8xl mb-2 sm:mb-4 animate-bounce">🎉</div>
+                <h2 className="text-4xl sm:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-cyan-400 animate-pulse">
                   Level Complete!
                 </h2>
                 <button
                   onClick={nextLevel}
-                  className="bg-gradient-to-r from-green-500 to-cyan-500 hover:from-green-600 hover:to-cyan-600 text-white px-12 py-5 rounded-xl text-2xl font-bold transition-all transform hover:scale-110 flex items-center gap-3 mx-auto shadow-2xl shadow-green-500/50 border-2 border-green-400/50"
+                  className="bg-gradient-to-r from-green-500 to-cyan-500 hover:from-green-600 hover:to-cyan-600 text-white px-8 sm:px-12 py-3 sm:py-5 rounded-xl text-lg sm:text-2xl font-bold transition-all transform hover:scale-110 flex items-center gap-2 sm:gap-3 mx-auto shadow-2xl shadow-green-500/50 border-2 border-green-400/50"
                 >
-                  <Play className="w-8 h-8" />
+                  <Play className="w-5 h-5 sm:w-8 sm:h-8" />
                   Continue
                 </button>
               </div>
@@ -686,16 +751,16 @@ export default function SpaceShooterEnhanced() {
 
           {gameState === 'victory' && (
             <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-yellow-900/30 via-black/90 to-black/90 backdrop-blur-md z-10">
-              <div className="text-center space-y-8 p-8">
-                <div className="text-8xl mb-4 animate-bounce">🏆</div>
-                <h2 className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400 animate-pulse">
+              <div className="text-center space-y-4 sm:space-y-8 p-4 sm:p-8">
+                <div className="text-5xl sm:text-8xl mb-2 sm:mb-4 animate-bounce">🏆</div>
+                <h2 className="text-4xl sm:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400 animate-pulse">
                   Victory!
                 </h2>
                 <button
                   onClick={startGame}
-                  className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-12 py-5 rounded-xl text-2xl font-bold transition-all transform hover:scale-110 flex items-center gap-3 mx-auto shadow-2xl shadow-yellow-500/50 border-2 border-yellow-400/50"
+                  className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-8 sm:px-12 py-3 sm:py-5 rounded-xl text-lg sm:text-2xl font-bold transition-all transform hover:scale-110 flex items-center gap-2 sm:gap-3 mx-auto shadow-2xl shadow-yellow-500/50 border-2 border-yellow-400/50"
                 >
-                  <Trophy className="w-8 h-8" />
+                  <Trophy className="w-5 h-5 sm:w-8 sm:h-8" />
                   Play Again
                 </button>
               </div>
@@ -704,16 +769,16 @@ export default function SpaceShooterEnhanced() {
 
           {gameState === 'gameOver' && (
             <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-red-900/30 via-black/90 to-black/90 backdrop-blur-md z-10">
-              <div className="text-center space-y-8 p-8">
-                <div className="text-8xl mb-4 animate-bounce">💥</div>
-                <h2 className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-400 animate-pulse">
+              <div className="text-center space-y-4 sm:space-y-8 p-4 sm:p-8">
+                <div className="text-5xl sm:text-8xl mb-2 sm:mb-4 animate-bounce">💥</div>
+                <h2 className="text-4xl sm:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-400 animate-pulse">
                   Game Over
                 </h2>
                 <button
                   onClick={startGame}
-                  className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white px-12 py-5 rounded-xl text-2xl font-bold transition-all transform hover:scale-110 flex items-center gap-3 mx-auto shadow-2xl shadow-cyan-500/50 border-2 border-cyan-400/50"
+                  className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white px-8 sm:px-12 py-3 sm:py-5 rounded-xl text-lg sm:text-2xl font-bold transition-all transform hover:scale-110 flex items-center gap-2 sm:gap-3 mx-auto shadow-2xl shadow-cyan-500/50 border-2 border-cyan-400/50"
                 >
-                  <RotateCcw className="w-8 h-8" />
+                  <RotateCcw className="w-5 h-5 sm:w-8 sm:h-8" />
                   Play Again
                 </button>
               </div>
@@ -751,18 +816,18 @@ export default function SpaceShooterEnhanced() {
           </div>
 
           {gameState === 'playing' && (
-            <div className="absolute top-2 sm:top-4 left-2 sm:left-4 right-2 sm:right-4 flex justify-between items-start z-20 pointer-events-none gap-2">
-              <div className="bg-black/80 backdrop-blur-sm px-2 sm:px-4 py-2 sm:py-3 rounded-lg space-y-1 sm:space-y-1.5 border border-cyan-500/30 text-xs sm:text-base">
-                <div className="text-cyan-400 font-bold sm:text-xl">Score: {score.toLocaleString()}</div>
-                <div className="text-purple-400 font-semibold sm:text-lg">Level: {level}/10</div>
+            <div className="absolute top-1 sm:top-2 left-1 sm:left-2 right-1 sm:right-2 flex justify-between items-start z-20 pointer-events-none gap-1 sm:gap-2">
+              <div className="bg-black/80 backdrop-blur-sm px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg space-y-0.5 sm:space-y-1 border border-cyan-500/30 text-xs sm:text-base max-w-[45%] sm:max-w-none">
+                <div className="text-cyan-400 font-bold text-xs sm:text-lg">Score: {score.toLocaleString()}</div>
+                <div className="text-purple-400 font-semibold text-xs sm:text-base">Lvl: {level}/10</div>
                 {combo > 1 && (
-                  <div className="text-yellow-400 font-bold text-sm animate-pulse">
-                    🔥 Combo x{combo}!
+                  <div className="text-yellow-400 font-bold text-xs sm:text-sm animate-pulse">
+                    🔥 x{combo}
                   </div>
                 )}
-                <div className="flex items-center gap-1 sm:gap-2">
-                  <span className="text-xs sm:text-sm font-semibold text-gray-300">HP:</span>
-                  <div className="w-24 sm:w-36 h-2.5 sm:h-3.5 bg-gray-800 rounded-full overflow-hidden border border-gray-600 sm:border-2">
+                <div className="flex items-center gap-1">
+                  <span className="text-xs font-semibold text-gray-300">HP:</span>
+                  <div className="w-16 sm:w-24 h-2 sm:h-2.5 bg-gray-800 rounded-full overflow-hidden border border-gray-600">
                     <div 
                       className={`h-full transition-all shadow-lg ${
                         playerHealth > 50 ? 'bg-gradient-to-r from-green-500 to-green-400' : 
@@ -772,32 +837,29 @@ export default function SpaceShooterEnhanced() {
                       style={{ width: `${(playerHealth / maxHealth) * 100}%` }}
                     />
                   </div>
-                  <span className="text-xs font-bold text-gray-300">{Math.max(0, playerHealth)}</span>
+                  <span className="text-xs font-bold text-gray-300 hidden sm:inline">{Math.max(0, playerHealth)}</span>
                 </div>
-                {shieldActive && <div className="text-cyan-400 text-xs sm:text-sm font-bold animate-pulse flex items-center gap-1">
-                  <span>🛡️</span> <span className="hidden sm:inline">Shield Active</span>
-                </div>}
-                {rapidFire && <div className="text-orange-400 text-xs sm:text-sm font-bold animate-pulse flex items-center gap-1">
-                  <span>⚡</span> <span className="hidden sm:inline">Rapid Fire</span>
-                </div>}
+                {shieldActive && <div className="text-cyan-400 text-xs font-bold animate-pulse">🛡️</div>}
+                {rapidFire && <div className="text-orange-400 text-xs font-bold animate-pulse">⚡</div>}
+                {missileMode && <div className="text-purple-400 text-xs font-bold animate-pulse">🚀</div>}
               </div>
 
-              <div className="flex gap-1 sm:gap-2 pointer-events-auto">
+              <div className="flex gap-1 pointer-events-auto">
                 <button
                   onClick={() => setSoundEnabled(!soundEnabled)}
-                  className="bg-black/80 backdrop-blur-sm p-2 sm:p-3 rounded-lg hover:bg-black/90 transition-colors border border-cyan-500/30"
+                  className="bg-black/80 backdrop-blur-sm p-1.5 sm:p-2 rounded-lg hover:bg-black/90 transition-colors border border-cyan-500/30"
                 >
                   {soundEnabled ? (
-                    <Volume2 className="w-4 h-4 sm:w-6 sm:h-6 text-cyan-400" />
+                    <Volume2 className="w-3 h-3 sm:w-5 sm:h-5 text-cyan-400" />
                   ) : (
-                    <VolumeX className="w-4 h-4 sm:w-6 sm:h-6 text-gray-400" />
+                    <VolumeX className="w-3 h-3 sm:w-5 sm:h-5 text-gray-400" />
                   )}
                 </button>
                 <button
                   onClick={() => setGameState('paused')}
-                  className="bg-black/80 backdrop-blur-sm p-2 sm:p-3 rounded-lg hover:bg-black/90 transition-colors border border-cyan-500/30"
+                  className="bg-black/80 backdrop-blur-sm p-1.5 sm:p-2 rounded-lg hover:bg-black/90 transition-colors border border-cyan-500/30"
                 >
-                  <Pause className="w-4 h-4 sm:w-6 sm:h-6 text-cyan-400" />
+                  <Pause className="w-3 h-3 sm:w-5 sm:h-5 text-cyan-400" />
                 </button>
               </div>
             </div>
