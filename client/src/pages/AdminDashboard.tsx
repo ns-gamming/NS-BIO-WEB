@@ -149,7 +149,7 @@ export default function AdminDashboard() {
               <CardDescription>
                 View system analytics and logs
               </CardDescription>
-            </CardContent>
+            </CardHeader>
             <CardContent>
               <Button className="w-full" variant="outline">
                 View Analytics
