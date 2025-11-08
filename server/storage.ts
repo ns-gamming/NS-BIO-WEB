@@ -1,5 +1,5 @@
 import { supabase } from './supabase-client';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 
 export interface AdminUser {
