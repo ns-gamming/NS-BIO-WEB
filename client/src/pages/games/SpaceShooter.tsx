@@ -4,6 +4,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useLocation } from 'wouter';
 import { ArrowLeft, Play, Pause, RotateCcw, Home, Volume2, VolumeX, Trophy } from 'lucide-react';
 import { useSoundEffects } from '../../hooks/useSoundEffects';
+import PlayerShip from '../../components/game/PlayerShip';
 
 interface GameEntity {
   id: string;
@@ -112,17 +113,16 @@ function GameScene({
       
       <SimpleStarField />
 
-      {/* Player Ship */}
-      <mesh position={playerPos}>
-        <boxGeometry args={[1, 1.5, 0.5]} />
-        <meshStandardMaterial color={shieldActive ? "#00ffff" : "#00ff00"} />
-      </mesh>
-
-      {/* Health Bar */}
-      <mesh position={[playerPos[0], playerPos[1] + 1.2, playerPos[2]]}>
-        <planeGeometry args={[1 * (playerHealth / maxHealth), 0.1]} />
-        <meshBasicMaterial color={playerHealth > 50 ? "#00ff00" : playerHealth > 25 ? "#ffff00" : "#ff0000"} />
-      </mesh>
+      {/* Player Ship - Advanced Design */}
+      <PlayerShip
+        position={playerPos}
+        health={playerHealth}
+        maxHealth={maxHealth}
+        shieldActive={shieldActive}
+        weaponLevel={Math.min(5, Math.floor(score / 500) + 1)}
+        speedLevel={Math.min(3, Math.floor(score / 1000) + 1)}
+        armorLevel={Math.min(3, Math.floor(level / 2) + 1)}
+      />
 
       {/* Enemies */}
       {enemies.map(enemy => (
