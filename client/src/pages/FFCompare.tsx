@@ -1,6 +1,6 @@
 
 import { Link } from "wouter";
-import { ArrowLeft, Swords, Trophy, Zap, Crown, Star, Heart, Shield, Send, ThumbsUp, ThumbsDown, Sparkles, Plus, X, Loader2, CheckCircle } from "lucide-react";
+import { ArrowLeft, Swords, Trophy, Zap, Crown, Star, Heart, Shield, Send, ThumbsUp, ThumbsDown, Sparkles, Plus, X, Loader2, CheckCircle, Image as ImageIcon, User } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import AdSenseAd from "@/components/AdSenseAd";
+import PlayerComparisonCard from "@/components/PlayerComparisonCard";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
@@ -489,60 +490,19 @@ export default function FFCompare() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-8">
+                  <div className="mb-6">
+                    <AdSenseAd />
+                  </div>
+
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                     {comparison.players.map((player, index) => (
-                      <motion.div
+                      <PlayerComparisonCard
                         key={player.basicInfo.accountId}
-                        className={`p-6 rounded-lg border-2 ${
-                          comparison.winnerUid === player.basicInfo.accountId
-                            ? 'bg-green-500/20 border-green-500 shadow-lg shadow-green-500/50'
-                            : 'bg-muted/50 border-muted'
-                        }`}
-                        initial={{ x: index % 2 === 0 ? -50 : 50, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ delay: index * 0.1 }}
-                      >
-                        {comparison.winnerUid === player.basicInfo.accountId && (
-                          <div className="flex items-center justify-center mb-4">
-                            <Badge className="bg-green-500 text-white px-4 py-2 text-lg animate-pulse">
-                              <Crown className="w-5 h-5 mr-2" />
-                              WINNER!
-                            </Badge>
-                          </div>
-                        )}
-                        <div className="text-center mb-4">
-                          <h3 className="text-2xl font-bold mb-2">{player.basicInfo.nickname}</h3>
-                          <Badge variant="outline" className="text-lg px-4 py-2">Level {player.basicInfo.level}</Badge>
-                        </div>
-                        <div className="space-y-3">
-                          <div>
-                            <div className="flex justify-between text-sm mb-1">
-                              <span>Overall Score</span>
-                              <span className="font-bold">{comparison.scores[index]}/100</span>
-                            </div>
-                            <Progress value={comparison.scores[index]} className="h-4" />
-                          </div>
-                          <Separator />
-                          <div className="space-y-2 text-sm">
-                            <p className="flex items-center justify-between">
-                              <span className="flex items-center gap-2"><Trophy className="w-4 h-4 text-yellow-500" /> BR Rank:</span>
-                              <Badge variant="secondary">#{player.basicInfo.rank}</Badge>
-                            </p>
-                            <p className="flex items-center justify-between">
-                              <span className="flex items-center gap-2"><Star className="w-4 h-4 text-purple-500" /> BR Points:</span>
-                              <span className="font-semibold">{player.basicInfo.rankingPoints.toLocaleString()}</span>
-                            </p>
-                            <p className="flex items-center justify-between">
-                              <span className="flex items-center gap-2"><Heart className="w-4 h-4 text-red-500" /> Likes:</span>
-                              <span className="font-semibold">{player.basicInfo.liked.toLocaleString()}</span>
-                            </p>
-                            <p className="flex items-center justify-between">
-                              <span className="flex items-center gap-2"><Shield className="w-4 h-4 text-blue-500" /> Badges:</span>
-                              <span className="font-semibold">{player.basicInfo.badgeCnt}</span>
-                            </p>
-                          </div>
-                        </div>
-                      </motion.div>
+                        player={player}
+                        score={comparison.scores[index]}
+                        index={index}
+                        isWinner={comparison.winnerUid === player.basicInfo.accountId}
+                      />
                     ))}
                   </div>
 

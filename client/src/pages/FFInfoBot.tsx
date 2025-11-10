@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import AdSenseAd from "@/components/AdSenseAd";
+import FFPlayerImages from "@/components/FFPlayerImages";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -341,6 +342,21 @@ ${social.signature}
                 Search Player Info
               </CardTitle>
             </CardHeader>
+            <CardContent className="pb-4">
+              <AdSenseAd />
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3 }}
+        >
+          <Card className="mb-8">
+            <CardHeader className="sr-only">
+              <CardTitle>Search Form</CardTitle>
+            </CardHeader>
             <CardContent>
               <div className="grid md:grid-cols-3 gap-4 mb-4">
                 <div className="md:col-span-2">
@@ -601,6 +617,8 @@ ${social.signature}
                 )}
               </CardContent>
             </Card>
+
+            <FFPlayerImages uid={playerData.basicInfo.accountId} region={playerData.basicInfo.region} />
           </motion.div>
         )}
 

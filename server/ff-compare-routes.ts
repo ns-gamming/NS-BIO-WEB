@@ -81,23 +81,52 @@ Player ${i + 1} (${p.basicInfo.nickname}, UID: ${p.basicInfo.accountId}):
 - Guild: ${p.clanBasicInfo?.clanName || 'None'}
   `).join('\n');
   
-  const prompt = `You are a Free Fire game expert analyst. Compare these ${playersData.length} players and provide:
-1. A score out of 100 for EACH player based on their overall performance
-2. A detailed analysis (250-400 words) comparing ALL players:
-   - Rank and rating points (BR and CS)
-   - Level and experience
-   - Achievements (likes, badges)
-   - Guild participation
-   - Account activity
-3. Declare a clear winner with reasoning
+  const prompt = `You are a Free Fire game expert analyst with deep knowledge of competitive gameplay, ranking systems, and player statistics. Analyze these ${playersData.length} players comprehensively.
 
 ${playerStats}
 
-Format your response EXACTLY as JSON with this structure:
+Provide a detailed professional analysis (350-500 words) covering:
+
+1. **Competitive Rankings Analysis:**
+   - Compare BR (Battle Royale) ranks and rating points - higher rank numbers and points indicate better performance
+   - Compare CS (Clash Squad) ranks and rating points - analyze competitive mode performance
+   - Identify which player dominates in which game mode
+
+2. **Account Prestige & Achievements:**
+   - Analyze account levels (higher = more experience)
+   - Compare total likes received (popularity and skill recognition)
+   - Evaluate badge counts (achievement completion)
+   - Assess Prime membership level if available
+
+3. **Social & Competitive Standing:**
+   - Guild/clan participation and leadership
+   - Account activity and consistency
+   - Overall reputation in the community
+
+4. **Strengths & Weaknesses:**
+   - Highlight each player's strongest areas
+   - Note areas where improvement is needed
+   - Compare playstyle indicators
+
+5. **Final Verdict:**
+   - Declare the clear winner with specific reasoning
+   - Explain the winning margin and key differentiating factors
+   - Provide encouragement for runner-ups
+
+Scoring Criteria (out of 100):
+- BR Rank & Points: 30 points (lower rank number = better)
+- CS Rank & Points: 25 points
+- Account Level: 15 points
+- Likes & Popularity: 10 points
+- Badges & Achievements: 10 points
+- Guild Participation: 5 points
+- Overall Activity: 5 points
+
+Format your response EXACTLY as JSON:
 {
   "scores": [<player1 score>, <player2 score>, ...],
-  "winnerUid": "<UID of the winner>",
-  "analysis": "<detailed comparison of all players>"
+  "winnerUid": "<UID of the absolute winner>",
+  "analysis": "<your detailed professional analysis>"
 }`;
 
   const result = await model.generateContent(prompt);
@@ -105,15 +134,43 @@ Format your response EXACTLY as JSON with this structure:
   
   const jsonMatch = responseText.match(/\{[\s\S]*\}/);
   if (!jsonMatch) {
-    throw new Error('Failed to parse Gemini response');
+    console.error('Gemini response has no JSON:', responseText);
+    throw new Error('AI analysis failed to return valid data');
   }
   
-  const analysis = JSON.parse(jsonMatch[0]);
+  let analysis;
+  try {
+    analysis = JSON.parse(jsonMatch[0]);
+  } catch (parseError) {
+    console.error('JSON parse error:', parseError);
+    throw new Error('AI analysis returned malformed data');
+  }
+
+  if (!analysis.scores || !Array.isArray(analysis.scores)) {
+    console.error('Invalid scores in Gemini response:', analysis);
+    throw new Error('AI analysis missing scores');
+  }
+
+  if (analysis.scores.length !== playersData.length) {
+    console.error(`Score count mismatch: got ${analysis.scores.length}, expected ${playersData.length}`);
+    throw new Error('AI analysis score mismatch');
+  }
+
+  if (!analysis.winnerUid || !analysis.analysis) {
+    console.error('Missing winnerUid or analysis:', analysis);
+    throw new Error('AI analysis incomplete');
+  }
+
+  const validWinner = playersData.find(p => p.basicInfo.accountId === analysis.winnerUid);
+  if (!validWinner) {
+    console.error('Winner UID not found in player list:', analysis.winnerUid);
+    analysis.winnerUid = playersData[0].basicInfo.accountId;
+  }
   
   return {
-    scores: analysis.scores.map((s: number) => Math.min(100, Math.max(0, s))),
-    analysis: analysis.analysis,
-    winnerUid: analysis.winnerUid,
+    scores: analysis.scores.map((s: number) => Math.min(100, Math.max(0, Number(s) || 0))),
+    analysis: String(analysis.analysis).trim() || 'Analysis completed successfully.',
+    winnerUid: String(analysis.winnerUid),
   };
 }
 
