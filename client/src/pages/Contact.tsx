@@ -147,11 +147,11 @@ export default function Contact() {
   };
 
   return (
-    <div className="pt-16 overflow-hidden">
-      {/* Animated Background */}
-      <div className="fixed inset-0 pointer-events-none z-0">
+    <div className="pt-16 overflow-hidden min-h-screen">
+      {/* Enhanced Animated Background */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <motion.div 
-          className="absolute top-0 left-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
+          className="absolute top-0 left-0 w-72 h-72 sm:w-96 sm:h-96 bg-primary/10 rounded-full blur-3xl"
           animate={{ 
             x: [0, 100, 0],
             y: [0, 50, 0],
@@ -160,7 +160,7 @@ export default function Contact() {
           transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div 
-          className="absolute bottom-0 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"
+          className="absolute bottom-0 right-0 w-72 h-72 sm:w-96 sm:h-96 bg-purple-500/10 rounded-full blur-3xl"
           animate={{ 
             x: [0, -100, 0],
             y: [0, -50, 0],
@@ -169,13 +169,22 @@ export default function Contact() {
           transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div 
-          className="absolute top-1/2 left-1/2 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl"
+          className="absolute top-1/2 left-1/2 w-48 h-48 sm:w-64 sm:h-64 bg-cyan-500/10 rounded-full blur-3xl"
           animate={{ 
             x: [-50, 50, -50],
             y: [-50, 50, -50],
             scale: [1, 1.1, 1]
           }}
           transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div 
+          className="absolute top-1/4 right-1/4 w-40 h-40 sm:w-56 sm:h-56 bg-pink-500/10 rounded-full blur-3xl"
+          animate={{ 
+            x: [50, -50, 50],
+            y: [30, -30, 30],
+            scale: [1, 1.15, 1]
+          }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
         />
       </div>
 
@@ -185,141 +194,179 @@ export default function Contact() {
       />
 
       <div className="container mx-auto px-4 sm:px-6 pb-20 relative z-10">
-        {/* Hero Stats Section */}
+        {/* Hero Stats Section - Enhanced */}
         <motion.div 
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="max-w-6xl mx-auto mb-12"
+          className="max-w-6xl mx-auto mb-12 sm:mb-16"
         >
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6">
             {[
-              { icon: Clock, value: "24/7", label: "Available", color: "from-primary to-cyan-400" },
-              { icon: MessageCircle, value: "<1hr", label: "Response Time", color: "from-green-500 to-emerald-400" },
-              { icon: Star, value: "5.0", label: "Client Rating", color: "from-yellow-500 to-orange-400" },
-              { icon: Globe, value: "Global", label: "Reach", color: "from-blue-500 to-purple-500" }
+              { icon: Clock, value: "24/7", label: "Available", color: "from-primary to-cyan-400", emoji: "⏰" },
+              { icon: MessageCircle, value: "<1hr", label: "Response Time", color: "from-green-500 to-emerald-400", emoji: "⚡" },
+              { icon: Star, value: "5.0", label: "Client Rating", color: "from-yellow-500 to-orange-400", emoji: "⭐" },
+              { icon: Globe, value: "Global", label: "Reach", color: "from-blue-500 to-purple-500", emoji: "🌍" }
             ].map((stat, index) => (
               <motion.div
                 key={index}
                 variants={itemVariants}
-                whileHover={{ scale: 1.05, y: -5 }}
-                className="glass rounded-xl p-3 sm:p-4 text-center relative overflow-hidden group"
+                whileHover={{ scale: 1.08, y: -8 }}
+                whileTap={{ scale: 0.95 }}
+                className="glass rounded-2xl p-4 sm:p-5 lg:p-6 text-center relative overflow-hidden group cursor-pointer border border-border/50 hover:border-primary/50 transition-all duration-300"
               >
-                <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}></div>
-                <stat.icon className={`w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br ${stat.color} bg-clip-text text-transparent mx-auto mb-2`} />
-                <div className="text-xl sm:text-2xl font-bold text-foreground">{stat.value}</div>
-                <div className="text-xs sm:text-sm text-muted-foreground">{stat.label}</div>
+                <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-15 transition-all duration-500`}></div>
+                <motion.div 
+                  className="relative z-10"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <div className="text-2xl sm:text-3xl mb-2 group-hover:scale-125 transition-transform duration-300">{stat.emoji}</div>
+                  <stat.icon className={`w-7 h-7 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-gradient-to-br ${stat.color} bg-clip-text text-transparent mx-auto mb-3 group-hover:animate-pulse`} />
+                  <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-1">{stat.value}</div>
+                  <div className="text-xs sm:text-sm lg:text-base text-muted-foreground font-medium">{stat.label}</div>
+                </motion.div>
+                <motion.div 
+                  className="absolute -bottom-2 -right-2 w-16 h-16 bg-gradient-to-br from-primary/20 to-transparent rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                />
               </motion.div>
             ))}
           </div>
         </motion.div>
 
         <div className="max-w-7xl mx-auto">
-          {/* Contact Methods Grid */}
+          {/* Contact Methods Grid - Enhanced */}
           <motion.div 
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-12 sm:mb-16" 
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8 mb-12 sm:mb-16" 
             data-testid="contact-methods"
           >
-            {/* Business Email */}
+            {/* Business Email - Enhanced */}
             <motion.div 
               variants={itemVariants}
-              whileHover={{ scale: 1.02, y: -10 }}
-              className="glass rounded-2xl p-6 sm:p-8 group relative overflow-hidden" 
+              whileHover={{ scale: 1.03, y: -12 }}
+              whileTap={{ scale: 0.98 }}
+              className="glass rounded-3xl p-6 sm:p-8 lg:p-10 group relative overflow-hidden border border-border/50 hover:border-primary/50 transition-all duration-500 shadow-lg hover:shadow-2xl hover:shadow-primary/20" 
               data-testid="contact-email"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-cyan-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <motion.div 
+                className="absolute -top-10 -right-10 w-32 h-32 bg-primary/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              />
+              <div className="relative z-10">
                 <motion.div 
-                  className="w-16 h-16 sm:w-20 sm:h-20 mx-auto bg-gradient-to-br from-primary to-cyan-400 rounded-2xl flex items-center justify-center mb-4"
-                  whileHover={{ rotate: 360 }}
+                  className="w-20 h-20 sm:w-24 sm:h-24 mx-auto bg-gradient-to-br from-primary via-cyan-400 to-blue-500 rounded-3xl flex items-center justify-center mb-5 shadow-lg group-hover:shadow-xl group-hover:shadow-primary/40"
+                  whileHover={{ rotate: [0, -10, 10, -10, 0], scale: 1.1 }}
                   transition={{ duration: 0.6 }}
                 >
-                  <Mail className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+                  <Mail className="w-10 h-10 sm:w-12 sm:h-12 text-white drop-shadow-lg" />
                 </motion.div>
-                <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-2">Business Email</h3>
-                <div className="h-1 w-16 bg-gradient-to-r from-primary to-cyan-400 mx-auto mb-4 rounded-full"></div>
-                <p className="text-sm sm:text-base text-muted-foreground mb-6 text-center leading-relaxed">
-                  For business inquiries, collaborations, and professional work
+                <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-300">Business Email</h3>
+                <div className="h-1.5 w-20 bg-gradient-to-r from-primary via-cyan-400 to-blue-500 mx-auto mb-5 rounded-full group-hover:w-32 transition-all duration-500"></div>
+                <p className="text-sm sm:text-base lg:text-lg text-muted-foreground mb-7 text-center leading-relaxed px-2">
+                  📧 For business inquiries, collaborations, and professional work opportunities
                 </p>
-                <a 
+                <motion.a 
                   href="mailto:nishant.ns.business@gmail.com" 
-                  className="neon-btn w-full text-sm sm:text-base"
+                  className="neon-btn w-full text-sm sm:text-base lg:text-lg py-3 sm:py-4"
                   data-testid="email-link"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  <Mail className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                  Send Email
-                </a>
+                  <Mail className="w-5 h-5 sm:w-6 sm:h-6 mr-2" />
+                  Send Email Now
+                </motion.a>
               </div>
             </motion.div>
 
-            {/* WhatsApp Chat */}
+            {/* WhatsApp Chat - Enhanced */}
             <motion.div 
               variants={itemVariants}
-              whileHover={{ scale: 1.02, y: -10 }}
-              className="glass rounded-2xl p-6 sm:p-8 group relative overflow-hidden" 
+              whileHover={{ scale: 1.03, y: -12 }}
+              whileTap={{ scale: 0.98 }}
+              className="glass rounded-3xl p-6 sm:p-8 lg:p-10 group relative overflow-hidden border border-border/50 hover:border-green-500/50 transition-all duration-500 shadow-lg hover:shadow-2xl hover:shadow-green-500/20" 
               data-testid="contact-whatsapp"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 via-emerald-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <motion.div 
+                className="absolute -top-10 -right-10 w-32 h-32 bg-green-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"
+                animate={{ rotate: -360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              />
+              <div className="relative z-10">
                 <motion.div 
-                  className="w-16 h-16 sm:w-20 sm:h-20 mx-auto bg-gradient-to-br from-green-500 to-emerald-400 rounded-2xl flex items-center justify-center mb-4"
-                  whileHover={{ rotate: 360 }}
+                  className="w-20 h-20 sm:w-24 sm:h-24 mx-auto bg-gradient-to-br from-green-500 via-emerald-400 to-green-600 rounded-3xl flex items-center justify-center mb-5 shadow-lg group-hover:shadow-xl group-hover:shadow-green-500/40"
+                  whileHover={{ rotate: [0, 15, -15, 15, 0], scale: 1.1 }}
                   transition={{ duration: 0.6 }}
                 >
-                  <SiWhatsapp className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+                  <SiWhatsapp className="w-10 h-10 sm:w-12 sm:h-12 text-white drop-shadow-lg" />
                 </motion.div>
-                <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-2">WhatsApp Chat</h3>
-                <div className="h-1 w-16 bg-gradient-to-r from-green-500 to-emerald-400 mx-auto mb-4 rounded-full"></div>
-                <p className="text-sm sm:text-base text-muted-foreground mb-6 text-center leading-relaxed">
-                  Quick chats, instant replies, and friendly conversations! 💬
+                <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground mb-3 group-hover:text-green-500 transition-colors duration-300">WhatsApp Chat</h3>
+                <div className="h-1.5 w-20 bg-gradient-to-r from-green-500 via-emerald-400 to-green-600 mx-auto mb-5 rounded-full group-hover:w-32 transition-all duration-500"></div>
+                <p className="text-sm sm:text-base lg:text-lg text-muted-foreground mb-7 text-center leading-relaxed px-2">
+                  💬 Quick chats, instant replies, and friendly conversations!
                 </p>
-                <a 
+                <motion.a 
                   href="https://wa.me/918900653250" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="neon-btn w-full bg-green-500/10 hover:bg-green-500/20 border-green-500/50 text-sm sm:text-base"
+                  className="neon-btn w-full bg-green-500/10 hover:bg-green-500/20 border-green-500/50 hover:border-green-500 text-sm sm:text-base lg:text-lg py-3 sm:py-4"
                   data-testid="whatsapp-link"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  <SiWhatsapp className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                  <SiWhatsapp className="w-5 h-5 sm:w-6 sm:h-6 mr-2" />
                   Chat with Nishant
-                </a>
+                </motion.a>
               </div>
             </motion.div>
 
-            {/* Telegram Chat */}
+            {/* Telegram Chat - Enhanced */}
             <motion.div 
               variants={itemVariants}
-              whileHover={{ scale: 1.02, y: -10 }}
-              className="glass rounded-2xl p-6 sm:p-8 group relative overflow-hidden sm:col-span-2 lg:col-span-1" 
+              whileHover={{ scale: 1.03, y: -12 }}
+              whileTap={{ scale: 0.98 }}
+              className="glass rounded-3xl p-6 sm:p-8 lg:p-10 group relative overflow-hidden sm:col-span-2 lg:col-span-1 border border-border/50 hover:border-blue-500/50 transition-all duration-500 shadow-lg hover:shadow-2xl hover:shadow-blue-500/20" 
               data-testid="contact-telegram"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 via-sky-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <motion.div 
+                className="absolute -top-10 -right-10 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+              />
+              <div className="relative z-10">
                 <motion.div 
-                  className="w-16 h-16 sm:w-20 sm:h-20 mx-auto bg-gradient-to-br from-blue-500 to-sky-400 rounded-2xl flex items-center justify-center mb-4"
-                  whileHover={{ rotate: 360 }}
+                  className="w-20 h-20 sm:w-24 sm:h-24 mx-auto bg-gradient-to-br from-blue-500 via-sky-400 to-blue-600 rounded-3xl flex items-center justify-center mb-5 shadow-lg group-hover:shadow-xl group-hover:shadow-blue-500/40"
+                  whileHover={{ rotate: [0, -15, 15, -15, 0], scale: 1.1 }}
                   transition={{ duration: 0.6 }}
                 >
-                  <SiTelegram className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+                  <SiTelegram className="w-10 h-10 sm:w-12 sm:h-12 text-white drop-shadow-lg" />
                 </motion.div>
-                <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-2">Telegram Chat</h3>
-                <div className="h-1 w-16 bg-gradient-to-r from-blue-500 to-sky-400 mx-auto mb-4 rounded-full"></div>
-                <p className="text-sm sm:text-base text-muted-foreground mb-6 text-center leading-relaxed">
-                  Direct messaging for quick questions and support 📱
+                <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground mb-3 group-hover:text-blue-500 transition-colors duration-300">Telegram Chat</h3>
+                <div className="h-1.5 w-20 bg-gradient-to-r from-blue-500 via-sky-400 to-blue-600 mx-auto mb-5 rounded-full group-hover:w-32 transition-all duration-500"></div>
+                <p className="text-sm sm:text-base lg:text-lg text-muted-foreground mb-7 text-center leading-relaxed px-2">
+                  📱 Direct messaging for quick questions and support
                 </p>
-                <a 
+                <motion.a 
                   href="https://t.me/Nishantsarkar10k" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="neon-btn w-full bg-blue-500/10 hover:bg-blue-500/20 border-blue-500/50 text-sm sm:text-base"
+                  className="neon-btn w-full bg-blue-500/10 hover:bg-blue-500/20 border-blue-500/50 hover:border-blue-500 text-sm sm:text-base lg:text-lg py-3 sm:py-4"
                   data-testid="telegram-link"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  <SiTelegram className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                  Message Me
-                </a>
+                  <SiTelegram className="w-5 h-5 sm:w-6 sm:h-6 mr-2" />
+                  Message Me Now
+                </motion.a>
               </div>
             </motion.div>
           </motion.div>
