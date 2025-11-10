@@ -16,7 +16,6 @@ import Footer from "./components/Footer";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import Home from "./pages/Home";
-import About from "./pages/About";
 import Portfolio from "./pages/Portfolio";
 import Games from "./pages/Games";
 import Social from "./pages/Social";
@@ -75,7 +74,7 @@ function Router() {
       <Route path="/ff-bots/spam" component={FFSpamBot} />
       <Route path="/ff-bots/visit" component={FFVisitBot} />
       <Route path="/ff-bots" component={FFBotsHub} />
-      <Route path="/about" component={About} />
+      <Route path="/about" component={Portfolio} />
       <Route path="/portfolio" component={Portfolio} />
       <Route path="/games" component={Games} />
       <Route path="/social" component={Social} />
