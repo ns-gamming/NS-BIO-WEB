@@ -24,8 +24,8 @@ interface Position {
   y: number;
 }
 
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent`;
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "AIzaSyBJ7BdftaQp7N5IJxWNUHIc6EhjOXQ865o";
+const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent`;
 
 const FUNNY_ERRORS = [
   "Oops! My brain just did a 360 no-scope and missed! 🎯 Try again?",
@@ -574,7 +574,7 @@ Respond as AAPTI now:`;
           onClick={handleOpenChat}
           onMouseDown={handleButtonMouseDown}
           onTouchStart={handleButtonTouchStart}
-          className="fixed z-[100] w-16 h-16 bg-gradient-to-br from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white rounded-full shadow-[0_0_30px_rgba(6,182,212,0.6)] flex items-center justify-center transition-all duration-300 hover:scale-110 group will-change-transform border-4 border-white dark:border-gray-800"
+          className="fixed z-[100] w-16 h-16 bg-gradient-to-br from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white rounded-full shadow-[0_0_30px_rgba(6,182,212,0.6)] flex items-center justify-center transition-all duration-300 hover:scale-110 group will-change-transform border-4 border-white dark:border-gray-800 animate-bounce-slow"
           style={{
             ...getButtonStyle(),
             cursor: isDragging ? 'grabbing' : 'grab',
@@ -596,8 +596,9 @@ Respond as AAPTI now:`;
       {isOpen && (
         <div
           ref={chatboxRef}
-          className="fixed z-[100] w-[calc(100%-2rem)] sm:w-96 h-[500px] max-h-[80vh] flex flex-col rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.4)] overflow-hidden border-4 border-cyan-400 dark:border-cyan-500 backdrop-blur-xl bg-white dark:bg-gray-900 transition-all duration-300 animate-fadeUp"
+          className="fixed z-[100] w-[calc(100%-2rem)] sm:w-96 h-[500px] max-h-[80vh] flex flex-col rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.4)] overflow-hidden border-4 border-cyan-400 dark:border-cyan-500 backdrop-blur-xl bg-white dark:bg-gray-900 transition-all duration-500 animate-scaleIn"
           style={{
+            animation: 'scaleIn 0.5s ease-out forwards',
             ...getChatStyle(),
             cursor: isDragging ? 'grabbing' : 'default',
             touchAction: 'none',
@@ -646,15 +647,15 @@ Respond as AAPTI now:`;
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
+                className={`flex ${message.role === "user" ? "justify-end" : "justify-start"} animate-slideInFromBottom`}
+                style={{ animationDelay: `${index * 0.05}s` }}
               >
                 <div
                   className={`max-w-[80%] p-3 rounded-2xl ${
                     message.role === "user"
-                      ? "bg-primary text-white"
-                      : "bg-white dark:bg-gray-700 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-600"
-                  } animate-fadeUp`}
-                  style={{ animationDelay: `${index * 0.05}s` }}
+                      ? "bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-lg"
+                      : "bg-white dark:bg-gray-700 text-gray-900 dark:text-white border-2 border-cyan-200 dark:border-cyan-600 shadow-md"
+                  } transition-all duration-300 hover:scale-105`}
                 >
                   {message.role === "assistant" && message.isTyping && index === messages.length - 1 ? (
                     <TypingMessage 
