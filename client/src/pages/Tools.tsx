@@ -30,7 +30,7 @@ const FFNameGenerator = () => {
     italic: '𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘑𝘒𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛 U𝘝𝘞𝘟𝘠𝘡𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻0123456789',
     fancy: '𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫𝟘𝟙𝟚𝟛𝟜𝟝𝟞𝟟𝟠𝟡',
     cursive: '𝓐𝓑𝓒𝓓𝓔𝓕𝓖𝓗𝓘𝓙𝓚𝓛𝓜𝓝𝓞𝓟𝓠𝓡𝓢𝓣 U𝓥𝓦𝓧𝓨𝓩𝓪𝓫𝓬𝓭𝓮𝓯𝓰𝓱𝓲𝓳𝓴𝓵𝓶𝓷𝓸𝓹𝓺𝓻𝓼𝓽𝓾𝓿𝔀𝔁𝔂𝔃0123456789',
-    monospace: '𝙰𝙱𝙲𝙳𝙴𝙵𝙶𝙷𝙸𝙹𝙺𝙻𝙼𝙽𝙾𝙿𝚀𝚁𝚂𝚃𝚄𝚅𝚆𝚇𝚈𝚉𝚊𝚋𝚌𝚍𝚎𝚏𝚐𝚑𝚒𝚓𝚔𝚕𝚖𝚗𝚘𝚙𝚚𝚛𝚜𝚝𝚞𝚟𝚠𝚡𝚢𝚣𝟶𝟷𝟸𝟹𝟺𝟻𝟼𝟽𝟾𝟿',
+    monospace: '𝙰𝙱𝙲𝙳𝙴𝙵𝙶𝙷𝙸𝙹𝙺𝙻𝙼𝙽𝙾𝙿𝚀𝚁𝚂𝚃𝚄𝚅𝚆𝚇𝚈𝚉𝚊𝚋𝚌𝚍𝚎𝚏𝚐𝚑𝚒𝚓𝚔𝚕𝚖𝚗𝚘𝚙𝚚𝚛𝚜𝚝𝚞𝚟𝚠𝚡𝚢𝚣𝟶𝟷𝟸𝟹𝟺𝟻𝟼789',
     outline: '𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫0123456789',
   };
 
@@ -798,7 +798,7 @@ const TextFormatter = () => {
 
   const fancyChars = {
     bold: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
-    boldMap: '𝗔𝗕𝗖𝗗𝗘𝗙𝗚𝗛𝗜𝗝𝗞𝗟𝗠𝗡𝗢𝗣𝗤𝗥𝗦𝗧𝗨𝗩𝗪𝗫𝗬𝗭𝗮𝗯𝗰𝗱𝗲𝗳𝗴𝗵𝗶𝗷𝗸𝗹𝗺𝗻𝗼𝗽𝗾𝗿𝘀𝘁𝘂𝘃𝘄𝘅𝘆𝘇',
+    boldMap: '𝗔𝗕𝗖𝗗𝗘𝗙𝗚𝗛𝗜𝗝𝗞𝗟𝗠𝗡𝗢𝗣𝗤𝗥𝗦𝗧𝗨𝗩𝗪𝗫𝗬𝗭𝗮𝗯𝗰𝗱𝗲𝗳𝗴𝗵𝗶𝗷𝗸𝗹𝗺𝗻𝗼𝗽𝗠𝗿𝘀𝘁𝘂𝘃𝘄𝘅𝘆𝘇',
     italic: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
     italicMap: '𝘈𝘉𝘊𝘋𝘌𝘍𝘎𝘏𝘐𝘑𝘒𝘓𝘔𝘕𝘖𝘗𝘘𝘙𝘚𝘛U𝘝𝘞𝘟𝘠𝘡𝘢𝘣𝘤𝘥𝘦𝘧𝘨𝘩𝘪𝘫𝘬𝘭𝘮𝘯𝘰𝘱𝘲𝘳𝘴𝘵𝘶𝘷𝘸𝘹𝘺𝘻',
     cursive: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
@@ -1781,10 +1781,10 @@ const PlatformDownloadCard = ({ platform, name, icon, color, delay }: { platform
     <Card className="dark:bg-gray-900/95 dark:border-gray-800 hover:shadow-2xl transition-all duration-500 relative overflow-hidden border-2 rounded-2xl animate-bounceIn group" style={{ animationDelay: `${delay}s` }}>
       {/* Animated gradient border */}
       <div className="absolute -inset-1 bg-gradient-to-r from-red-500/20 via-pink-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 rounded-2xl" />
-      
+
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 via-transparent to-pink-500/5" />
-      
+
       <CardHeader className="relative z-10 pb-3">
         <CardTitle className="flex items-center gap-3 dark:text-white text-lg">
           <div className={`p-3 bg-gradient-to-br ${color} rounded-xl shadow-lg text-2xl transform group-hover:scale-110 transition-transform duration-300`}>
@@ -1796,7 +1796,7 @@ const PlatformDownloadCard = ({ platform, name, icon, color, delay }: { platform
           </div>
         </CardTitle>
       </CardHeader>
-      
+
       <CardContent className="relative z-10 space-y-3 pt-0">
         <div className="space-y-2">
           <Label className="text-xs font-semibold dark:text-white flex items-center gap-2">
@@ -1936,7 +1936,7 @@ const PlatformDownloadCard = ({ platform, name, icon, color, delay }: { platform
 // Main Tools Page Component
 export default function Tools() {
   const [selectedCategory, setSelectedCategory] = useState<'ff-tools' | 'utilities' | 'downloads' | null>(null);
-  
+
   // Add proper padding and spacing to prevent any overlapping
   const categoryContainerClass = "pb-32 md:pb-40 relative z-10 mb-20";
 
@@ -2192,262 +2192,6 @@ export default function Tools() {
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* Ad Placement */}
-          <div className="mt-16 animate-fadeUp" style={{ animationDelay: '0.6s' }}>
-            <AdSenseAd />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // FF Tools Category
-  if (selectedCategory === 'ff-tools') {
-    return (
-      <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-500">
-        {/* Animated Background */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl animate-floatSlow"></div>
-          <div className="absolute bottom-20 right-20 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl animate-floatSlow" style={{ animationDelay: '1s' }}></div>
-        </div>
-
-        <HeroSection
-          title="🎮 Free Fire Tools"
-          subtitle="Level up your gaming with advanced tools!"
-        />
-
-        <div className="container mx-auto px-4 py-8 sm:py-12 relative z-10 max-w-6xl">
-          <Button 
-            onClick={() => setSelectedCategory(null)} 
-            variant="outline" 
-            className="mb-6 group transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)] dark:border-cyan-500/50 dark:hover:bg-cyan-500/10 animate-slideInFromLeft"
-            data-testid="button-back-category"
-          >
-            <Wrench className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform" />
-            Back to Categories
-          </Button>
-
-          <div className={categoryContainerClass}>
-          <Tabs defaultValue="ffname" className="w-full relative z-10 mb-20">
-            <TabsList className="flex flex-wrap justify-center gap-2 mb-8 p-3 bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10 dark:from-cyan-500/20 dark:via-blue-500/20 dark:to-purple-500/20 backdrop-blur-xl border-2 border-cyan-500/30 dark:border-cyan-500/50 rounded-2xl shadow-xl animate-slideInFromBottom relative z-10" data-testid="tabs-ff-tools">
-              <TabsTrigger value="ffname" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500/40 data-[state=active]:to-blue-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-cyan-500/50" data-testid="tab-ffname">
-                <Wand2 className="h-4 w-4" />
-                <span className="whitespace-nowrap">FF Name</span>
-              </TabsTrigger>
-              <TabsTrigger value="uid" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500/40 data-[state=active]:to-pink-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-purple-500/50" data-testid="tab-uid">
-                <Gamepad2 className="h-4 w-4" />
-                <span className="whitespace-nowrap">UID Gen</span>
-              </TabsTrigger>
-              <TabsTrigger value="sensitivity" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500/40 data-[state=active]:to-emerald-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-green-500/50" data-testid="tab-sensitivity">
-                <Zap className="h-4 w-4" />
-                <span className="whitespace-nowrap">Sensitivity</span>
-              </TabsTrigger>
-              <TabsTrigger value="password" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500/40 data-[state=active]:to-red-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-orange-500/50" data-testid="tab-password">
-                <Shield className="h-4 w-4" />
-                <span className="whitespace-nowrap">Password</span>
-              </TabsTrigger>
-              <TabsTrigger value="weapons" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500/40 data-[state=active]:to-orange-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-red-500/50" data-testid="tab-weapons">
-                <Crosshair className="h-4 w-4" />
-                <span className="whitespace-nowrap">Weapons</span>
-              </TabsTrigger>
-              <TabsTrigger value="drop" className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500/40 data-[state=active]:to-cyan-500/40 data-[state=active]:shadow-lg rounded-xl border-2 border-transparent data-[state=active]:border-blue-500/50" data-testid="tab-drop">
-                <Target className="h-4 w-4" />
-                <span className="whitespace-nowrap">Drop Sim</span>
-              </TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="ffname" className="mt-6 animate-fadeUp relative z-10 mb-10">
-              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-lg transition-all duration-300 relative overflow-hidden border-2 rounded-xl">
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/5 to-cyan-500/10 animate-gradient-shift" />
-                <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
-                <CardHeader className="relative z-10 pb-4">
-                  <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textBounceIn text-xl sm:text-2xl mb-2">
-                    <div className="p-2 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg shadow-lg">
-                      <Sparkles className="h-6 w-6 text-white animate-pulse" />
-                    </div>
-                    Free Fire Stylish Name Generator
-                  </CardTitle>
-                  <CardDescription className="dark:text-gray-400 animate-textFadeSlide text-sm sm:text-base" style={{ animationDelay: '0.1s' }}>
-                    Create unique, stylish names with fancy fonts and symbols ✨
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="relative z-10 pt-2">
-                  <FFNameGenerator />
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="uid" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
-              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(168,85,247,0.4)] dark:hover:shadow-[0_0_40px_rgba(168,85,247,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-purple-500/50 rounded-2xl z-30">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-purple-500/10 animate-gradient-shift" />
-                <div className="absolute -inset-1 bg-gradient-to-r from-purple-500/20 to-pink-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
-                <CardHeader className="relative z-10">
-                  <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textBounceIn text-xl sm:text-2xl">
-                    <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg shadow-lg">
-                      <Gamepad2 className="h-6 w-6 text-white animate-bounce" />
-                    </div>
-                    Random UID Generator
-                  </CardTitle>
-                  <CardDescription className="dark:text-gray-400 animate-textFadeSlide text-sm sm:text-base" style={{ animationDelay: '0.1s' }}>
-                    Generate random Free Fire UIDs for testing 🎮
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="relative z-10">
-                  <UIDGenerator />
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="sensitivity" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
-              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(34,197,94,0.4)] dark:hover:shadow-[0_0_40px_rgba(34,197,94,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-green-500/50 rounded-2xl z-30">
-                <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-emerald-500/5 to-green-500/10 animate-gradient-shift" />
-                <div className="absolute -inset-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
-                <CardHeader className="relative z-10">
-                  <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textBounceIn text-xl sm:text-2xl">
-                    <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg shadow-lg">
-                      <Sparkles className="h-6 w-6 text-white animate-pulse" />
-                    </div>
-                    Advanced Sensitivity Generator
-                  </CardTitle>
-                  <CardDescription className="dark:text-gray-400 animate-textFadeSlide text-sm sm:text-base" style={{ animationDelay: '0.1s' }}>
-                    Get device-optimized sensitivity settings (Max 200) with DPI adjustment ⚡
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="relative z-10">
-                  <SensitivityGenerator />
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="password" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
-              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(249,115,22,0.4)] dark:hover:shadow-[0_0_40px_rgba(249,115,22,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-orange-500/50 rounded-2xl z-30">
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-red-500/5 to-orange-500/10 animate-gradient-shift" />
-                <div className="absolute -inset-1 bg-gradient-to-r from-orange-500/20 to-red-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
-                <CardHeader className="relative z-10">
-                  <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textBounceIn text-xl sm:text-2xl">
-                    <div className="p-2 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg shadow-lg">
-                      <Shield className="h-6 w-6 text-white animate-pulse" />
-                    </div>
-                    Secure Password Generator
-                  </CardTitle>
-                  <CardDescription className="dark:text-gray-400 animate-textFadeSlide text-sm sm:text-base" style={{ animationDelay: '0.1s' }}>
-                    Create strong, secure passwords for your gaming accounts 🔒
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="relative z-10">
-                  <PasswordGenerator />
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="weapons" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
-              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(239,68,68,0.4)] dark:hover:shadow-[0_0_40px_rgba(239,68,68,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-red-500/50 rounded-2xl z-30">
-                <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 via-orange-500/5 to-red-500/10 animate-gradient-shift" />
-                <div className="absolute -inset-1 bg-gradient-to-r from-red-500/20 to-orange-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
-                <CardHeader className="relative z-10">
-                  <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textBounceIn text-xl sm:text-2xl">
-                    <div className="p-2 bg-gradient-to-br from-red-500 to-orange-600 rounded-lg shadow-lg">
-                      <Crosshair className="h-6 w-6 text-white animate-pulse" />
-                    </div>
-                    FF Weapon Stats Lookup
-                  </CardTitle>
-                  <CardDescription className="dark:text-gray-400 animate-textFadeSlide text-sm sm:text-base" style={{ animationDelay: '0.1s' }}>
-                    View detailed weapon statistics and compare performance 🎯
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="relative z-10">
-                  <WeaponStatsLookup />
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="drop" className="mt-8 sm:mt-12 animate-fadeUp relative z-30">
-              <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-[0_0_40px_rgba(59,130,246,0.4)] dark:hover:shadow-[0_0_40px_rgba(59,130,246,0.6)] transition-all duration-500 relative overflow-hidden border-2 hover:border-blue-500/50 rounded-2xl z-30">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-cyan-500/5 to-blue-500/10 animate-gradient-shift" />
-                <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 opacity-0 hover:opacity-100 blur-xl transition-opacity duration-500"></div>
-                <CardHeader className="relative z-10">
-                  <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center gap-3 dark:text-white animate-textBounceIn text-xl sm:text-2xl">
-                    <div className="p-2 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg shadow-lg">
-                      <Target className="h-6 w-6 text-white animate-spin-slow" />
-                    </div>
-                    Drop Location Simulator
-                  </CardTitle>
-                  <CardDescription className="dark:text-gray-400 animate-textFadeSlide text-sm sm:text-base" style={{ animationDelay: '0.1s' }}>
-                    Simulate random drop locations with loot and risk analysis 📍
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="relative z-10">
-                  <DropSimulator />
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            </Tabs>
-        </div>
-
-          <div className="mt-12 animate-fadeUp">
-            <AdSenseAd />
-          </div>
-
-          {/* Feedback Section */}
-          <div className="mt-12 animate-fadeUp" style={{ animationDelay: '0.6s' }}>
-            <PageFeedback pageName="FF Tools" />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Downloads Category
-  if (selectedCategory === 'downloads') {
-    return (
-      <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-500">
-        {/* Animated Background */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-red-500/10 rounded-full blur-3xl animate-floatSlow"></div>
-          <div className="absolute bottom-20 right-20 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl animate-floatSlow" style={{ animationDelay: '1s' }}></div>
-        </div>
-
-        <HeroSection
-          title="📥 Video Downloads"
-          subtitle="Download videos from your favorite platforms!"
-        />
-
-        <div className="container mx-auto px-4 py-8 sm:py-12 relative z-10 max-w-6xl">
-          <Button 
-            onClick={() => setSelectedCategory(null)} 
-            variant="outline" 
-            className="mb-6 group transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(239,68,68,0.3)] dark:border-red-500/50 dark:hover:bg-red-500/10 animate-slideInFromLeft"
-            data-testid="button-back-category"
-          >
-            <Video className="mr-2 h-4 w-4 group-hover:rotate-12 transition-transform" />
-            Back to Categories
-          </Button>
-
-          <div className={categoryContainerClass}>
-            {/* Featured Content Archive Tool */}
-            <div className="mb-8 animate-fadeUp">
-              <a href="https://content-archive-tool.vercel.app/" target="_blank" rel="noopener noreferrer">
-                <Card className="dark:bg-gray-900 dark:border-gray-800 hover:shadow-2xl transition-all duration-500 cursor-pointer group border-2 hover:border-red-500/50">
-                  <CardContent className="p-6">
-                    <div className="flex items-center gap-4">
-                      <div className="p-4 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl shadow-lg text-4xl group-hover:scale-110 transition-transform">
-                        🎥
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-2xl font-bold mb-1">Content Archive Tool - Professional Downloader</h3>
-                        <p className="text-muted-foreground">Download videos from YouTube, TikTok, Instagram, and more platforms with enhanced features</p>
-                      </div>
-                      <Button className="bg-gradient-to-r from-red-500 to-red-600 hover:scale-110 transition-transform">
-                        Open Tool →
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              </a>
-            </div>
 
             {/* Platform Info Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-20">
@@ -2472,7 +2216,7 @@ export default function Tools() {
                   <Card className="dark:bg-gray-900/95 dark:border-gray-800 hover:shadow-2xl transition-all duration-500 relative overflow-hidden border-2 rounded-2xl animate-bounceIn group cursor-pointer" style={{ animationDelay: `${platform.delay}s` }}>
                     <div className="absolute -inset-1 bg-gradient-to-r from-red-500/20 via-pink-500/20 to-purple-500/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 rounded-2xl" />
                     <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 via-transparent to-pink-500/5" />
-                    
+
                     <CardHeader className="relative z-10 pb-3">
                       <CardTitle className="flex items-center gap-3 dark:text-white text-lg">
                         <div className={`p-3 bg-gradient-to-br ${platform.color} rounded-xl shadow-lg text-2xl transform group-hover:scale-110 transition-transform duration-300`}>
@@ -2484,7 +2228,7 @@ export default function Tools() {
                         </div>
                       </CardTitle>
                     </CardHeader>
-                    
+
                     <CardContent className="relative z-10 pt-0">
                       <div className="p-3 rounded-lg bg-primary/5 border border-primary/10">
                         <p className="text-xs text-muted-foreground text-center">

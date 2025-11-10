@@ -22,6 +22,16 @@ export default function Games() {
         />
 
         <div className="container mx-auto px-4 sm:px-6 pb-20">
+          {/* AdSense Ad */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mb-8"
+          >
+            <AdSenseAd />
+          </motion.div>
+
           <div className="max-w-6xl mx-auto">
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8" data-testid="games-grid">
               {/* Tic Tac Toe */}

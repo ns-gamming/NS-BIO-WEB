@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import HeroSection from "../components/HeroSection";
 import AdSenseAd from "../components/AdSenseAd";
@@ -98,9 +97,14 @@ export default function Community() {
         title="👥 Community"
         subtitle="Growing a family of creators — together we're stronger, together we thrive!"
       />
-      
+
       <div className="container mx-auto px-6 pb-20">
         <div className="max-w-6xl mx-auto">
+          {/* AdSense Ad */}
+          <div className="mb-8">
+            <AdSenseAd />
+          </div>
+
           {/* Community Philosophy */}
           <div className="glass rounded-2xl p-8 mb-12 text-center" data-testid="community-philosophy">
             <h2 className="text-3xl font-bold text-primary mb-6">Building More Than a Community 🏠</h2>
@@ -248,7 +252,7 @@ export default function Community() {
           </div>
         </div>
       </div>
-      
+
       <AdSenseAd />
     </div>
   );

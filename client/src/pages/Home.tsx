@@ -3,6 +3,8 @@ import HeroSection from "../components/HeroSection";
 import AdSenseAd from "../components/AdSenseAd";
 import { SEO } from "../components/SEO";
 import { Code, Video, Users, Zap } from "lucide-react";
+import { motion } from "framer-motion";
+import QuickNav from "../components/QuickNav";
 
 import _1000016408 from "@assets/1000016408.jpg";
 
@@ -131,7 +133,7 @@ export default function Home() {
           <h3 className="text-3xl sm:text-4xl font-orbitron font-bold mb-10 text-center bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-glow">
             🛠️ Free Tools & Utilities Hub
           </h3>
-          
+
           {/* Single Unified Card */}
           <Link 
             href="/tools" 
@@ -265,6 +267,16 @@ export default function Home() {
           </Link>
         </div>
 
+        {/* AdSense Ad - Above the fold */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="mt-8"
+        >
+          <AdSenseAd />
+        </motion.div>
+
         {/* Featured YouTube */}
         <div className="glass rounded-2xl p-8 max-w-2xl mx-auto mb-12 hover:scale-105 transition-all duration-300" data-testid="featured-youtube">
           <h3 className="text-2xl font-bold mb-4 text-center text-primary animate-glow">🎥 Latest from NS GAMMING</h3>
@@ -288,8 +300,10 @@ export default function Home() {
           </div>
         </div>
       </HeroSection>
-      {/* AdSense Ad */}
-      <AdSenseAd />
+      
+      {/* Quick Navigation */}
+      <QuickNav />
+      
       {/* Footer CTA */}
       <div className="glass border-t border-border py-8 text-center" data-testid="footer-cta">
         <p className="text-muted-foreground mb-4">
