@@ -1,3 +1,4 @@
+
 import { Link } from "wouter";
 import { Users, ArrowLeft, Search, Copy, CheckCircle, AlertCircle, Trophy, Shield, Crown, Heart, Star, Zap, Download } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import AdSenseAd from "@/components/AdSenseAd";
 import FFPlayerImages from "@/components/FFPlayerImages";
 import { useToast } from "@/hooks/use-toast";
@@ -101,6 +103,7 @@ export default function FFInfoBot() {
   const [playerData, setPlayerData] = useState<PlayerData | null>(null);
   const [searchInfo, setSearchInfo] = useState({ remainingSearches: 5, totalSearches: 0, dailyLimit: 5 });
   const [copied, setCopied] = useState(false);
+  const [showAdDialog, setShowAdDialog] = useState(false);
 
   const { data: limitData } = useQuery<LimitResponse>({
     queryKey: ['/api/ff-info-bot/check-limit'],
@@ -153,6 +156,10 @@ export default function FFInfoBot() {
       setPlayerData(data.data);
       setSearchInfo(data.searchInfo);
       queryClient.invalidateQueries({ queryKey: ['/api/ff-info-bot/check-limit'] });
+      
+      // Show ad dialog after successful search
+      setShowAdDialog(true);
+      
       toast({
         title: "✅ Success!",
         description: `Player found! ${data.searchInfo.remainingSearches} searches remaining today.`,
@@ -309,7 +316,7 @@ ${social.signature}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center justify-center w-24 h-24 rounded-3xl bg-gradient-to-br from-blue-500 to-cyan-500 dark:from-blue-400 dark:to-cyan-400 mb-6 shadow-lg animate-pulse-neon">
+          <div className="inline-flex items-center justify-center w-24 h-24 rounded-3xl bg-gradient-to-br from-blue-500 to-cyan-500 dark:from-blue-400 dark:to-cyan-400 mb-6 shadow-lg shadow-blue-500/50 animate-pulse-neon">
             <Users className="w-12 h-12 text-white" />
           </div>
           
@@ -326,41 +333,22 @@ ${social.signature}
           </Badge>
         </motion.div>
 
-        <div className="mb-12">
-          <AdSenseAd />
-        </div>
-
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2 }}
         >
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+          <Card className="mb-8 border-2 border-primary/30 shadow-xl bg-gradient-to-br from-blue-500/5 to-cyan-500/5">
+            <CardHeader className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border-b border-primary/20">
+              <CardTitle className="flex items-center gap-2 text-2xl">
                 <Search className="w-6 h-6 text-primary" />
-                Search Player Info
+                Search Player Information
               </CardTitle>
             </CardHeader>
-            <CardContent className="pb-4">
-              <AdSenseAd />
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.3 }}
-        >
-          <Card className="mb-8">
-            <CardHeader className="sr-only">
-              <CardTitle>Search Form</CardTitle>
-            </CardHeader>
-            <CardContent>
+            <CardContent className="pt-6">
               <div className="grid md:grid-cols-3 gap-4 mb-4">
                 <div className="md:col-span-2">
-                  <Label htmlFor="uid">Player UID</Label>
+                  <Label htmlFor="uid" className="text-base font-semibold mb-2 block">Player UID</Label>
                   <Input
                     id="uid"
                     type="text"
@@ -376,6 +364,7 @@ ${social.signature}
                     inputMode="numeric"
                     pattern="[0-9]*"
                     data-testid="input-uid"
+                    className="h-12 text-base"
                   />
                   {uid && uid.length < 6 && (
                     <p className="text-xs text-muted-foreground mt-1">
@@ -384,9 +373,9 @@ ${social.signature}
                   )}
                 </div>
                 <div>
-                  <Label htmlFor="region">Region</Label>
+                  <Label htmlFor="region" className="text-base font-semibold mb-2 block">Region</Label>
                   <Select value={region} onValueChange={setRegion}>
-                    <SelectTrigger id="region" data-testid="select-region">
+                    <SelectTrigger id="region" data-testid="select-region" className="h-12 text-base">
                       <SelectValue placeholder="Select region" />
                     </SelectTrigger>
                     <SelectContent>
@@ -402,22 +391,22 @@ ${social.signature}
               <Button 
                 onClick={handleSearch}
                 disabled={searchMutation.isPending || currentLimit.remainingSearches === 0}
-                className="w-full"
+                className="w-full h-14 text-lg font-semibold shadow-lg hover:shadow-xl transition-all"
                 data-testid="button-search"
               >
                 {searchMutation.isPending ? (
                   <>
-                    <Zap className="w-4 h-4 mr-2 animate-spin" />
+                    <Zap className="w-5 h-5 mr-2 animate-spin" />
                     Searching...
                   </>
                 ) : currentLimit.remainingSearches === 0 ? (
                   <>
-                    <AlertCircle className="w-4 h-4 mr-2" />
+                    <AlertCircle className="w-5 h-5 mr-2" />
                     Daily Limit Reached
                   </>
                 ) : (
                   <>
-                    <Search className="w-4 h-4 mr-2" />
+                    <Search className="w-5 h-5 mr-2" />
                     Search Player Info
                   </>
                 )}
@@ -438,7 +427,7 @@ ${social.signature}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <Card className="mb-8 overflow-hidden border-2 border-primary/30">
+            <Card className="mb-8 overflow-hidden border-2 border-primary/30 shadow-2xl">
               <CardHeader className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                   <CardTitle className="text-2xl flex items-center gap-2">
@@ -623,7 +612,7 @@ ${social.signature}
         )}
 
         {playerData && (
-          <Card className="mb-8 bg-gradient-to-br from-primary/10 to-accent/10 border-2">
+          <Card className="mb-8 bg-gradient-to-br from-primary/10 to-accent/10 border-2 shadow-xl">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Trophy className="w-6 h-6 text-yellow-500" />
@@ -665,9 +654,30 @@ ${social.signature}
             <p>• ⚡ Data is fetched in real-time from official Free Fire servers</p>
             <p>• 🌍 Supports all major regions: SG, IND, CIS, TH, VN, TR, BR</p>
             <p>• 🔒 Your data is private and never shared</p>
+            <p>• 🖼️ Player images auto-open in full screen when loaded successfully</p>
           </CardContent>
         </Card>
       </div>
+
+      {/* Ad Dialog - Shows after search */}
+      <Dialog open={showAdDialog} onOpenChange={setShowAdDialog}>
+        <DialogContent className="max-w-4xl">
+          <DialogHeader>
+            <DialogTitle className="text-2xl">✨ Thank you for using our service!</DialogTitle>
+            <DialogDescription className="text-base">
+              Please support us by viewing this advertisement. This helps us keep the service free for everyone! 🙏
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <AdSenseAd />
+          </div>
+          <div className="flex justify-end gap-2">
+            <Button onClick={() => setShowAdDialog(false)} size="lg">
+              Continue
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
