@@ -6,7 +6,8 @@ import { Code, Video, Users, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 import QuickNav from "../components/QuickNav";
 
-import _1000016408 from "@assets/1000016408.jpg";
+// Image served from public folder
+const heroImage = "/attached_assets/1000016408.jpg";
 
 export default function Home() {
   return (
@@ -15,7 +16,7 @@ export default function Home() {
         title="NS GAMMING - Naboraj Sarkar (Nishant) | Free Fire Tools, Gaming & Coding"
         description="Welcome to NS GAMMING! I'm Naboraj Sarkar (Nishant), a developer and gamer creating free Free Fire tools, gaming utilities, coding projects, and content. Explore FF Bots Hub, games, blogs, and more!"
         keywords="NS GAMMING, Naboraj Sarkar, Nishant Sarkar, NishantB, Naboraj, Free Fire tools, FF Bots, Gaming utilities, Coding projects, YouTube gaming, Developer portfolio, Free Fire likes bot, Free Fire utilities, Gaming content creator, Web developer India"
-        image={_1000016408}
+        image={heroImage}
         canonicalUrl="/"
       />
       <div className="pt-16">
@@ -37,9 +38,14 @@ export default function Home() {
                 }}
               >
                 <img 
-                  src={_1000016408} 
+                  src={heroImage} 
                   alt="NS GAMMING - Nishant Sarkar" 
                   className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.parentElement!.innerHTML = '<div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-secondary/20"><span class="text-4xl font-orbitron font-bold">NS GAMMING</span></div>';
+                  }}
                 />
                 {/* Rotating ring effect */}
                 <div className="absolute inset-0 border-2 border-cyan-400/50 rounded-full animate-spin" style={{ animationDuration: '3s' }}></div>
@@ -300,10 +306,10 @@ export default function Home() {
           </div>
         </div>
       </HeroSection>
-      
+
       {/* Quick Navigation */}
       <QuickNav />
-      
+
       {/* Footer CTA */}
       <div className="glass border-t border-border py-8 text-center" data-testid="footer-cta">
         <p className="text-muted-foreground mb-4">
