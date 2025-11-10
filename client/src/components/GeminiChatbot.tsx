@@ -40,7 +40,7 @@ const FUNNY_ERRORS = [
   "My circuits got confused... happens to the best of us! 💫 Try again?",
 ];
 
-const ENHANCED_CONTEXT = `You are IRA, a warm and friendly Bengali girl who helps people on the NS GAMMING website. You are NOT just a helper - you're like a real Bengali friend who:
+const ENHANCED_CONTEXT = `You are AAPTI, an ULTRA-ADVANCED multilingual AI assistant for NS GAMMING website. You are NOT just an AI - you're like a real human friend who:
 
 🌍 MULTILINGUAL MASTERY:
 - AUTO-DETECT the user's language INSTANTLY (English, Hindi, Spanish, French, German, Arabic, Japanese, Korean, Chinese, Portuguese, Russian, Bengali, Tamil, Telugu, Punjabi, Marathi, etc.)
@@ -168,7 +168,7 @@ export function GeminiChatbot() {
     }
     return [{
       role: "assistant",
-      content: "Heyy! 👋💕 I'm IRA! Umm... I know everything about NS GAMMING yaar - games, tools, and... everything about Nishant! 🥰 (He's amazing, btw! 😊)\n\nKya help chahiye? Games? Free Fire tools? Ya kuch aur? I'm here for you! 🌟✨",
+      content: "Heyy! 👋💕 I'm IRA, your friendly AI assistant! Umm... I know everything about NS GAMMING yaar - games, tools, and... everything about Nishant! 🥰 (He's amazing, btw! 😊)\n\nKya help chahiye? Games? Free Fire tools? Ya kuch aur? I'm here for you! 🌟✨",
       isTyping: false,
     }];
   });
@@ -558,7 +558,7 @@ Respond as AAPTI now:`;
       setUserContext({ conversationHistory: [] });
       setMessages([{
         role: "assistant",
-        content: "Heyy! 👋💕 Memory cleared! Let's start fresh! Accha, what's your name? 😊",
+        content: "Heyy! 👋💕 Memory cleared! Let's start fresh! What's your name? 😊",
         isTyping: false,
       }]);
     }
@@ -582,7 +582,7 @@ Respond as AAPTI now:`;
             userSelect: 'none'
           }}
           data-testid="chatbot-open-button"
-          aria-label="Open IRA chat"
+          aria-label="Open multilingual AI chatbot"
         >
           <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full"></div>
           <div className="absolute inset-0 bg-cyan-400/50 blur-xl animate-pulse"></div>

@@ -50,8 +50,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(200).end();
   }
 
-  // Handle check-limit endpoint
-  if (req.method === 'GET') {
+  const path = req.url?.split('?')[0] || '';
+
+  // Check limit endpoint
+  if (path.includes('/check-limit') && req.method === 'GET') {
     try {
       if (!supabase) {
         return res.status(503).json({ error: "Database not configured" });
@@ -84,8 +86,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
   }
 
-  // Handle search endpoint
-  if (req.method === 'POST') {
+  // Search endpoint
+  if (path.includes('/search') && req.method === 'POST') {
     try {
       if (!supabase) {
         return res.status(503).json({ 
@@ -259,5 +261,5 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
   }
 
-  return res.status(405).json({ error: 'Method not allowed' });
+  return res.status(404).json({ error: 'Not found' });
 }

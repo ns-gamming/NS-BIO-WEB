@@ -163,25 +163,6 @@ CREATE TABLE IF NOT EXISTS vip_users (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Free Fire Info Bot Tables
-CREATE TABLE IF NOT EXISTS ff_info_rate_limits (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  ip_address VARCHAR(100) NOT NULL UNIQUE,
-  search_count INTEGER DEFAULT 0,
-  last_reset_date VARCHAR(10) NOT NULL,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
-CREATE TABLE IF NOT EXISTS ff_info_searches (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  ip_address VARCHAR(100) NOT NULL,
-  uid VARCHAR(50) NOT NULL,
-  region VARCHAR(10) NOT NULL,
-  search_date VARCHAR(10) NOT NULL,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
 CREATE TABLE IF NOT EXISTS ff_info_rate_limits (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   ip_address VARCHAR(100) UNIQUE NOT NULL,
