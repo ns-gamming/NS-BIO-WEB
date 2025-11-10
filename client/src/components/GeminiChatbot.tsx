@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from "react";
 import { MessageCircle, X, Send, Loader2, Move, Brain, Globe } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
@@ -24,8 +25,9 @@ interface Position {
   y: number;
 }
 
-// API endpoint for backend Gemini integration
-const GEMINI_BACKEND_URL = `/api/gemini/chat`;
+// Use environment variable for API key
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent`;
 
 const FUNNY_ERRORS = [
   "Oops! My brain just did a 360 no-scope and missed! 🎯 Try again?",
@@ -399,12 +401,12 @@ ${userContext.interests?.length ? `- Interests: ${userContext.interests.join(', 
 ${userContext.preferences ? `- Preferences: ${JSON.stringify(userContext.preferences)}` : ''}
 
 CONVERSATION HISTORY (Last 8 messages):
-${messages.slice(-8).map(m => `${m.role === 'user' ? 'User' : 'AAPTI'}: ${m.content}`).join('\n')}
+${messages.slice(-8).map(m => `${m.role === 'user' ? 'User' : 'IRA'}: ${m.content}`).join('\n')}
 `;
 
       const contextWithBlogs = ENHANCED_CONTEXT.replace('{BLOG_POSTS_INFO}', blogPostsInfo);
 
-      const contextInfo = `${contextWithBlogs}
+      const prompt = `${contextWithBlogs}
 
 ${userContextInfo}
 
@@ -422,17 +424,28 @@ CRITICAL INSTRUCTIONS:
 
 Respond as IRA now:`;
 
-      const response = await fetch(GEMINI_BACKEND_URL, {
+      if (!GEMINI_API_KEY) {
+        throw new Error("Gemini API key not configured. Please add VITE_GEMINI_API_KEY to Replit Secrets!");
+      }
+
+      const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          messages: updatedMessages,
-          contextInfo: contextInfo
+          contents: [{
+            parts: [{ text: prompt }]
+          }],
+          generationConfig: {
+            temperature: 1.2,
+            topK: 40,
+            topP: 0.95,
+            maxOutputTokens: 2048,
+          }
         }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to get response from AI");
+        throw new Error("Failed to get response from Gemini AI");
       }
 
       const data = await response.json();
