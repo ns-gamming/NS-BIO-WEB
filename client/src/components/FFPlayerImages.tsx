@@ -45,6 +45,7 @@ export default function FFPlayerImages({ uid, region }: FFPlayerImagesProps) {
   const handleOutfitLoad = () => {
     setOutfitLoaded(true);
     setOutfitLoading(false);
+    setOutfitError(false);
     // Auto-open outfit image in modal only on first load (not on retry)
     if (retryCount === 0) {
       setModalImage({ url: outfitUrl, title: `Outfit - ${uid}` });
@@ -54,6 +55,7 @@ export default function FFPlayerImages({ uid, region }: FFPlayerImagesProps) {
   const handleBannerLoad = () => {
     setBannerLoaded(true);
     setBannerLoading(false);
+    setBannerError(false);
   };
 
   return (
@@ -81,6 +83,28 @@ export default function FFPlayerImages({ uid, region }: FFPlayerImagesProps) {
           </div>
         </CardHeader>
         <CardContent className="p-6 space-y-8">
+          {/* Hidden preload images */}
+          <img
+            src={outfitUrl}
+            alt=""
+            style={{ display: 'none' }}
+            onError={() => {
+              setOutfitError(true);
+              setOutfitLoading(false);
+            }}
+            onLoad={handleOutfitLoad}
+          />
+          <img
+            src={bannerUrl}
+            alt=""
+            style={{ display: 'none' }}
+            onError={() => {
+              setBannerError(true);
+              setBannerLoading(false);
+            }}
+            onLoad={handleBannerLoad}
+          />
+
           {/* Outfit Image Section */}
           {!outfitError && (
             <div className="space-y-4">
@@ -99,7 +123,7 @@ export default function FFPlayerImages({ uid, region }: FFPlayerImagesProps) {
                 </h4>
               </div>
               
-              {outfitLoading && (
+              {outfitLoading && !outfitLoaded && (
                 <div className="rounded-2xl overflow-hidden bg-gradient-to-br from-purple-500/10 to-blue-500/10 border-2 border-purple-500/40 p-16 flex flex-col items-center justify-center min-h-[350px] shadow-lg">
                   <div className="relative">
                     <Loader2 className="w-16 h-16 text-blue-500 animate-spin" />
@@ -117,12 +141,6 @@ export default function FFPlayerImages({ uid, region }: FFPlayerImagesProps) {
                       src={outfitUrl}
                       alt={`Outfit for UID ${uid}`}
                       className="w-full h-auto max-h-[700px] object-contain transition-all duration-500 group-hover:scale-105 cursor-pointer"
-                      onError={() => {
-                        setOutfitError(true);
-                        setOutfitLoading(false);
-                      }}
-                      onLoad={handleOutfitLoad}
-                      loading="lazy"
                       onClick={() => setModalImage({ url: outfitUrl, title: `Outfit - ${uid}` })}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-purple-600/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300" />
@@ -164,7 +182,7 @@ export default function FFPlayerImages({ uid, region }: FFPlayerImagesProps) {
                 </h4>
               </div>
               
-              {bannerLoading && (
+              {bannerLoading && !bannerLoaded && (
                 <div className="rounded-2xl overflow-hidden bg-gradient-to-br from-pink-500/10 to-purple-500/10 border-2 border-pink-500/40 p-16 flex flex-col items-center justify-center min-h-[250px] shadow-lg">
                   <div className="relative">
                     <Loader2 className="w-16 h-16 text-purple-500 animate-spin" />
@@ -182,12 +200,6 @@ export default function FFPlayerImages({ uid, region }: FFPlayerImagesProps) {
                       src={bannerUrl}
                       alt={`Banner for UID ${uid}`}
                       className="w-full h-auto max-h-[450px] object-contain transition-all duration-500 group-hover:scale-105 cursor-pointer"
-                      onError={() => {
-                        setBannerError(true);
-                        setBannerLoading(false);
-                      }}
-                      onLoad={handleBannerLoad}
-                      loading="lazy"
                       onClick={() => setModalImage({ url: bannerUrl, title: `Banner - ${uid}` })}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-pink-600/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300" />
