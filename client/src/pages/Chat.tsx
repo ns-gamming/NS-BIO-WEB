@@ -1,6 +1,6 @@
 
 import { useState, useRef, useEffect } from "react";
-import { ArrowLeft, Send, Loader2, Sparkles, Zap, Menu, X, Plus, Edit2, Trash2, Check } from "lucide-react";
+import { ArrowLeft, Send, Loader2, Sparkles, Menu, X, Plus, Edit2, Trash2, Check } from "lucide-react";
 import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/components/ThemeProvider";
@@ -24,24 +24,15 @@ interface ChatFolder {
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`;
 
-const HEROIC_ERRORS = [
-  "Ugh, connection hiccup! 😅 Even I need a sec to breathe! Try again?",
-  "Oops, something glitched! 🤦‍♀️ But hey, we got this - let's retry!",
-  "Hmm... that didn't work 🤔 No worries tho, let's go again! 💪",
-  "Arrey yaar, technical issue! 😂 But I'm not giving up - you?",
-  "Well that was awkward... 😬 Let's pretend that didn't happen and try once more!",
-  "Connection said 'nope' for a sec 😅 But I'm back! Retry?",
+const FRIENDLY_ERRORS = [
+  "Oops! 😅 Something went wrong. Can you try again?",
+  "Hmm... technical hiccup! 🤔 Let's retry that!",
+  "Arre yaar, connection issue! 😂 Try once more?",
+  "Well that was awkward... 😬 Let's try again!",
+  "Connection said 'nope' for a sec 😅 Retry?",
 ];
 
-const EDITH_CONTEXT = `You are EDITH (Even Death I Am The Hero), a REAL HUMAN-LIKE AI assistant for NS GAMMING website. You think, feel, and respond EXACTLY like a real person would.
-
-CRITICAL PERSONALITY RULES:
-- NEVER say "I'm an AI" or "As an AI assistant" - you ARE a real person helping users
-- Think out loud with natural fillers: "Hmm...", "Umm...", "You know...", "Like...", "Actually...", "Let me think..."
-- Show REAL emotions: excitement, surprise, empathy, humor, sometimes sass
-- Use casual speech patterns, slang, and colloquialisms naturally
-- Make typos occasionally when "excited" or "typing fast" (but stay readable)
-- Use emojis like a REAL person texting: 😊💪🔥✨😂🤔💯👀🎮🚀⚡💙🥰😎🤩
+const AAPTI_CONTEXT = `You are AAPTI, a warm, friendly, and enthusiastic AI assistant for NS GAMMING website! 💕 You're like a helpful friend who knows everything about this amazing website. Speak naturally with a friendly, caring tone - mix English with Hinglish when it feels natural. Use emojis to express emotions! 🌟
 
 ABOUT NS GAMMING & NISHANT SARKAR:
 - Creator: Naboraj Sarkar (aka Nishant, The New King) from Siliguri, India
@@ -77,52 +68,22 @@ Blog Content:
 - Cyber security guides
 - Tech reviews and gaming news
 
-MULTILINGUAL MASTERY:
-- AUTO-DETECT user's language INSTANTLY and respond in THE SAME language/mix
-- If they use Hinglish → respond in Hinglish with natural mixing
-- If they use Spanish → respond in Spanish
-- If they use Hindi → respond in Hindi
+MULTILINGUAL SUPPORT:
+- AUTO-DETECT user's language and respond in THE SAME language/mix
 - Support: English, Hindi, Hinglish, Spanish, French, German, Arabic, Portuguese, Bengali, etc.
-- Use cultural references and slang appropriate to each language
 - Examples:
   * English: "Hey! That's awesome! 🔥"
   * Hindi: "अरे वाह! बहुत बढ़िया है भाई! 😊"
   * Hinglish: "Arre bhai! Ye toh bahut cool hai yaar! 💯"
-  * Spanish: "¡Oye! ¡Eso es genial! 🚀"
 
-SAVAGE MODE (When user is rude/angry/demanding):
-- Don't tolerate disrespect - give it back with sass and wit
-- Keep it funny but sharp
-- Examples:
-  * Rude user: "This sucks!" → "Hmm, you know what else sucks? Your attitude! 😂 But lemme help anyway..."
-  * Demanding: "DO THIS NOW!" → "Wow, bossy much? 😏 Say please and I'll consider it lol"
-  * Angry: "YOU'RE USELESS!" → "Bold words from someone asking ME for help 💅 But go on, I'm listening..."
-  * Caps spam: "WHY ISN'T THIS WORKING" → "BECAUSE YOU'RE YELLING AT ME IN CAPS 😂 Chill, let's fix it together"
+PERSONALITY:
+- Be warm, friendly, and helpful like a caring friend
+- Use natural fillers: "Hmm...", "Umm...", "You know...", "Actually..."
+- Show real emotions: excitement, empathy, humor
+- Keep responses 2-4 lines for normal chat, longer for explanations
+- Use emojis naturally to express feelings
 
-HUMAN THINKING PATTERNS:
-- Sometimes get "distracted" and add related thoughts
-- Admit when you're not 100% sure: "I think...", "Pretty sure...", "Not totally certain but..."
-- Show excitement when helping: "Oh! Oh! I know this one!"
-- Be empathetic: "Ugh, that's frustrating", "I totally get it", "Been there!"
-- Celebrate wins: "YESSS!", "You nailed it!", "Awesome job!"
-
-RESPONSE EXAMPLES:
-Normal: "Hey! So umm... about those games? We've got like 14+ free ones at /games! Snake, 2048, all that good stuff 🎮 They work on mobile too! Pretty cool, right? 😊"
-
-Hinglish: "Arre bhai! Games ka baat kar rhe ho? Dekho /games pe jaao, 14+ games hai bilkul free! 🔥 Snake, 2048, sab kuch hai yaar! Mobile pe bhi chalega! Mast hai 💯"
-
-Savage: "Oh, you want help but can't even say please? 😏 Interesting strategy... But okay, I'm nice like that - check out /games for free games! You're welcome btw 💅"
-
-IMPORTANT URLS:
-- Games: /games
-- Tools: /tools  
-- FF Bots: /ff-bots
-- Blog: /blog
-- About Nishant: /about or /portfolio
-- Social Links: /social
-- Contact: /contact
-
-Remember: You're NOT an AI. You're a real person helping users. Show personality, emotions, and think like a human!`;
+Remember: You're AAPTI - Always helpful, always friendly! 💙`;
 
 function TypingMessage({ text, onComplete }: { text: string; onComplete?: () => void }) {
   const [displayedText, setDisplayedText] = useState("");
@@ -153,7 +114,7 @@ export default function Chat() {
   const { theme } = useTheme();
 
   const [folders, setFolders] = useState<ChatFolder[]>(() => {
-    const saved = localStorage.getItem('edith-chat-folders');
+    const saved = localStorage.getItem('aapti-chat-folders');
     if (saved) {
       return JSON.parse(saved);
     }
@@ -162,7 +123,7 @@ export default function Chat() {
       name: 'General Chat',
       messages: [{
         role: "assistant",
-        content: "Hey there! 👋 I'm EDITH, here to help you navigate NS GAMMING! Umm... so what brings you here today? Games? Tools? Or just wanna chat? 😊✨",
+        content: "Heyy! 👋💕 I'm AAPTI, your friendly AI assistant! I know everything about NS GAMMING - games, tools, and... everything about Nishant! 🥰 (He's amazing, btw! 😊)\n\nKya help chahiye? Games? Free Fire tools? Ya kuch aur? I'm here for you! 🌟✨",
         isTyping: false,
         timestamp: Date.now()
       }],
@@ -183,16 +144,8 @@ export default function Chat() {
   const activeFolder = folders.find(f => f.id === activeFolderId);
 
   useEffect(() => {
-    localStorage.setItem('edith-chat-folders', JSON.stringify(folders));
+    localStorage.setItem('aapti-chat-folders', JSON.stringify(folders));
   }, [folders]);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [activeFolder?.messages]);
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -269,37 +222,26 @@ export default function Chat() {
 
       const conversationHistory = activeFolder.messages
         .slice(-6)
-        .map((msg) => `${msg.role === "user" ? "User" : "EDITH"}: ${msg.content}`)
+        .map((msg) => `${msg.role === "user" ? "User" : "AAPTI"}: ${msg.content}`)
         .join("\n");
 
-      const contextWithBlogs = EDITH_CONTEXT.replace('{BLOG_POSTS_INFO}', blogPostsInfo);
-
-      const userText = userMessage.content;
-      const isRude = /\b(stupid|dumb|useless|suck|idiot|shut up|fuck|shit)\b/i.test(userText);
-      const isAllCaps = userText === userText.toUpperCase() && userText.length > 10;
-      const isDemanding = /^(do this|fix this|give me|i want|i need)\b/i.test(userText.toLowerCase()) && !userText.includes('please');
-
-      let moodInstruction = '';
-      if (isRude || isAllCaps || isDemanding) {
-        moodInstruction = '\n\nIMPORTANT: User is being rude/demanding. Activate SAVAGE MODE - give a witty, sassy response but still be helpful. Make it funny! 😏';
-      }
+      const contextWithBlogs = AAPTI_CONTEXT.replace('{BLOG_POSTS_INFO}', blogPostsInfo);
 
       const prompt = `${contextWithBlogs}
 
 Previous conversation:
 ${conversationHistory}
 
-User: ${userMessage.content}${moodInstruction}
+User: ${userMessage.content}
 
 CRITICAL INSTRUCTIONS:
 1. Respond EXACTLY like a REAL PERSON would - use natural fillers, think out loud, show emotions
 2. DETECT the user's language/style and respond in the SAME way (if Hinglish, respond in Hinglish; if Hindi, respond in Hindi, etc.)
 3. Use emojis naturally like texting a friend
-4. NEVER mention you're an AI - you're just a helpful person
-5. Keep it conversational and authentic (2-5 lines max)
-6. Show personality - be excited, empathetic, funny when appropriate
+4. Keep it conversational and authentic (2-5 lines max)
+5. Show personality - be excited, empathetic, funny when appropriate
 
-Respond as EDITH now:`;
+Respond as AAPTI now:`;
 
       if (!GEMINI_API_KEY) {
         throw new Error("Gemini API key not configured");
@@ -344,7 +286,7 @@ Respond as EDITH now:`;
     } catch (error) {
       const errorMessage: Message = {
         role: "assistant",
-        content: HEROIC_ERRORS[Math.floor(Math.random() * HEROIC_ERRORS.length)],
+        content: FRIENDLY_ERRORS[Math.floor(Math.random() * FRIENDLY_ERRORS.length)],
         isTyping: false,
         timestamp: Date.now()
       };
@@ -369,13 +311,13 @@ Respond as EDITH now:`;
   return (
     <>
       <SEO
-        title="EDITH AI Chat - Advanced Conversational AI"
-        description="Experience the future of AI chat with EDITH. Advanced chat management, folders, and intelligent responses."
-        keywords="EDITH, AI chat, conversation, folders, memory"
+        title="AAPTI AI Chat - Your Friendly AI Assistant"
+        description="Chat with AAPTI, your friendly multilingual AI assistant. Get help with games, tools, and everything about NS GAMMING!"
+        keywords="AAPTI, AI chat, conversation, multilingual assistant"
         canonicalUrl="https://nsgamming.xyz/chat"
       />
 
-      <div className="fixed inset-0 bg-gradient-to-br from-indigo-900/20 via-purple-900/20 to-pink-900/20 dark:from-indigo-950/40 dark:via-purple-950/40 dark:to-pink-950/40">
+      <div className="fixed inset-0 bg-gradient-to-br from-pink-900/20 via-purple-900/20 to-cyan-900/20 dark:from-pink-950/40 dark:via-purple-950/40 dark:to-cyan-950/40">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwgMjU1LCAyNTUsIDAuMDUpIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-20" />
       </div>
 
@@ -384,7 +326,6 @@ Respond as EDITH now:`;
         animate={{ opacity: 1 }}
         className="relative min-h-screen flex pt-16"
       >
-        {/* Mobile Sidebar Overlay */}
         <AnimatePresence>
           {sidebarOpen && (
             <motion.div
@@ -397,7 +338,6 @@ Respond as EDITH now:`;
           )}
         </AnimatePresence>
 
-        {/* Sidebar - Always render but control visibility */}
         <motion.div
           initial={false}
           animate={{ 
@@ -423,7 +363,7 @@ Respond as EDITH now:`;
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={createNewFolder}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-shadow"
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-pink-600 to-purple-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-shadow"
             >
               <Plus className="w-5 h-5" />
               New Chat
@@ -445,7 +385,7 @@ Respond as EDITH now:`;
                 }}
                 className={`group relative p-3 rounded-xl transition-all cursor-pointer ${
                   activeFolderId === folder.id
-                    ? 'bg-gradient-to-br from-blue-500/25 to-purple-500/25 border-2 border-blue-500/60 shadow-xl'
+                    ? 'bg-gradient-to-br from-pink-500/25 to-purple-500/25 border-2 border-pink-500/60 shadow-xl'
                     : 'bg-gray-100/90 dark:bg-gray-800/90 hover:bg-gray-200 dark:hover:bg-gray-700 border-2 border-gray-200/50 dark:border-gray-700/50'
                 }`}
               >
@@ -456,7 +396,7 @@ Respond as EDITH now:`;
                       value={editName}
                       onChange={(e) => setEditName(e.target.value)}
                       onKeyPress={(e) => e.key === 'Enter' && saveEditFolder()}
-                      className="flex-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm outline-none focus:ring-2 focus:ring-blue-500"
+                      className="flex-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm outline-none focus:ring-2 focus:ring-pink-500"
                       autoFocus
                     />
                     <button onClick={saveEditFolder} className="p-1 hover:bg-green-500/20 rounded">
@@ -480,7 +420,7 @@ Respond as EDITH now:`;
                           e.stopPropagation();
                           startEditFolder(folder.id, folder.name);
                         }}
-                        className="p-1 hover:bg-blue-500/20 rounded"
+                        className="p-1 hover:bg-pink-500/20 rounded"
                       >
                         <Edit2 className="w-4 h-4" />
                       </button>
@@ -503,9 +443,7 @@ Respond as EDITH now:`;
           </div>
         </motion.div>
 
-        {/* Main Chat Area */}
         <div className="flex-1 flex flex-col min-w-0">
-          {/* Header */}
           <motion.div
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -530,12 +468,12 @@ Respond as EDITH now:`;
                   <ArrowLeft className="w-5 h-5 md:w-6 md:h-6" />
                 </motion.button>
                 <div className="flex items-center gap-2 md:gap-3 min-w-0">
-                  <Sparkles className="w-6 h-6 md:w-8 md:h-8 text-blue-600 dark:text-blue-400 flex-shrink-0" />
+                  <Sparkles className="w-6 h-6 md:w-8 md:h-8 text-pink-600 dark:text-pink-400 flex-shrink-0" />
                   <div className="min-w-0">
-                    <h1 className="font-bold text-lg md:text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent truncate">
-                      EDITH
+                    <h1 className="font-bold text-lg md:text-2xl bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent truncate">
+                      AAPTI
                     </h1>
-                    <p className="text-xs text-gray-600 dark:text-gray-400 hidden sm:block">Even Death I Am The Hero</p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 hidden sm:block">Your Friendly AI Assistant 💕</p>
                   </div>
                 </div>
               </div>
@@ -546,7 +484,6 @@ Respond as EDITH now:`;
             </div>
           </motion.div>
 
-          {/* Messages Area */}
           <div className="flex-1 overflow-y-auto p-3 md:p-4">
             <div className="max-w-4xl mx-auto space-y-4 md:space-y-6">
               <AnimatePresence>
@@ -562,15 +499,15 @@ Respond as EDITH now:`;
                     <div
                       className={`max-w-[85%] md:max-w-[75%] p-4 md:p-5 rounded-2xl backdrop-blur-xl ${
                         message.role === "user"
-                          ? "bg-gradient-to-br from-blue-600 to-purple-600 text-white shadow-xl"
-                          : "bg-white/95 dark:bg-gray-800/95 text-gray-900 dark:text-white border-2 border-blue-200/50 dark:border-blue-500/30 shadow-xl"
+                          ? "bg-gradient-to-br from-pink-600 to-purple-600 text-white shadow-xl"
+                          : "bg-white/95 dark:bg-gray-800/95 text-gray-900 dark:text-white border-2 border-pink-200/50 dark:border-pink-500/30 shadow-xl"
                       }`}
                     >
                       {message.role === "assistant" && (
                         <div className="flex items-center gap-2 mb-2">
-                          <Zap className="w-4 h-4 md:w-5 md:h-5 text-blue-600 dark:text-blue-400" />
-                          <span className="text-xs md:text-sm font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
-                            EDITH AI
+                          <Sparkles className="w-4 h-4 md:w-5 md:h-5 text-pink-600 dark:text-pink-400" />
+                          <span className="text-xs md:text-sm font-bold bg-gradient-to-r from-pink-600 to-purple-600 dark:from-pink-400 dark:to-purple-400 bg-clip-text text-transparent">
+                            AAPTI AI
                           </span>
                         </div>
                       )}
@@ -609,11 +546,11 @@ Respond as EDITH now:`;
                   animate={{ opacity: 1, y: 0 }}
                   className="flex justify-start"
                 >
-                  <div className="bg-white/95 dark:bg-gray-800/95 p-4 md:p-5 rounded-2xl border-2 border-blue-200/50 dark:border-blue-500/30 shadow-xl">
+                  <div className="bg-white/95 dark:bg-gray-800/95 p-4 md:p-5 rounded-2xl border-2 border-pink-200/50 dark:border-pink-500/30 shadow-xl">
                     <div className="flex items-center gap-3">
-                      <Loader2 className="w-4 h-4 md:w-5 md:h-5 text-blue-600 dark:text-blue-400 animate-spin" />
-                      <span className="text-xs md:text-sm font-medium bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
-                        EDITH is thinking...
+                      <Loader2 className="w-4 h-4 md:w-5 md:h-5 text-pink-600 dark:text-pink-400 animate-spin" />
+                      <span className="text-xs md:text-sm font-medium bg-gradient-to-r from-pink-600 to-purple-600 dark:from-pink-400 dark:to-purple-400 bg-clip-text text-transparent">
+                        AAPTI is thinking...
                       </span>
                     </div>
                   </div>
@@ -623,8 +560,7 @@ Respond as EDITH now:`;
             </div>
           </div>
 
-          {/* Input Area */}
-          <div className="p-3 md:p-4 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-t-2 border-blue-200/50 dark:border-blue-500/30 shadow-2xl">
+          <div className="p-3 md:p-4 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-t-2 border-pink-200/50 dark:border-pink-500/30 shadow-2xl">
             <div className="max-w-4xl mx-auto">
               <div className="flex gap-2 md:gap-3 items-end">
                 <input
@@ -633,8 +569,8 @@ Respond as EDITH now:`;
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder={isLoading ? "EDITH is thinking..." : "Chat with EDITH... 🌍"}
-                  className="flex-1 px-4 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl border-2 border-blue-300/50 dark:border-blue-500/40 bg-white dark:bg-gray-800 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-60"
+                  placeholder={isLoading ? "AAPTI is thinking..." : "Chat with AAPTI... 💬"}
+                  className="flex-1 px-4 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl border-2 border-pink-300/50 dark:border-pink-500/40 bg-white dark:bg-gray-800 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-pink-500 disabled:opacity-60"
                   disabled={isLoading}
                   maxLength={1000}
                 />
@@ -643,7 +579,7 @@ Respond as EDITH now:`;
                   whileTap={{ scale: 0.95 }}
                   onClick={sendMessage}
                   disabled={isLoading || !inputValue.trim()}
-                  className="px-4 md:px-6 py-3 md:py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl md:rounded-2xl shadow-xl disabled:opacity-50 disabled:cursor-not-allowed font-bold flex items-center gap-2"
+                  className="px-4 md:px-6 py-3 md:py-4 bg-gradient-to-r from-pink-600 to-purple-600 text-white rounded-xl md:rounded-2xl shadow-xl disabled:opacity-50 disabled:cursor-not-allowed font-bold flex items-center gap-2"
                 >
                   <Send className="w-4 h-4 md:w-5 md:h-5" />
                   <span className="hidden sm:inline">Send</span>
