@@ -4,9 +4,8 @@ import { Menu, X, ArrowLeft } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { useSoundEffects } from "../hooks/useSoundEffects";
 
-// Logo path - must be in client/public directory
+// Use public asset path. If the file doesn't exist in client/public/attached_assets/, we fallback to initials.
 const LOGO_PATH = "/attached_assets/1000016408.jpg";
-const FALLBACK_LOGO = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Crect width='48' height='48' fill='%2306b6d4'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Orbitron' font-size='20' fill='white' font-weight='bold'%3ENS%3C/text%3E%3C/svg%3E";
 
 export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -59,13 +58,18 @@ export default function Navigation() {
             onMouseEnter={handleNavHover}
           >
             <div className="w-12 h-12 rounded-lg border-2 border-primary animate-pulse-neon animate-glowPulse overflow-hidden backdrop-blur-sm group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
-              <img
-                src={logoOk ? LOGO_PATH : FALLBACK_LOGO}
-                alt="NS GAMMING Logo"
-                className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
-                onError={() => setLogoOk(false)}
-                loading="eager"
-              />
+              {logoOk ? (
+                <img
+                  src={LOGO_PATH}
+                  alt="NS GAMMING Logo"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
+                  onError={() => setLogoOk(false)}
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-muted/40">
+                  <span className="font-orbitron text-sm">NS</span>
+                </div>
+              )}
             </div>
             <span className="font-orbitron font-bold text-xl text-primary animate-glow group-hover:scale-105 group-hover:animate-textShine transition-all duration-300">
               NS GAMMING
