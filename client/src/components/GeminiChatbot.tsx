@@ -24,8 +24,8 @@ interface Position {
   y: number;
 }
 
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "AIzaSyBJ7BdftaQp7N5IJxWNUHIc6EhjOXQ865o";
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-exp:generateContent`;
+// API endpoint for backend Gemini integration
+const GEMINI_BACKEND_URL = `/api/gemini/chat`;
 
 const FUNNY_ERRORS = [
   "Oops! My brain just did a 360 no-scope and missed! 🎯 Try again?",
@@ -404,7 +404,7 @@ ${messages.slice(-8).map(m => `${m.role === 'user' ? 'User' : 'AAPTI'}: ${m.cont
 
       const contextWithBlogs = ENHANCED_CONTEXT.replace('{BLOG_POSTS_INFO}', blogPostsInfo);
 
-      const prompt = `${contextWithBlogs}
+      const contextInfo = `${contextWithBlogs}
 
 ${userContextInfo}
 
@@ -420,30 +420,19 @@ CRITICAL INSTRUCTIONS:
 7. Be warm, friendly, and conversational - like chatting with a real friend
 8. Keep responses 2-4 lines for normal chat, longer only when explaining complex things
 
-Respond as AAPTI now:`;
+Respond as IRA now:`;
 
-      if (!GEMINI_API_KEY) {
-        throw new Error("Gemini API key not configured");
-      }
-
-      const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+      const response = await fetch(GEMINI_BACKEND_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          contents: [{
-            parts: [{ text: prompt }]
-          }],
-          generationConfig: {
-            temperature: 1.2,
-            topK: 40,
-            topP: 0.95,
-            maxOutputTokens: 1024,
-          }
+          messages: updatedMessages,
+          contextInfo: contextInfo
         }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to get response from Gemini AI");
+        throw new Error("Failed to get response from AI");
       }
 
       const data = await response.json();
