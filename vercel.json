@@ -10,8 +10,16 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/index.ts"
+      "src": "/api/ff-likes/(.*)",
+      "dest": "/api/ff-likes.ts"
+    },
+    {
+      "src": "/api/ff-info-bot/search",
+      "dest": "/api/ff-info-bot.ts"
+    },
+    {
+      "src": "/api/ff-info-bot/check-limit",
+      "dest": "/api/ff-info-bot.ts"
     }
   ],
   "functions": {
