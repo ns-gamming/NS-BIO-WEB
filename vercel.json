@@ -1,3 +1,4 @@
+
 {
   "version": 2,
   "buildCommand": "npm run build",
@@ -5,22 +6,11 @@
   "framework": null,
   "installCommand": "npm install",
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/(.*)", "destination": "/index.html" }
-  ],
-  "routes": [
-    {
-      "src": "/api/ff-likes/(.*)",
-      "dest": "/api/ff-likes.ts"
-    },
-    {
-      "src": "/api/ff-info-bot/search",
-      "dest": "/api/ff-info-bot.ts"
-    },
-    {
-      "src": "/api/ff-info-bot/check-limit",
-      "dest": "/api/ff-info-bot.ts"
-    }
+    { "source": "/api/ff-likes/:path*", "destination": "/api/ff-likes" },
+    { "source": "/api/ff-info-bot/search", "destination": "/api/ff-info-bot" },
+    { "source": "/api/ff-info-bot/check-limit", "destination": "/api/ff-info-bot" },
+    { "source": "/api/:path*", "destination": "/api/index" },
+    { "source": "/:path*", "destination": "/index.html" }
   ],
   "functions": {
     "api/**/*.ts": {
