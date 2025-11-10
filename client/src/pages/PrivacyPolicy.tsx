@@ -55,7 +55,7 @@ export default function PrivacyPolicy() {
           {/* Last Updated */}
           <div className="glass rounded-2xl p-6 mb-8 text-center animate-fadeUp">
             <p className="text-muted-foreground">
-              <strong className="text-primary">Last Updated:</strong> October 7, 2025
+              <strong className="text-primary">Last Updated:</strong> November 10, 2025
             </p>
           </div>
 
