@@ -395,6 +395,12 @@ IRA (respond naturally, match their language, keep it short 2-3 lines, use emoji
       if (!response.ok) {
         const errorData = await response.json();
         console.error("Gemini API Error:", errorData);
+        
+        // Check for rate limit error
+        if (errorData.error?.code === 429 || errorData.error?.status === 'RESOURCE_EXHAUSTED') {
+          throw new Error('RATE_LIMIT');
+        }
+        
         throw new Error(`Gemini API Error: ${errorData.error?.message || 'Unknown error'}`);
       }
 
@@ -442,6 +448,8 @@ IRA (respond naturally, match their language, keep it short 2-3 lines, use emoji
       // Show more specific error for API key issues
       if (error.message?.includes("API key")) {
         errorText = "Oops! 🔑 The Gemini API key isn't set up properly. Please add VITE_GEMINI_API_KEY to Replit Secrets!";
+      } else if (error.message === 'RATE_LIMIT') {
+        errorText = "Whoa! 🚀 Too many requests! The Gemini API has hit its rate limit. Please wait a minute and try again, or get a new API key from https://aistudio.google.com/app/apikey";
       }
 
       const errorMessage: Message = {
