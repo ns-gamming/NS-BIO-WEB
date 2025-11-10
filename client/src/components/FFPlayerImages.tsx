@@ -45,8 +45,10 @@ export default function FFPlayerImages({ uid, region }: FFPlayerImagesProps) {
   const handleOutfitLoad = () => {
     setOutfitLoaded(true);
     setOutfitLoading(false);
-    // Auto-open outfit image in modal
-    setModalImage({ url: outfitUrl, title: `Outfit - ${uid}` });
+    // Auto-open outfit image in modal only on first load (not on retry)
+    if (retryCount === 0) {
+      setModalImage({ url: outfitUrl, title: `Outfit - ${uid}` });
+    }
   };
 
   const handleBannerLoad = () => {

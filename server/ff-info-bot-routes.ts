@@ -112,7 +112,7 @@ export function registerFfInfoBotRoutes(app: Express) {
       console.log(`   URL: ${apiUrl.replace(ffInfoApiKey, 'HIDDEN')}`);
       
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 7000); // 7 second timeout for Vercel (leaves 3s buffer)
+      const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
       
       const response = await fetch(apiUrl, {
         method: 'GET',
@@ -121,6 +121,7 @@ export function registerFfInfoBotRoutes(app: Express) {
           'Accept': 'application/json',
           'Accept-Language': 'en-US,en;q=0.9',
           'Cache-Control': 'no-cache',
+          'Referer': 'https://freefiremobile.com/',
         },
         signal: controller.signal,
       });
@@ -237,7 +238,7 @@ export function registerFfInfoBotRoutes(app: Express) {
       
       if (error.name === 'AbortError' || error.message?.includes('timeout') || error.message?.includes('aborted')) {
         return res.status(504).json({ 
-          error: "⏱️ Request timeout. The Free Fire API is slow right now. Please wait a moment and try again." 
+          error: "⏱️ Request timeout. The Free Fire API is taking too long to respond.\n\nTips:\n• Try again in 30 seconds\n• Make sure UID and region are correct\n• API might be under heavy load" 
         });
       }
       

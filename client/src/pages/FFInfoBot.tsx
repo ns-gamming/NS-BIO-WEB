@@ -169,12 +169,13 @@ export default function FFInfoBot() {
       const errorMessage = error.message || "Failed to fetch player info";
       const isConfigError = errorMessage.includes("not configured") || errorMessage.includes("Secrets") || errorMessage.includes("API key");
       const isNotFound = errorMessage.includes("No player found") || errorMessage.includes("404");
+      const isTimeout = errorMessage.includes("timeout") || errorMessage.includes("⏱️");
       
       toast({
-        title: isConfigError ? "⚙️ Configuration Error" : isNotFound ? "🔍 Player Not Found" : "❌ Error",
+        title: isConfigError ? "⚙️ Configuration Error" : isNotFound ? "🔍 Player Not Found" : isTimeout ? "⏱️ Timeout" : "❌ Error",
         description: errorMessage,
         variant: "destructive",
-        duration: 5000,
+        duration: isTimeout ? 8000 : 5000,
       });
       
       console.error('Search error:', error);
@@ -397,7 +398,7 @@ ${social.signature}
                 {searchMutation.isPending ? (
                   <>
                     <Zap className="w-5 h-5 mr-2 animate-spin" />
-                    Searching...
+                    Fetching data from Free Fire servers... (may take 10-15 seconds)
                   </>
                 ) : currentLimit.remainingSearches === 0 ? (
                   <>
@@ -649,12 +650,14 @@ ${social.signature}
           <CardContent className="space-y-2 text-sm text-muted-foreground">
             <p>• 🔢 Free searches: 5 per day per user</p>
             <p>• 🔄 Limit resets daily at midnight (00:00)</p>
+            <p>• ⏱️ Each search takes 10-15 seconds (fetching from Free Fire servers)</p>
             <p>• 📋 Use "Copy Info" to get beautifully formatted player details with emojis</p>
             <p>• 💾 Download JSON for complete raw data (all API fields included)</p>
             <p>• ⚡ Data is fetched in real-time from official Free Fire servers</p>
             <p>• 🌍 Supports all major regions: SG, IND, CIS, TH, VN, TR, BR</p>
             <p>• 🔒 Your data is private and never shared</p>
             <p>• 🖼️ Player images auto-open in full screen when loaded successfully</p>
+            <p>• 🔁 If timeout occurs, wait 30 seconds and try again</p>
           </CardContent>
         </Card>
       </div>
