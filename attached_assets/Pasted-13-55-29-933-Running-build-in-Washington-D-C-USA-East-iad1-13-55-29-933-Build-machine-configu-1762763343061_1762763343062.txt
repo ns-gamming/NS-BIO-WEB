@@ -1,0 +1,54 @@
+13:55:29.933 Running build in Washington, D.C., USA (East) – iad1
+13:55:29.933 Build machine configuration: 2 cores, 8 GB
+13:55:30.066 Cloning github.com/ns-gamming/NS-BIO-WEB (Branch: main, Commit: ee51e8d)
+13:55:30.422 Cloning completed: 356.000ms
+13:55:30.535 Found .vercelignore
+13:55:30.560 Removed 36 ignored files defined in .vercelignore
+13:55:30.560   /.git/config
+13:55:30.561   /.git/description
+13:55:30.561   /.git/FETCH_HEAD
+13:55:30.561   /.git/HEAD
+13:55:30.562   /.git/hooks/applypatch-msg.sample
+13:55:30.562   /.git/hooks/commit-msg.sample
+13:55:30.562   /.git/hooks/fsmonitor-watchman.sample
+13:55:30.563   /.git/hooks/post-checkout
+13:55:30.563   /.git/hooks/post-commit
+13:55:30.563   /.git/hooks/post-merge
+13:55:31.020 Restored build cache from previous deployment (3Y2AEH1DCVh42K5WHKxrCegd6cmG)
+13:55:31.642 Running "vercel build"
+13:55:32.042 Vercel CLI 48.9.0
+13:55:32.903 Running "install" command: `npm install`...
+13:55:36.954 npm warn deprecated three-mesh-bvh@0.7.8: Deprecated due to three.js version incompatibility. Please use v0.8.0, instead.
+13:55:39.837 
+13:55:39.838 added 81 packages, removed 40 packages, changed 26 packages, and audited 677 packages in 7s
+13:55:39.838 
+13:55:39.838 80 packages are looking for funding
+13:55:39.838   run `npm fund` for details
+13:55:39.868 
+13:55:39.868 8 vulnerabilities (6 moderate, 2 high)
+13:55:39.868 
+13:55:39.869 To address issues that do not require attention, run:
+13:55:39.869   npm audit fix
+13:55:39.869 
+13:55:39.869 To address all issues (including breaking changes), run:
+13:55:39.869   npm audit fix --force
+13:55:39.870 
+13:55:39.870 Run `npm audit` for details.
+13:55:40.661 
+13:55:40.662 > rest-express@1.0.0 build
+13:55:40.663 > vite build --mode production && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist --minify
+13:55:40.663 
+13:55:41.029 [36mvite v5.4.21 [32mbuilding for production...[36m[39m
+13:55:41.095 transforming...
+13:55:44.495 [32m✓[39m 98 modules transformed.
+13:55:44.501 [31mx[39m Build failed in 3.45s
+13:55:44.502 [31merror during build:
+13:55:44.502 [31m[vite:asset] Could not load /vercel/path0/attached_assets/1000016408.jpg (imported by client/src/pages/Home.tsx): ENOENT: no such file or directory, open '/vercel/path0/attached_assets/1000016408.jpg'[31m
+13:55:44.502     at async open (node:internal/fs/promises:641:25)
+13:55:44.502     at async Object.readFile (node:internal/fs/promises:1245:14)
+13:55:44.503     at async fileToBuiltUrl (file:///vercel/path0/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:20428:19)
+13:55:44.503     at async Object.load (file:///vercel/path0/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:20328:17)
+13:55:44.503     at async PluginDriver.hookFirstAndGetPlugin (file:///vercel/path0/node_modules/rollup/dist/es/shared/node-entry.js:20689:28)
+13:55:44.503     at async file:///vercel/path0/node_modules/rollup/dist/es/shared/node-entry.js:19809:33
+13:55:44.504     at async Queue.work (file:///vercel/path0/node_modules/rollup/dist/es/shared/node-entry.js:20899:32)[39m
+13:55:44.524 Error: Command "npm run build" exited with 1

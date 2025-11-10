@@ -1,0 +1,140 @@
+This error is coming from **`client/src/pages/Home.tsx`** — Vite can’t find `attached_assets/1000016408.jpg` when it tries to bundle that page.
+
+Below I’ll give you a safe, drop-in replacement for `Home.tsx` that uses a public-path image (and falls back gracefully if the file isn’t present). After the code I’ll list exactly what to do (where to put the image, how to find other broken imports, and how to redeploy).
+
+---
+
+### ✅ Drop-in: `client/src/pages/Home.tsx` (build-safe)
+
+Replace the current `Home.tsx` with this. It uses `/attached_assets/1000016408.jpg` from `client/public` and will show a simple fallback UI if the image is missing.
+
+```tsx
+import React, { useState } from "react";
+import { Link } from "wouter";
+import { ThemeToggle } from "../components/ThemeToggle";
+
+const HERO_IMG = "/attached_assets/1000016408.jpg";
+
+export default function Home() {
+  const [heroOk, setHeroOk] = useState(true);
+
+  return (
+    <main className="min-h-screen pt-20 bg-background">
+      <header className="container mx-auto px-6">
+        <div className="flex items-center justify-between py-6">
+          <h1 className="text-3xl font-orbitron font-bold">Welcome to NS GAMMING</h1>
+          <ThemeToggle />
+        </div>
+      </header>
+
+      <section className="container mx-auto px-6 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div>
+            <h2 className="text-2xl font-semibold mb-4">NS GAMMING — Gaming, Bots & Tutorials</h2>
+            <p className="mb-4">
+              Welcome! This site contains gaming projects, Free Fire bot experiments, and guides for building your
+              gaming presence online. We publish guides, tools, and project showcases to help gamers and developers.
+            </p>
+            <p className="mb-4">
+              Check out the portfolio, read our blog, or contact us for custom projects. Each page has original,
+              helpful content aimed at real users.
+            </p>
+
+            <div className="flex gap-3 mt-4">
+              <Link href="/portfolio" className="btn btn-primary">Portfolio</Link>
+              <Link href="/blog" className="btn btn-ghost">Blog</Link>
+            </div>
+          </div>
+
+          <div className="w-full h-64 md:h-80 rounded-lg overflow-hidden border border-border">
+            {heroOk ? (
+              <img
+                src={HERO_IMG}
+                alt="NS GAMMING hero"
+                className="w-full h-full object-cover"
+                loading="lazy"
+                onError={() => setHeroOk(false)}
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-muted/40">
+                <span className="text-xl font-orbitron">NS GAMMING</span>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <section className="container mx-auto px-6 mt-12">
+        <h3 className="text-xl font-semibold mb-4">Latest Posts</h3>
+        <div className="grid md:grid-cols-3 gap-6">
+          <article className="p-4 border rounded-md">
+            <h4 className="font-semibold">How I build Free Fire bots</h4>
+            <p className="text-sm mt-2">Overview and approach — short intro. (Add full post on /blog)</p>
+          </article>
+          <article className="p-4 border rounded-md">
+            <h4 className="font-semibold">Starting a gaming YouTube channel</h4>
+            <p className="text-sm mt-2">Quick tips for new creators. (Expand in blog)</p>
+          </article>
+          <article className="p-4 border rounded-md">
+            <h4 className="font-semibold">Top free tools for gamers</h4>
+            <p className="text-sm mt-2">Tools and workflows for content creation.</p>
+          </article>
+        </div>
+      </section>
+
+      <footer className="container mx-auto px-6 py-12 text-center text-sm text-muted">
+        <div>
+          © {new Date().getFullYear()} NS GAMMING — <Link href="/privacy-policy">Privacy Policy</Link> • <Link href="/contact">Contact</Link>
+        </div>
+      </footer>
+    </main>
+  );
+}
+```
+
+---
+
+### What you must do next (3 quick steps)
+
+1. **Upload the image (recommended)**
+   Put the actual image at:
+
+   ```
+   client/public/attached_assets/1000016408.jpg
+   ```
+
+   If `attached_assets` folder doesn’t exist, create it. Then commit & push to `main`.
+
+   GitHub web: Repo → `client/public` → Add file → Upload files → create `attached_assets/1000016408.jpg` → Commit.
+
+2. **Search for other broken references**
+   There might be other files still importing `@assets/1000016408.jpg` (or using `/attached_assets/...` directly). Run this from your project root (locally or in Codespace/terminal):
+
+   ```bash
+   # find references to that filename or alias
+   grep -R "1000016408" -n client || true
+   grep -R "@assets/1000016408" -n client || true
+   ```
+
+   If any results show other files (e.g., `client/src/components/X.tsx`), open them and replace the import with the public path or ensure the file exists in `src/assets` and import relatively.
+
+3. **Commit, push, redeploy**
+
+   ```bash
+   git add client/public/attached_assets/1000016408.jpg client/src/pages/Home.tsx
+   git commit -m "Fix: use public hero image with fallback; add missing asset or fallback"
+   git push origin main
+   ```
+
+   Vercel will redeploy automatically on push.
+
+---
+
+### Quick troubleshooting if build still fails
+
+* Paste the last ~30 lines of the Vercel build log here. I’ll read them and point to the exact file & line.
+* If the error mentions another file (e.g., `imported by client/src/whatever.tsx`), that file is the next one to fix.
+
+---
+
+Want me to also generate the `client/public/attached_assets/1000016408.jpg` file content? I can’t create binary images, but I can create a small SVG placeholder you can save as `1000016408.jpg` replacement (or as `1000016408.svg`) and it will satisfy the build immediately. Say “Yes — make SVG placeholder” and I’ll output it.
