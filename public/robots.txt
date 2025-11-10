@@ -1,25 +1,28 @@
-# robots.txt for nsgamming.xyz
-# Optimized for Google AdSense and SEO
 
-# Allow all crawlers
+# NS GAMMING Website - Robots.txt
+# https://nsgamming.xyz
+
 User-agent: *
 Allow: /
-Disallow: /api/
-Disallow: /_redirects
+Allow: /blog/
+Allow: /tools/
+Allow: /ff-bots/
+Allow: /games/
+Allow: /portfolio/
 
-# Allow Google and Bing specific crawlers
-User-agent: Googlebot
-Allow: /
+# Disallow admin and API routes
+Disallow: /api/
+Disallow: /admin/
+
+# Allow Google and Bing to index images
 User-agent: Googlebot-Image
 Allow: /
+
 User-agent: Bingbot
 Allow: /
-
-# Crawl delay (0 = no delay, good for popular sites)
-Crawl-delay: 0
 
 # Sitemap location
 Sitemap: https://nsgamming.xyz/sitemap.xml
 
-# Host
-Host: https://nsgamming.xyz
+# Crawl-delay for respectful crawling
+Crawl-delay: 1

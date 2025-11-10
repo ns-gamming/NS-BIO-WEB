@@ -1,10 +1,11 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <!-- Homepage -->
   <url>
     <loc>https://nsgamming.xyz/</loc>
-    <lastmod>2025-01-16T00:00:00+00:00</lastmod>
+    <lastmod>2025-01-20T00:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -12,19 +13,19 @@
   <!-- Main Pages -->
   <url>
     <loc>https://nsgamming.xyz/about</loc>
-    <lastmod>2025-01-16T00:00:00+00:00</lastmod>
+    <lastmod>2025-01-20T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://nsgamming.xyz/portfolio</loc>
-    <lastmod>2025-01-16T00:00:00+00:00</lastmod>
+    <lastmod>2025-01-20T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://nsgamming.xyz/blog</loc>
-    <lastmod>2025-01-16T00:00:00+00:00</lastmod>
+    <lastmod>2025-01-20T00:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
@@ -73,8 +74,20 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://nsgamming.xyz/blog/crypto-investing-beginners-guide-2025</loc>
+    <lastmod>2025-01-02T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://nsgamming.xyz/blog/instagram-growth-strategy-2025</loc>
     <lastmod>2025-01-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nsgamming.xyz/blog/cyber-security-complete-guide-2025</loc>
+    <lastmod>2025-01-17T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -82,13 +95,13 @@
   <!-- Tools & Utilities -->
   <url>
     <loc>https://nsgamming.xyz/tools</loc>
-    <lastmod>2025-01-16T00:00:00+00:00</lastmod>
+    <lastmod>2025-01-20T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://nsgamming.xyz/utility-tools</loc>
-    <lastmod>2025-01-16T00:00:00+00:00</lastmod>
+    <lastmod>2025-01-20T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -96,31 +109,37 @@
   <!-- Free Fire Bots -->
   <url>
     <loc>https://nsgamming.xyz/ff-bots</loc>
-    <lastmod>2025-01-16T00:00:00+00:00</lastmod>
+    <lastmod>2025-01-20T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://nsgamming.xyz/ff-likes</loc>
-    <lastmod>2025-01-16T00:00:00+00:00</lastmod>
+    <loc>https://nsgamming.xyz/ff-bots/likes</loc>
+    <lastmod>2025-01-20T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://nsgamming.xyz/ff-info</loc>
-    <lastmod>2025-01-16T00:00:00+00:00</lastmod>
+    <loc>https://nsgamming.xyz/ff-bots/info</loc>
+    <lastmod>2025-01-20T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://nsgamming.xyz/ff-spam</loc>
-    <lastmod>2025-01-16T00:00:00+00:00</lastmod>
+    <loc>https://nsgamming.xyz/ff-bots/spam</loc>
+    <lastmod>2025-01-20T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://nsgamming.xyz/ff-visit</loc>
-    <lastmod>2025-01-16T00:00:00+00:00</lastmod>
+    <loc>https://nsgamming.xyz/ff-bots/visit</loc>
+    <lastmod>2025-01-20T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nsgamming.xyz/ff-bots/compare</loc>
+    <lastmod>2025-01-20T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -128,25 +147,25 @@
   <!-- Games & Social -->
   <url>
     <loc>https://nsgamming.xyz/games</loc>
-    <lastmod>2025-01-16T00:00:00+00:00</lastmod>
+    <lastmod>2025-01-20T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://nsgamming.xyz/social</loc>
-    <lastmod>2025-01-16T00:00:00+00:00</lastmod>
+    <lastmod>2025-01-20T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://nsgamming.xyz/contact</loc>
-    <lastmod>2025-01-16T00:00:00+00:00</lastmod>
+    <lastmod>2025-01-20T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://nsgamming.xyz/community</loc>
-    <lastmod>2025-01-16T00:00:00+00:00</lastmod>
+    <lastmod>2025-01-20T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -154,25 +173,25 @@
   <!-- Content Pages -->
   <url>
     <loc>https://nsgamming.xyz/coding</loc>
-    <lastmod>2025-01-16T00:00:00+00:00</lastmod>
+    <lastmod>2025-01-20T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://nsgamming.xyz/content</loc>
-    <lastmod>2025-01-16T00:00:00+00:00</lastmod>
+    <lastmod>2025-01-20T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://nsgamming.xyz/gaming</loc>
-    <lastmod>2025-01-16T00:00:00+00:00</lastmod>
+    <lastmod>2025-01-20T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://nsgamming.xyz/goals</loc>
-    <lastmod>2025-01-16T00:00:00+00:00</lastmod>
+    <lastmod>2025-01-20T00:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -180,19 +199,19 @@
   <!-- Legal Pages -->
   <url>
     <loc>https://nsgamming.xyz/privacy-policy</loc>
-    <lastmod>2025-01-16T00:00:00+00:00</lastmod>
+    <lastmod>2025-01-20T00:00:00+00:00</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://nsgamming.xyz/terms-conditions</loc>
-    <lastmod>2025-01-16T00:00:00+00:00</lastmod>
+    <lastmod>2025-01-20T00:00:00+00:00</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://nsgamming.xyz/disclaimer</loc>
-    <lastmod>2025-01-16T00:00:00+00:00</lastmod>
+    <lastmod>2025-01-20T00:00:00+00:00</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
