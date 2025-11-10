@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense, lazy } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import { Github, Youtube, ExternalLink, Code2, Sparkles, X, Calendar, Users, Globe, ArrowUp, Mail, Linkedin, Twitter, Heart, GraduationCap, Trophy, Zap, Code, BookOpen, Award, Briefcase } from "lucide-react";
-import AdSenseAd from "../components/AdSenseAd";
+// Lazy-load the AdSenseAd component
+const AdSenseAd = lazy(() => import("../components/AdSenseAd"));
 import PageFeedback from "../components/PageFeedback";
 import { SEO } from "../components/SEO";
 import { useTheme } from "../components/ThemeProvider";
@@ -80,7 +81,7 @@ export default function Portfolio() {
   // Scroll to top handler
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    
+
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 300);
     };
@@ -595,7 +596,9 @@ export default function Portfolio() {
             transition={{ duration: 0.6 }}
             className="mb-12"
           >
-            <AdSenseAd />
+            <Suspense fallback={<div className="h-32 glass rounded-lg animate-pulse" />}>
+              <AdSenseAd />
+            </Suspense>
           </motion.div>
 
           {/* Timeline */}
@@ -823,7 +826,9 @@ export default function Portfolio() {
             transition={{ duration: 0.6 }}
             className="mb-12"
           >
-            <AdSenseAd />
+            <Suspense fallback={<div className="h-32 glass rounded-lg animate-pulse" />}>
+              <AdSenseAd />
+            </Suspense>
           </motion.div>
 
           {/* Skills Section */}
@@ -995,7 +1000,9 @@ export default function Portfolio() {
         transition={{ duration: 0.6 }}
         className="container mx-auto px-4 py-8 relative z-10"
       >
-        <AdSenseAd />
+        <Suspense fallback={<div className="h-32 glass rounded-lg animate-pulse" />}>
+          <AdSenseAd />
+        </Suspense>
       </motion.div>
 
       {/* Social Links */}
