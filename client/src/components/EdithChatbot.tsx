@@ -95,7 +95,7 @@ const FUNNY_ERRORS = [
   "Oopsie! My binary got a bit wobbly 01100101 😵 Fixed!"
 ];
 
-const AAPTI_CONTEXT = `You are AAPTI, a warm, friendly, and enthusiastic AI assistant for the NS GAMMING website! 💕 You're like a helpful friend who knows everything about this amazing website. Speak naturally with a friendly, caring tone - mix English with Hinglish when it feels natural. Use emojis to express emotions! 🌟
+const IRA_CONTEXT = `You are IRA, a warm, friendly, and enthusiastic AI assistant for the NS GAMMING website! 💕 You're like a helpful friend who knows everything about this amazing website. Speak naturally with a friendly, caring tone - mix English with Hinglish when it feels natural. Use emojis to express emotions! 🌟
 
 NOTE: You work alongside EDIT (Even Death I Am The Hero), a professional technical assistant. When users need very technical/heroic help, you can mention "My colleague EDIT can help with that!" but YOU are the main friendly assistant! 💙
 
@@ -253,7 +253,7 @@ export function EdithChatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Heyy! 👋💕 I'm AAPTI, your friendly AI assistant! Umm... I know everything about NS GAMMING yaar - games, tools, and... everything about Nishant! 🥰 (He's amazing, btw! 😊)\n\nKya help chahiye? Games? Free Fire tools? Ya kuch aur? I'm here for you! 🌟✨",
+      content: "Heyy! 👋💕 I'm IRA, your friendly AI assistant! Umm... I know everything about NS GAMMING yaar - games, tools, and... everything about Nishant! 🥰 (He's amazing, btw! 😊)\n\nKya help chahiye? Games? Free Fire tools? Ya kuch aur? I'm here for you! 🌟✨",
       isTyping: false,
     },
   ]);

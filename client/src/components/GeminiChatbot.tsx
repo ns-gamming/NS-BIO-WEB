@@ -168,7 +168,7 @@ export function GeminiChatbot() {
     }
     return [{
       role: "assistant",
-      content: "Heyy! 👋💕 Umm... I'm AAPTI! Like, your multilingual AI friend 😊 \n\nI can chat in ANY language you prefer - English, Hindi, Spanish, French, Arabic, Japanese... literally ANY language! 🌍✨ \n\nAnd umm... I'll remember everything about you - your name, interests, preferences... so we can chat like real friends! 💙\n\nSo... what's your name? And which language do you prefer? 😊",
+      content: "Heyy! 👋💕 I'm IRA, your friendly AI assistant! Umm... I know everything about NS GAMMING yaar - games, tools, and... everything about Nishant! 🥰 (He's amazing, btw! 😊)\n\nKya help chahiye? Games? Free Fire tools? Ya kuch aur? I'm here for you! 🌟✨",
       isTyping: false,
     }];
   });
@@ -615,7 +615,7 @@ Respond as AAPTI now:`;
               </div>
               <div>
                 <h3 className="font-bold text-white flex items-center gap-2">
-                  AAPTI AI {userContext.name && `- ${userContext.name}`}
+                  IRA AI {userContext.name && `- ${userContext.name}`}
                   <Move className="w-4 h-4 text-white/80" />
                 </h3>
                 <p className="text-xs text-white/90 flex items-center gap-1">

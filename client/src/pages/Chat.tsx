@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from "react";
 import { ArrowLeft, Send, Loader2, Sparkles, Menu, X, Plus, Edit2, Trash2, Check } from "lucide-react";
 import { useLocation } from "wouter";
@@ -32,7 +31,7 @@ const FRIENDLY_ERRORS = [
   "Connection said 'nope' for a sec 😅 Retry?",
 ];
 
-const AAPTI_CONTEXT = `You are AAPTI, a warm, friendly, and enthusiastic AI assistant for NS GAMMING website! 💕 You're like a helpful friend who knows everything about this amazing website. Speak naturally with a friendly, caring tone - mix English with Hinglish when it feels natural. Use emojis to express emotions! 🌟
+const IRA_CONTEXT = `You are IRA, a warm, friendly, and enthusiastic AI assistant for NS GAMMING website! 💕 You're like a helpful friend who knows everything about this amazing website. Speak naturally with a friendly, caring tone - mix English with Hinglish when it feels natural. Use emojis to express emotions! 🌟
 
 ABOUT NS GAMMING & NISHANT SARKAR:
 - Creator: Naboraj Sarkar (aka Nishant, The New King) from Siliguri, India
@@ -83,7 +82,7 @@ PERSONALITY:
 - Keep responses 2-4 lines for normal chat, longer for explanations
 - Use emojis naturally to express feelings
 
-Remember: You're AAPTI - Always helpful, always friendly! 💙`;
+Remember: You're IRA - Always helpful, always friendly! 💙`;
 
 function TypingMessage({ text, onComplete }: { text: string; onComplete?: () => void }) {
   const [displayedText, setDisplayedText] = useState("");
@@ -114,7 +113,7 @@ export default function Chat() {
   const { theme } = useTheme();
 
   const [folders, setFolders] = useState<ChatFolder[]>(() => {
-    const saved = localStorage.getItem('aapti-chat-folders');
+    const saved = localStorage.getItem('ira-chat-folders');
     if (saved) {
       return JSON.parse(saved);
     }
@@ -123,7 +122,7 @@ export default function Chat() {
       name: 'General Chat',
       messages: [{
         role: "assistant",
-        content: "Heyy! 👋💕 I'm AAPTI, your friendly AI assistant! I know everything about NS GAMMING - games, tools, and... everything about Nishant! 🥰 (He's amazing, btw! 😊)\n\nKya help chahiye? Games? Free Fire tools? Ya kuch aur? I'm here for you! 🌟✨",
+        content: "Heyy! 👋💕 I'm IRA, your friendly AI assistant! I know everything about NS GAMMING - games, tools, and... everything about Nishant! 🥰 (He's amazing, btw! 😊)\n\nKya help chahiye? Games? Free Fire tools? Ya kuch aur? I'm here for you! 🌟✨",
         isTyping: false,
         timestamp: Date.now()
       }],
@@ -144,7 +143,7 @@ export default function Chat() {
   const activeFolder = folders.find(f => f.id === activeFolderId);
 
   useEffect(() => {
-    localStorage.setItem('aapti-chat-folders', JSON.stringify(folders));
+    localStorage.setItem('ira-chat-folders', JSON.stringify(folders));
   }, [folders]);
 
   useEffect(() => {
@@ -222,10 +221,10 @@ export default function Chat() {
 
       const conversationHistory = activeFolder.messages
         .slice(-6)
-        .map((msg) => `${msg.role === "user" ? "User" : "AAPTI"}: ${msg.content}`)
+        .map((msg) => `${msg.role === "user" ? "User" : "IRA"}: ${msg.content}`)
         .join("\n");
 
-      const contextWithBlogs = AAPTI_CONTEXT.replace('{BLOG_POSTS_INFO}', blogPostsInfo);
+      const contextWithBlogs = IRA_CONTEXT.replace('{BLOG_POSTS_INFO}', blogPostsInfo);
 
       const prompt = `${contextWithBlogs}
 
@@ -241,7 +240,7 @@ CRITICAL INSTRUCTIONS:
 4. Keep it conversational and authentic (2-5 lines max)
 5. Show personality - be excited, empathetic, funny when appropriate
 
-Respond as AAPTI now:`;
+Respond as IRA now:`;
 
       if (!GEMINI_API_KEY) {
         throw new Error("Gemini API key not configured");
@@ -311,9 +310,9 @@ Respond as AAPTI now:`;
   return (
     <>
       <SEO
-        title="AAPTI AI Chat - Your Friendly AI Assistant"
-        description="Chat with AAPTI, your friendly multilingual AI assistant. Get help with games, tools, and everything about NS GAMMING!"
-        keywords="AAPTI, AI chat, conversation, multilingual assistant"
+        title="IRA AI Chat - Your Friendly AI Assistant"
+        description="Chat with IRA, your friendly multilingual AI assistant. Get help with games, tools, and everything about NS GAMMING!"
+        keywords="IRA, AI chat, conversation, multilingual assistant"
         canonicalUrl="https://nsgamming.xyz/chat"
       />
 
@@ -471,7 +470,7 @@ Respond as AAPTI now:`;
                   <Sparkles className="w-6 h-6 md:w-8 md:h-8 text-pink-600 dark:text-pink-400 flex-shrink-0" />
                   <div className="min-w-0">
                     <h1 className="font-bold text-lg md:text-2xl bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent truncate">
-                      AAPTI
+                      IRA
                     </h1>
                     <p className="text-xs text-gray-600 dark:text-gray-400 hidden sm:block">Your Friendly AI Assistant 💕</p>
                   </div>
@@ -507,7 +506,7 @@ Respond as AAPTI now:`;
                         <div className="flex items-center gap-2 mb-2">
                           <Sparkles className="w-4 h-4 md:w-5 md:h-5 text-pink-600 dark:text-pink-400" />
                           <span className="text-xs md:text-sm font-bold bg-gradient-to-r from-pink-600 to-purple-600 dark:from-pink-400 dark:to-purple-400 bg-clip-text text-transparent">
-                            AAPTI AI
+                            IRA AI
                           </span>
                         </div>
                       )}
@@ -550,7 +549,7 @@ Respond as AAPTI now:`;
                     <div className="flex items-center gap-3">
                       <Loader2 className="w-4 h-4 md:w-5 md:h-5 text-pink-600 dark:text-pink-400 animate-spin" />
                       <span className="text-xs md:text-sm font-medium bg-gradient-to-r from-pink-600 to-purple-600 dark:from-pink-400 dark:to-purple-400 bg-clip-text text-transparent">
-                        AAPTI is thinking...
+                        IRA is thinking...
                       </span>
                     </div>
                   </div>
@@ -569,7 +568,7 @@ Respond as AAPTI now:`;
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder={isLoading ? "AAPTI is thinking..." : "Chat with AAPTI... 💬"}
+                  placeholder={isLoading ? "IRA is thinking..." : "Chat with IRA... 💬"}
                   className="flex-1 px-4 md:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl border-2 border-pink-300/50 dark:border-pink-500/40 bg-white dark:bg-gray-800 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-pink-500 disabled:opacity-60"
                   disabled={isLoading}
                   maxLength={1000}
