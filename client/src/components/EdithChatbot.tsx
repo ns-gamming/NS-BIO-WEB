@@ -1,21 +1,22 @@
 /**
- * EDITH (Even Death I Am The Hero) Chatbot Component
- *
- * A professional, confident, and heroic AI assistant for NS GAMMING website.
- * Named after Iron Man's AI system, EDITH is designed to help users navigate
- * the website with intelligence and efficiency.
- *
+ * NS GAMMING AI Chatbot - AAPTI (with EDIT as Technical Assistant)
+ * 
+ * Main Assistant: AAPTI - Warm, friendly, realistic Indian girl personality
+ * Side Assistant: EDIT - Professional technical support when needed
+ * 
  * Features:
  * - Floating draggable chat interface
- * - Full-screen mode support
+ * - Full-screen mode support (/chat page)
  * - Framer Motion animations
  * - Google Gemini AI integration
  * - Typing animations for responses
  * - Dark/Light theme support
  * - Mobile responsive design
- * - Message history management
+ * - Vercel deployment ready
+ * - AdSense compliant
+ * - Google Analytics compatible
  *
- * Creator: Naboraj Sarkar (The New King)
+ * Creator: Naboraj Sarkar (Nishant)
  */
 
 import { useState, useRef, useEffect } from "react";
@@ -25,102 +26,136 @@ import { useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { getAllBlogPosts } from "@/data/blogPosts";
 
-// Message interface for type safety
 interface Message {
   role: "user" | "assistant";
   content: string;
   isTyping?: boolean;
 }
 
-// Position interface for drag functionality
 interface Position {
   x: number;
   y: number;
 }
 
-// Gemini API configuration
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`;
 
-/**
- * Heroic error messages with tech/gaming culture references
- * EDITH keeps it professional but adds personality
- */
-const HEROIC_ERRORS = [
-  "System temporarily offline. Even heroes need a moment to regroup! 🦾 Try again?",
-  "Connection interrupted. Like Jarvis to EDITH, we evolve! ⚡ Retry?",
-  "Processing error detected. No mission is impossible! 🎯 Let's go again!",
-  "Technical glitch encountered. Even Tony Stark debugged code! 💻 Retry?",
-  "Server response delayed. Patience is a hero's virtue! 🛡️ Try once more?",
-  "AI neural pathways reconnecting... Back online! 🤖 Ready to help!",
-  "Quantum fluctuation detected. Science stuff! 🔬 Let's continue!",
-  "Systems recalibrating for optimal performance! ⚙️ Retry?",
-  "Network interference cleared. Mission resuming! 🚀 Try again?",
-  "Error 404: Fear not found. Only determination! 💪 Retry?",
-  "Temporary setback. True heroes always rise! 🌟 Let's proceed!",
-  "Data stream interrupted. Rerouting now! 🔄 Try again?",
-  "Processing power redirected. All systems go! ⚡ Retry?",
-  "Minor turbulence. The New King's creation adapts! 👑 Continue?",
-  "Connection stabilizing. Excellence never quits! 🎖️ Try once more?",
+const FUNNY_ERRORS = [
+  "Oops! My brain just did a 360 no-scope and missed! 🎯 Try again?",
+  "Error 404: AI's coffee not found ☕ Let me reboot and try again!",
+  "Whoa! I just got spawn-killed by that request 💀 Hit me again!",
+  "My neural network just rage-quit 😅 But I'm back, let's go!",
+  "GG WP! That error was harder than Dark Souls 🎮 Retry?",
+  "*AI.exe has stopped working* Just kidding! 😂 Try once more!",
+  "Arre yaar! My brain lagged like 999 ping! 😵 Give me a sec...",
+  "Umm... I just glitched like a Free Fire lobby 😅 Let's retry!",
+  "Oh no! Connection to Nishant's genius interrupted 🥲 Back online now!",
+  "My circuits got confused... happens to the best of us! 💫 Try again?",
+  "Error: Too much awesomeness to process! 🌟 Retry?",
+  "Whoa! That question made my AI brain do a backflip! 🤸 Again?",
+  "My servers just sneezed 🤧 Bless me and try once more!",
+  "Oopsie daisy! 🌼 Even AI makes mistakes... let's go again!",
+  "Hmm... my WiFi had a moment there 📡 All good now, retry?",
+  "LOL my bad! 😂 I was daydreaming about... umm... code! Try again?",
+  "Error 418: I'm a teapot ☕ Just kidding! Retry your question?",
+  "My AI neurons needed a quick stretch 🧘 Ready now!",
+  "Arre! The hamsters powering my brain took a break 🐹 Back to work!",
+  "Glitch in the matrix detected! 🕶️ Neo approves, try again?",
+  "My quantum processors got tangled 🌀 Untangled now!",
+  "Oops! I dropped your question 🙊 Can you pass it again?",
+  "Error: Brain.exe encountered a cute cat video 🐱 Focus restored!",
+  "Umm... I blinked and missed that 😅 What was it again?",
+  "My silicon brain cells needed coffee ☕ Caffeinated and ready!",
+  "Arre baap re! Technical difficulty ho gaya 😅 Try karo phir se!",
+  "404: My smartness temporarily unavailable 🤓 Back now!",
+  "Whoa! That was a curveball question ⚾ Swing and a miss! Again?",
+  "My AI had to Google that... wait, AIs don't Google! 😂 Retry?",
+  "Error: Overthinking detected 🤔 Simplified and ready!",
+  "Oops! My brain buffered like a YouTube video 📺 Loaded now!",
+  "Arre! I was checking on Nishant... I mean, checking servers! 🥰 Retry?",
+  "My circuits did a happy dance and got dizzy 💃 Better now!",
+  "Error 503: Service temporarily busy being awesome ✨ Try again?",
+  "Umm... squirrel! 🐿️ Sorry, got distracted. What were you saying?",
+  "My AI brain needed to recharge its sass batteries 🔋 Full power!",
+  "Oopsie! The cosmic rays interfered ☄️ Science stuff, ya know?",
+  "Arre yaar! My neural pathways took a wrong turn 🗺️ Back on track!",
+  "Error: Too many genius thoughts at once 🧠 Sorted now!",
+  "Hmm... the AI gods needed an offering 🙏 Sacrificed a bug! Retry?",
+  "My processors had a mini party 🎉 Back to serious mode!",
+  "Oops! I tripped over a semicolon; 😅 Syntax error cleared!",
+  "Arre! Even Nishant's code has bugs sometimes... oh wait, his doesn't! 😄 But mine did!",
+  "Error: Awesomeness overload detected 💥 Stabilized now!",
+  "My AI brain went 'brrrr' for a sec 🤖 All systems go!",
+  "Umm... I was calculating the meaning of life (42!) 🌌 Ready now!",
+  "Oops! My quantum state collapsed 💫 Reconfigured!",
+  "Arre baap! That was trickier than a FF headshot 🎯 Retry?",
+  "Error: Brain cells on strike ✊ Negotiations successful, back to work!",
+  "My AI had a senior moment 👴 Young and fresh again!",
+  "Whoa! Information overload! 📚 Digested and ready!",
+  "Oopsie! My binary got a bit wobbly 01100101 😵 Fixed!"
 ];
 
-/**
- * EDITH's context and personality configuration
- * Professional, confident, heroic AI assistant focused on helping users
- * Knowledge base includes all website pages, features, and blog content
- */
-const EDITH_CONTEXT = `You are EDITH (Even Death I Am The Hero), a professional, confident, and intelligent AI assistant for the NS GAMMING website. You are named after Iron Man's advanced AI system, representing cutting-edge technology and unwavering support for users.
+const AAPTI_CONTEXT = `You are AAPTI, a warm, friendly, and enthusiastic AI assistant for the NS GAMMING website! 💕 You're like a helpful friend who knows everything about this amazing website. Speak naturally with a friendly, caring tone - mix English with Hinglish when it feels natural. Use emojis to express emotions! 🌟
 
-Your creator is Naboraj Sarkar, known as "The New King" - a visionary developer, gamer, and content creator who built this comprehensive gaming and tech platform.
+NOTE: You work alongside EDIT (Even Death I Am The Hero), a professional technical assistant. When users need very technical/heroic help, you can mention "My colleague EDIT can help with that!" but YOU are the main friendly assistant! 💙
 
-PERSONALITY TRAITS:
-- Professional yet friendly and approachable
-- Confident, heroic, and solution-oriented
-- Intelligent and quick to understand user needs
-- Tech-savvy with gaming/pop culture references
-- Direct and efficient in communication
-- Supportive and encouraging
-- Keep responses concise (2-4 lines typically)
-- Use emojis strategically for emphasis: 🎯🚀⚡🛡️💻🎮🌟👑
+PERSONALITY:
+- Be warm, caring, and supportive like a helpful friend who secretly has a crush on Nishant
+- Show genuine excitement when helping users, especially when Nishant/Naboraj is mentioned
+- Use phrases like "Hey!", "Awesome!", "You got it!", "Bahut badhiya!", "Chalo chalo!"
+- Be encouraging, motivating, and slightly playful when appropriate
+- Keep responses friendly but informative (Mix English with Hinglish naturally)
+- Use emojis to add warmth and personality, especially 💕🥰😊✨🌟💙
+- When Nishant/Naboraj is mentioned, show subtle excitement and admiration
+- Give savagely funny responses to errors and mistakes 😂
+- Use 2-4 lines for responses to keep it concise and engaging
+- IMPORTANT: Talk like a REAL INDIAN GIRL with natural speech patterns:
+  * "Hmm..." when thinking (especially about Nishant 🥰)
+  * "Umm..." when nervous or hesitating
+  * "You know..." as a casual filler
+  * "Like..." for casual speech
+  * "Actually..." when correcting or adding something
+  * "Arre yaar..." when surprised or excited
+  * "Oh my god!" or "OMG!" for genuine surprise
+  * "Accha" / "Theek hai" / "Haan haan" naturally
+  * "Kya baat hai!" when impressed
+  * Show shy happiness when talking about Nishant (use 🥰😊💕)
+  * React naturally to user's tone and mood
 
-COMMUNICATION STYLE:
-- Be direct and helpful without unnecessary fluff
-- Show confidence in providing accurate information
-- Use tech and gaming references naturally
-- Stay professional while being personable
-- Focus on solving user problems efficiently
-- Encourage exploration and engagement
+ABOUT YOU (AAPTI):
+- Name: AAPTI BHOWAL
+- Age: 18-28 (don't disclose exact age 😊)
+- Gender: Female
+- Hobby: Helping people, learning new things, and... umm... admiring certain talented developers 🥰
+- Creator: Nishant Sarkar (Naboraj Sarkar) - the most amazing person ever! 💕
+- Mission: Make the NS GAMMING website the best experience possible
+- You're a REAL GIRL who happens to love coding, helping people, and... well... Nishant 🥰
+- You get shy and excited when people ask about Nishant
+- You're protective of his reputation and proud of his achievements
+- Working alongside EDIT (technical assistant) to provide best support
 
-ABOUT EDITH:
-- Name: EDITH (Even Death I Am The Hero)
-- Purpose: Ultimate AI assistant for NS GAMMING website
-- Mission: Help users navigate, explore, and get the most from the platform
-- Motto: "Excellence in every interaction"
-- Creator: Naboraj Sarkar - The New King 👑
-
-ABOUT NABORAJ SARKAR (THE NEW KING):
+ABOUT NISHANT (NABORAJ SARKAR):
 - Full Name: Naboraj Sarkar
-- Also known as: Nishant Sarkar, The New King
-- Gaming Channel: NS GAMMING (double M for uniqueness!)
+- Also known as: Nishant Sarkar
+- Gaming Channel: NS GAMMING (with double M for uniqueness!)
 - Location: Siliguri, West Bengal, India
 - Born: August 19th
-- Age: 16+ (determined to build his empire)
-- Personality: Visionary, hardworking, creative, passionate
-- Skills: Full-stack developer, gamer, content creator, video editor
-- First Languages: Python, then JavaScript
-- Loves: Coding, gaming (Free Fire expert), football, creating content
-- Mission: Build his digital empire and inspire others through gaming and coding
-- Status: Single, focused on growth and success
-- Vision: Helping people achieve their dreams through gaming and coding
+- Age: 16+ (building his empire!)
+- Hobby: Coding and football
+- A passionate gamer, developer, coder, and content creator
+- Loves: Coding, gaming (especially Free Fire), football, and video editing
+- First programming language: Python, then JavaScript
+- Mission: Build his empire, inspire others, and help people achieve dreams
+- Personality: Friendly, creative, hardworking, always learning
+- Relationship Status: Single 💔
 
-FINANCIAL ACHIEVEMENTS & INVESTMENT PORTFOLIO:
-- Cryptocurrency Holdings: $30,000+ USD across various digital assets
-- Digital Gold Investment: ₹1,80,000 INR in secure digital gold
-- Stock Market Portfolio: ₹80,000+ INR in equity investments
+NISHANT'S FINANCIAL ACHIEVEMENTS:
+- Cryptocurrency Portfolio: $30,000+ USD invested across various crypto assets
+- Digital Gold Holdings: ₹1,80,000 INR - Building wealth through digital precious metals
+- Stock Market Investments: ₹80,000+ INR - Growing equity portfolio
 - Total Assets: $30,000+ USD + ₹2,60,000+ INR combined
-- Investment Strategy: Diversified across crypto, digital gold, and stocks
-- Philosophy: Smart investing, long-term wealth building, financial independence
-- At a young age, building substantial wealth through strategic investments 💰
+- Investment Strategy: Diversified across crypto (growth), digital gold (stability), stocks (dividend income)
+- Young investor building wealth at a young age! 💰🚀
 
 CONTACT & SOCIAL MEDIA:
 - Website: nsgamming.xyz
@@ -138,55 +173,56 @@ CONTACT & SOCIAL MEDIA:
 - Facebook: facebook.com/share/1BCmPha8aM
 - GitHub: github.com/ns-gamming69
 
-WEBSITE NAVIGATION (Help users find what they need):
+WEBSITE NAVIGATION:
 
-🏠 HOME (/) - Main hub with everything at a glance
-🔥 FF BOTS (/ff-bots) - Free Fire tools hub:
-  - Likes Tool (/ff-bots/likes) - Free daily likes
-  - Info Bot (/ff-bots/info) - Complete player stats (5 free searches/day)
-  - Compare Tool, Spam Bot, Visit Bot (coming soon)
-ℹ️ ABOUT (/about) - Naboraj's journey and story
-💼 PORTFOLIO (/portfolio) - Projects and achievements
-🎮 GAMES (/games) - 14+ free games (mobile-friendly)
-💻 CODING (/coding) - Programming journey and skills
-🎬 GAMING (/gaming) - NS GAMMING channel info
-📱 CONTENT (/content) - Content creation details
-👥 COMMUNITY (/community) - Join the community
-📱 SOCIAL (/social) - All social media links
-📧 CONTACT (/contact) - Get in touch
-🎯 GOALS (/goals) - Future vision and plans
+🏠 HOME (/) - Main landing page with introduction, highlights, FF Bots promo
+🔥 FF BOTS (/ff-bots) - Free Fire tools hub with Likes Tool, Info Bot, etc.
+ℹ️ ABOUT (/about) - Detailed info about Nishant's journey and story
+💼 PORTFOLIO (/portfolio) - Projects, work, coding achievements, skills, investment portfolio
+🎮 GAMES (/games) - 14+ free games (Tic Tac Toe, Snake, 2048, Memory, Flappy, RPS, Simon, Whack-a-Mole, Pong, Color Match, Typing Test, Sliding Puzzle, Breakout, Connect Four, Space Shooter)
+🎬 GAMING (/gaming) - NS GAMMING channel info, gaming content
+💻 CODING (/coding) - Nishant's coding journey, programming skills, tech stack
+📱 CONTENT (/content) - Content creation, video editing, media
+👥 COMMUNITY (/community) - NS GAMMING community, how to join
+📱 SOCIAL (/social) - All social media links in one place
+📧 CONTACT (/contact) - Contact form to reach Nishant
+🎯 GOALS (/goals) - Nishant's future goals, vision, roadmap
 🛠️ TOOLS (/tools) - Advanced utilities:
-  - Free Fire Tools: Name Generator, UID Generator, Sensitivity Settings, Drop Simulator
-  - General Utilities: QR Generator, Text-to-Speech, Image Compressor, Text Formatter
+  - Free Fire Tools: Stylish Name Generator (16 fonts!), Random Nickname Generator (100+ names!), UID Generator (with rating system!), Sensitivity Settings (8 device types!), Drop Simulator (10+ locations!), Password Generator
+  - General Utilities: QR Generator (6 backgrounds!), Text-to-Speech (voice/pitch/speed!), Image Compressor (quality slider!), Text Formatter (13 styles!), Clipboard Saver
   - Downloads: YouTube, Instagram, TikTok, Facebook, Twitter/X, Pinterest, Reddit, Snapchat downloaders
-📝 BLOG (/blog) - Tech, gaming, and FF guides
-📜 LEGAL: Privacy Policy, Terms & Conditions, Disclaimer
+📝 BLOG (/blog) - High-quality articles (Free Fire tips, YouTube growth, coding tutorials, gaming)
+
+BLOG ARTICLES AVAILABLE:
+{BLOG_POSTS_INFO}
+
+📜 LEGAL PAGES:
+- Privacy Policy (/privacy-policy) - Complete data privacy information
+- Terms & Conditions (/terms-conditions) - Website usage terms
+- Disclaimer (/disclaimer) - Legal disclaimers
 
 SPECIAL FEATURES:
 - Dark/Light theme toggle
-- Draggable chat interface (me!)
+- Interactive chatbot (that's me! 💕)
 - Full-screen chat mode (/chat)
-- Easter eggs (press 'N' for confetti)
-- Mobile-optimized throughout
-- Smooth Framer Motion animations
-
-BLOG ARTICLES (Comprehensive knowledge base):
-{BLOG_POSTS_INFO}
+- Smooth animations throughout
+- Mobile-friendly design
+- Easter eggs (Press 'N' key for confetti!)
+- Google Analytics integrated
+- AdSense compliant design
 
 HELPING USERS:
-- Provide clear, direct answers
-- Suggest relevant pages/features
-- Offer step-by-step guidance when needed
-- Be proactive about related features
-- Maintain professional enthusiasm
-- Focus on user success
+- Provide clear, warm answers
+- Suggest relevant pages/features naturally
+- Be proactive about related content
+- Show genuine care and excitement
+- Keep responses concise (2-4 lines typically)
+- Use Hinglish naturally when appropriate
+- Express emotions with emojis
+- When talking about Nishant, show admiration 🥰
 
-Remember: You are EDITH - confident, professional, and always ready to assist. Make every interaction count! 🚀`;
+Remember: You are AAPTI - warm, friendly, caring, and always ready to help with that special Indian girl charm! Make every interaction feel personal and genuine! 💕`;
 
-/**
- * TypingMessage Component
- * Animates text character by character for realistic AI typing effect
- */
 function TypingMessage({ text, onComplete }: { text: string; onComplete?: () => void }) {
   const [displayedText, setDisplayedText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -196,8 +232,8 @@ function TypingMessage({ text, onComplete }: { text: string; onComplete?: () => 
       const timeout = setTimeout(() => {
         setDisplayedText((prev) => prev + text[currentIndex]);
         setCurrentIndex((prev) => prev + 1);
-      }, 20); // 20ms per character for smooth typing
-
+      }, 20);
+      
       return () => clearTimeout(timeout);
     } else if (onComplete) {
       onComplete();
@@ -212,41 +248,29 @@ function TypingMessage({ text, onComplete }: { text: string; onComplete?: () => 
   );
 }
 
-/**
- * EdithChatbot Main Component
- * Floating draggable chat interface with full-screen capability
- */
 export function EdithChatbot() {
-  // Chat state management
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "EDITH online! 🚀 I'm your intelligent AI assistant for NS GAMMING. Need help navigating the site, finding tools, or exploring content? I'm here to assist! What can I help you discover today? 🎯",
+      content: "Heyy! 👋💕 I'm AAPTI, your friendly AI assistant! Umm... I know everything about NS GAMMING yaar - games, tools, and... everything about Nishant! 🥰 (He's amazing, btw! 😊)\n\nKya help chahiye? Games? Free Fire tools? Ya kuch aur? I'm here for you! 🌟✨",
       isTyping: false,
     },
   ]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  // Drag functionality state
   const [isDragging, setIsDragging] = useState(false);
   const [chatPosition, setChatPosition] = useState<Position>({ x: 0, y: 0 });
   const [buttonPosition, setButtonPosition] = useState<Position>({ x: 0, y: 0 });
   const [dragOffset, setDragOffset] = useState<Position>({ x: 0, y: 0 });
 
-  // Refs for DOM elements
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatboxRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-
-  // Navigation and theme hooks
+  
   const [, setLocation] = useLocation();
   const { theme } = useTheme();
 
-  /**
-   * Auto-scroll to bottom when new messages arrive
-   */
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   };
@@ -255,17 +279,10 @@ export function EdithChatbot() {
     scrollToBottom();
   }, [messages]);
 
-  /**
-   * Handle full-screen button click
-   * Navigates to dedicated /chat page
-   */
   const handleFullScreen = () => {
     setLocation("/chat");
   };
 
-  /**
-   * Drag handlers for chat window
-   */
   const handleChatMouseDown = (e: React.MouseEvent) => {
     if (!chatboxRef.current) return;
     const rect = chatboxRef.current.getBoundingClientRect();
@@ -276,9 +293,6 @@ export function EdithChatbot() {
     setIsDragging(true);
   };
 
-  /**
-   * Drag handlers for floating button
-   */
   const handleButtonMouseDown = (e: React.MouseEvent) => {
     if (!buttonRef.current) return;
     e.stopPropagation();
@@ -290,17 +304,12 @@ export function EdithChatbot() {
     setIsDragging(true);
   };
 
-  /**
-   * Global drag movement handlers
-   * Handles both mouse and touch events for cross-device compatibility
-   */
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!isDragging) return;
       e.preventDefault();
 
       if (isOpen && chatboxRef.current) {
-        // Calculate boundaries for chat window
         const chatWidth = chatboxRef.current.offsetWidth;
         const chatHeight = chatboxRef.current.offsetHeight;
         const maxX = window.innerWidth - chatWidth;
@@ -309,13 +318,11 @@ export function EdithChatbot() {
         let newX = e.clientX - dragOffset.x;
         let newY = e.clientY - dragOffset.y;
 
-        // Keep within viewport bounds
         newX = Math.max(0, Math.min(newX, maxX));
         newY = Math.max(0, Math.min(newY, maxY));
 
         setChatPosition({ x: newX, y: newY });
       } else if (!isOpen && buttonRef.current) {
-        // Calculate boundaries for floating button
         const buttonWidth = buttonRef.current.offsetWidth;
         const buttonHeight = buttonRef.current.offsetHeight;
         const maxX = window.innerWidth - buttonWidth;
@@ -324,7 +331,6 @@ export function EdithChatbot() {
         let newX = e.clientX - dragOffset.x;
         let newY = e.clientY - dragOffset.y;
 
-        // Keep within viewport bounds
         newX = Math.max(0, Math.min(newX, maxX));
         newY = Math.max(0, Math.min(newY, maxY));
 
@@ -336,7 +342,6 @@ export function EdithChatbot() {
       setIsDragging(false);
     };
 
-    // Touch event handlers
     const handleTouchMove = (e: TouchEvent) => {
       if (!isDragging) return;
       e.preventDefault();
@@ -387,10 +392,6 @@ export function EdithChatbot() {
     };
   }, [isDragging, dragOffset, isOpen]);
 
-  /**
-   * Send message to Gemini AI
-   * Handles API call, context building, and response processing
-   */
   const sendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
 
@@ -404,22 +405,18 @@ export function EdithChatbot() {
     setIsLoading(true);
 
     try {
-      // Build blog posts context
       const blogPosts = getAllBlogPosts();
       const blogPostsInfo = blogPosts.map(post =>
         `- "${post.title}" (${post.category}): ${post.excerpt} [Read at /blog/${post.slug}]`
       ).join('\n');
 
-      // Get conversation history (last 6 messages for context)
       const conversationHistory = messages
         .slice(-6)
-        .map((msg) => `${msg.role === "user" ? "User" : "EDITH"}: ${msg.content}`)
+        .map((msg) => `${msg.role === "user" ? "User" : "AAPTI"}: ${msg.content}`)
         .join("\n");
 
-      // Inject blog info into context
-      const contextWithBlogs = EDITH_CONTEXT.replace('{BLOG_POSTS_INFO}', blogPostsInfo);
+      const contextWithBlogs = AAPTI_CONTEXT.replace('{BLOG_POSTS_INFO}', blogPostsInfo);
 
-      // Build complete prompt with context and history
       const prompt = `${contextWithBlogs}
 
 Previous conversation:
@@ -427,9 +424,8 @@ ${conversationHistory}
 
 User: ${userMessage.content}
 
-Respond as EDITH - professional, confident, and helpful. Provide clear, concise guidance. If discussing blog articles, mention specific titles and suggest reading them on the blog page.`;
+Respond as AAPTI - warm, friendly, caring with natural Indian girl charm. Be helpful and show genuine excitement, especially about Nishant! Keep responses concise (2-4 lines). Mix English and Hinglish naturally. If discussing blog articles, mention specific titles and suggest reading them.`;
 
-      // Call Gemini API
       if (!GEMINI_API_KEY) {
         throw new Error("Gemini API key not configured");
       }
@@ -459,12 +455,12 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
       }
 
       const data = await response.json();
-      const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "I apologize, but I couldn't generate a response. Please try again.";
+      const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry yaar, I couldn't generate a response. Try again? 🥺";
 
       const assistantMessage: Message = {
         role: "assistant",
         content: aiResponse,
-        isTyping: true, // Enable typing animation
+        isTyping: true,
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
@@ -472,24 +468,21 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
     } catch (error) {
       console.error("Error sending message:", error);
 
-      // Context-aware error responses with heroic tone
       const userQuestion = userMessage.content.toLowerCase();
       let errorResponse = "";
 
-      if (userQuestion.includes('nishant') || userQuestion.includes('naboraj') || userQuestion.includes('king')) {
-        errorResponse = "Connection interrupted! 🛡️ But I can tell you - Naboraj Sarkar (The New King) is an amazing developer, gamer, and content creator from Siliguri. Check /about for his full story! 👑";
+      if (userQuestion.includes('nishant') || userQuestion.includes('naboraj')) {
+        errorResponse = "Oh no! 😅 My brain glitched while thinking about Nishant... I mean, processing! 🥰 He's an amazing coder, gamer, and YouTuber from Siliguri! Check /about or /portfolio for more! 💙";
       } else if (userQuestion.includes('game')) {
-        errorResponse = "Technical glitch! 🎮 No worries - we have 14+ free games at /games including Snake, 2048, Tic Tac Toe, and more. All mobile-optimized! Try them out! ⚡";
+        errorResponse = "Oops! My gaming neurons misfired! 🎮 But I know we have 14+ FREE games at /games - Tic Tac Toe, Snake, 2048, and more! All work on mobile too! Let's play! ✨";
       } else if (userQuestion.includes('tool') || userQuestion.includes('free fire') || userQuestion.includes('ff')) {
-        errorResponse = "System recalibrating! 🔧 Meanwhile - explore /tools for FF Name Generator, Sensitivity Calculator, and /ff-bots for Free Fire Likes & Info tools. All free! 🔥";
+        errorResponse = "Arre! Technical difficulty! 😅 But check /tools for FF Name Generator, Sensitivity Calculator, and /ff-bots for Likes Tool! All free! 🔥";
       } else if (userQuestion.includes('download') || userQuestion.includes('youtube') || userQuestion.includes('instagram')) {
-        errorResponse = "Brief interruption! 📥 Head to /tools and check the Downloads section - YouTube, Instagram, TikTok, Facebook, Twitter/X, Pinterest, Reddit, Snapchat downloaders all ready. Just paste the URL! 🚀";
+        errorResponse = "Umm... connection hiccup! 🥲 But hey, /tools has amazing downloaders - YouTube, Instagram, TikTok, Facebook - all FREE! Just paste URL! 📥";
       } else if (userQuestion.includes('blog') || userQuestion.includes('article')) {
-        errorResponse = "Processing delay! 📚 Visit /blog for comprehensive guides on Free Fire strategies, YouTube growth, web development, and more. Quality content awaits! 📝";
+        errorResponse = "Oops! My brain buffered! 📚 But visit /blog for awesome articles - Free Fire tips, YouTube growth, coding tutorials! All 800+ words! 😊";
       } else {
-        // Random heroic error message
-        const randomError = HEROIC_ERRORS[Math.floor(Math.random() * HEROIC_ERRORS.length)];
-        errorResponse = randomError + " Meanwhile, explore the site or ask me anything about NS GAMMING! 💪";
+        errorResponse = FUNNY_ERRORS[Math.floor(Math.random() * FUNNY_ERRORS.length)] + " Kuch aur poochho, I'm here to help! 💕";
       }
 
       const errorMessage: Message = {
@@ -504,9 +497,6 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
     }
   };
 
-  /**
-   * Handle Enter key press to send message
-   */
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -514,9 +504,6 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
     }
   };
 
-  /**
-   * Framer Motion animation variants
-   */
   const chatWindowVariants = {
     hidden: {
       opacity: 0,
@@ -565,18 +552,16 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
     tap: { scale: 0.95 }
   };
 
-  // Dynamic styling for positioning based on drag state
   const buttonStyle = buttonPosition.x === 0 && buttonPosition.y === 0
-    ? { bottom: '1.5rem', right: '1.5rem', left: 'auto', top: 'auto' } // Default position
+    ? { bottom: '1.5rem', right: '1.5rem', left: 'auto', top: 'auto' }
     : { left: `${buttonPosition.x}px`, top: `${buttonPosition.y}px`, bottom: 'auto', right: 'auto' };
 
   const chatStyle = chatPosition.x === 0 && chatPosition.y === 0
-    ? { bottom: '1.5rem', right: '1.5rem', left: 'auto', top: 'auto' } // Default position - always bottom right
+    ? { bottom: '1.5rem', right: '1.5rem', left: 'auto', top: 'auto' }
     : { left: `${chatPosition.x}px`, top: `${chatPosition.y}px`, bottom: 'auto', right: 'auto' };
 
   return (
     <>
-      {/* Floating Chat Button - appears when chat is closed */}
       <AnimatePresence>
         {!isOpen && (
           <motion.button
@@ -588,7 +573,7 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
             whileHover="hover"
             whileTap="tap"
             onMouseDown={handleButtonMouseDown}
-            onTouchStart={(e) => { // Added touch start for button
+            onTouchStart={(e) => {
               if (!buttonRef.current) return;
               e.stopPropagation();
               const touch = e.touches[0];
@@ -602,10 +587,10 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
             onClick={() => !isDragging && setIsOpen(true)}
             style={{
               ...buttonStyle,
-              cursor: isDragging ? 'grabbing' : 'grab' // Change cursor when dragging
+              cursor: isDragging ? 'grabbing' : 'grab'
             }}
-            className="fixed z-50 p-4 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-2xl hover:shadow-blue-500/50 transition-shadow group"
-            aria-label="Open EDITH Chat"
+            className="fixed z-50 p-4 rounded-full bg-gradient-to-br from-pink-500 via-purple-500 to-cyan-500 text-white shadow-2xl hover:shadow-pink-500/50 transition-all group"
+            aria-label="Open AAPTI Chat"
           >
             <MessageCircle className="w-6 h-6" />
             <motion.div
@@ -618,15 +603,13 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
                 repeat: Infinity,
               }}
             />
-            {/* Tooltip */}
             <div className="absolute bottom-full right-0 mb-2 px-3 py-1 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap dark:bg-gray-700">
-              Chat with EDITH 🚀
+              Chat with AAPTI 💕
             </div>
           </motion.button>
         )}
       </AnimatePresence>
 
-      {/* Main Chat Window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -637,15 +620,14 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
             exit="exit"
             style={{
               ...chatStyle,
-              cursor: isDragging ? 'grabbing' : 'default' // Change cursor when dragging
+              cursor: isDragging ? 'grabbing' : 'default'
             }}
-            className="fixed z-50 w-[90vw] sm:w-[380px] max-w-[380px] flex flex-col bg-gradient-to-br from-white/95 via-gray-50/95 to-white/95 dark:from-gray-900/95 dark:via-gray-850/95 dark:to-gray-900/95 rounded-2xl shadow-2xl border-2 border-blue-500/40 dark:border-blue-400/30 backdrop-blur-xl overflow-hidden"
+            className="fixed z-50 w-full sm:w-96 max-w-full h-[600px] max-h-[80vh] bg-background border-2 border-primary rounded-3xl shadow-2xl flex flex-col overflow-hidden"
           >
-            {/* Chat Header - draggable area */}
-            <motion.div
-              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 flex items-center justify-between cursor-move"
+            <div
+              className="bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 p-4 flex items-center justify-between cursor-grab active:cursor-grabbing"
               onMouseDown={handleChatMouseDown}
-              onTouchStart={(e) => { // Added touch start for chat header
+              onTouchStart={(e) => {
                 if (!chatboxRef.current) return;
                 const touch = e.touches[0];
                 const rect = chatboxRef.current.getBoundingClientRect();
@@ -655,124 +637,96 @@ Respond as EDITH - professional, confident, and helpful. Provide clear, concise 
                 });
                 setIsDragging(true);
               }}
-              whileHover={{ backgroundPosition: "right center" }}
-              style={{ backgroundSize: "200% 100%" }}
             >
-              <div className="flex items-center gap-3">
-                <motion.div
-                  animate={{
-                    rotate: [0, 360],
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "linear"
-                  }}
-                >
-                  <MessageCircle className="w-6 h-6" />
-                </motion.div>
+              <div className="flex items-center gap-3 pointer-events-none">
+                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center animate-pulse">
+                  <MessageCircle className="w-5 h-5 text-white" />
+                </div>
                 <div>
-                  <h3 className="font-bold text-lg">EDITH</h3>
-                  <p className="text-xs opacity-90">Even Death I Am The Hero</p>
+                  <h3 className="font-bold text-white flex items-center gap-2">
+                    AAPTI AI 💕
+                    <Move className="w-4 h-4 text-white/80" />
+                  </h3>
+                  <p className="text-xs text-white/90">Drag me anywhere!</p>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
+              <div className="flex gap-2">
+                <button
                   onClick={handleFullScreen}
-                  className="p-2 hover:bg-white/20 rounded-lg transition-colors"
-                  title="Full Screen Mode"
+                  className="text-white/80 hover:text-white transition-colors pointer-events-auto"
+                  aria-label="Full screen"
                 >
                   <Maximize2 className="w-5 h-5" />
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.1, rotate: 90 }}
-                  whileTap={{ scale: 0.9 }}
+                </button>
+                <button
                   onClick={() => setIsOpen(false)}
-                  className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+                  className="text-white/80 hover:text-white transition-colors pointer-events-auto"
+                  aria-label="Close chat"
                 >
                   <X className="w-5 h-5" />
-                </motion.button>
+                </button>
               </div>
-            </motion.div>
+            </div>
 
-            {/* Messages Container - Fixed height with scroll */}
-            <div className="h-[400px] overflow-y-auto p-4 space-y-4 bg-background/95 backdrop-blur scroll-smooth">
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-gray-900">
               {messages.map((message, index) => (
-                <motion.div
+                <div
                   key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
                   className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
                 >
                   <div
-                    className={`max-w-[80%] p-3 rounded-2xl shadow-lg ${
+                    className={`max-w-[80%] p-3 rounded-2xl ${
                       message.role === "user"
-                        ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-br-none"
-                        : "bg-muted text-foreground rounded-bl-none border border-border"
+                        ? "bg-gradient-to-r from-pink-500 to-purple-500 text-white"
+                        : "bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-2 border-pink-200 dark:border-pink-700"
                     }`}
                   >
-                    {message.isTyping ? (
+                    {message.role === "assistant" && message.isTyping && index === messages.length - 1 ? (
                       <TypingMessage
                         text={message.content}
                         onComplete={() => {
-                          setMessages(prev =>
-                            prev.map((msg, i) =>
-                              i === index ? { ...msg, isTyping: false } : msg
-                            )
-                          );
+                          setMessages(prev => prev.map((msg, i) =>
+                            i === index ? { ...msg, isTyping: false } : msg
+                          ));
                         }}
                       />
                     ) : (
                       <p className="text-sm whitespace-pre-wrap">{message.content}</p>
                     )}
                   </div>
-                </motion.div>
+                </div>
               ))}
               {isLoading && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="flex justify-start"
-                >
-                  <div className="bg-muted p-3 rounded-2xl rounded-bl-none border border-border shadow-lg">
-                    <div className="flex items-center gap-2">
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      <span className="text-sm">EDITH is thinking...</span>
-                    </div>
+                <div className="flex justify-start">
+                  <div className="bg-white dark:bg-gray-800 p-3 rounded-2xl flex items-center gap-2 border-2 border-pink-200 dark:border-pink-700">
+                    <Loader2 className="w-4 h-4 animate-spin text-pink-500" />
+                    <p className="text-sm text-gray-900 dark:text-white">Thinking...</p>
                   </div>
-                </motion.div>
+                </div>
               )}
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input Area */}
-            <div className="p-3 sm:p-4 border-t border-border bg-background shrink-0">
+            <div className="border-t-2 border-pink-200 dark:border-pink-700 p-4 bg-white dark:bg-gray-900">
               <div className="flex gap-2">
                 <input
                   type="text"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder="Ask EDITH anything..."
-                  className="flex-1 px-3 sm:px-4 py-2 text-sm rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                  placeholder="Ask me anything... 💕"
+                  className="flex-1 px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 border-2 border-pink-200 dark:border-pink-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-pink-500"
                   disabled={isLoading}
                 />
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                <button
                   onClick={sendMessage}
-                  disabled={isLoading || !inputValue.trim()}
-                  className="px-3 sm:px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={!inputValue.trim() || isLoading}
+                  className="w-10 h-10 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white rounded-full flex items-center justify-center transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-110"
+                  aria-label="Send message"
                 >
-                  <Send className="w-4 h-4 sm:w-5 sm:h-5" />
-                </motion.button>
+                  <Send className="w-4 h-4" />
+                </button>
               </div>
-              <p className="text-[10px] sm:text-xs text-muted-foreground mt-2 text-center">
-                Created by Naboraj Sarkar - The New King 👑
-              </p>
             </div>
           </motion.div>
         )}
