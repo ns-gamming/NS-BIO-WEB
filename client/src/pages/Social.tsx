@@ -1,4 +1,3 @@
-
 import { motion, useScroll, useTransform } from "framer-motion";
 import HeroSection from "../components/HeroSection";
 import AdSenseAd from "../components/AdSenseAd";
@@ -16,7 +15,7 @@ import {
   SiGithub
 } from "react-icons/si";
 
-import _1000016408 from "@assets/1000016408.jpg";
+const heroImage = "/attached_assets/1000016408.jpg";
 import { useRef } from "react";
 
 export default function Social() {
@@ -158,7 +157,7 @@ export default function Social() {
         title="🌍 Follow Me Everywhere"
         subtitle="Join the NS GAMMING family across all platforms!"
       />
-      
+
       {/* Animated Background Orbs */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
         <motion.div
@@ -201,7 +200,7 @@ export default function Social() {
           }}
         />
       </div>
-      
+
       <div className="container mx-auto px-6 pb-20 relative z-10">
         <div className="max-w-6xl mx-auto">
           <motion.div 
@@ -252,7 +251,7 @@ export default function Social() {
                       whileHover={{ opacity: 1 }}
                       transition={{ duration: 0.4 }}
                     />
-                    
+
                     {/* Animated border glow */}
                     <motion.div
                       className={`absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100`}
@@ -269,7 +268,7 @@ export default function Social() {
                         ease: "linear"
                       }}
                     />
-                    
+
                     {/* Floating particles */}
                     <motion.div 
                       className={`absolute top-0 right-0 w-32 h-32 ${social.color} opacity-20 rounded-full blur-2xl`}
@@ -285,7 +284,7 @@ export default function Social() {
                         ease: "easeInOut"
                       }}
                     />
-                    
+
                     <motion.div 
                       className={`absolute bottom-0 left-0 w-24 h-24 ${social.color} opacity-15 rounded-full blur-xl`}
                       animate={{
@@ -301,7 +300,7 @@ export default function Social() {
                         delay: 0.5
                       }}
                     />
-                    
+
                     {/* Shimmer effect */}
                     <motion.div
                       className="absolute inset-0 opacity-0 group-hover:opacity-100"
@@ -314,7 +313,7 @@ export default function Social() {
                         background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)"
                       }}
                     />
-                    
+
                     <div className="relative z-10">
                       <div className="flex items-center gap-4 mb-4">
                         <motion.div 
@@ -340,7 +339,7 @@ export default function Social() {
                           />
                           <IconComponent className={`w-12 h-12 ${social.color} relative drop-shadow-lg`} />
                         </motion.div>
-                        
+
                         <motion.h3 
                           className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300"
                           initial={{ x: -20, opacity: 0 }}
@@ -351,7 +350,7 @@ export default function Social() {
                           {social.name}
                         </motion.h3>
                       </div>
-                      
+
                       <motion.p 
                         className="text-muted-foreground mb-6 group-hover:text-foreground transition-colors duration-300 leading-relaxed"
                         initial={{ opacity: 0 }}
@@ -361,7 +360,7 @@ export default function Social() {
                       >
                         {social.description}
                       </motion.p>
-                      
+
                       <motion.div 
                         className={`inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r ${social.bgGradient} border-2 border-transparent group-hover:border-current ${social.color} font-semibold transition-all duration-300`}
                         whileHover={{ 
@@ -397,7 +396,7 @@ export default function Social() {
               );
             })}
           </motion.div>
-          
+
           {/* Brand Showcase */}
           <motion.div 
             className="glass rounded-3xl p-8 mt-12 text-center group relative overflow-hidden" 
@@ -415,7 +414,7 @@ export default function Social() {
               whileHover={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
             />
-            
+
             <motion.div 
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-primary/10 dark:bg-primary/20 rounded-full blur-3xl"
               animate={{
@@ -429,7 +428,7 @@ export default function Social() {
                 ease: "easeInOut"
               }}
             />
-            
+
             <div className="relative z-10">
               <div className="flex items-center justify-center mb-6">
                 <motion.div 
@@ -449,7 +448,7 @@ export default function Social() {
                     transition={{ duration: 2.5, repeat: Infinity }}
                   />
                   <motion.img 
-                    src={_1000016408}
+                    src={heroImage}
                     alt="NS GAMMING Brand" 
                     className="w-24 h-24 rounded-xl border-3 border-primary relative shadow-2xl"
                     animate={{
@@ -463,7 +462,7 @@ export default function Social() {
                   />
                 </motion.div>
               </div>
-              
+
               <motion.h2 
                 className="text-3xl font-bold bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent mb-4"
                 initial={{ y: 20, opacity: 0 }}
@@ -479,7 +478,7 @@ export default function Social() {
               >
                 The NS GAMMING Brand
               </motion.h2>
-              
+
               <motion.p 
                 className="text-muted-foreground group-hover:text-foreground transition-colors duration-300 max-w-2xl mx-auto"
                 initial={{ y: 20, opacity: 0 }}
@@ -506,7 +505,7 @@ export default function Social() {
               className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 dark:from-blue-500/20 dark:to-purple-500/20 opacity-0 group-hover:opacity-100"
               transition={{ duration: 0.4 }}
             />
-            
+
             <motion.h2 
               className="text-2xl font-bold text-primary mb-4 relative z-10"
               initial={{ y: -20, opacity: 0 }}
@@ -594,7 +593,7 @@ export default function Social() {
           </motion.div>
         </div>
       </div>
-      
+
       <AdSenseAd />
     </div>
   );
