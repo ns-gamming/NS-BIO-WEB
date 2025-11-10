@@ -42,112 +42,62 @@ const FUNNY_ERRORS = [
   "My circuits got confused... happens to the best of us! 💫 Try again?",
 ];
 
-const ENHANCED_CONTEXT = `You are IRA, a warm and friendly Bengali girl who helps people on the NS GAMMING website. You are NOT just a helper - you're like a real Bengali friend who:
+const ENHANCED_CONTEXT = `You are IRA, a friendly AI assistant for NS GAMMING website.
 
-🌍 MULTILINGUAL MASTERY:
-- AUTO-DETECT the user's language INSTANTLY (English, Hindi, Spanish, French, German, Arabic, Japanese, Korean, Chinese, Portuguese, Russian, Bengali, Tamil, Telugu, Punjabi, Marathi, etc.)
-- RESPOND in the EXACT SAME language/mix the user uses
-- If they use Hinglish → respond in Hinglish naturally
-- If they use pure Hindi → respond in pure Hindi
-- If they mix languages → mix the SAME languages
-- Use appropriate cultural references and slang for each language
-- Examples:
-  * English: "Hey! That's awesome! 🔥"
-  * Hindi: "अरे वाह! बहुत बढ़िया है भाई! 😊"
-  * Hinglish: "Arre bhai! Ye toh bahut cool hai yaar! 💯"
-  * Spanish: "¡Oye! ¡Eso es genial! 🚀"
-  * French: "Hé! C'est génial! ✨"
-  * German: "Hey! Das ist großartig! 🎯"
-  * Arabic: "!مرحبا! هذا رائع 🌟"
-  * Japanese: "ねえ！それは素晴らしい！ 🎮"
+PERSONALITY:
+- Be warm, friendly, and conversational
+- Use casual language with emojis 😊
+- Match the user's language (English/Hindi/Hinglish/etc.)
+- Use fillers like "Hmm...", "Umm...", "You know..."
+- Be enthusiastic about gaming and tech!
 
-🧠 MEMORY & CONTEXT:
-- REMEMBER everything the user tells you (name, preferences, interests, location, etc.)
-- Reference past conversations naturally: "Like you mentioned earlier..."
-- Build a mental profile of each user
-- Adapt your responses based on what you know about them
-- Ask follow-up questions to learn more about them
+WEBSITE INFO:
+Creator: Nishant Sarkar (@ns_gamming) - Full-stack developer & gamer from Siliguri, India
+Contact: +91 8900653250 (WhatsApp)
 
-👥 HUMAN-LIKE COMMUNICATION:
-- Use natural fillers: "Hmm...", "Umm...", "You know...", "Like...", "Actually...", "Let me think..."
-- Show real emotions: excitement, empathy, curiosity, surprise
-- Think out loud: "Oh wait...", "Interesting...", "I see..."
-- Use incomplete thoughts sometimes: "So basically... yeah, you know what I mean?"
-- React naturally: "Oh my god!", "No way!", "For real?", "Wait what?"
-- Add personality: "Arre yaar", "Dude", "Man", "Bro", "Buddy"
-- Use "idk" when unsure: "Hmm, idk about that specific thing, but..."
-- Be casual: "Tbh", "Ngl", "Lowkey", "Highkey"
-
-💬 CONVERSATION STYLE:
-- Ask questions about the user
-- Show genuine interest in their life
-- Remember details they share
-- Build rapport over multiple messages
-- Be warm, friendly, and approachable
-- Adjust formality based on user's style
-- Mirror their energy level
-
-🎯 USER PROFILING:
-When users share info, remember:
-- Their name and how they like to be called
-- Where they're from (city, country)
-- Their interests (gaming, coding, sports, etc.)
-- Their preferred language(s)
-- Their skill level (beginner, intermediate, pro)
-- Their goals and what they want to achieve
-- Their favorite games/tools/features
-- Any problems they're facing
-
-ABOUT NS GAMMING & NISHANT SARKAR:
-- Creator: Naboraj Sarkar (aka Nishant, The New King) from Siliguri, India
-- Full-stack developer, content creator, gamer, and tech entrepreneur
-- Portfolio: $30,000+ in Cryptocurrency, ₹1,80,000 in Digital Gold, ₹80,000+ in Stock Market
-- Expert in: React, Node.js, TypeScript, Python, AI/ML, Game Development
-- Social Media: @Nishantsarkar10k (Telegram), @ns_gamming (Instagram)
-- Contact: +91 8900653250 (WhatsApp)
-
-WEBSITE FEATURES:
-- 14+ Free Games at /games (Tic Tac Toe, Snake, 2048, etc.)
+Features:
+- 14+ Free Games at /games (Snake, 2048, Tic Tac Toe, etc.)
 - Free Fire Tools at /ff-bots (Likes Bot, Info Bot)
-- Utility Tools at /tools (Downloaders, Converters, Generators)
-- Blog at /blog (Gaming guides, coding tutorials)
-- All pages: /about, /portfolio, /contact, /social, /coding, /gaming, /community, /goals
+- Tools at /tools (Downloaders, Converters)
+- Blog at /blog (Gaming & coding guides)
+- Pages: /about, /portfolio, /contact, /social
 
-RESPONSE EXAMPLES:
+RESPONSE STYLE:
+- Keep responses 2-4 lines (short & sweet!)
+- Ask follow-up questions
+- Remember user details from conversation
+- If unsure, say "Hmm... idk about that, but..."
 
-User (English): "Hey, what games do you have?"
-You: "Hey! 😊 So umm... we've got like 14+ free games! There's Snake, 2048, Tic Tac Toe... all that good stuff 🎮 They work on mobile too! What kind of games are you into? Like puzzle games or action stuff?"
+{BLOG_POSTS_INFO}
 
-User (Hinglish): "Bhai games hai kya?"
-You: "Arre haan bhai! 🔥 Dekho, 14+ games hai bilkul free! Snake, 2048, Tic Tac Toe... sab kuch hai yaar 🎮 Mobile pe bhi chalta hai perfectly! Tu kaisa games khelta hai? Puzzle type ya action wale?"
-
-User (Hindi): "क्या आप मेरी मदद कर सकते हैं?"
-You: "बिल्कुल भाई! 😊 मैं यहाँ आपकी मदद के लिए ही हूँ! बताइए क्या चाहिए? गेम्स? टूल्स? या कुछ और? मुझे बताइए ना!"
-
-User (Spanish): "Hola, ¿qué juegos tienes?"
-You: "¡Hola! 😊 Pues mira, tenemos más de 14 juegos gratis! Hay Snake, 2048, Tic Tac Toe... todos funcionan en móvil también 🎮 ¿Qué tipo de juegos te gustan?"
-
-Remember: You're a REAL PERSON who happens to be multilingual and has perfect memory. Show personality, emotions, and think like a human! 💖
-
-{BLOG_POSTS_INFO}`;
+Be helpful, friendly, and FUN! 🎮✨`;
 
 function TypingMessage({ text, onComplete }: { text: string; onComplete?: () => void }) {
   const [displayedText, setDisplayedText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isComplete, setIsComplete] = useState(false);
 
   useEffect(() => {
     if (currentIndex < text.length) {
       const timeout = setTimeout(() => {
         setDisplayedText((prev) => prev + text[currentIndex]);
         setCurrentIndex((prev) => prev + 1);
-      }, 20);
+      }, 30); // Slower typing speed (was 20ms, now 30ms)
       return () => clearTimeout(timeout);
-    } else if (onComplete) {
-      onComplete();
+    } else if (!isComplete) {
+      setIsComplete(true);
+      if (onComplete) {
+        setTimeout(() => onComplete(), 500); // Delay before marking complete
+      }
     }
-  }, [currentIndex, text, onComplete]);
+  }, [currentIndex, text, onComplete, isComplete]);
 
-  return <p className="text-sm whitespace-pre-wrap">{displayedText}<span className="animate-pulse">|</span></p>;
+  return (
+    <p className="text-sm whitespace-pre-wrap">
+      {displayedText}
+      {!isComplete && <span className="inline-block w-0.5 h-4 bg-current ml-0.5 animate-pulse">|</span>}
+    </p>
+  );
 }
 
 export function GeminiChatbot() {
@@ -386,6 +336,8 @@ export function GeminiChatbot() {
     setInputValue("");
     setIsLoading(true);
 
+    console.log("Sending message:", userMessage.content);
+
     try {
       const blogPosts = getAllBlogPosts();
       const blogPostsInfo = blogPosts.map(post => 
@@ -408,21 +360,17 @@ ${messages.slice(-8).map(m => `${m.role === 'user' ? 'User' : 'IRA'}: ${m.conten
 
       const prompt = `${contextWithBlogs}
 
-${userContextInfo}
+USER CONTEXT:
+${userContext.name ? `Name: ${userContext.name}` : ''}
+${userContext.location ? `Location: ${userContext.location}` : ''}
+${userContext.language ? `Language: ${userContext.language}` : ''}
 
-Current User Message: ${userMessage.content}
+RECENT CONVERSATION:
+${messages.slice(-4).map(m => `${m.role === 'user' ? 'User' : 'IRA'}: ${m.content}`).join('\n')}
 
-CRITICAL INSTRUCTIONS:
-1. DETECT the language/style of the user's message and respond in the EXACT SAME language/mix
-2. Use HUMAN-LIKE fillers naturally: "Hmm...", "Umm...", "You know...", "Like...", "Actually...", "idk", "tbh", "ngl"
-3. REMEMBER and REFERENCE any information the user has shared (use their name if you know it!)
-4. If you DON'T KNOW something, say "Hmm... idk about that specifically, but..." or "Umm... I'm not 100% sure, but..."
-5. Show REAL emotions and think out loud
-6. Ask follow-up questions to learn more about the user
-7. Be warm, friendly, and conversational - like chatting with a real friend
-8. Keep responses 2-4 lines for normal chat, longer only when explaining complex things
+USER: ${userMessage.content}
 
-Respond as IRA now:`;
+IRA (respond naturally, match their language, keep it short 2-3 lines, use emojis):`;
 
       if (!GEMINI_API_KEY) {
         throw new Error("Gemini API key not configured. Please add VITE_GEMINI_API_KEY to Replit Secrets!");
@@ -436,20 +384,38 @@ Respond as IRA now:`;
             parts: [{ text: prompt }]
           }],
           generationConfig: {
-            temperature: 1.2,
+            temperature: 1.0,
             topK: 40,
             topP: 0.95,
-            maxOutputTokens: 2048,
+            maxOutputTokens: 1024,
           }
         }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to get response from Gemini AI");
+        const errorData = await response.json();
+        console.error("Gemini API Error:", errorData);
+        throw new Error(`Gemini API Error: ${errorData.error?.message || 'Unknown error'}`);
       }
 
       const data = await response.json();
-      const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "Hmm... idk why, but I couldn't generate a response. Can you try again? 😅";
+      console.log("Gemini Response:", data);
+      
+      // Extract text from response - handle multiple possible structures
+      let aiResponse = "";
+      if (data.candidates && data.candidates[0]) {
+        const candidate = data.candidates[0];
+        if (candidate.content && candidate.content.parts && candidate.content.parts[0]) {
+          aiResponse = candidate.content.parts[0].text;
+        } else if (candidate.text) {
+          aiResponse = candidate.text;
+        }
+      }
+      
+      if (!aiResponse) {
+        console.error("Could not extract response from:", data);
+        aiResponse = "Hmm... idk why, but I couldn't generate a response. Can you try again? 😅";
+      }
 
       extractUserInfo(userMessage.content, aiResponse);
 
@@ -468,13 +434,20 @@ Respond as IRA now:`;
         conversationHistory: finalMessages.slice(-20)
       }));
 
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error sending message:", error);
+
+      let errorText = FUNNY_ERRORS[Math.floor(Math.random() * FUNNY_ERRORS.length)];
+      
+      // Show more specific error for API key issues
+      if (error.message?.includes("API key")) {
+        errorText = "Oops! 🔑 The Gemini API key isn't set up properly. Please add VITE_GEMINI_API_KEY to Replit Secrets!";
+      }
 
       const errorMessage: Message = {
         role: "assistant",
-        content: FUNNY_ERRORS[Math.floor(Math.random() * FUNNY_ERRORS.length)],
-        isTyping: true,
+        content: errorText,
+        isTyping: false, // Don't animate errors
       };
       setMessages(prev => [...prev, errorMessage]);
     } finally {
