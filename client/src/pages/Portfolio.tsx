@@ -359,12 +359,12 @@ export default function Portfolio() {
   const projects = [
     {
       id: 1,
-      title: "NS Finance Tracker",
+      title: "NS finsight",
       description: "A comprehensive finance tracking application to monitor daily expenses, income, and financial goals. Features intuitive visualizations, budget planning, and expense categorization to help you understand your financial habits and build a better future.",
       image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&auto=format&fit=crop",
       tech: ["React", "TypeScript", "Chart.js", "Tailwind CSS"],
-      github: "https://github.com/nishant-app/ns-finance-tracker",
-      live: "https://ns-finance-tracker.vercel.app/",
+      github: "https://github.com/nishant-app/ns-finsight",
+      live: "https://www.nsfinsight.xyz",
       category: "fullstack",
       featured: true
     },
