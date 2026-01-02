@@ -1,0 +1,1048 @@
+-- WARNING: This schema is for context only and is not meant to be run.
+-- Table order and constraints may not be valid for execution.
+
+CREATE TABLE public.achievements (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  key text NOT NULL UNIQUE,
+  name text NOT NULL,
+  description text NOT NULL,
+  icon text NOT NULL,
+  requirement_type text NOT NULL,
+  requirement_value integer NOT NULL,
+  reward_credits integer DEFAULT 0,
+  rarity text DEFAULT 'common'::text,
+  created_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT achievements_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.admin_sessions (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  admin_id uuid,
+  token text NOT NULL UNIQUE,
+  ip_address character varying,
+  user_agent text,
+  expires_at timestamp with time zone NOT NULL,
+  created_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT admin_sessions_pkey PRIMARY KEY (id),
+  CONSTRAINT admin_sessions_admin_id_fkey FOREIGN KEY (admin_id) REFERENCES public.admin_users(id)
+);
+CREATE TABLE public.admin_users (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  username character varying NOT NULL UNIQUE,
+  email character varying NOT NULL UNIQUE,
+  password_hash text NOT NULL,
+  role character varying DEFAULT 'admin'::character varying,
+  is_active boolean DEFAULT true,
+  last_login timestamp with time zone,
+  created_at timestamp with time zone DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT admin_users_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.ai_chat_messages (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  session_id character varying,
+  sender_type character varying NOT NULL CHECK (sender_type::text = ANY (ARRAY['user'::character varying, 'assistant'::character varying, 'system'::character varying, 'error'::character varying]::text[])),
+  message_text text NOT NULL,
+  ip_address character varying,
+  user_agent text,
+  page_url text,
+  timestamp timestamp with time zone DEFAULT now(),
+  metadata jsonb,
+  created_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT ai_chat_messages_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.ai_chat_sessions (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  session_id character varying NOT NULL UNIQUE,
+  user_id character varying,
+  ip_address character varying,
+  user_agent text,
+  browser character varying,
+  os character varying,
+  device_type character varying,
+  device_info jsonb,
+  started_at timestamp with time zone DEFAULT now(),
+  ended_at timestamp with time zone,
+  is_active boolean DEFAULT true,
+  topics_discussed ARRAY,
+  conversation_summary text,
+  user_mood character varying,
+  session_notes text,
+  created_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT ai_chat_sessions_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.ai_chat_topics (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  session_id character varying,
+  user_id character varying,
+  topic character varying NOT NULL,
+  category character varying,
+  subcategory character varying,
+  confidence_score numeric DEFAULT 1.0,
+  detected_at timestamp with time zone DEFAULT now(),
+  frequency integer DEFAULT 1,
+  created_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT ai_chat_topics_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.ai_user_context (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  user_id character varying,
+  session_id character varying,
+  ip_address character varying,
+  context_key character varying NOT NULL,
+  context_value text NOT NULL,
+  context_type character varying,
+  context_category character varying,
+  importance character varying DEFAULT 'medium'::character varying,
+  is_sensitive boolean DEFAULT false,
+  expires_at timestamp with time zone,
+  access_count integer DEFAULT 0,
+  last_accessed timestamp with time zone,
+  created_at timestamp with time zone DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT ai_user_context_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.analytics_events (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  anon_id text,
+  event text NOT NULL,
+  platform text,
+  referrer text,
+  country text,
+  user_agent text,
+  created_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT analytics_events_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.analytics_sessions (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  session_id character varying NOT NULL UNIQUE,
+  user_id uuid,
+  ip_address character varying NOT NULL,
+  user_agent text,
+  browser character varying,
+  os character varying,
+  device_type character varying,
+  device_info jsonb DEFAULT '{}'::jsonb,
+  geolocation jsonb DEFAULT '{}'::jsonb,
+  referrer text,
+  utm_source character varying,
+  utm_medium character varying,
+  utm_campaign character varying,
+  utm_content character varying,
+  started_at timestamp with time zone DEFAULT now(),
+  ended_at timestamp with time zone,
+  is_active boolean DEFAULT true,
+  session_duration_seconds integer,
+  total_page_views integer DEFAULT 0,
+  total_clicks integer DEFAULT 0,
+  total_events integer DEFAULT 0,
+  CONSTRAINT analytics_sessions_pkey PRIMARY KEY (id),
+  CONSTRAINT analytics_sessions_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id)
+);
+CREATE TABLE public.blog_feedback (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  session_id character varying,
+  user_id uuid,
+  blog_slug character varying NOT NULL,
+  blog_title character varying,
+  rating integer NOT NULL CHECK (rating >= 1 AND rating <= 5),
+  feedback_text text,
+  was_helpful boolean,
+  suggested_improvements text,
+  user_ip character varying NOT NULL,
+  user_agent text,
+  submitted_at timestamp with time zone DEFAULT now(),
+  metadata jsonb DEFAULT '{}'::jsonb,
+  CONSTRAINT blog_feedback_pkey PRIMARY KEY (id),
+  CONSTRAINT blog_feedback_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id)
+);
+CREATE TABLE public.blog_posts (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  title text NOT NULL,
+  slug text NOT NULL UNIQUE,
+  excerpt text NOT NULL,
+  content text NOT NULL,
+  category text NOT NULL,
+  tags ARRAY NOT NULL DEFAULT '{}'::text[],
+  image_url text,
+  read_time integer NOT NULL,
+  views integer DEFAULT 0,
+  unique_views integer DEFAULT 0,
+  shares integer DEFAULT 0,
+  published boolean DEFAULT true,
+  author_id uuid,
+  created_at timestamp with time zone DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  seo_title character varying,
+  seo_description text,
+  metadata jsonb DEFAULT '{}'::jsonb,
+  CONSTRAINT blog_posts_pkey PRIMARY KEY (id),
+  CONSTRAINT blog_posts_author_id_fkey FOREIGN KEY (author_id) REFERENCES public.users(id)
+);
+CREATE TABLE public.blog_shares (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  blog_slug text NOT NULL,
+  platform character varying NOT NULL,
+  session_id character varying,
+  user_id uuid,
+  ip_address character varying,
+  shared_at timestamp with time zone DEFAULT now(),
+  metadata jsonb DEFAULT '{}'::jsonb,
+  CONSTRAINT blog_shares_pkey PRIMARY KEY (id),
+  CONSTRAINT blog_shares_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id)
+);
+CREATE TABLE public.bug_reports (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  user_id uuid,
+  session_id character varying,
+  bug_title character varying NOT NULL,
+  bug_description text NOT NULL,
+  severity character varying DEFAULT 'medium'::character varying,
+  page_url text,
+  browser character varying,
+  os character varying,
+  device_info jsonb DEFAULT '{}'::jsonb,
+  steps_to_reproduce text,
+  expected_behavior text,
+  actual_behavior text,
+  screenshot_url text,
+  status character varying DEFAULT 'open'::character varying,
+  ip_address character varying,
+  reported_at timestamp with time zone DEFAULT now(),
+  resolved_at timestamp with time zone,
+  metadata jsonb DEFAULT '{}'::jsonb,
+  CONSTRAINT bug_reports_pkey PRIMARY KEY (id),
+  CONSTRAINT bug_reports_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id)
+);
+CREATE TABLE public.challenges (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  type text NOT NULL,
+  title text NOT NULL,
+  description text NOT NULL,
+  requirement integer NOT NULL,
+  reward_xp integer NOT NULL,
+  reward_credits integer DEFAULT 0,
+  day_of_week integer,
+  is_daily boolean DEFAULT true,
+  is_active boolean DEFAULT true,
+  created_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT challenges_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.chat_sessions (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  session_id character varying NOT NULL UNIQUE,
+  user_id character varying,
+  ip_address character varying,
+  browser character varying,
+  os character varying,
+  device_info jsonb DEFAULT '{}'::jsonb,
+  started_at timestamp with time zone DEFAULT now(),
+  ended_at timestamp with time zone,
+  is_active boolean DEFAULT true,
+  message_count integer DEFAULT 0,
+  conversation_summary text,
+  CONSTRAINT chat_sessions_pkey PRIMARY KEY (id),
+  CONSTRAINT chat_sessions_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.user_profiles(user_id)
+);
+CREATE TABLE public.clan_invites (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  clan_id uuid NOT NULL,
+  sender_player_id uuid NOT NULL,
+  receiver_player_id uuid NOT NULL,
+  status text NOT NULL DEFAULT 'pending'::text CHECK (status = ANY (ARRAY['pending'::text, 'accepted'::text, 'declined'::text, 'expired'::text])),
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  responded_at timestamp with time zone,
+  CONSTRAINT clan_invites_pkey PRIMARY KEY (id),
+  CONSTRAINT clan_invites_clan_id_fkey FOREIGN KEY (clan_id) REFERENCES public.clans(id),
+  CONSTRAINT clan_invites_sender_player_id_fkey FOREIGN KEY (sender_player_id) REFERENCES public.players(id),
+  CONSTRAINT clan_invites_receiver_player_id_fkey FOREIGN KEY (receiver_player_id) REFERENCES public.players(id)
+);
+CREATE TABLE public.clan_members (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  clan_id uuid NOT NULL,
+  player_id uuid NOT NULL,
+  role text NOT NULL DEFAULT 'member'::text CHECK (role = ANY (ARRAY['member'::text, 'officer'::text, 'owner'::text])),
+  joined_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT clan_members_pkey PRIMARY KEY (id),
+  CONSTRAINT clan_members_clan_id_fkey FOREIGN KEY (clan_id) REFERENCES public.clans(id),
+  CONSTRAINT clan_members_player_id_fkey FOREIGN KEY (player_id) REFERENCES public.players(id)
+);
+CREATE TABLE public.clan_war_results (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  clan_war_id uuid NOT NULL,
+  clan_id uuid NOT NULL,
+  score integer NOT NULL DEFAULT 0,
+  wins integer NOT NULL DEFAULT 0,
+  orbs_collected integer NOT NULL DEFAULT 0,
+  updated_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT clan_war_results_pkey PRIMARY KEY (id),
+  CONSTRAINT clan_war_results_clan_id_fkey FOREIGN KEY (clan_id) REFERENCES public.clans(id),
+  CONSTRAINT clan_war_results_clan_war_id_fkey FOREIGN KEY (clan_war_id) REFERENCES public.clan_wars(id)
+);
+CREATE TABLE public.clan_wars (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  clan_a_id uuid NOT NULL,
+  clan_b_id uuid NOT NULL,
+  status text NOT NULL DEFAULT 'scheduled'::text CHECK (status = ANY (ARRAY['scheduled'::text, 'active'::text, 'completed'::text])),
+  starts_at timestamp with time zone,
+  ends_at timestamp with time zone,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT clan_wars_pkey PRIMARY KEY (id),
+  CONSTRAINT clan_wars_clan_a_id_fkey FOREIGN KEY (clan_a_id) REFERENCES public.clans(id),
+  CONSTRAINT clan_wars_clan_b_id_fkey FOREIGN KEY (clan_b_id) REFERENCES public.clans(id)
+);
+CREATE TABLE public.clans (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name text NOT NULL UNIQUE,
+  tag text NOT NULL UNIQUE,
+  description text,
+  owner_player_id uuid NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT clans_pkey PRIMARY KEY (id),
+  CONSTRAINT clans_owner_player_id_fkey FOREIGN KEY (owner_player_id) REFERENCES public.players(id)
+);
+CREATE TABLE public.click_tracking (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  session_id character varying,
+  user_id uuid,
+  page_url text NOT NULL,
+  element_selector text,
+  element_id character varying,
+  element_class character varying,
+  element_text text,
+  element_html text,
+  click_x integer,
+  click_y integer,
+  ip_address character varying,
+  clicked_at timestamp with time zone DEFAULT now(),
+  metadata jsonb DEFAULT '{}'::jsonb,
+  page_path character varying,
+  CONSTRAINT click_tracking_pkey PRIMARY KEY (id),
+  CONSTRAINT click_tracking_session_id_fkey FOREIGN KEY (session_id) REFERENCES public.analytics_sessions(session_id),
+  CONSTRAINT click_tracking_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id)
+);
+CREATE TABLE public.comprehensive_users (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  user_id character varying NOT NULL UNIQUE,
+  name text,
+  email character varying,
+  phone character varying,
+  age integer,
+  gender character varying,
+  date_of_birth date,
+  ip_address character varying,
+  location character varying,
+  city character varying,
+  state character varying,
+  country character varying,
+  timezone character varying,
+  language character varying DEFAULT 'en'::character varying,
+  user_agent text,
+  browser character varying,
+  browser_version character varying,
+  os character varying,
+  os_version character varying,
+  device_type character varying,
+  device_brand character varying,
+  device_model character varying,
+  screen_resolution character varying,
+  preferences jsonb DEFAULT '{}'::jsonb,
+  interests ARRAY DEFAULT '{}'::text[],
+  favorite_games ARRAY DEFAULT '{}'::text[],
+  favorite_topics ARRAY DEFAULT '{}'::text[],
+  communication_preferences jsonb DEFAULT '{}'::jsonb,
+  total_sessions integer DEFAULT 0,
+  total_messages integer DEFAULT 0,
+  total_page_views integer DEFAULT 0,
+  total_clicks integer DEFAULT 0,
+  avg_session_duration_seconds integer DEFAULT 0,
+  last_page_visited text,
+  first_visit timestamp with time zone DEFAULT now(),
+  last_visit timestamp with time zone DEFAULT now(),
+  visit_count integer DEFAULT 1,
+  is_returning_visitor boolean DEFAULT false,
+  is_vip boolean DEFAULT false,
+  engagement_score integer DEFAULT 0,
+  utm_source character varying,
+  utm_medium character varying,
+  utm_campaign character varying,
+  utm_content character varying,
+  referrer text,
+  acquisition_channel character varying,
+  notes text,
+  tags ARRAY DEFAULT '{}'::text[],
+  custom_fields jsonb DEFAULT '{}'::jsonb,
+  metadata jsonb DEFAULT '{}'::jsonb,
+  created_at timestamp with time zone DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT comprehensive_users_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.contact_feedback (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name text NOT NULL,
+  email text NOT NULL CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'::text),
+  subject text,
+  message text NOT NULL,
+  rating integer NOT NULL CHECK (rating >= 1 AND rating <= 5),
+  user_ip text NOT NULL,
+  user_agent text,
+  submitted_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT contact_feedback_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.cookie_preferences (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  session_id character varying,
+  user_id uuid,
+  ip_address character varying NOT NULL,
+  necessary_cookies boolean DEFAULT true,
+  functional_cookies boolean DEFAULT false,
+  analytics_cookies boolean DEFAULT false,
+  advertising_cookies boolean DEFAULT false,
+  updated_at timestamp with time zone DEFAULT now(),
+  metadata jsonb DEFAULT '{}'::jsonb,
+  CONSTRAINT cookie_preferences_pkey PRIMARY KEY (id),
+  CONSTRAINT cookie_preferences_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id)
+);
+CREATE TABLE public.download_queue (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  anon_id text NOT NULL,
+  platform text NOT NULL,
+  url text NOT NULL,
+  format_id text NOT NULL,
+  status text NOT NULL DEFAULT 'queued'::text CHECK (status = ANY (ARRAY['queued'::text, 'processing'::text, 'completed'::text, 'failed'::text])),
+  priority integer DEFAULT 0,
+  retry_count integer DEFAULT 0,
+  error_message text,
+  result jsonb,
+  created_at timestamp with time zone DEFAULT now(),
+  started_at timestamp with time zone,
+  completed_at timestamp with time zone,
+  CONSTRAINT download_queue_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.downloads (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  anon_id text NOT NULL,
+  platform text NOT NULL,
+  title text NOT NULL,
+  format_id text NOT NULL,
+  format_quality text NOT NULL,
+  file_size text,
+  thumbnail_url text,
+  download_url text,
+  status text NOT NULL DEFAULT 'completed'::text CHECK (status = ANY (ARRAY['completed'::text, 'failed'::text, 'expired'::text])),
+  created_at timestamp with time zone DEFAULT now(),
+  expires_at timestamp with time zone,
+  metadata jsonb DEFAULT '{}'::jsonb,
+  CONSTRAINT downloads_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.feature_requests (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  user_id uuid,
+  session_id character varying,
+  feature_title character varying NOT NULL,
+  feature_description text NOT NULL,
+  category character varying,
+  priority character varying DEFAULT 'medium'::character varying,
+  status character varying DEFAULT 'submitted'::character varying,
+  votes integer DEFAULT 0,
+  ip_address character varying,
+  submitted_at timestamp with time zone DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  metadata jsonb DEFAULT '{}'::jsonb,
+  CONSTRAINT feature_requests_pkey PRIMARY KEY (id),
+  CONSTRAINT feature_requests_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id)
+);
+CREATE TABLE public.ff_bot_interactions (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  user_ip character varying NOT NULL,
+  ff_uid character varying NOT NULL,
+  ff_region character varying NOT NULL,
+  player_name text,
+  player_level integer,
+  likes_before integer,
+  likes_added integer,
+  likes_after integer,
+  success boolean NOT NULL,
+  error_message text,
+  user_agent text,
+  created_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT ff_bot_interactions_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.ff_info_rate_limits (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  ip_address text NOT NULL UNIQUE,
+  search_count integer NOT NULL DEFAULT 0,
+  last_reset_date text NOT NULL,
+  updated_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT ff_info_rate_limits_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.ff_info_searches (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  ip_address text NOT NULL,
+  uid text NOT NULL,
+  region text NOT NULL,
+  search_date text NOT NULL,
+  searched_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT ff_info_searches_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.form_submissions (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  session_id character varying,
+  user_id uuid,
+  form_name character varying NOT NULL,
+  form_id character varying,
+  page_url text,
+  form_data jsonb NOT NULL,
+  ip_address character varying,
+  submitted_at timestamp with time zone DEFAULT now(),
+  success boolean DEFAULT true,
+  error_message text,
+  metadata jsonb DEFAULT '{}'::jsonb,
+  page_path character varying,
+  CONSTRAINT form_submissions_pkey PRIMARY KEY (id),
+  CONSTRAINT form_submissions_session_id_fkey FOREIGN KEY (session_id) REFERENCES public.analytics_sessions(session_id),
+  CONSTRAINT form_submissions_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id)
+);
+CREATE TABLE public.friend_invites (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  sender_id uuid,
+  receiver_id uuid,
+  status text DEFAULT 'pending'::text CHECK (status = ANY (ARRAY['pending'::text, 'accepted'::text, 'declined'::text])),
+  created_at timestamp with time zone DEFAULT now(),
+  responded_at timestamp with time zone,
+  CONSTRAINT friend_invites_pkey PRIMARY KEY (id),
+  CONSTRAINT friend_invites_sender_id_fkey FOREIGN KEY (sender_id) REFERENCES public.players(id),
+  CONSTRAINT friend_invites_receiver_id_fkey FOREIGN KEY (receiver_id) REFERENCES public.players(id)
+);
+CREATE TABLE public.friends (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  player_id uuid,
+  friend_id uuid,
+  status text NOT NULL DEFAULT 'pending'::text CHECK (status = ANY (ARRAY['pending'::text, 'accepted'::text, 'rejected'::text])),
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT friends_pkey PRIMARY KEY (id),
+  CONSTRAINT friends_player_id_fkey FOREIGN KEY (player_id) REFERENCES public.players(id),
+  CONSTRAINT friends_friend_id_fkey FOREIGN KEY (friend_id) REFERENCES public.players(id)
+);
+CREATE TABLE public.items (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  slug text NOT NULL UNIQUE,
+  name text NOT NULL,
+  type text NOT NULL,
+  rarity text NOT NULL DEFAULT 'common'::text,
+  price integer NOT NULL DEFAULT 0,
+  data jsonb NOT NULL DEFAULT '{}'::jsonb,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT items_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.leaderboards (
+  id bigint NOT NULL DEFAULT nextval('leaderboards_id_seq'::regclass),
+  player_id uuid,
+  score bigint NOT NULL,
+  mode text NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT leaderboards_pkey PRIMARY KEY (id),
+  CONSTRAINT leaderboards_player_id_fkey FOREIGN KEY (player_id) REFERENCES public.players(id)
+);
+CREATE TABLE public.live_game_sessions (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  player_id uuid UNIQUE,
+  game_state jsonb NOT NULL DEFAULT '{}'::jsonb,
+  is_active boolean DEFAULT true,
+  started_at timestamp with time zone DEFAULT now(),
+  last_update timestamp with time zone DEFAULT now(),
+  CONSTRAINT live_game_sessions_pkey PRIMARY KEY (id),
+  CONSTRAINT live_game_sessions_player_id_fkey FOREIGN KEY (player_id) REFERENCES public.players(id)
+);
+CREATE TABLE public.lobbies (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name text NOT NULL,
+  host_player_id uuid,
+  max_players integer DEFAULT 4,
+  is_private boolean DEFAULT false,
+  is_active boolean DEFAULT true,
+  status text DEFAULT 'waiting'::text,
+  map text,
+  mode text DEFAULT 'arena'::text,
+  started_at timestamp with time zone,
+  created_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT lobbies_pkey PRIMARY KEY (id),
+  CONSTRAINT lobbies_host_player_id_fkey FOREIGN KEY (host_player_id) REFERENCES public.players(id)
+);
+CREATE TABLE public.lobby_members (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  lobby_id uuid,
+  player_id uuid,
+  is_ready boolean DEFAULT false,
+  joined_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT lobby_members_pkey PRIMARY KEY (id),
+  CONSTRAINT lobby_members_lobby_id_fkey FOREIGN KEY (lobby_id) REFERENCES public.lobbies(id),
+  CONSTRAINT lobby_members_player_id_fkey FOREIGN KEY (player_id) REFERENCES public.players(id)
+);
+CREATE TABLE public.match_power_ups (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  match_id uuid,
+  power_up_id uuid,
+  player_id uuid,
+  position_x numeric,
+  position_y numeric,
+  position_z numeric,
+  collected boolean DEFAULT false,
+  collected_at timestamp with time zone,
+  spawned_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT match_power_ups_pkey PRIMARY KEY (id),
+  CONSTRAINT match_power_ups_power_up_id_fkey FOREIGN KEY (power_up_id) REFERENCES public.power_ups(id),
+  CONSTRAINT match_power_ups_player_id_fkey FOREIGN KEY (player_id) REFERENCES public.players(id)
+);
+CREATE TABLE public.match_replays (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  player_id uuid,
+  match_id uuid,
+  replay_data jsonb NOT NULL DEFAULT '[]'::jsonb,
+  duration_seconds integer NOT NULL,
+  final_score integer NOT NULL DEFAULT 0,
+  orbs_collected integer NOT NULL DEFAULT 0,
+  is_featured boolean DEFAULT false,
+  views integer DEFAULT 0,
+  likes integer DEFAULT 0,
+  created_at timestamp with time zone DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT match_replays_pkey PRIMARY KEY (id),
+  CONSTRAINT match_replays_player_id_fkey FOREIGN KEY (player_id) REFERENCES public.players(id),
+  CONSTRAINT match_replays_match_id_fkey FOREIGN KEY (match_id) REFERENCES public.matches(id)
+);
+CREATE TABLE public.matches (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  mode text NOT NULL,
+  map text NOT NULL,
+  started_at timestamp with time zone NOT NULL DEFAULT now(),
+  ended_at timestamp with time zone,
+  result jsonb NOT NULL DEFAULT '{}'::jsonb,
+  CONSTRAINT matches_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.online_status (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  player_id uuid UNIQUE,
+  is_online boolean NOT NULL DEFAULT false,
+  last_seen timestamp with time zone NOT NULL DEFAULT now(),
+  updated_at timestamp with time zone NOT NULL DEFAULT now(),
+  ping_ms integer,
+  CONSTRAINT online_status_pkey PRIMARY KEY (id),
+  CONSTRAINT online_status_player_id_fkey FOREIGN KEY (player_id) REFERENCES public.players(id)
+);
+CREATE TABLE public.page_feedback (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  page_url character varying NOT NULL,
+  rating integer CHECK (rating >= 1 AND rating <= 5),
+  feedback_text text,
+  category character varying,
+  user_ip character varying,
+  user_agent text,
+  created_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT page_feedback_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.page_views (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  session_id character varying,
+  user_id uuid,
+  page_url text NOT NULL,
+  page_title character varying,
+  page_path character varying,
+  referrer text,
+  ip_address character varying,
+  viewed_at timestamp with time zone DEFAULT now(),
+  time_spent_seconds integer DEFAULT 0,
+  scroll_depth_percentage integer,
+  exit_page boolean DEFAULT false,
+  bounce boolean DEFAULT false,
+  metadata jsonb DEFAULT '{}'::jsonb,
+  user_agent text,
+  CONSTRAINT page_views_pkey PRIMARY KEY (id),
+  CONSTRAINT page_views_session_id_fkey FOREIGN KEY (session_id) REFERENCES public.analytics_sessions(session_id),
+  CONSTRAINT page_views_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id)
+);
+CREATE TABLE public.player_achievements (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  player_id uuid,
+  achievement_id uuid,
+  unlocked_at timestamp with time zone DEFAULT now(),
+  notified boolean DEFAULT false,
+  CONSTRAINT player_achievements_pkey PRIMARY KEY (id),
+  CONSTRAINT player_achievements_player_id_fkey FOREIGN KEY (player_id) REFERENCES public.players(id),
+  CONSTRAINT player_achievements_achievement_id_fkey FOREIGN KEY (achievement_id) REFERENCES public.achievements(id)
+);
+CREATE TABLE public.player_challenges (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  player_id uuid,
+  challenge_id uuid,
+  progress integer DEFAULT 0,
+  completed boolean DEFAULT false,
+  claimed boolean DEFAULT false,
+  started_at timestamp with time zone DEFAULT now(),
+  completed_at timestamp with time zone,
+  expires_at timestamp with time zone,
+  CONSTRAINT player_challenges_pkey PRIMARY KEY (id),
+  CONSTRAINT player_challenges_player_id_fkey FOREIGN KEY (player_id) REFERENCES public.players(id),
+  CONSTRAINT player_challenges_challenge_id_fkey FOREIGN KEY (challenge_id) REFERENCES public.challenges(id)
+);
+CREATE TABLE public.player_customizations (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  player_id uuid,
+  customization_id uuid,
+  purchased_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT player_customizations_pkey PRIMARY KEY (id),
+  CONSTRAINT player_customizations_player_id_fkey FOREIGN KEY (player_id) REFERENCES public.players(id),
+  CONSTRAINT player_customizations_customization_id_fkey FOREIGN KEY (customization_id) REFERENCES public.ship_customizations(id)
+);
+CREATE TABLE public.player_items (
+  id bigint NOT NULL DEFAULT nextval('player_items_id_seq'::regclass),
+  player_id uuid,
+  item_id uuid,
+  acquired_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT player_items_pkey PRIMARY KEY (id),
+  CONSTRAINT player_items_player_id_fkey FOREIGN KEY (player_id) REFERENCES public.players(id),
+  CONSTRAINT player_items_item_id_fkey FOREIGN KEY (item_id) REFERENCES public.items(id)
+);
+CREATE TABLE public.player_progress (
+  id bigint NOT NULL DEFAULT nextval('player_progress_id_seq'::regclass),
+  player_id uuid,
+  delta_xp bigint NOT NULL DEFAULT 0,
+  new_xp bigint NOT NULL DEFAULT 0,
+  new_level integer NOT NULL DEFAULT 1,
+  source text NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT player_progress_pkey PRIMARY KEY (id),
+  CONSTRAINT player_progress_player_id_fkey FOREIGN KEY (player_id) REFERENCES public.players(id)
+);
+CREATE TABLE public.players (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  auth_uid uuid,
+  player_tag text UNIQUE,
+  display_name text,
+  avatar_url text,
+  level integer NOT NULL DEFAULT 1,
+  xp bigint NOT NULL DEFAULT 0,
+  inventory jsonb NOT NULL DEFAULT '[]'::jsonb,
+  stats jsonb NOT NULL DEFAULT '{}'::jsonb,
+  region text,
+  hashed_ip text UNIQUE,
+  last_seen timestamp with time zone NOT NULL DEFAULT now(),
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  active_ship_id uuid,
+  credits integer DEFAULT 500,
+  equipped_paint uuid,
+  equipped_decal uuid,
+  equipped_trail uuid,
+  total_matches integer DEFAULT 0,
+  total_orbs_collected integer DEFAULT 0,
+  matches_won integer DEFAULT 0,
+  matches_played integer DEFAULT 0,
+  CONSTRAINT players_pkey PRIMARY KEY (id),
+  CONSTRAINT players_active_ship_id_fkey FOREIGN KEY (active_ship_id) REFERENCES public.ship_types(id),
+  CONSTRAINT players_auth_uid_fkey FOREIGN KEY (auth_uid) REFERENCES auth.users(id),
+  CONSTRAINT players_equipped_paint_fkey FOREIGN KEY (equipped_paint) REFERENCES public.ship_customizations(id),
+  CONSTRAINT players_equipped_decal_fkey FOREIGN KEY (equipped_decal) REFERENCES public.ship_customizations(id),
+  CONSTRAINT players_equipped_trail_fkey FOREIGN KEY (equipped_trail) REFERENCES public.ship_customizations(id)
+);
+CREATE TABLE public.poll_votes (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  poll_id uuid,
+  option_index integer NOT NULL,
+  session_id uuid,
+  user_id uuid,
+  ip_address inet NOT NULL,
+  voted_at timestamp with time zone DEFAULT now(),
+  metadata jsonb DEFAULT '{}'::jsonb,
+  user_agent text,
+  CONSTRAINT poll_votes_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.polls (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  question text NOT NULL,
+  options ARRAY NOT NULL,
+  votes ARRAY NOT NULL DEFAULT '{}'::text[],
+  active boolean DEFAULT true,
+  created_by uuid,
+  created_at timestamp with time zone DEFAULT now(),
+  ends_at timestamp with time zone,
+  metadata jsonb DEFAULT '{}'::jsonb,
+  CONSTRAINT polls_pkey PRIMARY KEY (id),
+  CONSTRAINT polls_created_by_fkey FOREIGN KEY (created_by) REFERENCES public.users(id)
+);
+CREATE TABLE public.power_up_types (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  key text NOT NULL UNIQUE,
+  name text NOT NULL,
+  description text NOT NULL,
+  icon text NOT NULL,
+  color text NOT NULL,
+  duration_seconds integer DEFAULT 10,
+  effect_type text NOT NULL,
+  effect_value numeric DEFAULT 1.5,
+  spawn_probability numeric DEFAULT 0.3,
+  created_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT power_up_types_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.power_ups (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  key text NOT NULL UNIQUE,
+  name text NOT NULL,
+  description text,
+  type text NOT NULL,
+  duration_seconds integer,
+  effect_value numeric,
+  color text NOT NULL,
+  spawn_rate numeric DEFAULT 0.1,
+  is_active boolean DEFAULT true,
+  CONSTRAINT power_ups_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.preferences (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  anon_id text NOT NULL,
+  theme text DEFAULT 'system'::text,
+  last_platform text,
+  created_at timestamp with time zone DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT preferences_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.replay_shares (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  replay_id uuid,
+  shared_by uuid,
+  shared_with uuid,
+  viewed boolean DEFAULT false,
+  created_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT replay_shares_pkey PRIMARY KEY (id),
+  CONSTRAINT replay_shares_replay_id_fkey FOREIGN KEY (replay_id) REFERENCES public.match_replays(id),
+  CONSTRAINT replay_shares_shared_by_fkey FOREIGN KEY (shared_by) REFERENCES public.players(id),
+  CONSTRAINT replay_shares_shared_with_fkey FOREIGN KEY (shared_with) REFERENCES public.players(id)
+);
+CREATE TABLE public.ship_customizations (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name text NOT NULL,
+  type text NOT NULL,
+  color text,
+  texture_url text,
+  price_credits integer DEFAULT 0,
+  rarity text DEFAULT 'common'::text,
+  level_requirement integer DEFAULT 1,
+  preview_image text,
+  created_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT ship_customizations_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.ship_types (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  key text NOT NULL UNIQUE,
+  name text NOT NULL,
+  description text,
+  speed numeric NOT NULL DEFAULT 3,
+  armor numeric NOT NULL DEFAULT 3,
+  handling numeric NOT NULL DEFAULT 3,
+  color text NOT NULL DEFAULT '#1e90ff'::text,
+  trail_color text NOT NULL DEFAULT '#00ffff'::text,
+  created_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT ship_types_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.tool_feedback (
+  id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  tool_name character varying NOT NULL,
+  rating integer NOT NULL CHECK (rating >= 1 AND rating <= 5),
+  comment text,
+  user_ip character varying,
+  user_agent character varying,
+  CONSTRAINT tool_feedback_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.tool_logs (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  anon_id text NOT NULL,
+  platform text NOT NULL,
+  url_hash text NOT NULL,
+  action text NOT NULL,
+  status text NOT NULL,
+  meta jsonb,
+  created_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT tool_logs_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.tool_rate_limits (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  ip character varying NOT NULL,
+  tool_name text NOT NULL,
+  session_id character varying,
+  used_at timestamp with time zone DEFAULT now(),
+  metadata jsonb DEFAULT '{}'::jsonb,
+  CONSTRAINT tool_rate_limits_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.tool_usage (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  tool_name text NOT NULL,
+  session_id character varying,
+  user_id uuid,
+  usage_count integer DEFAULT 1,
+  ip_address character varying,
+  input_data jsonb,
+  output_data jsonb,
+  execution_time_ms integer,
+  success boolean DEFAULT true,
+  error_message text,
+  used_at timestamp with time zone DEFAULT now(),
+  metadata jsonb DEFAULT '{}'::jsonb,
+  CONSTRAINT tool_usage_pkey PRIMARY KEY (id),
+  CONSTRAINT tool_usage_session_id_fkey FOREIGN KEY (session_id) REFERENCES public.analytics_sessions(session_id),
+  CONSTRAINT tool_usage_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id)
+);
+CREATE TABLE public.usage_logs (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  ip character varying NOT NULL,
+  uid character varying NOT NULL,
+  region character varying NOT NULL,
+  used_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT usage_logs_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.user_consent (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  session_id character varying,
+  user_id uuid,
+  ip_address character varying NOT NULL,
+  consent_type character varying NOT NULL,
+  consent_given boolean NOT NULL,
+  consent_version character varying,
+  geo_location character varying,
+  browser character varying,
+  device_type character varying,
+  granted_at timestamp with time zone DEFAULT now(),
+  revoked_at timestamp with time zone,
+  is_active boolean DEFAULT true,
+  metadata jsonb DEFAULT '{}'::jsonb,
+  CONSTRAINT user_consent_pkey PRIMARY KEY (id),
+  CONSTRAINT user_consent_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id)
+);
+CREATE TABLE public.user_events (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  session_id character varying,
+  user_id uuid,
+  event_type character varying NOT NULL,
+  event_category character varying,
+  event_action character varying,
+  event_label character varying,
+  element_id character varying,
+  element_class character varying,
+  element_text text,
+  element_tag character varying,
+  page_url text,
+  ip_address character varying,
+  occurred_at timestamp with time zone DEFAULT now(),
+  event_value numeric,
+  metadata jsonb DEFAULT '{}'::jsonb,
+  user_agent text,
+  page_path character varying,
+  CONSTRAINT user_events_pkey PRIMARY KEY (id),
+  CONSTRAINT user_events_session_id_fkey FOREIGN KEY (session_id) REFERENCES public.analytics_sessions(session_id),
+  CONSTRAINT user_events_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id)
+);
+CREATE TABLE public.user_feedback (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  session_id character varying,
+  user_id uuid,
+  page_name character varying NOT NULL,
+  page_url text,
+  tool_name character varying,
+  rating integer CHECK (rating >= 1 AND rating <= 5),
+  feedback_text text,
+  feedback_category character varying,
+  user_ip character varying NOT NULL,
+  user_agent text,
+  device_info jsonb DEFAULT '{}'::jsonb,
+  submitted_at timestamp with time zone DEFAULT now(),
+  is_resolved boolean DEFAULT false,
+  admin_response text,
+  responded_at timestamp with time zone,
+  metadata jsonb DEFAULT '{}'::jsonb,
+  CONSTRAINT user_feedback_pkey PRIMARY KEY (id),
+  CONSTRAINT user_feedback_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id)
+);
+CREATE TABLE public.user_preferences (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  user_id uuid,
+  theme character varying DEFAULT 'dark'::character varying,
+  notifications_enabled boolean DEFAULT true,
+  email_notifications boolean DEFAULT true,
+  marketing_emails boolean DEFAULT false,
+  privacy_settings jsonb DEFAULT '{}'::jsonb,
+  display_preferences jsonb DEFAULT '{}'::jsonb,
+  created_at timestamp with time zone DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  ip_address character varying,
+  user_agent text,
+  CONSTRAINT user_preferences_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.user_profiles (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  user_id character varying NOT NULL UNIQUE,
+  name text NOT NULL,
+  age integer,
+  gender character varying,
+  ip_address character varying,
+  additional_info jsonb DEFAULT '{}'::jsonb,
+  created_at timestamp with time zone DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  user_agent text,
+  CONSTRAINT user_profiles_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.user_roles (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  user_id uuid NOT NULL,
+  role USER-DEFINED NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  CONSTRAINT user_roles_pkey PRIMARY KEY (id),
+  CONSTRAINT user_roles_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id)
+);
+CREATE TABLE public.users (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  username character varying NOT NULL UNIQUE,
+  email character varying UNIQUE,
+  password_hash text,
+  full_name character varying,
+  avatar_url text,
+  bio text,
+  location character varying,
+  timezone character varying,
+  language character varying DEFAULT 'en'::character varying,
+  account_status character varying DEFAULT 'active'::character varying,
+  email_verified boolean DEFAULT false,
+  created_at timestamp with time zone DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  last_login_at timestamp with time zone,
+  metadata jsonb DEFAULT '{}'::jsonb,
+  name text,
+  dashboard_preferences jsonb DEFAULT '{"showGrid": true, "chartTypes": {"trends": "line", "performance": "composed", "incomeExpense": "area", "categoryBreakdown": "pie"}, "showLegend": true, "colorScheme": "default", "animationSpeed": "normal", "showAnimations": true, "chartComplexity": "simple"}'::jsonb,
+  CONSTRAINT users_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.vip_users (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  ip_address character varying,
+  ff_uid character varying,
+  telegram_username character varying,
+  unlimited_likes boolean DEFAULT true,
+  is_active boolean DEFAULT true,
+  expires_at timestamp with time zone,
+  created_at timestamp with time zone DEFAULT now(),
+  updated_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT vip_users_pkey PRIMARY KEY (id)
+);
+CREATE TABLE public.visitor_stats (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  date text NOT NULL UNIQUE,
+  count integer NOT NULL DEFAULT 0,
+  unique_visitors integer DEFAULT 0,
+  total_page_views integer DEFAULT 0,
+  total_sessions integer DEFAULT 0,
+  average_session_duration_seconds integer,
+  bounce_rate numeric,
+  top_pages jsonb DEFAULT '[]'::jsonb,
+  top_referrers jsonb DEFAULT '[]'::jsonb,
+  device_breakdown jsonb DEFAULT '{}'::jsonb,
+  country_breakdown jsonb DEFAULT '{}'::jsonb,
+  metadata jsonb DEFAULT '{}'::jsonb,
+  CONSTRAINT visitor_stats_pkey PRIMARY KEY (id)
+);

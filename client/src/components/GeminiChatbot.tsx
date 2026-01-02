@@ -25,9 +25,8 @@ interface Position {
   y: number;
 }
 
-// Use environment variable for API key
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent`;
+// Use backend API instead of direct frontend call for security and logging
+const GEMINI_API_URL = `/api/gemini/chat`;
 
 const FUNNY_ERRORS = [
   "Oops! My brain just did a 360 no-scope and missed! 🎯 Try again?",
@@ -376,19 +375,17 @@ IRA (respond naturally, match their language, keep it short 2-3 lines, use emoji
         throw new Error("Gemini API key not configured. Please add VITE_GEMINI_API_KEY to Replit Secrets!");
       }
 
-      const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+      const response = await fetch(GEMINI_API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          contents: [{
-            parts: [{ text: prompt }]
-          }],
-          generationConfig: {
-            temperature: 1.0,
-            topK: 40,
-            topP: 0.95,
-            maxOutputTokens: 1024,
-          }
+          messages: messages.map(m => ({
+            role: m.role === 'assistant' ? 'assistant' : 'user',
+            content: m.content
+          })),
+          contextInfo: prompt,
+          sessionId: "local-session",
+          userId: userContext.name || "anonymous"
         }),
       });
 

@@ -118,6 +118,7 @@ export function registerChatbotRoutes(app: Express) {
         .from('ai_chat_sessions')
         .insert([{
           session_id: sessionId,
+          user_id: userId,
           ip_address: ipAddress,
           user_agent: userAgent,
           browser: browser || 'unknown',

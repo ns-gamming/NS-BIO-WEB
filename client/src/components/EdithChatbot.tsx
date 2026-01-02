@@ -432,7 +432,9 @@ export function EdithChatbot() {
             role: msg.role === 'assistant' ? 'assistant' : 'user',
             content: msg.content
           })),
-          contextInfo: contextWithBlogs
+          contextInfo: contextWithBlogs,
+          sessionId: "local-session", // Should be dynamically generated
+          userId: "anonymous-user"
         }),
       });
 

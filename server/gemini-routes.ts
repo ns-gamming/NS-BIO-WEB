@@ -27,8 +27,8 @@ export function registerGeminiRoutes(app: Express) {
                 parts: [{ text: contextInfo }]
               },
               ...messages.map((msg: any) => ({
-                role: msg.role === 'assistant' ? 'model' : 'user',
-                parts: [{ text: msg.content }]
+                role: msg.role === 'assistant' || msg.role === 'model' ? 'model' : 'user',
+                parts: [{ text: msg.content || msg.text }]
               }))
             ],
             generationConfig: {
