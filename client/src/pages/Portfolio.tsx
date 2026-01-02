@@ -496,7 +496,7 @@ export default function Portfolio() {
           >
             <div className="bg-card/50 backdrop-blur-sm p-8 rounded-2xl border border-primary/20 shadow-lg hover:shadow-primary/10 transition-all">
               <h3 className="text-2xl font-bold mb-4 flex items-center gap-2 text-primary">
-                <User className="w-6 h-6" /> Personal Profile
+                <Users className="w-6 h-6" /> Personal Profile
               </h3>
               <ul className="space-y-3 text-muted-foreground">
                 <li><span className="font-semibold text-foreground">Full Name:</span> Naboraj Sarkar</li>
