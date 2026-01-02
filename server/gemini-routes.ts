@@ -32,7 +32,7 @@ export function registerGeminiRoutes(app: Express) {
               }))
             ],
             generationConfig: {
-              temperature: 1.2,
+              temperature: 0.9,
               topK: 40,
               topP: 0.95,
               maxOutputTokens: 2048,
