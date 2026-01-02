@@ -371,10 +371,6 @@ USER: ${userMessage.content}
 
 IRA (respond naturally, match their language, keep it short 2-3 lines, use emojis):`;
 
-      if (!GEMINI_API_KEY) {
-        throw new Error("Gemini API key not configured. Please add VITE_GEMINI_API_KEY to Replit Secrets!");
-      }
-
       const response = await fetch(GEMINI_API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
