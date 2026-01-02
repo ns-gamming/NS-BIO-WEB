@@ -23,39 +23,39 @@ const inMemoryFeedback: Array<{
 export function registerContactFeedbackRoutes(app: Express) {
   
   // Submit contact feedback
-  app.post("/api/contact/feedback", async (req, res) => {
+  app.post("/api/feedback/submit", async (req, res) => {
     try {
-      const { name, email, subject, message, rating } = req.body;
+      const { name, email, subject, feedback_text, rating, blog_slug, was_helpful } = req.body;
       const userIp = getClientIP(req);
       const userAgent = req.headers['user-agent'] || 'unknown';
 
-      if (!name || !email || !message || !rating || rating < 1 || rating > 5) {
+      if (!name || !email || !feedback_text || !rating || rating < 1 || rating > 5) {
         return res.status(400).json({ 
           success: false, 
           message: "Invalid feedback data. All fields except subject are required." 
         });
       }
 
-      console.log(`Contact feedback received from IP: ${userIp} by ${name}`);
+      console.log(`Feedback received for ${blog_slug} from IP: ${userIp} by ${name}`);
 
       const feedbackData = {
-        name,
-        email,
-        subject: subject || null,
-        message,
+        blog_slug: blog_slug || 'contact_page',
+        blog_title: 'Contact Page Feedback',
         rating,
+        feedback_text,
+        was_helpful: was_helpful ?? (rating >= 3),
         user_ip: userIp,
         user_agent: userAgent,
-        submitted_at: new Date().toISOString()
+        submitted_at: new Date().toISOString(),
+        metadata: { name, email, subject }
       };
 
       // Try Supabase first, fall back to in-memory
       if (supabase) {
         const { data, error } = await supabase
-          .from('contact_feedback')
+          .from('blog_feedback')
           .insert([feedbackData])
-          .select()
-          .single();
+          .select();
 
         if (error) {
           console.error('Supabase error, using in-memory storage:', error);
@@ -76,11 +76,7 @@ export function registerContactFeedbackRoutes(app: Express) {
         // Use in-memory storage
         const feedback = {
           id: Math.random().toString(36).substring(7),
-          name,
-          email,
-          subject,
-          message,
-          rating,
+          ...feedbackData,
           userIp,
           userAgent,
           submittedAt: new Date()
@@ -89,7 +85,19 @@ export function registerContactFeedbackRoutes(app: Express) {
         return res.json({ success: true, feedback, storage: 'memory' });
       }
     } catch (error: any) {
-      console.error('Error in contact feedback route:', error);
+      console.error('Error in feedback route:', error);
+      res.status(500).json({ success: false, error: error.message });
+    }
+  });
+
+  //Submit general contact form (separate from feedback)
+  app.post("/api/contact/submit", async (req, res) => {
+    try {
+      const { name, email, message } = req.body;
+      // Handle simple contact message (usually just logged or emailed)
+      console.log(`Contact message from ${name} (${email}): ${message}`);
+      res.json({ success: true, message: "Message received!" });
+    } catch (error: any) {
       res.status(500).json({ success: false, error: error.message });
     }
   });
@@ -99,7 +107,7 @@ export function registerContactFeedbackRoutes(app: Express) {
     try {
       if (supabase) {
         const { data, error } = await supabase
-          .from('contact_feedback')
+          .from('blog_feedback')
           .select('*')
           .order('submitted_at', { ascending: false });
 
@@ -125,7 +133,7 @@ export function registerContactFeedbackRoutes(app: Express) {
 
       if (supabase) {
         const { data, error } = await supabase
-          .from('contact_feedback')
+          .from('blog_feedback')
           .select('rating');
 
         if (error) throw error;

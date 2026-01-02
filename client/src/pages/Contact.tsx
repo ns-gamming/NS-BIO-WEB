@@ -39,19 +39,27 @@ export default function Contact() {
       return;
     }
 
-    setIsSubmitting(true);
-
-    const mailtoLink = `mailto:nishant.ns.business@gmail.com?subject=Message from ${encodeURIComponent(formData.name)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`;
-    window.location.href = mailtoLink;
-
-    setTimeout(() => {
-      toast({
-        title: "Message Sent! 🎉",
-        description: "Thanks for reaching out! I'll get back to you soon! ❤️",
+    try {
+      const response = await fetch('/api/contact/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
       });
-      setFormData({ name: '', email: '', message: '' });
+
+      const mailtoLink = `mailto:nishant.ns.business@gmail.com?subject=Message from ${encodeURIComponent(formData.name)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`)}`;
+      window.location.href = mailtoLink;
+
+      setTimeout(() => {
+        toast({
+          title: "Message Sent! 🎉",
+          description: "Thanks for reaching out! I'll get back to you soon! ❤️",
+        });
+        setFormData({ name: '', email: '', message: '' });
+        setIsSubmitting(false);
+      }, 500);
+    } catch (error) {
       setIsSubmitting(false);
-    }, 500);
+    }
   };
 
   const handleFeedbackSubmit = async (e: React.FormEvent) => {
@@ -87,10 +95,18 @@ export default function Contact() {
     setIsFeedbackSubmitting(true);
 
     try {
-      const response = await fetch('/api/contact/feedback', {
+      const response = await fetch('/api/feedback/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(feedbackData),
+        body: JSON.stringify({
+          name: feedbackData.name,
+          email: feedbackData.email,
+          subject: feedbackData.subject,
+          rating: feedbackData.rating,
+          feedback_text: feedbackData.message,
+          blog_slug: "contact_page", // Explicitly setting context
+          was_helpful: feedbackData.rating >= 3
+        }),
       });
 
       const data = await response.json();
