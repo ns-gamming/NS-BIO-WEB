@@ -37,8 +37,7 @@ interface Position {
   y: number;
 }
 
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`;
+const GEMINI_API_URL = "/api/gemini/chat";
 
 const FUNNY_ERRORS = [
   "Oops! My brain just did a 360 no-scope and missed! 🎯 Try again?",
@@ -421,38 +420,19 @@ export function EdithChatbot() {
         .map((msg) => `${msg.role === "user" ? "User" : "AAPTI"}: ${msg.content}`)
         .join("\n");
 
-      const contextWithBlogs = AAPTI_CONTEXT.replace('{BLOG_POSTS_INFO}', blogPostsInfo);
+      const contextWithBlogs = IRA_CONTEXT.replace('{BLOG_POSTS_INFO}', blogPostsInfo);
 
-      const prompt = `${contextWithBlogs}
-
-Previous conversation:
-${conversationHistory}
-
-User: ${userMessage.content}
-
-Respond as IRA - warm, friendly, caring Bengali girl with natural charm. Be helpful and show genuine excitement, especially about Nishant! Keep responses concise (2-4 lines). Mix English, Bengali, and Hinglish naturally. If discussing blog articles, mention specific titles and suggest reading them.`;
-
-      if (!GEMINI_API_KEY) {
-        throw new Error("Gemini API key not configured");
-      }
-
-      const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+      const response = await fetch(GEMINI_API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          contents: [{
-            parts: [{
-              text: prompt
-            }]
-          }],
-          generationConfig: {
-            temperature: 0.9,
-            topK: 40,
-            topP: 0.95,
-            maxOutputTokens: 1024,
-          }
+          messages: messages.map(msg => ({
+            role: msg.role === 'assistant' ? 'assistant' : 'user',
+            content: msg.content
+          })),
+          contextInfo: contextWithBlogs
         }),
       });
 

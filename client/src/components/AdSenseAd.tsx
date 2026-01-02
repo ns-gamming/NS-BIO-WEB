@@ -22,7 +22,7 @@ export default function AdSenseAd({
 
   useEffect(() => {
     try {
-      if (window.adsbygoogle && adRef.current) {
+      if (typeof window !== "undefined" && window.adsbygoogle) {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
       }
     } catch (error) {

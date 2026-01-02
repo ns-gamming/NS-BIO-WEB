@@ -461,12 +461,15 @@ export default function Portfolio() {
             className="mb-6"
           >
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent animate-gradient">
-              Nishant Sarkar (NABORAJ)
+              Naboraj Sarkar (Nishant)
             </h1>
-            <div className="flex items-center justify-center gap-2 text-xl md:text-2xl text-muted-foreground">
-              <Code2 className="w-6 h-6 text-primary animate-pulse" />
-              <p>Full Stack Developer & Content Creator</p>
-              <Sparkles className="w-6 h-6 text-primary animate-pulse" />
+            <div className="flex flex-col items-center justify-center gap-2 text-xl md:text-2xl text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <Code2 className="w-6 h-6 text-primary animate-pulse" />
+                <p>Full Stack Developer & Content Creator</p>
+                <Sparkles className="w-6 h-6 text-primary animate-pulse" />
+              </div>
+              <p className="text-sm md:text-base font-medium text-primary/80 mt-1">Founder of NS GAMMING | Entrepreneur | Young Investor</p>
             </div>
           </motion.div>
 
@@ -474,12 +477,48 @@ export default function Portfolio() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="text-base md:text-lg lg:text-xl text-foreground/80 max-w-3xl mx-auto mb-8 leading-relaxed px-4"
+            className="text-base md:text-lg lg:text-xl text-foreground/80 max-w-3xl mx-auto mb-12 leading-relaxed px-4"
           >
-            Passionate about building innovative web solutions, AI-powered applications, financial tools,
-            and creating engaging gaming content. From full-stack development to content creation — every
-            project is built with love, dedication, and cutting-edge technology! 💻🎮🚀
+            Naboraj Sarkar, widely known as Nishant Sarkar, is a visionary tech entrepreneur from Siliguri, West Bengal. 
+            As the mastermind behind NS GAMMING, he has built a digital empire spanning from advanced Free Fire tools 
+            and 14+ interactive web games to AI-powered chatbots like AAPTI. With deep expertise in React, Node.js, 
+            Python, and AI/ML, Naboraj is not just coding apps but crafting future-ready digital experiences. 
+            He is also a seasoned young investor with a diversified portfolio in Crypto, Digital Gold, and Stocks. 
+            Every project here is built with passion, precision, and a mission to inspire the next generation of creators! 💻🎮🚀
           </motion.p>
+
+          {/* Professional Details Section for SEO */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left mb-16"
+          >
+            <div className="bg-card/50 backdrop-blur-sm p-8 rounded-2xl border border-primary/20 shadow-lg hover:shadow-primary/10 transition-all">
+              <h3 className="text-2xl font-bold mb-4 flex items-center gap-2 text-primary">
+                <User className="w-6 h-6" /> Personal Profile
+              </h3>
+              <ul className="space-y-3 text-muted-foreground">
+                <li><span className="font-semibold text-foreground">Full Name:</span> Naboraj Sarkar</li>
+                <li><span className="font-semibold text-foreground">Professional Name:</span> Nishant Sarkar</li>
+                <li><span className="font-semibold text-foreground">Location:</span> Siliguri, West Bengal, India</li>
+                <li><span className="font-semibold text-foreground">Specialization:</span> Full Stack Web Development, AI Integration, Gaming Utilities</li>
+                <li><span className="font-semibold text-foreground">Education:</span> Self-taught Expert & Continuous Learner</li>
+              </ul>
+            </div>
+            <div className="bg-card/50 backdrop-blur-sm p-8 rounded-2xl border border-primary/20 shadow-lg hover:shadow-primary/10 transition-all">
+              <h3 className="text-2xl font-bold mb-4 flex items-center gap-2 text-primary">
+                <Zap className="w-6 h-6" /> Career Highlights
+              </h3>
+              <ul className="space-y-3 text-muted-foreground">
+                <li><span className="font-semibold text-foreground">Founder:</span> NS GAMMING (Gaming & Tech Hub)</li>
+                <li><span className="font-semibold text-foreground">Creator:</span> AAPTI AI & EDIT Technical Assistant</li>
+                <li><span className="font-semibold text-foreground">Investor:</span> Diversified Portfolio ($35k+ USD Total Assets)</li>
+                <li><span className="font-semibold text-foreground">Content:</span> Professional Video Editor & Gaming Strategist</li>
+                <li><span className="font-semibold text-foreground">Tech Stack:</span> MERN Stack, Next.js, Python, Three.js</li>
+              </ul>
+            </div>
+          </motion.div>
 
           {/* CTA Buttons */}
           <motion.div

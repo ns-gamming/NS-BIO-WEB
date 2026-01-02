@@ -20,8 +20,7 @@ interface ChatFolder {
   createdAt: number;
 }
 
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`;
+const GEMINI_API_URL = "/api/gemini/chat";
 
 const FRIENDLY_ERRORS = [
   "Oops! 😅 Something went wrong. Can you try again?",
@@ -219,46 +218,17 @@ export default function Chat() {
         `- "${post.title}" (${post.category}): ${post.excerpt}`
       ).join('\n');
 
-      const conversationHistory = activeFolder.messages
-        .slice(-6)
-        .map((msg) => `${msg.role === "user" ? "User" : "IRA"}: ${msg.content}`)
-        .join("\n");
-
       const contextWithBlogs = IRA_CONTEXT.replace('{BLOG_POSTS_INFO}', blogPostsInfo);
 
-      const prompt = `${contextWithBlogs}
-
-Previous conversation:
-${conversationHistory}
-
-User: ${userMessage.content}
-
-CRITICAL INSTRUCTIONS:
-1. Respond EXACTLY like a REAL PERSON would - use natural fillers, think out loud, show emotions
-2. DETECT the user's language/style and respond in the SAME way (if Hinglish, respond in Hinglish; if Hindi, respond in Hindi, etc.)
-3. Use emojis naturally like texting a friend
-4. Keep it conversational and authentic (2-5 lines max)
-5. Show personality - be excited, empathetic, funny when appropriate
-
-Respond as IRA now:`;
-
-      if (!GEMINI_API_KEY) {
-        throw new Error("Gemini API key not configured");
-      }
-
-      const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+      const response = await fetch(GEMINI_API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          contents: [{
-            parts: [{ text: prompt }]
-          }],
-          generationConfig: {
-            temperature: 0.9,
-            topK: 40,
-            topP: 0.95,
-            maxOutputTokens: 1024,
-          }
+          messages: activeFolder.messages.map(msg => ({
+            role: msg.role,
+            content: msg.content
+          })),
+          contextInfo: contextWithBlogs
         }),
       });
 
