@@ -39,6 +39,18 @@ export function registerContactFeedbackRoutes(app: Express) {
       console.log(`Feedback received for ${blog_slug} from IP: ${userIp} by ${name}`);
 
       const feedbackData = {
+        id: Math.random().toString(36).substring(7),
+        name: name,
+        email: email,
+        subject: subject || null,
+        message: feedback_text,
+        rating: rating,
+        userIp: userIp,
+        userAgent: userAgent,
+        submittedAt: new Date()
+      };
+
+      const dbFeedbackData = {
         blog_slug: blog_slug || 'contact_page',
         blog_title: 'Contact Page Feedback',
         rating,
@@ -54,35 +66,19 @@ export function registerContactFeedbackRoutes(app: Express) {
       if (supabase) {
         const { data, error } = await supabase
           .from('blog_feedback')
-          .insert([feedbackData])
+          .insert([dbFeedbackData])
           .select();
 
         if (error) {
           console.error('Supabase error, using in-memory storage:', error);
-          // Fallback to in-memory
-          const feedback = {
-            id: Math.random().toString(36).substring(7),
-            ...feedbackData,
-            userIp,
-            userAgent,
-            submittedAt: new Date()
-          };
-          inMemoryFeedback.push(feedback);
-          return res.json({ success: true, feedback, storage: 'memory' });
+          inMemoryFeedback.push(feedbackData as any);
+          return res.json({ success: true, feedback: feedbackData, storage: 'memory' });
         }
 
         return res.json({ success: true, feedback: data, storage: 'supabase' });
       } else {
-        // Use in-memory storage
-        const feedback = {
-          id: Math.random().toString(36).substring(7),
-          ...feedbackData,
-          userIp,
-          userAgent,
-          submittedAt: new Date()
-        };
-        inMemoryFeedback.push(feedback);
-        return res.json({ success: true, feedback, storage: 'memory' });
+        inMemoryFeedback.push(feedbackData as any);
+        return res.json({ success: true, feedback: feedbackData, storage: 'memory' });
       }
     } catch (error: any) {
       console.error('Error in feedback route:', error);

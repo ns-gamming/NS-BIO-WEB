@@ -43,9 +43,9 @@ export function SEO({
       : DEFAULT_SEO.defaultTitle;
 
     const metaDescription = description || DEFAULT_SEO.defaultDescription;
-    const metaKeywords = keywords || DEFAULT_SEO.defaultKeywords;
+    const metaKeywords = keywords || `Naboraj Sarkar, ${DEFAULT_SEO.defaultKeywords}`;
     const metaImage = image || DEFAULT_SEO.defaultImage;
-    const metaAuthor = author || DEFAULT_SEO.author;
+    const metaAuthor = author || 'Naboraj Sarkar (Nishant)';
     const url = canonicalUrl || `${DEFAULT_SEO.siteUrl}${location}`;
 
     // Update document title

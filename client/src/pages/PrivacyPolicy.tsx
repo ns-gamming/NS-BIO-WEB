@@ -32,7 +32,7 @@ export default function PrivacyPolicy() {
     {
       icon: Shield,
       title: "Google AdSense & Third-Party Advertising",
-      content: "This website uses Google AdSense, a third-party advertising service. Google and its advertising partners use cookies and similar technologies to serve ads based on your prior visits to our website and other websites across the Internet. These cookies enable Google to personalize ads shown to you. We do not have control over these third-party cookies. You can opt out of personalized advertising at any time by visiting Google's Ads Settings (https://www.google.com/settings/ads) or by visiting the Network Advertising Initiative opt-out page (http://www.aboutads.info/choices/).",
+      content: "This website uses Google AdSense, a third-party advertising service. Google and its advertising partners use cookies and similar technologies to serve ads based on your prior visits to our website and other websites across the Internet. These cookies enable Google to personalize ads shown to you. We provide this disclosure to comply with Google's policies and to ensure transparency. You can opt out of personalized advertising at any time by visiting Google's Ads Settings (https://www.google.com/settings/ads) or by visiting the Network Advertising Initiative opt-out page (http://www.aboutads.info/choices/).",
       testId: "privacy-adsense"
     },
     {
